@@ -12,7 +12,61 @@ import d7 from "@/app/images/d7.png";
 import d8 from "@/app/images/d8.png";
 import d9 from "@/app/images/d9.png";
 import d10 from "@/app/images/d10.png";
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import bg1 from '../public/images/7578550-uhd_3840_2160_30fps 1.png';
+import main2 from '../public/images/main2.png';
+import main3 from '../public/images/Frame 145.png';
+// Import a placeholder image
+import placeholderImg from '../public/images/placeholder.png'; // Make sure this exists
+
+
+const faqData = [
+  {
+    id: 1,
+    question: 'Are all listings verified on PropertyDrone Realty?',
+    answer: 'Yes, every listing goes through a strict verification process to ensure accuracy, legality, and transparency.'
+  },
+  {
+    id: 2,
+    question: 'Do I have to pay any brokerage fees?',
+    answer: 'Our fee structure depends on the type of service you choose. We offer transparent pricing with no hidden costs.'
+  },
+  {
+    id: 3,
+    question: 'Can I schedule a site visit through the website?',
+    answer: 'Yes, you can easily schedule site visits directly through our website by selecting your preferred date and time.'
+  },
+  {
+    id: 4,
+    question: 'How are drone views helpful in property buying?',
+    answer: 'Drone views provide a comprehensive perspective of the property and its surroundings, helping you understand the location, neighborhood, and accessibility better.'
+  }
+];
+
+const blogPosts = [
+  {
+    id: 1,
+    title: 'Top 5 Areas to Invest in Pune',
+    date: '16th April, 2025',
+    image: '/images/building-blue.jpg',
+    slug: 'top-5-areas-to-invest-in-pune'
+  },
+  {
+    id: 2,
+    title: 'What to Know Before Buying a New Flat',
+    date: '16th April, 2025',
+    image: '/images/building-blue.jpg',
+    slug: 'what-to-know-before-buying-a-new-flat'
+  },
+  {
+    id: 3,
+    title: 'What to Know Before Buying a New Flat',
+    date: '16th April, 2025',
+    image: '/images/building-blue.jpg',
+    slug: 'what-to-know-before-buying-a-new-flat-2'
+  }
+];
 const features = [
   {
     id: '01',
@@ -82,14 +136,74 @@ const propertyData = [
   },
   // Add more items as needed
 ];
+const testimonials = [
+  {
+    id: 1,
+    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    date: "16th April, 2025",
+    company: "Primdjfke Business Hub",
+    rating: 5
+  },
+  {
+    id: 2,
+    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    date: "16th April, 2025",
+    company: "Prislkdfjiome Business Hub",
+    rating: 5
+  },
+  {
+    id: 3,
+    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    date: "16th April, 2025",
+    company: "sdfjkPrime Business Hub",
+    rating: 5
+  },
+  {
+    id: 4,
+    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    date: "16th April, 2025",
+    company: "Prisdfjome Business Hub", 
+    rating: 5
+  },
+  {
+    id: 5,
+    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    date: "16th April, 2025",
+    company: "uuaauu Business Hub",
+    rating: 5
+  },
+  {
+    id: 6,
+    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    date: "16th April, 2025",
+    company: "uaaauuu Business Hub",
+    rating: 5
+  },
+  {
+    id: 7,
+    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    date: "16th April, 2025",
+    company: "usdvvuuu Business Hub",
+    rating: 5
+  },
+  {
+    id: 8,
+    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    date: "16th April, 2025",
+    company: "uzduuu Business Hub",
+    rating: 5
+  },
+  {
+    id: 9,
+    text: "I decsddided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    date: "16th April, 2025",
+    company: "uuuu Business Hub",
+    rating: 5
+  }
+];
 
 // import d from "@/app/images/d10.png";
-import { useState, useEffect, useRef } from 'react';
-import { ChevronDown } from 'lucide-react';
-import bg1 from '../public/images/7578550-uhd_3840_2160_30fps 1.png';
-import main2 from '../public/images/main2.png';
-// Import a placeholder image
-import placeholderImg from '../public/images/placeholder.png'; // Make sure this exists
+
 
 interface Property {
   id: number;
@@ -124,8 +238,38 @@ export default function Home() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: ''
   });
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
+  const toggleAccordion = (index: number): void => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    setFormData((prevState: typeof formData) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const maxVisible = 3;
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex + 1 >= testimonials.length - maxVisible + 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex - 1 < 0 ? testimonials.length - maxVisible : prevIndex - 1
+    );
+  };
+
+  const visibleTestimonials = testimonials.slice(currentIndex, currentIndex + maxVisible);
+
+  // Removed duplicate handleSubmit function
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = Math.ceil(propertyData.length / 2);
 
@@ -415,7 +559,7 @@ export default function Home() {
         </button>
         
         <Link href="/contactus">
-        <button className="px-4 py-5 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+        <button className="px-4 py-5 w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] bg-navy-800 text-white font-medium rounded flex items-center justify-center">
           CONTACT US
         </button>
         </Link>
@@ -688,7 +832,7 @@ onMouseLeave={(e) => {
       {/* View All Button */}
       <div className="flex justify-center">
         <Link href="/properties">
-        <button className="bg-blue-900 text-white px-6 py-2 flex items-center gap-2 rounded hover:bg-blue-800 transition">
+        <button className="bg-[#172747] text-white px-6 py-2 flex items-center gap-2 rounded hover:bg-[#172747] transition">
           View All Locations
           <ArrowRight size={16} />
         </button>
@@ -782,7 +926,7 @@ onMouseLeave={(e) => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
           {features.map((feature) => (
-            <div key={feature.id} className="border-l border-r px-4  border-gray-700 pt-6">
+            <div key={feature.id} className="border-l border-r px-4 border-gray-700 pt-6">
               <p className="text-gray-400 text-lg mb-4">{feature.id}</p>
               <h3 className=" text-[24px] font-normal leading-[100%] tracking-normal mb-2"
             style={{ fontFamily: 'Lato' }}>{feature.title}</h3>
@@ -793,6 +937,233 @@ onMouseLeave={(e) => {
         </div>
       </div>
     </section>
+
+    {/* ------------ */}
+    <section className="relative w-full py-16 md:py-24">
+      {/* Background image */}
+      <div className="absolute inset-0 z-0">
+        <Image 
+          src= {main3}
+          alt="Background" 
+          layout="fill"
+          objectFit="cover"
+          priority
+        />
+      </div>
+      
+      <div className="relative z-10 container mx-auto max-w-4xl px-4">
+        {/* Quote section */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-serif mb-6 leading-tight">
+            "Let the experts help you<br />
+            make the right investment"
+          </h2>
+          <div className="mt-4">
+            <p className="font-medium text-lg">Nikhil Mawale</p>
+            <p className="text-gray-600">Founder</p>
+          </div>
+        </div>
+        
+        {/* Form section */}
+        <div className="bg-white rounded-md shadow-sm p-6 max-w-3xl mx-auto">
+          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center gap-4">
+            <div className="w-full md:flex-1">
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Name"
+                className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
+                required
+              />
+            </div>
+            <div className="w-full md:flex-1">
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Phone"
+                className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
+                required
+              />
+            </div>
+            <Link href="/contactus">
+            <button
+              type="submit"
+              className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center"
+            >
+              Get a Consultation
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </button>
+            </Link>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    {/* ------------------ */}
+    <section className="max-w-6xl mx-auto px-4 py-12">
+      <div className="mb-10 flex justify-between items-center">
+        <div>
+          <h2 className="text-4xl font-serif">Your trust is our greatest award</h2>
+        </div>
+        <div>
+          <button  className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center">
+            Write a review <ChevronRight className="ml-2" size={16} />
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {visibleTestimonials.map((testimonial) => (
+          <div key={testimonial.id} className="border-l border-r px-4 border-gray-200 pt-4">
+            <div className="mb-2">
+              <h3 className="font-medium">{testimonial.company}</h3>
+            </div>
+            <div className="flex mb-2">
+              {[...Array(testimonial.rating)].map((_, i) => (
+                <Star key={i} size={16} className="text-amber-400 fill-amber-400" />
+              ))}
+            </div>
+            <p className="text-sm text-gray-700 mb-4 line-clamp-6">
+              {testimonial.text}
+            </p>
+            <p className="text-sm text-gray-500">{testimonial.date}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-12 flex items-center justify-between w-full relative">
+  {/* Number Indicator */}
+  <div className="text-lg font-medium flex-shrink-0 z-10 bg-white pr-2">
+    <span className="font-bold">{String(currentIndex + 1).padStart(2, '0')}</span> / 
+    <span className="text-gray-400"> {String(testimonials.length).padStart(2, '0')}</span>
+  </div>
+
+  {/* Horizontal Line */}
+  <div className="flex-grow h-px bg-gray-300 mx-4"></div>
+
+  {/* Navigation Arrows */}
+  <div className="flex gap-2 flex-shrink-0 z-10 bg-white pl-2">
+    <button 
+      onClick={handlePrev}
+      className="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
+    >
+      <ChevronLeft size={20} />
+    </button>
+    <button 
+      onClick={handleNext}
+      className="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
+    >
+      <ChevronRight size={20} />
+    </button>
+  </div>
+</div>
+
+    </section>
+
+    {/* ----------------- */}
+
+    <section className="bg-[#172747] text-white py-16 px-4 md:px-8">
+      <div className="container mx-auto px-20">
+        {/* Header Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div>
+            <div className="uppercase text-sm tracking-wider mb-3">INSIGHTS & UPDATES</div>
+            <h2 className="text-4xl font-serif leading-tight">
+              Make smarter decisions with expert-written blogs.
+            </h2>
+          </div>
+          <div className=" items-center">
+            <p className="text-gray-300">
+              Get the latest on market trends, property tips, and expert insights. Our blog brings you quick, valuable reads to guide your real estate journey with confidence.
+            </p>
+            <Link href="/blog">
+            <button className="bg-white text-[#172747] border border-white mt-4 px-4 py-2 rounded hover:bg-[#172747] hover:text-white hover:border hover:border-white transition">
+              Read Our Blog
+            </button>
+          </Link>
+          </div>
+        </div>
+
+        {/* Call to Action */}
+       
+
+        {/* Blog Posts Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {blogPosts.map((post) => (
+            <div key={post.id} className="border-r border-l border-gray-700 px-4">
+              <Link href={`/blog/${post.slug}`} className="block group">
+                <div className="relative h-48 mb-4 overflow-hidden">
+                  <Image 
+                    src={post.image} 
+                    alt={post.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                </div>
+                <div className="text-gray-400 text-sm mb-2">{post.date}</div>
+                <h3 className="text-lg font-medium mb-4 group-hover:text-blue-400">{post.title}</h3>
+                <div className="inline-flex items-center text-blue-400">
+                  <ArrowRight size={16} />
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ------------------------------------ */}
+
+
+    <section className="bg-gray-100 py-16">
+      <div className="container mx-auto px-6 max-w-6xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Left Column - Heading */}
+          <div>
+            <div className="mb-2 text-gray-600">FAQ</div>
+            <h2 className="text-4xl font-serif mb-2">Have questions?</h2>
+            <h2 className="text-4xl font-serif">We've got answers.</h2>
+          </div>
+          
+          {/* Right Column - Accordion */}
+          <div>
+            {faqData.map((faq, index) => (
+              <div key={faq.id} className="border-b border-gray-300">
+                <button
+                  className="w-full text-left py-4 pr-10 relative flex justify-between items-center"
+                  onClick={() => toggleAccordion(index)}
+                >
+                  <span className="font-medium">{faq.question}</span>
+                  <span className="absolute right-0">
+                    {openIndex === index ? (
+                      <ChevronUp size={16} />
+                    ) : (
+                      <ChevronDown size={16} />
+                    )}
+                  </span>
+                </button>
+                {openIndex === index && (
+                  <div className="pb-4 text-gray-600">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* -------------------- */}
+
+   
 
     </div>
   );
