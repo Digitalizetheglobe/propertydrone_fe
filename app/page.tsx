@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import Image from "next/image";
-import logo from "@/app/images/PropertyDrone-Logo.png"; 
+// import logo from "@/app/images/PropertyDrone-Logo.png"; 
 import d1 from "@/app/images/d1.png";
 import d2 from "@/app/images/d2.png";
 import d3 from "@/app/images/d3.png";
@@ -18,7 +18,7 @@ import bg1 from '../public/images/7578550-uhd_3840_2160_30fps 1.png';
 import main2 from '../public/images/main2.png';
 import main3 from '../public/images/Frame 145.png';
 // Import a placeholder image
-import placeholderImg from '../public/images/placeholder.png'; // Make sure this exists
+// import placeholderImg from '../public/images/placeholder.png'; // Make sure this exists
 
 
 const faqData = [
@@ -527,7 +527,7 @@ export default function Home() {
   </div>
 
   {/* Navigation Bar */}
-  <header className="relative z-10 items-center justify-center mx-auto max-w-6xl">
+  {/* <header className="relative z-10 items-center justify-center mx-auto max-w-6xl">
   <div className="items-center justify-center mx-auto max-w-6xl">
       <nav className="flex items-center justify-between px-6 py-4 bg-opacity-40">
           <div className="flex items-center space-x-8 px-4 py-4 bg-gray-200 bg-opacity-40 rounded-lg">
@@ -566,7 +566,7 @@ export default function Home() {
       </div>
     </nav>
    </div>
-  </header>
+  </header> */}
 
   {/* Main Hero Content */}
   <main className="relative z-10 container mx-auto px-4 pt-24">
@@ -579,7 +579,7 @@ export default function Home() {
     lineHeight: '80px',
     letterSpacing: '0'
   }}
-  className="text-white mb-6"
+  className="text-white mb-6 mt=10"
 >
 
   Find the best <br></br> properties in Pune
@@ -588,11 +588,11 @@ export default function Home() {
 
       <div className="flex flex-col md:flex-row items-start md:items-center mb-12">
         <p className="text-white text-xl mb-4 md:mb-0 md:mr-8">
-          with a leading real estate agency
+          with Property Management company in Pune
         </p>
         <a 
-          href="#" 
-          className="flex items-center bg-white text-blue-700 px-4 py-2 rounded hover:bg-blue-50"
+          href="contactus" 
+          className="flex items-center bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50"
         >
           Get Consultation 
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">

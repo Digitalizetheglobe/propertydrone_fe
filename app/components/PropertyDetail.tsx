@@ -1,52 +1,36 @@
 // components/PropertyDetail.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
 import { Phone, Mail, MapPin, Home, Bath, Bed, Square, Calendar } from 'lucide-react';
-import img from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
+import defaultImg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 
-interface PropertyData {
+interface Property {
   id: number;
-  title: string;
-  description: string;
-  beds: number;
-  baths: number;
-  area: string;
-  year: number;
-  heating: string;
-  cooling: string;
-  parking: string;
-  basement: string;
-  images: string[];
-  agent: {
-    name: string;
-    title: string;
-    phone: string;
-    email: string;
-    agency: string;
-    image: string;
-  };
+  propertyName: string;
+  topology: string;
+  carpetArea: string;
+  city: string;
+  location: string;
+  tentativeBudget: string;
+  possession: string;
+  multipleImages: string[];
+  slug: string;
+  seoDescription: string;
+  seoTitle: string;
+  seoKeywords: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
+interface PropertyDetailProps {
+  property: Property;
 }
 
-export default function PropertyDetail() {
-  const params = useParams();
-  const slug = params.slug; // Get the slug from the URL
-
+export default function PropertyDetail({ property }: PropertyDetailProps) {
   const [mainImage, setMainImage] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [property, setProperty] = useState<PropertyData | null>(null);
-  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -54,30 +38,22 @@ export default function PropertyDetail() {
     message: '',
   });
 
-  useEffect(() => {
-    const fetchProperty = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`http://localhost:5000/properties/${slug}`);
-        
-        if (!response.ok) {
-          throw new Error(`Failed to fetch property: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        setProperty(data);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching property:", err);
-        setError("Failed to load property details");
-        setLoading(false);
-      }
-    };
+  // Use default image if no images are provided
+  const propertyImages = property.multipleImages && property.multipleImages.length > 0
+    ? property.multipleImages
+    : Array(6).fill(defaultImg);
 
-    if (slug) {
-      fetchProperty();
-    }
-  }, [slug]);
+  // Map property details for display
+  const propertyDetails = {
+    beds: property.topology?.includes('BHK') ? property.topology.charAt(0) : '4',
+    baths: property.topology?.includes('BHK') ? Math.max(1, parseInt(property.topology.charAt(0)) - 1) : '3',
+    area: property.carpetArea || '2500 sq ft',
+    year: property.createdAt ? new Date(property.createdAt).getFullYear().toString() : '2022',
+    heating: 'Central',
+    cooling: 'Central AC',
+    parking: '2 Garage',
+    basement: 'Finished',
+  };
 
   interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> {}
 
@@ -92,63 +68,17 @@ export default function PropertyDetail() {
     // Implementation for form submission would go here
   };
 
-  // Show loading state
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4 text-gray-700">Loading property details...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Show error state
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-500 text-xl">{error}</p>
-          <Link href="/properties" className="mt-4 inline-block text-blue-500 hover:underline">
-            Back to Properties
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  // If property is not found
-  if (!property) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-700 text-xl">Property not found</p>
-          <Link href="/properties" className="mt-4 inline-block text-blue-500 hover:underline">
-            Back to Properties
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  // Use the property images from API or fallback to placeholder
-  const propertyImages = property.images && property.images.length > 0 
-    ? property.images 
-    : Array(6).fill(img);
-
   return (
     <div className="min-h-screen">
       <section className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
-        {/* Background Image */}
-        <Image
-          src={propertyImages[0] || img}
-          alt="Property Banner"
-          layout="fill"
-          objectFit="cover"
-          className="-z-10"
-          priority
-        />
+        {/* Background Image - Using standard img tag for external URLs */}
+        <div className="absolute inset-0 h-full w-full">
+          <img
+            src={propertyImages[0] || defaultImg}
+            alt={property.propertyName}
+            className="object-cover w-full h-full"
+          />
+        </div>
 
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/50"></div>
@@ -166,49 +96,48 @@ export default function PropertyDetail() {
               fontSize: '2rem',
             }}
           >
-            {property.title || "Property Details"}
+            {property.propertyName}
           </h1>
 
           <p className="mt-2 text-sm md:text-lg" style={{ fontWeight: 500 }}>
             <Link href="/">
               <button className="bg-transparent text-white hover:text-red-700 rounded">
-                HOME
+                Home
               </button>
             </Link> / <Link href="/properties">
               <button className="bg-transparent text-white hover:text-red-700 rounded">
-                PROPERTIES
+                Properties
               </button>
-            </Link> / <Link href={`/properties/${slug}`}><button className='text-[#FEEB8F]'>Property</button></Link>
+            </Link> / <Link href={`/properties/${property.slug}`}>
+              <button className='text-[#FEEB8F]'>{property.propertyName}</button>
+            </Link>
           </p>
         </div>
       </section>
       <main className="max-w-7xl mx-auto px-4 py-8">
 
-        {/* Main Image Gallery */}
+        {/* Main Image Gallery - Using standard img tags for external URLs */}
         <div className="mb-8">
           <div className="relative h-96 w-full overflow-hidden rounded-lg mb-2">
-            <Image 
-              src={propertyImages[mainImage] || img} 
-              alt="Property Image" 
-              className="object-cover"
-              fill
-              priority
+            <img
+              src={propertyImages[mainImage]}
+              alt={`${property.propertyName} Image`}
+              className="object-cover w-full h-full"
             />
           </div>
           
           <div className="flex space-x-2 overflow-x-auto py-2">
-            {propertyImages.map((image, index) => (
-              <div 
-                key={index} 
+            {propertyImages.map((img, index) => (
+              <div
+                key={index}
                 className={`relative h-20 w-32 flex-shrink-0 cursor-pointer rounded-md overflow-hidden
                 ${mainImage === index ? 'ring-4 ring-blue-500' : 'opacity-80'}`}
                 onClick={() => setMainImage(index)}
               >
-                <Image 
-                  src={image} 
-                  alt={`Thumbnail ${index + 1}`} 
-                  className="object-cover"
-                  fill
+                <img
+                  src={img}
+                  alt={`Thumbnail ${index + 1}`}
+                  className="object-cover w-full h-full"
                 />
               </div>
             ))}
@@ -221,23 +150,25 @@ export default function PropertyDetail() {
             <div className="bg-white rounded-lg shadow-md p-6 mb-8">
               <h2 className="text-xl font-semibold text-gray-700 mb-4">About This Property</h2>
               <p className="text-gray-600 mb-4">
-                {property.description || "No description available."}
+                {property.seoDescription || `Immaculate luxurious ${property.city} apartment. Fresh color palette, space that could be for
+                work, entertaining, or simply to showcase a growing art collection. Elegant features such
+                as plush comfortable, unique trim, tall ceilings throughout the light-drenched rooms that will
+                make you feel instantly at home. Concrete floors, clean white paint finish throughout, a
+                miniature chef-style open-loft multipurpose connection, effortless doors with highest end
+                materials, fully natural.`}
+              </p>
+              <p className="text-gray-600">
+                All units are flexible whether with original layout or a blank canvas, which are easily
+                converted to optimum needs. This opportunity to express and work development did not include
+                the commercial or residential complications of bigger cities within smaller areas, huge lots
+                and big ideas set apart from city liabilities.
               </p>
             </div>
 
             <div className="bg-white rounded-lg shadow-md p-6 mb-8">
               <h2 className="text-xl font-semibold text-gray-700 mb-4">Property Overview</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {Object.entries({
-                  beds: property.beds,
-                  baths: property.baths,
-                  area: property.area,
-                  year: property.year,
-                  heating: property.heating,
-                  cooling: property.cooling,
-                  parking: property.parking,
-                  basement: property.basement
-                }).map(([key, value]) => (
+                {Object.entries(propertyDetails).map(([key, value]) => (
                   <div key={key} className="flex flex-col items-center justify-center bg-gray-50 p-4 rounded-md">
                     <div className="mb-2">
                       {key === 'beds' && <Bed className="w-6 h-6 text-gray-600" />}
@@ -257,18 +188,20 @@ export default function PropertyDetail() {
             </div>
 
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">From Our Gallery</h2>
+              <h2 className="text-xl font-semibold text-gray-700 mb-4">Property Details</h2>
               <div className="grid grid-cols-2 gap-4">
-                {propertyImages.slice(0, 4).map((image, index) => (
-                  <div key={index} className="relative h-48 rounded-md overflow-hidden">
-                    <Image 
-                      src={image} 
-                      alt={`Gallery image ${index + 1}`} 
-                      className="object-cover"
-                      fill
-                    />
-                  </div>
-                ))}
+                <div className="flex flex-col">
+                  <p className="text-gray-600"><span className="font-medium">Property Name:</span> {property.propertyName}</p>
+                  <p className="text-gray-600"><span className="font-medium">Topology:</span> {property.topology}</p>
+                  <p className="text-gray-600"><span className="font-medium">Carpet Area:</span> {property.carpetArea}</p>
+                  <p className="text-gray-600"><span className="font-medium">City:</span> {property.city}</p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-gray-600"><span className="font-medium">Location:</span> {property.location}</p>
+                  <p className="text-gray-600"><span className="font-medium">Budget:</span> {property.tentativeBudget}</p>
+                  <p className="text-gray-600"><span className="font-medium">Possession:</span> {property.possession}</p>
+                  <p className="text-gray-600"><span className="font-medium">Listed:</span> {new Date(property.createdAt).toLocaleDateString()}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -339,30 +272,30 @@ export default function PropertyDetail() {
               <h2 className="text-xl font-semibold text-gray-700 mb-4">Realtor Info</h2>
               <div className="flex items-center mb-4">
                 <div className="relative w-16 h-16 rounded-full overflow-hidden mr-4">
-                  <Image 
-                    src={property.agent?.image || img}
-                    alt="Realtor" 
+                  <Image
+                    src={defaultImg}
+                    alt="Realtor"
                     className="object-cover"
                     fill
                   />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-800">{property.agent?.name || "Agent Name"}</p>
-                  <p className="text-sm text-gray-600">{property.agent?.title || "Licensed Real Estate Agent"}</p>
+                  <p className="font-medium text-gray-800">Rachel</p>
+                  <p className="text-sm text-gray-600">Licensed Real Estate Agent</p>
                 </div>
               </div>
               <div className="space-y-2 mb-4">
                 <div className="flex items-center text-gray-700">
                   <Phone className="w-5 h-5 mr-2" />
-                  <p>{property.agent?.phone || "+1 (555) 123-4567"}</p>
+                  <p>+1 (555) 123-4567</p>
                 </div>
                 <div className="flex items-center text-gray-700">
                   <Mail className="w-5 h-5 mr-2" />
-                  <p>{property.agent?.email || "agent@realestate.com"}</p>
+                  <p>rachel@realestate.com</p>
                 </div>
                 <div className="flex items-center text-gray-700">
                   <MapPin className="w-5 h-5 mr-2" />
-                  <p>{property.agent?.agency || "Downtown Real Estate Group"}</p>
+                  <p>{property.location} Real Estate Group</p>
                 </div>
               </div>
               <div className="flex space-x-2">
