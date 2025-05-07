@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import WhatsAppPopup from "./components/whatsapp";
-import ScrollButton from "./components/scrollbutton";
+import Header from "./Header";
+import Footer from "./Footer";
+import WhatsAppPopup from "./whatsapp";
+import ScrollButton from "./scrollbutton";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

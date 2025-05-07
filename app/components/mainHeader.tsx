@@ -28,12 +28,18 @@ const MainHeader: React.FC = () => {
                             <a href="services" className="text-gray-700 hover:text-[#172747]">
                                 Services
                             </a>
+                            <a href="career" className="text-gray-700 hover:text-[#172747]">
+                                Career
+                            </a>
+                            <a href="blog" className="text-gray-700 hover:text-[#172747]">
+                                Blog
+                            </a>
                             <a href="properties" className="text-gray-700 hover:text-[#172747]">
                                 Properties
                             </a>
-                            {/* <a href="developer" className="text-gray-700 hover:text-[#172747]">
+                            <a href="developer" className="text-gray-700 hover:text-[#172747]">
                                 Developer
-                            </a> */}
+                            </a>
                         </div>
                     </div>
 

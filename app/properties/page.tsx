@@ -1,396 +1,580 @@
-// components/PropertyDetail.tsx
-'use client';
+// app/properties/page.tsx
+"use client";
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { Phone, Mail, MapPin, Home, Bath, Bed, Square, Calendar } from 'lucide-react';
-import img from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
+import bg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
+import { motion } from 'framer-motion';
+import { ArrowRight } from "lucide-react";
+import heroBackground from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 
-interface PropertyData {
+interface Property {
   id: number;
-  title: string;
-  description: string;
-  beds: number;
+  propertyName: string;
+  location: string;
+  city: string;
+  tentativeBudget: number;
+  badge: string;
+  secondaryBadge: string;
+  possession: string;
+  topology: number;
   baths: number;
-  area: string;
-  year: number;
-  heating: string;
-  cooling: string;
-  parking: string;
-  basement: string;
-  images: string[];
-  agent: {
-    name: string;
-    title: string;
-    phone: string;
-    email: string;
-    agency: string;
-    image: string;
-  };
+  carpetArea: number;
+  image: any;
+  featured: boolean;
 }
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-}
-
-export default function PropertyDetail() {
-  const params = useParams();
-  const slug = params.slug; // Get the slug from the URL
-
-  const [mainImage, setMainImage] = useState(0);
+export default function Properties() {
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeLocation, setActiveLocation] = useState('all'); // New state for location filter
+  const [featuredOnly, setFeaturedOnly] = useState(false);
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [availableLocations, setAvailableLocations] = useState<string[]>([]); // Dynamic locations from API
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [property, setProperty] = useState<PropertyData | null>(null);
-  
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
+  const propertyCategories = [
+    { id: 'all', name: 'All', icon: '/icons/home.svg' },
+    { id: 'apartments', name: 'Apartments', icon: '/icons/apartment.svg' },
+    { id: 'condos', name: 'Condos', icon: '/icons/condo.svg' },
+    { id: 'duplexes', name: 'Duplexes', icon: '/icons/duplex.svg' },
+    { id: 'houses', name: 'Houses', icon: '/icons/house.svg' },
+    { id: 'industrial', name: 'Industrial', icon: '/icons/industrial.svg' },
+    { id: 'land', name: 'Land', icon: '/icons/land.svg' },
+    { id: 'offices', name: 'Offices', icon: '/icons/office.svg' },
+    { id: 'plotting', name: 'Plotting', icon: '/icons/plotting.svg' },
+    { id: 'retail', name: 'Retail', icon: '/icons/retail.svg' },
+  ];
+  
+  const propertyTypes = [
+    'Sales',
+    'Lease',
+    'Rent'
+  ];
+
+  // Fetch properties from API
   useEffect(() => {
-    const fetchProperty = async () => {
+    const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:5000/properties/${slug}`);
+        const response = await fetch('http://localhost:5000/properties');
         
         if (!response.ok) {
-          throw new Error(`Failed to fetch property: ${response.status}`);
+          throw new Error(`API request failed with status ${response.status}`);
         }
         
         const data = await response.json();
-        setProperty(data);
-        setLoading(false);
+        
+        // Map API data to our expected format and ensure all required fields have values
+        const formattedProperties = data.map((property: any) => ({
+          id: property.id || Math.random(), // Fallback to random id if not provided
+          propertyName: property.propertyName || 'Unnamed Property',
+          location: property.location || 'Unknown Location',
+          city: property.city || 'Unknown City',
+          tentativeBudget: property.tentativeBudget || 'N/A',
+          badge: property.badge || 'N/A',
+          secondaryBadge: property.secondaryBadge || 'N/A',
+          possession: property.possession || 'No possession available',
+          topology: property.topology || 0,
+          baths: property.baths || 0,
+          carpetArea: property.carpetArea || 0,
+          image: property.image || bg,
+          featured: Boolean(property.featured),
+          createdAt: property.createdAt || new Date().toISOString(), // Ensure we have a date to sort by
+        }));
+        
+        // Extract unique locations from properties
+        const locations = [...new Set(formattedProperties.map((p: Property) => p.location))];
+        setAvailableLocations(locations as string[]);
+        
+        // Sort properties to show latest first
+        const sortedProperties = formattedProperties.sort((a: { createdAt: string }, b: { createdAt: string }) => {
+          // Sort by creation date (newest first)
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+        
+        setProperties(sortedProperties);
+        setError(null);
       } catch (err) {
-        console.error("Error fetching property:", err);
-        setError("Failed to load property details");
+        setError('Failed to fetch properties. Please try again later.');
+        console.error('Error fetching properties:', err);
+        // Set empty array to avoid undefined errors
+        setProperties([]);
+      } finally {
         setLoading(false);
       }
     };
 
-    if (slug) {
-      fetchProperty();
+    fetchProperties();
+  }, []);
+
+  const resetFilters = () => {
+    setActiveCategory('all');
+    setActiveLocation('all');
+    setFeaturedOnly(false);
+  };
+
+  const filteredProperties = properties.filter(property => {
+    // Check featured filter
+    if (featuredOnly && !property.featured) return false;
+    
+    // Check category filter
+    if (activeCategory !== 'all' && property.secondaryBadge.toLowerCase() !== activeCategory) return false;
+    
+    // Check location filter
+    if (activeLocation !== 'all' && property.location !== activeLocation) return false;
+    
+    return true;
+  });
+
+  // Framer Motion variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
     }
-  }, [slug]);
-
-  interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> {}
-
-  const handleInputChange = (e: InputChangeEvent): void => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  };
+  
+  const cardVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { 
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
+    },
+    hover: {
+      y: -8,
+      boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 10
+      }
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Implementation for form submission would go here
+  const imageVariants = {
+    hover: {
+      scale: 1.05,
+      transition: {
+        duration: 0.3
+      }
+    }
   };
 
-  // Show loading state
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4 text-gray-700">Loading property details...</p>
-        </div>
-      </div>
-    );
-  }
+  const badgeVariants = {
+    initial: { scale: 0.8, opacity: 0 },
+    animate: { 
+      scale: 1, 
+      opacity: 1,
+      transition: {
+        delay: 0.2,
+        type: "spring",
+        stiffness: 500
+      }
+    }
+  };
 
-  // Show error state
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-500 text-xl">{error}</p>
-          <Link href="/properties" className="mt-4 inline-block text-blue-500 hover:underline">
-            Back to Properties
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  // If property is not found
-  if (!property) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-700 text-xl">Property not found</p>
-          <Link href="/properties" className="mt-4 inline-block text-blue-500 hover:underline">
-            Back to Properties
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  // Use the property images from API or fallback to placeholder
-  const propertyImages = property.images && property.images.length > 0 
-    ? property.images 
-    : Array(6).fill(img);
+  const heartVariants = {
+    initial: { scale: 1 },
+    hover: { 
+      scale: 1.2,
+      transition: {
+        repeat: 1,
+        repeatType: "reverse",
+        duration: 0.3
+      }
+    }
+  };
 
   return (
-    <div className="min-h-screen">
-      <section className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
-        {/* Background Image */}
-        <Image
-          src={propertyImages[0] || img}
-          alt="Property Banner"
-          layout="fill"
-          objectFit="cover"
-          className="-z-10"
-          priority
-        />
-
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/50"></div>
-
-        {/* Content */}
-        <div className="relative flex flex-col justify-center h-full ml-10 text-white px-4">
-          <h1
-            className="text-3xl md:text-5xl font-figtree"
-            style={{
-              fontFamily: "'Figtree', sans-serif",
-              width: "100%",
-              height: "auto",
-              marginBottom: "0.25em",
-              fontWeight: "900",
-              fontSize: '2rem',
-            }}
-          >
-            {property.title || "Property Details"}
-          </h1>
-
-          <p className="mt-2 text-sm md:text-lg" style={{ fontWeight: 500 }}>
-            <Link href="/">
-              <button className="bg-transparent text-white hover:text-red-700 rounded">
-                HOME
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="relative min-h-screen">
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src={heroBackground}
+            alt="Luxury Property" 
+            fill
+            style={{ objectFit: "cover" }}
+            priority
+          />
+          <div className="absolute inset-0 bg-black opacity-40"></div>
+        </div>
+        
+        {/* Hero Content */}
+        <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
+          <div className="text-center max-w-3xl mx-auto text-white">
+            <p className="text-sm uppercase font-medium tracking-wider text-gray-300 mb-4">OUR PROPERTIES</p>
+            
+            <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+            Explore Verified Properties Across <br/> Prime Locations
+            </h1>
+            
+            <p className="text-gray-200 mb-8 max-w-xl mx-auto">
+            Browse a curated selection of residential and commercial spaces with detailed insights, drone views, and zero-brokerage listings—making your search smarter and faster.
+            </p>
+            
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <button className="bg-blue-900 text-white px-6 py-3 flex items-center justify-center gap-2 hover:bg-blue-800 transition-colors">
+                Explore Properties
+                <ArrowRight size={18} />
               </button>
-            </Link> / <Link href="/properties">
-              <button className="bg-transparent text-white hover:text-red-700 rounded">
-                PROPERTIES
+              <button className="border border-gray-300 bg-white text-gray-800 px-6 py-3 hover:bg-gray-50 transition-colors">
+                Book Consultation
               </button>
-            </Link> / <Link href={`/properties/${slug}`}><button className='text-[#FEEB8F]'>Property</button></Link>
-          </p>
+            </div>
+          </div>
         </div>
       </section>
-      <main className="max-w-7xl mx-auto px-4 py-8">
-
-        {/* Main Image Gallery */}
-        <div className="mb-8">
-          <div className="relative h-96 w-full overflow-hidden rounded-lg mb-2">
-            <Image 
-              src={propertyImages[mainImage] || img} 
-              alt="Property Image" 
-              className="object-cover"
-              fill
-              priority
-            />
-          </div>
-          
-          <div className="flex space-x-2 overflow-x-auto py-2">
-            {propertyImages.map((image, index) => (
-              <div 
-                key={index} 
-                className={`relative h-20 w-32 flex-shrink-0 cursor-pointer rounded-md overflow-hidden
-                ${mainImage === index ? 'ring-4 ring-blue-500' : 'opacity-80'}`}
-                onClick={() => setMainImage(index)}
-              >
-                <Image 
-                  src={image} 
-                  alt={`Thumbnail ${index + 1}`} 
-                  className="object-cover"
-                  fill
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Property Information */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">About This Property</h2>
-              <p className="text-gray-600 mb-4">
-                {property.description || "No description available."}
-              </p>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">Property Overview</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {Object.entries({
-                  beds: property.beds,
-                  baths: property.baths,
-                  area: property.area,
-                  year: property.year,
-                  heating: property.heating,
-                  cooling: property.cooling,
-                  parking: property.parking,
-                  basement: property.basement
-                }).map(([key, value]) => (
-                  <div key={key} className="flex flex-col items-center justify-center bg-gray-50 p-4 rounded-md">
-                    <div className="mb-2">
-                      {key === 'beds' && <Bed className="w-6 h-6 text-gray-600" />}
-                      {key === 'baths' && <Bath className="w-6 h-6 text-gray-600" />}
-                      {key === 'area' && <Square className="w-6 h-6 text-gray-600" />}
-                      {key === 'year' && <Calendar className="w-6 h-6 text-gray-600" />}
-                      {key === 'heating' && <Home className="w-6 h-6 text-gray-600" />}
-                      {key === 'cooling' && <Home className="w-6 h-6 text-gray-600" />}
-                      {key === 'parking' && <Home className="w-6 h-6 text-gray-600" />}
-                      {key === 'basement' && <Home className="w-6 h-6 text-gray-600" />}
-                    </div>
-                    <p className="font-medium text-gray-800">{value}</p>
-                    <p className="text-xs text-gray-500 capitalize">{key}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">From Our Gallery</h2>
-              <div className="grid grid-cols-2 gap-4">
-                {propertyImages.slice(0, 4).map((image, index) => (
-                  <div key={index} className="relative h-48 rounded-md overflow-hidden">
-                    <Image 
-                      src={image} 
-                      alt={`Gallery image ${index + 1}`} 
-                      className="object-cover"
-                      fill
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="lg:col-span-1">
-            <div className="bg-gray-800 rounded-lg shadow-md p-6 mb-8 text-white">
-              <h2 className="text-xl font-semibold mb-4">Contact the listing owner</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label htmlFor="name" className="block text-sm mb-1">Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full p-2 rounded bg-gray-700 text-white"
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="email" className="block text-sm mb-1">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full p-2 rounded bg-gray-700 text-white"
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="phone" className="block text-sm mb-1">Phone</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full p-2 rounded bg-gray-700 text-white"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="message" className="block text-sm mb-1">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    rows={4}
-                    className="w-full p-2 rounded bg-gray-700 text-white"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
+      <div className="container mx-auto px-4 pt-10 pb-8">
+        <div className="flex">
+          {/* Sidebar Filters - Fixed Position */}
+          <div className="w-1/4">
+            <div className="bg-white shadow-md rounded-xl p-6 sticky top-6 max-h-screen overflow-auto border border-gray-100">
+              <div className="flex justify-between items-center my-6 pt-10">
+                <h2 className="text-xl font-bold text-gray-800">Filters</h2>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={resetFilters}
+                  className="text-blue-600 text-sm font-medium hover:underline"
                 >
-                  Send
-                </button>
-              </form>
-            </div>
+                  Clear All
+                </motion.button>
+              </div>
 
-            {/* Agent Info */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">Realtor Info</h2>
-              <div className="flex items-center mb-4">
-                <div className="relative w-16 h-16 rounded-full overflow-hidden mr-4">
-                  <Image 
-                    src={property.agent?.image || img}
-                    alt="Realtor" 
-                    className="object-cover"
-                    fill
-                  />
-                </div>
-                <div>
-                  <p className="font-medium text-gray-800">{property.agent?.name || "Agent Name"}</p>
-                  <p className="text-sm text-gray-600">{property.agent?.title || "Licensed Real Estate Agent"}</p>
+              <div className="relative mb-6">
+                <input
+                  type="text"
+                  placeholder="Search properties"
+                  className="w-full border border-gray-300 rounded-xl py-3 px-4 pl-12 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                />
+                <svg className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+
+              <div className="mb-8">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-semibold text-gray-800">Featured Property</h3>
+                  <motion.label 
+                    className="relative inline-flex items-center cursor-pointer"
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <input 
+                      type="checkbox" 
+                      checked={featuredOnly}
+                      onChange={() => setFeaturedOnly(!featuredOnly)}
+                      className="sr-only peer" 
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                  </motion.label>
                 </div>
               </div>
-              <div className="space-y-2 mb-4">
-                <div className="flex items-center text-gray-700">
-                  <Phone className="w-5 h-5 mr-2" />
-                  <p>{property.agent?.phone || "+1 (555) 123-4567"}</p>
-                </div>
-                <div className="flex items-center text-gray-700">
-                  <Mail className="w-5 h-5 mr-2" />
-                  <p>{property.agent?.email || "agent@realestate.com"}</p>
-                </div>
-                <div className="flex items-center text-gray-700">
-                  <MapPin className="w-5 h-5 mr-2" />
-                  <p>{property.agent?.agency || "Downtown Real Estate Group"}</p>
+
+              
+
+              <div className="mb-8">
+                <h3 className="font-semibold text-gray-800 uppercase text-xs tracking-wider mb-4">Location</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  
+                  <motion.button
+                    whileHover={{ scale: 1.02, backgroundColor: "#f9fafb" }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`py-2.5 px-4 text-center border ${activeLocation === 'all' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-700'} rounded-xl hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200`}
+                    onClick={() => setActiveLocation('all')}
+                  >
+                    All Locations
+                  </motion.button>
+                  
+                  
+                  {availableLocations.map((location, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ scale: 1.02, backgroundColor: "#f9fafb" }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`py-2.5 px-4 text-center border ${activeLocation === location ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-700'} rounded-xl hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200`}
+                      onClick={() => setActiveLocation(location)}
+                    >
+                      {location}
+                    </motion.button>
+                  ))}
                 </div>
               </div>
-              <div className="flex space-x-2">
-                <a href="#" className="bg-gray-200 p-2 rounded-full">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
-                  </svg>
-                </a>
-                <a href="#" className="bg-gray-200 p-2 rounded-full">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                  </svg>
-                </a>
-                <a href="#" className="bg-gray-200 p-2 rounded-full">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" />
-                  </svg>
-                </a>
-                <a href="#" className="bg-gray-200 p-2 rounded-full">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                  </svg>
-                </a>
-              </div>
+              {/* <div className="mb-8">
+                <h3 className="font-semibold text-gray-800 uppercase text-xs tracking-wider mb-4">Property Category</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  {propertyCategories.map((category) => (
+                    <motion.div 
+                      key={category.id}
+                      whileHover={{ scale: 1.05, backgroundColor: activeCategory === category.id ? "#dbeafe" : "#f9fafb" }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`flex flex-col items-center justify-center p-3 rounded-xl cursor-pointer transition-colors duration-200 ${activeCategory === category.id ? 'bg-blue-100 text-blue-700 font-medium shadow-sm' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'}`}
+                      onClick={() => setActiveCategory(category.id)}
+                    >
+                      <div className="h-10 w-10 mb-2 rounded-full flex items-center justify-center bg-white shadow-sm">
+                     
+                        <span className="text-sm font-medium">{category.name[0]}</span>
+                      </div>
+                      <span className="text-xs">{category.name}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div> */}
+              {/* <div className="mb-8">
+                <h3 className="font-semibold text-gray-800 uppercase text-xs tracking-wider mb-4">Property Type</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  {propertyTypes.map((type, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ scale: 1.02, backgroundColor: "#f9fafb" }}
+                      whileTap={{ scale: 0.98 }}
+                      className="py-2.5 px-4 text-center border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                    >
+                      {type}
+                    </motion.button>
+                  ))}
+                </div>
+              </div> */}
+
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium"
+                onClick={resetFilters}
+              >
+                Reset Search
+              </motion.button>
             </div>
           </div>
+
+          {/* Property Listings - Scrollable Content */}
+          <div className="w-3/4 pl-6">
+            {/* Display active filters when filters are applied */}
+            {(activeCategory !== 'all' || activeLocation !== 'all' || featuredOnly) && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-blue-50 p-3 rounded-xl mb-6 flex flex-wrap items-center gap-2"
+              >
+                <span className="text-sm font-medium text-blue-700 mr-2">Active Filters:</span>
+                
+                {activeCategory !== 'all' && (
+                  <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                    Category: {activeCategory}
+                    <button 
+                      onClick={() => setActiveCategory('all')}
+                      className="ml-2 text-blue-500 hover:text-blue-700"
+                    >
+                      ×
+                    </button>
+                  </span>
+                )}
+                
+                {activeLocation !== 'all' && (
+                  <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                    Location: {activeLocation}
+                    <button 
+                      onClick={() => setActiveLocation('all')}
+                      className="ml-2 text-blue-500 hover:text-blue-700"
+                    >
+                      ×
+                    </button>
+                  </span>
+                )}
+                
+                {featuredOnly && (
+                  <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                    Featured Only
+                    <button 
+                      onClick={() => setFeaturedOnly(false)}
+                      className="ml-2 text-blue-500 hover:text-blue-700"
+                    >
+                      ×
+                    </button>
+                  </span>
+                )}
+                
+                <button 
+                  onClick={resetFilters}
+                  className="ml-auto text-sm text-blue-600 hover:underline"
+                >
+                  Clear All
+                </button>
+              </motion.div>
+            )}
+          
+            {loading ? (
+              <div className="flex justify-center items-center h-64">
+                <motion.div 
+                  animate={{ 
+                    rotate: 360,
+                    transition: { 
+                      duration: 1, 
+                      repeat: Infinity, 
+                      ease: "linear" 
+                    } 
+                  }}
+                  className="rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-600"
+                ></motion.div>
+              </div>
+            ) : error ? (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-red-50 text-red-600 p-5 rounded-xl border border-red-100 shadow-sm"
+              >
+                {error}
+              </motion.div>
+            ) : (
+              <motion.div 
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {filteredProperties.length > 0 ? (
+                  filteredProperties.map((property) => (
+                    <motion.div 
+                      key={property.id} 
+                      variants={cardVariants}
+                      whileHover="hover"
+                      onHoverStart={() => setHoveredCard(property.id)}
+                      onHoverEnd={() => setHoveredCard(null)}
+                      className="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 transform transition-all duration-300"
+                    >
+                      <div className="relative overflow-hidden">
+                        <motion.div 
+                          variants={imageVariants}
+                          className="h-56 bg-gray-200 relative"
+                        >
+                          {/* Handle image object or string properly */}
+                          <Image 
+                            src={typeof property.image === 'object' ? property.image : bg} 
+                            alt={property.propertyName}
+                            fill
+                            className="object-cover"
+                          />
+                          
+                          {/* Semi-transparent gradient overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
+                        </motion.div>
+                        
+                        <div className="absolute top-4 left-4 flex space-x-2">
+                          <motion.span 
+                            variants={badgeVariants}
+                            initial="initial"
+                            animate="animate"
+                            className="px-3 py-1 bg-white text-xs font-medium rounded-full shadow-sm text-blue-700"
+                          >
+                            {property.badge}
+                          </motion.span>
+                          <motion.span 
+                            variants={badgeVariants}
+                            initial="initial"
+                            animate="animate"
+                            className="px-3 py-1 bg-blue-500 text-xs font-medium rounded-full shadow-sm text-white"
+                          >
+                            {property.secondaryBadge}
+                          </motion.span>
+                        </div>
+                        
+                        {/* Property location on image */}
+                        <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-white">
+                          <div className="flex items-center text-xs text-gray-100 mt-1">
+                            <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            {property.location}, {property.city}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="p-5">
+                        <h3 className="text-xl font-bold leading-tight">
+                          {property.propertyName}
+                        </h3>
+                        <p className="text-sm text-gray-600 mb-4">
+                          <span className="font-semibold text-gray-800">Possession:</span> {property.possession}
+                        </p>
+                        
+                        <div className="justify-between text-sm mb-5">
+                          <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-lg">
+                            <svg className="h-4 w-4 mr-1 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                            {String(property.topology).split(',').map((item: string, index: number) => (
+                              <span key={index} className="font-medium text-gray-700 block">
+                                {item.trim()}
+                              </span>
+                            ))}
+                          </div>
+                          
+                          <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-lg">
+                            <svg className="h-4 w-4 mr-1 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+                            </svg>
+                            <span className="font-medium text-gray-700">{property.carpetArea} </span>
+                          </div>
+                        </div>
+                        
+                        <motion.div 
+                          initial={{ scale: 0.95, opacity: 0 }}
+                          animate={{ 
+                            scale: hoveredCard === property.id ? 1.05 : 1, 
+                            opacity: 1 
+                          }}
+                          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                          className="flex justify-between items-center"
+                        >
+                          {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
+                            <div className="font-bold text-xl text-blue-700">
+                              ₹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
+                            </div>
+                          )}
+                          
+                          <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition-all duration-200"
+                          >
+                            View Details
+                          </motion.button>
+                        </motion.div>
+                      </div>
+                    </motion.div>
+                  ))
+                ) : (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="col-span-3 text-center py-12 text-gray-500"
+                  >
+                    <div className="bg-gray-50 p-8 rounded-xl border border-gray-100">
+                      <svg className="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                      </svg>
+                      <h3 className="text-lg font-medium text-gray-700 mb-2">No properties match your current filters</h3>
+                      <p className="text-gray-500">Try adjusting your search criteria or resetting filters.</p>
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
+            )}
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

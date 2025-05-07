@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext';
 import MainHeader from "./components/mainHeader";
 import ScrollButton from "./components/scrollbutton";
 import WhatsAppPopup from "./components/whatsapp";
+import Mainfooter from "./components/mainfooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,8 @@ export default function RootLayout({
           {children}
           <WhatsAppPopup/>
           <ScrollButton/>
+          <Mainfooter/>
+
         </AuthProvider>
       </body>
     </html>

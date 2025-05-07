@@ -2,21 +2,32 @@
 import Link from "next/link";
 import Image from "next/image";
 // import logo from "@/app/images/PropertyDrone-Logo.png"; 
-import d1 from "@/app/images/d1.png";
-import d2 from "@/app/images/d2.png";
-import d3 from "@/app/images/d3.png";
-import d4 from "@/app/images/d4.png";
-import d5 from "@/app/images/d5.png";
-import d6 from "@/app/images/d6.png";
-import d7 from "@/app/images/d7.png";
-import d8 from "@/app/images/d8.png";
-import d9 from "@/app/images/d9.png";
-import d10 from "@/app/images/d10.png";
+import d1 from "@/public/images/Frame 104.png";
+import d2 from "@/public/images/Frame 105.png";
+import d3 from "@/public/images/Frame 106.png";
+import d4 from "@/public/images/Frame 107.png";
+import d5 from "@/public/images/Frame 108.png";
+import d6 from "@/public/images/Frame 109.png";
+import d7 from "@/public/images/Frame 110.png";
+import d8 from "@/public/images/Frame 111.png";
+import d9 from "@/public/images/Frame 112.png";
+import d10 from "@/public/images/Frame 104.png";
+import d11 from "@/public/images/Frame 105.png";
+import d12 from "@/public/images/Frame 106.png";
+import d13 from "@/public/images/Frame 107.png";
+import d14 from "@/public/images/Frame 108.png";
+import d15 from "@/public/images/Frame 109.png";
+import d16 from "@/public/images/Frame 110.png";
+import d17 from "@/public/images/Frame 111.png";
+import d18 from "@/public/images/Frame 112.png";
+// import d10 from "@/public/images/Frame 113.png";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import bg1 from '../public/images/7578550-uhd_3840_2160_30fps 1.png';
+// import main2 from '../public/images/mainvideo.mp4';
 import main2 from '../public/images/main2.png';
 import main3 from '../public/images/Frame 145.png';
+import { useMemo as reactUseMemo } from 'react';
 // Import a placeholder image
 // import placeholderImg from '../public/images/placeholder.png'; // Make sure this exists
 
@@ -224,17 +235,53 @@ interface Property {
 }
 
 export default function Home() {
-  const localities = [
-    { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
-    { name: "Aundh", properties: 72, image: "/api/placeholder/400/320" },
-    { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
-    { name: "Aundh", properties: 72, image: "/api/placeholder/400/320" },
-    { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
-    { name: "Aundh", properties: 72, image: "/api/placeholder/400/320" },
-    { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
-    { name: "Aundh", properties: 72, image: "/api/placeholder/400/320" },
-    { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
-  ];
+  // const localities = [
+  //   { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
+  //   { name: "Aundh", properties: 72, image: "/api/placeholder/400/320" },
+  //   { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
+  //   { name: "Aundh", properties: 72, image: "/api/placeholder/400/320" },
+  //   { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
+  //   { name: "Aundh", properties: 72, image: "/api/placeholder/400/320" },
+  //   { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
+  //   { name: "Aundh", properties: 72, image: "/api/placeholder/400/320" },
+  //   { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
+  // ];
+
+  const [properties, setProperties] = useState<Property[]>([]);
+
+  // First, let's group properties by location and count them
+const locationCounts = useMemo(() => {
+  // Skip if properties aren't loaded yet
+  if (!properties.length) return [];
+  
+  // Create a map to store location counts and data
+  const locationMap = new Map();
+  
+  // Group properties by location
+  properties.forEach(property => {
+    const location = property.location;
+    
+    if (!locationMap.has(location)) {
+      locationMap.set(location, {
+        location: location,
+        count: 1,
+        // Use the first property's image as the location image
+        image: property.image || "/api/placeholder/400/320"
+      });
+    } else {
+      // Increment count for existing location
+      const current = locationMap.get(location);
+      locationMap.set(location, {
+        ...current,
+        count: current.count + 1
+      });
+    }
+  });
+  
+  // Convert map to array
+  return Array.from(locationMap.values());
+}, [properties]);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -281,7 +328,7 @@ export default function Home() {
     setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
   };
 
-  const images = [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10];
+  const images = [d1, d2, d3, d4, d5, d6, d7, d8, d9,d10,d11,d12,d13,d14,d15,d16,d17,d18];
   
   interface FormData {
     name: string;
@@ -300,10 +347,11 @@ export default function Home() {
     bedrooms: '',
     minPrice: '',
     maxPrice: '',
+    search: '', 
   });
 
   // State for properties data from API
-  const [properties, setProperties] = useState<Property[]>([]);
+  // const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
@@ -320,19 +368,29 @@ export default function Home() {
           throw new Error('Failed to fetch properties');
         }
         const data = await response.json();
-        setProperties(data);
-        setFilteredProperties(data);
+        
+        // Sort properties by date - assuming each property has a date field
+        // If there's no date field, you might need to modify this logic
+        const sortedData = [...data].sort((a, b) => {
+          // If using date strings, convert to Date objects
+          const dateA = new Date(a.date || a.createdAt || 0);
+          const dateB = new Date(b.date || b.createdAt || 0);
+          return dateB.getTime() - dateA.getTime(); // Latest first
+        });
+        
+        setProperties(sortedData);
+        setFilteredProperties(sortedData);
         
         // Separate featured and remaining properties
-        const featured = data.slice(0, 3); // Get first 3 properties as featured
-        const remaining = data.slice(3);   // Get the rest for the slider
+        const featured = sortedData.slice(0, 3); // Get first 3 properties as featured
+        const remaining = sortedData.slice(3);   // Get the rest for the slider
         
         setFeaturedProperties(featured);
         setRemainingProperties(remaining);
         
         setLoading(false);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred');
         setLoading(false);
       }
     };
@@ -346,66 +404,69 @@ export default function Home() {
     bedrooms: string;
     minPrice: string;
     maxPrice: string;
+    search: string; 
+    
   }
 
   // Apply filters to properties
-  useEffect(() => {
-    if (!properties.length) return;
+// Apply filters to properties
+useEffect(() => {
+  if (!properties.length) return;
 
-    let filtered = [...properties];
+  let filtered = [...properties];
 
-    if (filters.type) {
-      filtered = filtered.filter(property => property.type === filters.type);
-    }
+  // Search functionality (case insensitive search across multiple fields)
+  if (filters.search) {
+    const searchTerm = filters.search.toLowerCase();
+    filtered = filtered.filter(property => 
+      property.propertyName?.toLowerCase().includes(searchTerm) ||
+      property.location?.toLowerCase().includes(searchTerm) ||
+      property.city ?.toLowerCase().includes(searchTerm)
+    );
+  }
 
-    if (filters.location) {
-      filtered = filtered.filter(property => property.location === filters.location);
-    }
+  if (filters.location) {
+    filtered = filtered.filter(property => property.location === filters.location);
+  }
 
-    if (filters.bedrooms) {
-      filtered = filtered.filter(property => 
-        property.topology >= parseInt(filters.bedrooms, 10)
-      );
-    }
+  if (filters.minPrice) {
+    filtered = filtered.filter(property => 
+      property.tentativeBudget >= parseInt(filters.minPrice, 10)
+    );
+  }
 
-    if (filters.minPrice) {
-      filtered = filtered.filter(property => 
-        property.tentativeBudget >= parseInt(filters.minPrice, 10)
-      );
-    }
+  if (filters.maxPrice) {
+    filtered = filtered.filter(property => 
+      property.tentativeBudget <= parseInt(filters.maxPrice, 10)
+    );
+  }
 
-    if (filters.maxPrice) {
-      filtered = filtered.filter(property => 
-        property.tentativeBudget <= parseInt(filters.maxPrice, 10)
-      );
-    }
+  // Update filtered properties and separate featured/remaining
+  setFilteredProperties(filtered);
+  
+  const featured = filtered.slice(0, 3); // Get first 3 filtered properties as featured
+  const remaining = filtered.slice(3);   // Get the rest for the slider
+  
+  setFeaturedProperties(featured);
+  setRemainingProperties(remaining);
+  
+}, [filters, properties]);
 
-    // Update filtered properties and separate featured/remaining
-    setFilteredProperties(filtered);
-    
-    const featured = filtered.slice(0, 3); // Get first 3 filtered properties as featured
-    const remaining = filtered.slice(3);   // Get the rest for the slider
-    
-    setFeaturedProperties(featured);
-    setRemainingProperties(remaining);
-    
-  }, [filters, properties]);
+const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+  const { name, value } = e.target as HTMLSelectElement | HTMLInputElement;
+  setFilters({ ...filters, [name]: value });
+};
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-    const { name, value } = e.target as HTMLSelectElement | HTMLInputElement;
-    setFilters({ ...filters, [name]: value });
-  };
-
-  const resetFilters = () => {
-    setFilters({
-      type: '',
-      location: '',
-      bedrooms: '',
-      minPrice: '',
-      maxPrice: '',
-    });
-  };
-
+const resetFilters = () => {
+  setFilters({
+    type: '',
+    bedrooms: '',
+    search: '',
+    location: '',
+    minPrice: '',
+    maxPrice: '',
+  });
+};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -460,13 +521,20 @@ export default function Home() {
     return (
       <div className="bg-white rounded-sm overflow-hidden border border-gray-100">
         <div className="relative h-48">
-          <Image 
-            src={main2} 
-            alt={property.propertyName}
-            layout="fill"
-            objectFit="cover"
-          />
-        </div>
+  <div className="video-wrapper w-full h-full">
+    <video
+      className="hero-video w-full h-full object-cover"
+      src={main2.src}
+      autoPlay
+      loop
+      muted
+      playsInline
+    />
+    <div className="video-overlay absolute inset-0 bg-black opacity-20"></div>
+  </div>
+</div>
+
+
         
         <div className="p-4 border-b border-gray-100">
           <div className="flex items-center text-xs text-gray-500 mb-2">
@@ -569,17 +637,17 @@ export default function Home() {
   </header> */}
 
   {/* Main Hero Content */}
-  <main className="relative z-10 container mx-auto px-4 pt-24">
+  <main className="relative z-10 container mx-auto px-4 pt-50">
     <div className="flex flex-col items-start max-w-3xl">
     <h1
   style={{
-    fontFamily: "'Ivy Mode'",
+    fontFamily: "Ivy Mode",
     fontWeight: 300,
     fontSize: '86px',
     lineHeight: '80px',
     letterSpacing: '0'
   }}
-  className="text-white mb-6 mt=10"
+  className="text-white mb-10 mt=20"
 >
 
   Find the best <br></br> properties in Pune
@@ -616,7 +684,7 @@ onMouseLeave={() => setIsPaused(false)}
 {images.map((img, index) => (
 <div 
 key={index} 
-className="flex-shrink-0 w-64 mx-2 first:ml-0 transition-all duration-300 ease-in-out"
+className="flex-shrink-0  h-34 mx-2 first:ml-0 transition-all duration-300 ease-in-out"
 style={{ 
   transform: `scale(1)`,
   transformOrigin: 'center center',
@@ -628,11 +696,11 @@ onMouseLeave={(e) => {
   e.currentTarget.style.transform = 'scale(1)';
 }}
 >
-<div className="bg-white rounded-md shadow-md p-4 h-38 flex flex-col items-center justify-center border border-gray-300 hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
+<div className=" shadow-md   flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
   <Image
     src={img}
     alt={`Card ${index + 1}`}
-    className="w-90 h-90 object-cover rounded-full mb-2 transition-all duration-300"
+    className="w-auto h-28 object-cover transition-all duration-300"
   />
 </div>
 
@@ -645,156 +713,135 @@ onMouseLeave={(e) => {
 </div>
 {/* ------------------------------ */}
    {/* Filter Section */}
-   <div className="flex flex-wrap bg-[#172747] gap-4 p-10 mb-8 transition-all duration-300 ease-in-out justify-center">
-          <div className="relative">
-            <select 
-              name="type" 
-              value={filters.type} 
-              onChange={handleFilterChange}
-              className="appearance-none bg-white text-[#172747] border rounded px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-            >
-              <option value="">Type</option>
-              <option value="house">House</option>
-              <option value="apartment">Apartment</option>
-              <option value="condo">Condo</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-              </svg>
-            </div>
-          </div>
-
-          {/* Other filters - same as before */}
-          <div className="relative">
-            <select 
-              name="location" 
-              value={filters.location} 
-              onChange={handleFilterChange}
-              className="appearance-none bg-white text-[#172747] border rounded px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-            >
-              <option value="">Location</option>
-              <option value="downtown">Baner</option>
-              <option value="suburbs">Wakad</option>
-              <option value="waterfront">Waterfront</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#172747]">
-              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-              </svg>
-            </div>
-          </div>
-
-          <div className="relative">
-            <select 
-              name="bedrooms" 
-              value={filters.bedrooms} 
-              onChange={handleFilterChange}
-              className="appearance-none bg-white text-[#172747] border rounded px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-            >
-              <option value="">Bedrooms</option>
-              <option value="1">1+</option>
-              <option value="2">2+</option>
-              <option value="3">3+</option>
-              <option value="4">4+</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-              </svg>
-            </div>
-          </div>
-
+   <div className="max-w-7xl mx-auto px-6 md:px-20 py-8">
+  {/* Filter Section */}
+  <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+    <h3 className="text-xl font-semibold text-[#172747] mb-4">Find Your Perfect Property</h3>
+    
+    {/* Filter Controls - Flex Layout */}
+    <div className="flex flex-col md:flex-row md:items-end gap-4 mb-6">
+      {/* Search Input */}
+      <div className="flex-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
+        <div className="relative">
           <input
-            type="number"
-            name="minPrice"
-            placeholder="Min Price"
-            value={filters.minPrice}
+            type="text"
+            name="search"
+            value={filters.search || ''}
             onChange={handleFilterChange}
-            className="border rounded px-4 py-2 bg-white text-[#172747] placeholder-[#172747] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+            placeholder="Search properties..."
+            className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-
-          <input
-            type="number"
-            name="maxPrice"
-            placeholder="Max Price"
-            value={filters.maxPrice}
-            onChange={handleFilterChange}
-            className="border rounded px-4 py-2 bg-white text-[#172747] placeholder-[#172747] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-          />
-
-          <button 
-            className="bg-[#172747] text-white border border-white hover:bg-blue-600  px-4 py-2 rounded flex items-center transition-all duration-300"
-          >
-            All filters
-            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          <div className="absolute left-3 top-2.5 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-          </button>
-          
-          <button 
-            onClick={resetFilters} 
-            className="bg-white text-[#172747] px-4 py-2 rounded flex items-center transition-all duration-300"
-          >
-            Reset
-          </button>
+          </div>
         </div>
-
-        {/* --------- */}
-
-
-      <div className="max-w-7xl mx-auto px-20 py-8">
-       
-
-        {/* Loading and Error States */}
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-        ) : error ? (
-          <div className="text-center text-red-500 p-4">
-            Error: {error}. Please try again later.
-          </div>
-        ) : filteredProperties.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No properties found matching your criteria.</p>
-            <button 
-              onClick={resetFilters}
-              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300"
-            >
-              Reset Filters
-            </button>
-          </div>
-        ) : (
-          <div className="space-y-10">
-            {/* Featured Properties Section */}
-            <div className="mb-8">
-              <h2 className="text-2xl text-[#172747] font-bold mb-6">Featured Properties</h2>
-              <h3
-                style={{
-                  fontFamily: "'Ivy Mode'",
-                  fontWeight: 300,
-                  fontSize: '56px',
-                  lineHeight: '140%',
-                  letterSpacing: '0'
-                }}
-                className="text-[#172747] mb-6"
-              >
-              Explore top-performing properties with high ROI and verified builder credibility.
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {featuredProperties.map((property) => (
-                  <PropertyCard1 key={property.id} property={property} />
-                ))}
-              </div>
-            </div>
-            
-
-            {/* Remaining Properties Slider */}
-           
-          </div>
-        )}
       </div>
+
+      {/* Location Dropdown */}
+      <div className="flex-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+        <select
+          name="location"
+          value={filters.location || ''}
+          onChange={handleFilterChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">All Locations</option>
+          {Array.from(new Set(properties.map(p => p.location))).map(location => (
+            <option key={location} value={location}>{location}</option>
+          ))}
+        </select>
+      </div>
+      
+      {/* Min Price Input */}
+      <div className="flex-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Min Price</label>
+        <input
+          type="number"
+          name="minPrice"
+          value={filters.minPrice || ''}
+          onChange={handleFilterChange}
+          placeholder="Min Price"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      
+      {/* Max Price Input */}
+      <div className="flex-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Max Price</label>
+        <input
+          type="number"
+          name="maxPrice"
+          value={filters.maxPrice || ''}
+          onChange={handleFilterChange}
+          placeholder="Max Price"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Reset Button */}
+      <div className="flex-none">
+        <button
+          onClick={resetFilters}
+          className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-300"
+        >
+          Reset Filters
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {/* Loading and Error States */}
+  {loading ? (
+    <div className="flex justify-center items-center h-64">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+  ) : error ? (
+    <div className="text-center text-red-500 p-4">
+      Error: {error}. Please try again later.
+    </div>
+  ) : filteredProperties.length === 0 ? (
+    <div className="text-center py-12">
+      <p className="text-gray-500">No properties found matching your criteria.</p>
+      <button 
+        onClick={resetFilters}
+        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300"
+      >
+        Reset Filters
+      </button>
+    </div>
+  ) : (
+    <div className="space-y-10">
+      {/* Featured Properties Section */}
+      <div className="mb-8">
+        <h2 className="text-2xl text-[#172747] font-bold mb-6">Featured Properties</h2>
+        <h3
+          style={{
+            fontFamily: "'Ivy Mode'",
+            fontWeight: 300,
+            fontSize: '56px',
+            lineHeight: '140%',
+            letterSpacing: '0'
+          }}
+          className="text-[#172747] mb-6"
+        >
+          Explore top-performing properties with high ROI and verified builder credibility.
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredProperties.map((property) => (
+            <PropertyCard1 key={property.id} property={property} />
+          ))}
+        </div>
+      </div>
+      
+      {/* Remaining Properties Slider */}
+      {/* Your slider component here */}
+    </div>
+  )}
+</div>
 
 
 
@@ -813,21 +860,25 @@ onMouseLeave={(e) => {
       </div>
 
       {/* Localities Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-2 mb-8 justify-center">
-        {localities.map((locality, index) => (
-          <div key={index} className="relative overflow-hidden group h-64">
-            <img
-              src={locality.image}
-              alt={`${locality.name} properties`}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4 text-white">
-              <h3 className="text-xl font-medium">{locality.name}</h3>
-              <p className="text-sm">{locality.properties} Properties</p>
-            </div>
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-8">
+    <h2 className="text-2xl text-[#172747] font-bold mb-6">Popular Locations</h2>
+    
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+      {locationCounts.map((locationData: { location: string; count: number; image: string }, index: number) => (
+        <div key={index} className="relative overflow-hidden group h-64 rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
+          <img
+        src={locationData.image}
+        alt={`${locationData.location} properties`}
+        className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4 text-white">
+        <h3 className="text-xl font-medium">{locationData.location}</h3>
+        <p className="text-sm">{locationData.count} {locationData.count === 1 ? 'Property' : 'Properties'}</p>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
+    </div>
+  </div>
 
       {/* View All Button */}
       <div className="flex justify-center">
@@ -850,56 +901,62 @@ onMouseLeave={(e) => {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {propertyData.slice(currentSlide * 2, currentSlide * 2 + 2).map((property) => (
-          <div key={property.id} className="flex flex-col">
-            <div className="relative h-64 w-full mb-4">
-              <Image
-                src={property.imageUrl}
-                alt={property.title}
-                fill
-                className="object-cover"
-              />
+      {/* Latest Properties Slider */}
+      <div>
+        <h3 className="text-xl font-light mb-6">Latest Launches</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {remainingProperties.slice(currentSlide * 2, currentSlide * 2 + 2).map((property) => (
+            <div key={property.id} className="flex flex-col">
+              <div className="relative h-64 w-full mb-4">
+                <Image
+                  src={main2}
+                  alt={property.propertyName}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="text-xl font-light">{property.propertyName}</h3>
+              <p className="text-sm text-gray-600">{property.location}</p>
+              <div className="flex justify-between items-center mt-2">
+                <div></div>
+                <p className="text-sm">From {property.tentativeBudget}</p>
+              </div>
             </div>
-            <h3 className="text-xl font-light">{property.title}</h3>
-            <p className="text-sm text-gray-600">{property.location}</p>
-            <div className="flex justify-between items-center mt-2">
-              <div></div>
-              <p className="text-sm">From {property.price}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-10 flex items-center">
-        <div className="flex-1">
-          <div className="relative">
-            <div className="absolute top-1/2 -translate-y-1/2 w-full h-px bg-gray-300"></div>
-            <div className="relative flex items-center">
-              <span className="bg-white pr-2 text-lg font-light">
-                {String(currentSlide + 1).padStart(2, '0')}
-              </span>
-              <span className="bg-white px-2 text-lg font-light text-gray-400">
-                / {String(totalSlides).padStart(2, '0')}
-              </span>
-            </div>
-          </div>
+          ))}
         </div>
-        <div className="flex gap-4">
-          <button 
-            onClick={prevSlide} 
-            className="p-2 border border-gray-300 hover:bg-gray-100"
-            aria-label="Previous slide"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <button 
-            onClick={nextSlide} 
-            className="p-2 border border-gray-300 hover:bg-gray-100"
-            aria-label="Next slide"
-          >
-            <ArrowRight size={20} />
-          </button>
+
+        <div className="mt-10 flex items-center">
+          <div className="flex-1">
+            <div className="relative">
+              <div className="absolute top-1/2 -translate-y-1/2 w-full h-px bg-gray-300"></div>
+              <div className="relative flex items-center">
+                <span className="bg-white pr-2 text-lg font-light">
+                  {String(currentSlide + 1).padStart(2, '0')}
+                </span>
+                <span className="bg-white px-2 text-lg font-light text-gray-400">
+                  / {String(Math.max(1, totalSlides)).padStart(2, '0')}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <button 
+              onClick={prevSlide} 
+              className="p-2 border border-gray-300 hover:bg-gray-100"
+              aria-label="Previous slide"
+              disabled={remainingProperties.length <= 2}
+            >
+              <ArrowLeft size={20} />
+            </button>
+            <button 
+              onClick={nextSlide} 
+              className="p-2 border border-gray-300 hover:bg-gray-100"
+              aria-label="Next slide"
+              disabled={remainingProperties.length <= 2}
+            >
+              <ArrowRight size={20} />
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -1167,4 +1224,7 @@ onMouseLeave={(e) => {
 
     </div>
   );
+}
+function useMemo<T>(factory: () => T, dependencies: any[]): T {
+  return reactUseMemo(factory, dependencies);
 }
