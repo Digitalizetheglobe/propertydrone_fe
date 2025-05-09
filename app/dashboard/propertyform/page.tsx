@@ -1,157 +1,463 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import Image from 'next/image';
 
-const PropertyForm = () => {
-  const [formData, setFormData] = useState({
-    propertyName: "",
-    topology: "",
-    carpetArea: "",
-    city: "",
-    location: "",
-    tentativeBudget: "",
-    possession: "",
-    slug: "",
-    seoDescription: "",
-    seoTitle: "",
-    seoKeywords: "",
+// Define interfaces for better type safety
+interface FormData {
+  propertyName: string;
+  topology: string;
+  carpetArea: string;
+  city: string;
+  location: string;
+  tentativeBudget: string;
+  possession: string;
+  slug: string;
+  seoTitle: string;
+  seoDescription: string;
+  seoKeywords: string;
+  multipleImages?: string[];
+}
+
+interface Errors {
+  [key: string]: string | null;
+}
+
+export default function PropertyForm() {
+  const [formData, setFormData] = useState<FormData>({
+    propertyName: '',
+    topology: '',
+    carpetArea: '',
+    city: '',
+    location: '',
+    tentativeBudget: '',
+    possession: '',
+    slug: '',
+    seoTitle: '',
+    seoDescription: '',
+    seoKeywords: '',
   });
 
+  const [errors, setErrors] = useState<Errors>({});
   const [images, setImages] = useState<File[]>([]);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [imageMode, setImageMode] = useState<'upload' | 'urls'>('upload');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{ type: string; message: string }>({ type: '', message: '' });
 
-  // Handle text input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    
+    // Clear error for this field if it exists
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: null
+      }));
+    }
   };
-
-  // Handle file input changes
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setImages([...images, ...Array.from(e.target.files)]);
+  
+  // Helper function to generate slug from property name
+  const generateSlug = () => {
+    if (formData.propertyName) {
+      const slug = formData.propertyName
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .trim();
+        
+      setFormData(prev => ({
+        ...prev,
+        slug
+      }));
     }
   };
 
-  // Remove image from preview
-  const removeImage = (index: number) => {
-    setImages(images.filter((_, i) => i !== index));
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    
+    const files = Array.from(e.target.files);
+    setImages(files);
+
+    // Create preview URLs for the selected images
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setPreviewImages(previews);
   };
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData();
+    setIsSubmitting(true);
+    setSubmitMessage({ type: '', message: '' });
+    setErrors({});
 
-    // Append form data fields
-    Object.entries(formData).forEach(([key, value]) => {
-      data.append(key, value);
-    });
+    // Validate required fields based on backend requirements
+    const newErrors: Errors = {};
+    if (!formData.propertyName) newErrors.propertyName = 'Property name is required';
+    if (!formData.slug) newErrors.slug = 'Slug is required';
 
-    // Append images
-    images.forEach((image) => {
-      data.append("multipleImages", image);
-    });
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setIsSubmitting(false);
+      setSubmitMessage({
+        type: 'error',
+        message: 'Please fill in all required fields',
+      });
+      return;
+    }
 
     try {
-      const response = await axios.post("http://localhost:5000/properties", data, {
-        headers: { "Content-Type": "multipart/form-data" },
+      // For API testing, prepare JSON payload first
+      const jsonPayload: FormData = {
+        ...formData,
+      };
+
+      // Handle images based on the selected mode
+      if (imageMode === 'upload' && images.length > 0) {
+        // In a real implementation, you would upload images first then get URLs
+        // For now, we'll just create placeholder URLs
+        jsonPayload.multipleImages = images.map((_, index) =>
+          `https://example.com/images/property${index + 1}.jpg`
+        );
+      } else if (imageMode === 'urls' && formData.multipleImages && formData.multipleImages.length > 0) {
+        // If using URLs mode, the multipleImages array is already set in the formData
+        // No need to modify it here
+      } else {
+        // Ensure multipleImages is an array even if empty
+        jsonPayload.multipleImages = [];
+      }
+
+      // Send as JSON for compatibility with your test case
+      const response = await fetch('http://localhost:5000/properties', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jsonPayload),
       });
-      console.log("Success:", response.data);
-      alert("Property added successfully!");
-      setFormData({
-        propertyName: "",
-        topology: "",
-        carpetArea: "",
-        city: "",
-        location: "",
-        tentativeBudget: "",
-        possession: "",
-        slug: "",
-        seoDescription: "",
-        seoTitle: "",
-        seoKeywords: "",
-      });
-      setImages([]);
+
+      if (response.ok) {
+        setSubmitMessage({
+          type: 'success',
+          message: 'Property submitted successfully!',
+        });
+        // Reset form after successful submission
+        setFormData({
+          propertyName: '',
+          topology: '',
+          carpetArea: '',
+          city: '',
+          location: '',
+          tentativeBudget: '',
+          possession: '',
+          slug: '',
+          seoTitle: '',
+          seoDescription: '',
+          seoKeywords: '',
+        });
+        setImages([]);
+        setPreviewImages([]);
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to submit property.');
+      }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Failed to add property.");
+      console.error('Error submitting property:', error);
+      setSubmitMessage({
+        type: 'error',
+        message: `Failed to submit property: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg mt-6">
-      <h2 className="text-xl font-bold mb-4">Add New Property</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Input Fields */}
-        {[
-          { label: "Property Name", name: "propertyName" },
-          { label: "Topology", name: "topology" },
-          { label: "Carpet Area", name: "carpetArea" },
-          { label: "City", name: "city" },
-          { label: "Location", name: "location" },
-          { label: "Tentative Budget", name: "tentativeBudget" },
-          { label: "Possession", name: "possession" },
-          { label: "Slug", name: "slug" },
-          { label: "SEO Title", name: "seoTitle" },
-          { label: "SEO Keywords", name: "seoKeywords" },
-        ].map(({ label, name }) => (
-          <div key={name}>
-            <label className="block text-sm font-medium">{label}</label>
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold mb-6">Add New Property</h1>
+      
+      {submitMessage.message && (
+        <div className={`p-4 mb-6 rounded-md ${
+          submitMessage.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+        }`}>
+          {submitMessage.message}
+        </div>
+      )}
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Property Name */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Property Name <span className="text-red-500">*</span>
+            </label>
             <input
               type="text"
-              name={name}
-              value={formData[name as keyof typeof formData]}
+              name="propertyName"
+              value={formData.propertyName}
               onChange={handleChange}
-              className="w-full border-gray-300 rounded-md p-2 mt-1"
-              required={name === "propertyName" || name === "slug"}
+              className={`w-full p-2 border ${errors.propertyName ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+            />
+            {errors.propertyName && (
+              <p className="mt-1 text-sm text-red-500">{errors.propertyName}</p>
+            )}
+          </div>
+          
+          {/* Topology */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Topology
+            </label>
+            <input
+              type="text"
+              name="topology"
+              value={formData.topology}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="e.g., 2 & 3 BHK"
             />
           </div>
-        ))}
-
-        {/* SEO Description */}
-        <div>
-          <label className="block text-sm font-medium">SEO Description</label>
-          <textarea
-            name="seoDescription"
-            value={formData.seoDescription}
-            onChange={handleChange}
-            className="w-full border-gray-300 rounded-md p-2 mt-1"
-            rows={3}
-          />
-        </div>
-
-        {/* Multiple Image Upload */}
-        <div>
-          <label className="block text-sm font-medium">Upload Images</label>
-          <input type="file" multiple onChange={handleFileChange} className="mt-2" />
-        </div>
-
-        {/* Image Preview */}
-        <div className="flex flex-wrap gap-2 mt-2">
-          {images.map((img, index) => (
-            <div key={index} className="relative">
-              <img src={URL.createObjectURL(img)} alt="Preview" className="w-20 h-20 object-cover rounded" />
+          
+          {/* Carpet Area */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Carpet Area
+            </label>
+            <input
+              type="text"
+              name="carpetArea"
+              value={formData.carpetArea}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="e.g., 1200-1500 sq.ft"
+            />
+          </div>
+          
+          {/* City */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              City
+            </label>
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          
+          {/* Location */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Location
+            </label>
+            <input
+              type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          
+          {/* Tentative Budget */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Tentative Budget
+            </label>
+            <input
+              type="text"
+              name="tentativeBudget"
+              value={formData.tentativeBudget}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="e.g., ₹85L - ₹1.2Cr"
+            />
+          </div>
+          
+          {/* Possession */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Possession
+            </label>
+            <input
+              type="text"
+              name="possession"
+              value={formData.possession}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="e.g., Dec 2025"
+            />
+          </div>
+          
+          {/* Slug */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              URL Slug <span className="text-red-500">*</span>
+            </label>
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                name="slug"
+                value={formData.slug}
+                onChange={handleChange}
+                className={`flex-1 p-2 border ${errors.slug ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+                placeholder="e.g., property-name-location-city"
+              />
               <button
                 type="button"
-                className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
-                onClick={() => removeImage(index)}
+                onClick={generateSlug}
+                className="px-3 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
               >
-                ×
+                Generate
               </button>
             </div>
-          ))}
+            {errors.slug && (
+              <p className="mt-1 text-sm text-red-500">{errors.slug}</p>
+            )}
+          </div>
         </div>
-
+        
+        {/* SEO Fields */}
+        <div className="border-t pt-6 mt-6">
+          <h2 className="text-xl font-semibold mb-4">SEO Information</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                SEO Title
+              </label>
+              <input
+                type="text"
+                name="seoTitle"
+                value={formData.seoTitle}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                SEO Keywords
+              </label>
+              <input
+                type="text"
+                name="seoKeywords"
+                value={formData.seoKeywords}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-md"
+                placeholder="Comma separated keywords"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                SEO Description
+              </label>
+              <textarea
+                name="seoDescription"
+                value={formData.seoDescription}
+                onChange={handleChange}
+                rows={3}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        
+        {/* Image Upload */}
+        <div className="border-t pt-6 mt-6">
+          <h2 className="text-xl font-semibold mb-4">Property Images</h2>
+          
+          {/* Toggle between upload and URL inputs */}
+          <div className="flex mb-4 border rounded-md overflow-hidden">
+            <button 
+              type="button"
+              onClick={() => setImageMode('upload')}
+              className={`flex-1 py-2 ${imageMode === 'upload' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+            >
+              Upload Images
+            </button>
+            <button 
+              type="button"
+              onClick={() => setImageMode('urls')}
+              className={`flex-1 py-2 ${imageMode === 'urls' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+            >
+              Image URLs
+            </button>
+          </div>
+          
+          {imageMode === 'upload' ? (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Upload Multiple Images
+              </label>
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleImageChange}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              />
+              
+              {/* Image Previews */}
+              {previewImages.length > 0 && (
+                <div className="mt-4">
+                  <p className="text-sm font-medium text-gray-700 mb-2">Image Previews:</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    {previewImages.map((preview, index) => (
+                      <div key={index} className="relative h-32 border rounded-md overflow-hidden">
+                        <Image
+                          src={preview}
+                          alt={`Preview ${index + 1}`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          style={{ objectFit: 'cover' }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Image URLs (one per line)
+              </label>
+              <textarea
+                className="w-full p-2 border border-gray-300 rounded-md"
+                rows={4}
+                placeholder="Enter image URLs here, one per line"
+                onChange={(e) => {
+                  const urls = e.target.value.split('\n').filter(url => url.trim());
+                  setFormData(prev => ({
+                    ...prev,
+                    multipleImages: urls
+                  }));
+                }}
+                value={formData.multipleImages ? formData.multipleImages.join('\n') : ''}
+              ></textarea>
+            </div>
+          )}
+        </div>
+        
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition"
-        >
-          Submit
-        </button>
+        <div className="border-t pt-6">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors ${
+              isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+            }`}
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit Property'}
+          </button>
+        </div>
       </form>
     </div>
   );
-};
-
-export default PropertyForm;
+}

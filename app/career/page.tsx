@@ -34,7 +34,14 @@ interface FormattedJob {
 
 const BenefitsSection = () => {
   // For TypeScript in Next.js App Router
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    message: string;
+    resume: File | null;
+  }>({
     firstName: '',
     lastName: '',
     phone: '',
@@ -51,14 +58,28 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (e.target.files && e.target.files[0]) {
-      setFormData(prev => ({ ...prev, resume: e.target.files[0] }));
+      setFormData((prev: typeof formData) => ({ ...prev, resume: e.target.files![0] }));
       setFileName(e.target.files[0].name);
     }
   };
 
-  const handleSubmit = async (e) => {
+  interface FormData {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    message: string;
+    resume: File | null;
+  }
+
+  interface SubmitStatus {
+    success: boolean;
+    message: string;
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setIsSubmitting(true);
     
@@ -85,7 +106,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
         throw new Error('Failed to submit application');
       }
 
-      const result = await response.json();
+      const result: { message: string } = await response.json();
       setSubmitStatus({ 
         success: true, 
         message: 'Your application has been submitted successfully!' 

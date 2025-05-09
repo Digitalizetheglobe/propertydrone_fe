@@ -22,7 +22,7 @@ const MainHeader: React.FC = () => {
                             <a href="/" className="text-gray-700 hover:text-[#172747]">
                                 Home
                             </a>
-                            <a href="about" className="text-gray-700 hover:text-[#172747]">
+                            <a href="aboutus" className="text-gray-700 hover:text-[#172747]">
                                 About
                             </a>
                             <a href="services" className="text-gray-700 hover:text-[#172747]">
@@ -37,21 +37,21 @@ const MainHeader: React.FC = () => {
                             <a href="properties" className="text-gray-700 hover:text-[#172747]">
                                 Properties
                             </a>
-                            <a href="developer" className="text-gray-700 hover:text-[#172747]">
+                            <a href="developers" className="text-gray-700 hover:text-[#172747]">
                                 Developer
                             </a>
                         </div>
                     </div>
 
                     <div className="flex items-center space-x-2">
-                        <button
+                        {/* <button
                             className="px-5 py-5 bg-[#FFFFFF80] border border-[#FFFFFF80] backdrop-blur-[18px] z-50 hover:bg-[#172747] hover:backdrop-blur-[8px] hover:border hover:border-[#FFFFFF80] hover:text-white text-[#172747] rounded-lg"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                         >
                             More <span className="ml-1">≡</span>
-                        </button>
+                        </button> */}
 
-                        <button className="px-6 py-5 bg-[#FFFFFF80] border border-[#FFFFFF80] hover:bg-[#172747] hover:backdrop-blur-[8px] hover:border hover:border-[#FFFFFF80] hover:text-white backdrop-blur-[18px] z-50 text-[#172747] rounded-lg">
+                        {/* <button className="px-6 py-5 bg-[#FFFFFF80] border border-[#FFFFFF80] hover:bg-[#172747] hover:backdrop-blur-[8px] hover:border hover:border-[#FFFFFF80] hover:text-white backdrop-blur-[18px] z-50 text-[#172747] rounded-lg">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-6 w-6"
@@ -66,7 +66,7 @@ const MainHeader: React.FC = () => {
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                                 />
                             </svg>
-                        </button>
+                        </button> */}
                         <Link href="/contactus">
                         <button className="px-4 py-5 bg-[#172747] backdrop-blur-[8px] border border-[#FFFFFF80]  z-50 text-white hover:text-[#172747] rounded-lg hover:bg-[#FFFFFF80]">
                             CONTACT US

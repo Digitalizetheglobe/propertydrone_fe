@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, useMemo } from "react";
-import { MicIcon, SearchIcon, XIcon, FilterIcon } from "lucide-react";
+import { MicIcon, SearchIcon, XIcon, FilterIcon, UploadIcon, TrashIcon } from "lucide-react";
 
 export default function PropertyDetail() {
   const [properties, setProperties] = useState<any[]>([]);
@@ -9,6 +9,10 @@ export default function PropertyDetail() {
   const [loading, setLoading] = useState(true);
   const [editProperty, setEditProperty] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
+  const [propertyImages, setPropertyImages] = useState<string[]>([]);
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [imagesPreviews, setImagesPreviews] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Search states
   const [searchTerm, setSearchTerm] = useState("");
@@ -150,6 +154,14 @@ export default function PropertyDetail() {
 
   const handleEditClick = (property: any) => {
     setEditProperty(property);
+    // If property has images, fetch and set them
+    if (property.images && Array.isArray(property.images)) {
+      setPropertyImages(property.images);
+    } else {
+      setPropertyImages([]);
+    }
+    setNewImages([]);
+    setImagesPreviews([]);
     setShowModal(true);
   };
 
@@ -158,20 +170,73 @@ export default function PropertyDetail() {
     setEditProperty({ ...editProperty, [name]: value });
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFiles = Array.from(e.target.files);
+      setNewImages(prev => [...prev, ...selectedFiles]);
+      
+      // Create preview URLs for the new images
+      const newPreviews = selectedFiles.map(file => URL.createObjectURL(file));
+      setImagesPreviews(prev => [...prev, ...newPreviews]);
+    }
+  };
+
+  const handleRemoveExistingImage = (index: number) => {
+    setPropertyImages(prevImages => prevImages.filter((_, i) => i !== index));
+  };
+
+  const handleRemoveNewImage = (index: number) => {
+    setNewImages(prevImages => prevImages.filter((_, i) => i !== index));
+    
+    // Also remove the preview URL and revoke it to prevent memory leaks
+    const previewToRemove = imagesPreviews[index];
+    setImagesPreviews(prevPreviews => prevPreviews.filter((_, i) => i !== index));
+    URL.revokeObjectURL(previewToRemove);
+  };
+
   const handleUpdateProperty = async () => {
     if (!editProperty || !editProperty.id) return;
+    
     try {
+      // First update the property details
+      const propertyData = {
+        ...editProperty,
+        images: propertyImages // Include existing images that weren't deleted
+      };
+      
       const response = await fetch(`http://localhost:5000/properties/${editProperty.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editProperty),
+        body: JSON.stringify(propertyData),
       });
+      
       if (response.ok) {
-        const updatedProperties = properties.map((p) => 
-          p.id === editProperty.id ? editProperty : p
-        );
+        // If there are new images, upload them
+        if (newImages.length > 0) {
+          const formData = new FormData();
+          newImages.forEach(image => {
+            formData.append('images', image);
+          });
+          
+          const uploadResponse = await fetch(`http://localhost:5000/properties/${editProperty.id}/images`, {
+            method: "POST",
+            body: formData,
+          });
+          
+          if (!uploadResponse.ok) {
+            alert("Property updated but failed to upload some images");
+          }
+        }
+        
+        // Refresh the properties list
+        const updatedPropertiesResponse = await fetch("http://localhost:5000/properties");
+        const updatedProperties = await updatedPropertiesResponse.json();
         setProperties(updatedProperties);
         setFilteredProperties(updatedProperties);
+        
+        // Clean up preview URLs
+        imagesPreviews.forEach(preview => URL.revokeObjectURL(preview));
+        
         setShowModal(false);
       } else {
         alert("Failed to update property");
@@ -185,21 +250,18 @@ export default function PropertyDetail() {
   if (loading) {
     return (
       <>
-       
         <div className="max-w-6xl mx-auto p-6 flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
             <p className="text-lg text-gray-600">Loading property details...</p>
           </div>
         </div>
-       
       </>
     );
   }
 
   return (
     <>
-     
       <div className="max-w-6xl mx-auto p-6">
         <h2 className="text-3xl font-bold mb-6">Property Listings</h2>
         
@@ -345,6 +407,24 @@ export default function PropertyDetail() {
                 <h3 className="text-2xl font-bold">{property.buildingName}</h3>
                 <p className="text-gray-600">{property.location}, {property.city}</p>
 
+                {/* Display property images if available */}
+                {property.images && property.images.length > 0 && (
+                  <div className="mt-4">
+                    <h4 className="text-lg font-semibold mb-2">Property Images</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                      {property.images.map((image: string, imgIndex: number) => (
+                        <div key={imgIndex} className="relative">
+                          <img 
+                            src={image}
+                            alt={`${property.buildingName} - Image ${imgIndex + 1}`}
+                            className="w-full h-32 object-cover rounded"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
                   <p><strong>Unit No:</strong> {property.unitNo || 'N/A'}</p>
                   <p><strong>Floor:</strong> {property.floor || 'N/A'}</p>
@@ -377,59 +457,63 @@ export default function PropertyDetail() {
         )}
       </div>
       
-      {/* Edit Modal */}
+      {/* Edit Modal with Increased Width */}
       {showModal && editProperty && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50 overflow-y-auto">
+          <div className="bg-white p-6 rounded-lg w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto my-8">
             <h3 className="text-xl font-bold mb-4">Edit Property</h3>
             
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Building Name</label>
-                <input
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  type="text"
-                  name="buildingName"
-                  value={editProperty.buildingName || ''}
-                  onChange={handleInputChange}
-                  placeholder="Building Name"
-                />
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Building Name</label>
+                  <input
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    type="text"
+                    name="buildingName"
+                    value={editProperty.buildingName || ''}
+                    onChange={handleInputChange}
+                    placeholder="Building Name"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                  <input
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    type="text"
+                    name="location"
+                    value={editProperty.location || ''}
+                    onChange={handleInputChange}
+                    placeholder="Location"
+                  />
+                </div>
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                <input
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  type="text"
-                  name="location"
-                  value={editProperty.location || ''}
-                  onChange={handleInputChange}
-                  placeholder="Location"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                <input
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  type="text"
-                  name="city"
-                  value={editProperty.city || ''}
-                  onChange={handleInputChange}
-                  placeholder="City"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Property Type</label>
-                <input
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  type="text"
-                  name="propertyType"
-                  value={editProperty.propertyType || ''}
-                  onChange={handleInputChange}
-                  placeholder="Property Type"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                  <input
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    type="text"
+                    name="city"
+                    value={editProperty.city || ''}
+                    onChange={handleInputChange}
+                    placeholder="City"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Property Type</label>
+                  <input
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    type="text"
+                    name="propertyType"
+                    value={editProperty.propertyType || ''}
+                    onChange={handleInputChange}
+                    placeholder="Property Type"
+                  />
+                </div>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
@@ -493,12 +577,96 @@ export default function PropertyDetail() {
                   rows={4}
                 />
               </div>
+              
+              {/* Property Images Section */}
+              <div>
+                <label className="block text-lg font-medium text-gray-700 mb-3">Property Images</label>
+                
+                {/* Existing Images */}
+                {propertyImages.length > 0 && (
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">Current Images</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                      {propertyImages.map((image, index) => (
+                        <div key={index} className="relative group">
+                          <img 
+                            src={image} 
+                            alt={`Property image ${index + 1}`}
+                            className="w-full h-32 object-cover rounded border border-gray-200"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveExistingImage(index)}
+                            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            aria-label="Delete image"
+                          >
+                            <TrashIcon className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* New Images Previews */}
+                {imagesPreviews.length > 0 && (
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">New Images</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                      {imagesPreviews.map((preview, index) => (
+                        <div key={index} className="relative group">
+                          <img 
+                            src={preview} 
+                            alt={`New image ${index + 1}`}
+                            className="w-full h-32 object-cover rounded border border-gray-200"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveNewImage(index)}
+                            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            aria-label="Delete image"
+                          >
+                            <TrashIcon className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Upload New Images */}
+                <div className="mt-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center px-4 py-2 bg-blue-50 border border-blue-300 text-blue-700 rounded hover:bg-blue-100 transition-colors"
+                  >
+                    <UploadIcon className="w-5 h-5 mr-2" />
+                    Upload Images
+                  </button>
+                  <p className="text-xs text-gray-500 mt-1">
+                    You can select multiple images. Supported formats: JPG, PNG, WEBP
+                  </p>
+                </div>
+              </div>
             </div>
             
             <div className="flex justify-end space-x-2 mt-6">
               <button 
                 className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
-                onClick={() => setShowModal(false)}
+                onClick={() => {
+                  // Clean up preview URLs before closing
+                  imagesPreviews.forEach(preview => URL.revokeObjectURL(preview));
+                  setShowModal(false);
+                }}
               >
                 Cancel
               </button>
@@ -512,8 +680,6 @@ export default function PropertyDetail() {
           </div>
         </div>
       )}
-      
-    
     </>
   );
 }

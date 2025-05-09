@@ -20,10 +20,13 @@ import d15 from "@/public/images/Frame 109.png";
 import d16 from "@/public/images/Frame 110.png";
 import d17 from "@/public/images/Frame 111.png";
 import d18 from "@/public/images/Frame 112.png";
+import b1 from "@/public/images/Frame 1618872604.png";
+import b2 from "@/public/images/Frame 1618872604 (1).png";
+import b3 from "@/public/images/Frame 1618872604 (3).png";
 // import d10 from "@/public/images/Frame 113.png";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import bg1 from '../public/images/7578550-uhd_3840_2160_30fps 1.png';
+import bg1 from '@/public/images/7578550-uhd_3840_2160_30fps 1.png'; // Adjust the path as necessary
 // import main2 from '../public/images/mainvideo.mp4';
 import main2 from '../public/images/main2.png';
 import main3 from '../public/images/Frame 145.png';
@@ -60,21 +63,21 @@ const blogPosts = [
     id: 1,
     title: 'Top 5 Areas to Invest in Pune',
     date: '16th April, 2025',
-    image: '/images/building-blue.jpg',
+    image: b1,
     slug: 'top-5-areas-to-invest-in-pune'
   },
   {
     id: 2,
     title: 'What to Know Before Buying a New Flat',
     date: '16th April, 2025',
-    image: '/images/building-blue.jpg',
+    image: b2,
     slug: 'what-to-know-before-buying-a-new-flat'
   },
   {
     id: 3,
     title: 'What to Know Before Buying a New Flat',
     date: '16th April, 2025',
-    image: '/images/building-blue.jpg',
+    image: b3,
     slug: 'what-to-know-before-buying-a-new-flat-2'
   }
 ];
@@ -520,19 +523,19 @@ const resetFilters = () => {
   const PropertyCard1 = ({ property }: { property: Property }) => {
     return (
       <div className="bg-white rounded-sm overflow-hidden border border-gray-100">
-        <div className="relative h-48">
-  <div className="video-wrapper w-full h-full">
-    <video
-      className="hero-video w-full h-full object-cover"
-      src={main2.src}
-      autoPlay
-      loop
-      muted
-      playsInline
-    />
-    <div className="video-overlay absolute inset-0 bg-black opacity-20"></div>
-  </div>
-</div>
+        <div className="relative h-48 w-full">
+      {property?.multipleImages?.length > 0 && (
+        <Image
+          // src={property.multipleImages[0]} // Adjust index or use a map if multiple images needed
+          src={main2}
+          alt="Hero"
+          layout="fill"
+          objectFit="cover"
+          className="z-0"
+        />
+      )}
+      <div className="absolute inset-0 bg-black opacity-20 "></div>
+    </div>
 
 
         
@@ -584,15 +587,19 @@ const resetFilters = () => {
 <div className="relative h-screen bg-gray-800">
   {/* Background Image with Overlay */}
   <div className="absolute inset-0 z-0">
-    <Image 
-      src={bg1}
-      alt="Luxury Property" 
-      layout="fill" 
-      objectFit="cover" 
-      priority
-    />
-    <div className="absolute inset-0 bg-black opacity-40"></div>
-  </div>
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="w-full h-full object-cover"
+  >
+    <source src="/mainvideo.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div className="absolute inset-0 bg-black opacity-10"></div>
+</div>
+
 
   {/* Navigation Bar */}
   {/* <header className="relative z-10 items-center justify-center mx-auto max-w-6xl">
@@ -660,7 +667,7 @@ const resetFilters = () => {
         </p>
         <a 
           href="contactus" 
-          className="flex items-center bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50"
+          className="flex items-center bg-white hover:border hover:border-white text-[#172747] px-4 py-2 rounded hover:bg-[#172747] hover:text-white transition duration-300"
         >
           Get Consultation 
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
@@ -713,72 +720,73 @@ onMouseLeave={(e) => {
 </div>
 {/* ------------------------------ */}
    {/* Filter Section */}
-   <div className="max-w-7xl mx-auto px-6 md:px-20 py-8">
+   <div className=" mx-auto px-6 md:px-20 py-8">
   {/* Filter Section */}
-  <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-    <h3 className="text-xl font-semibold text-[#172747] mb-4">Find Your Perfect Property</h3>
+  <div className="bg-[#172747] p-6 rounded-lg shadow-md mb-8">
+    <h3 className="text-xl font-semibold text-white  mb-4">Find Your Perfect Property</h3>
     
     {/* Filter Controls - Flex Layout */}
     <div className="flex flex-col md:flex-row md:items-end gap-4 mb-6">
       {/* Search Input */}
       <div className="flex-1">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
-        <div className="relative">
-          <input
-            type="text"
-            name="search"
-            value={filters.search || ''}
-            onChange={handleFilterChange}
-            placeholder="Search properties..."
-            className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <div className="absolute left-3 top-2.5 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-        </div>
-      </div>
+  <label className="block text-sm font-medium text-white mb-1">Search</label>
+  <div className="relative">
+    <input
+      type="text"
+      name="search"
+      value={filters.search || ''}
+      onChange={handleFilterChange}
+      placeholder="Search properties..."
+      className="w-full px-4 py-2 pl-10 border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
+    />
+    <div className="absolute left-3 top-2.5 text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+    </div>
+  </div>
+</div>
 
-      {/* Location Dropdown */}
-      <div className="flex-1">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-        <select
-          name="location"
-          value={filters.location || ''}
-          onChange={handleFilterChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">All Locations</option>
-          {Array.from(new Set(properties.map(p => p.location))).map(location => (
-            <option key={location} value={location}>{location}</option>
-          ))}
-        </select>
-      </div>
+{/* Location Dropdown */}
+<div className="flex-1">
+  <label className="block text-sm font-medium text-white mb-1">Location</label>
+  <select
+    name="location"
+    value={filters.location || ''}
+    onChange={handleFilterChange}
+    className="w-full px-3 py-2 border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white bg-transparent"
+  >
+    <option value="" className="text-white">All Locations</option>
+    {Array.from(new Set(properties.map(p => p.location))).map(location => (
+      <option key={location} value={location} className="text-black">{location}</option>
+    ))}
+  </select>
+</div>
+
       
       {/* Min Price Input */}
       <div className="flex-1">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Min Price</label>
+        <label className="block text-sm font-medium text-white mb-1">Min Price</label>
         <input
           type="number"
           name="minPrice"
           value={filters.minPrice || ''}
           onChange={handleFilterChange}
           placeholder="Min Price"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 placeholder:text-white border border-ehite rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
       
       {/* Max Price Input */}
       <div className="flex-1">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Max Price</label>
+        <label className="block text-sm font-medium text-white mb-1">Max Price</label>
         <input
           type="number"
           name="maxPrice"
           value={filters.maxPrice || ''}
           onChange={handleFilterChange}
           placeholder="Max Price"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 placeholder:text-white border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
@@ -786,7 +794,7 @@ onMouseLeave={(e) => {
       <div className="flex-none">
         <button
           onClick={resetFilters}
-          className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-300"
+          className="w-full px-4 py-2 bg-[#172747] border border-white text-white rounded hover:bg-white hover:text-[#172747] transition-colors duration-300"
         >
           Reset Filters
         </button>
@@ -797,7 +805,7 @@ onMouseLeave={(e) => {
   {/* Loading and Error States */}
   {loading ? (
     <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="animate-spin rounded-full h-12 w-12 text-white border-t-2 border-b-2 border-blue-500"></div>
     </div>
   ) : error ? (
     <div className="text-center text-red-500 p-4">
@@ -848,8 +856,8 @@ onMouseLeave={(e) => {
 
       {/* -------------------------------------------------------------- */}
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
-      {/* Header */}
+      {/* <div className="max-w-6xl mx-auto px-4 py-12">
+     
       <div className="text-center mb-8">
         <p className="text-sm font-medium uppercase tracking-wider text-gray-600 mb-2">TOP LOCALITIES</p>
         <h2 className="text-3xl md:text-4xl font-serif font-light">
@@ -859,15 +867,15 @@ onMouseLeave={(e) => {
         </h2>
       </div>
 
-      {/* Localities Grid */}
+     
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-8">
     <h2 className="text-2xl text-[#172747] font-bold mb-6">Popular Locations</h2>
     
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
       {locationCounts.map((locationData: { location: string; count: number; image: string }, index: number) => (
         <div key={index} className="relative overflow-hidden group h-64 rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
-          <img
-        src={locationData.image}
+          <Image
+        src= {main}
         alt={`${locationData.location} properties`}
         className="w-full h-full object-cover"
           />
@@ -880,7 +888,7 @@ onMouseLeave={(e) => {
     </div>
   </div>
 
-      {/* View All Button */}
+      
       <div className="flex justify-center">
         <Link href="/properties">
         <button className="bg-[#172747] text-white px-6 py-2 flex items-center gap-2 rounded hover:bg-[#172747] transition">
@@ -889,7 +897,7 @@ onMouseLeave={(e) => {
         </button>
         </Link>
       </div>
-    </div>
+    </div> */}
 
     {/* ------------------------ */}
 
@@ -1066,7 +1074,21 @@ onMouseLeave={(e) => {
     <section className="max-w-6xl mx-auto px-4 py-12">
       <div className="mb-10 flex justify-between items-center">
         <div>
-          <h2 className="text-4xl font-serif">Your trust is our greatest award</h2>
+        <p
+            className="uppercase text-[18px] font-normal text-[#172747] leading-[100%] tracking-normal mb-2"
+            style={{ fontFamily: 'Lato' }}
+          >
+             TESTIMONIAL
+          </p>
+           <h2  style={{
+                  fontFamily: "'Ivy Mode'",
+                  fontWeight: 300,
+                  fontSize: '56px',
+                  lineHeight: '140%',
+                  letterSpacing: '0'
+                }}
+                className="text-[#172747] mb-6"
+              >Your trust is our greatest award</h2>
         </div>
         <div>
           <button  className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center">
@@ -1130,8 +1152,19 @@ onMouseLeave={(e) => {
         {/* Header Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           <div>
-            <div className="uppercase text-sm tracking-wider mb-3">INSIGHTS & UPDATES</div>
-            <h2 className="text-4xl font-serif leading-tight">
+          <p
+            className="uppercase text-[18px] font-normal text-white leading-[100%] tracking-normal mb-2"
+            style={{ fontFamily: 'Lato' }}
+          >INSIGHTS & UPDATES</p>
+            <h2  style={{
+                  fontFamily: "'Ivy Mode'",
+                  fontWeight: 300,
+                  fontSize: '56px',
+                  lineHeight: '140%',
+                  letterSpacing: '0'
+                }}
+                className="text-white mb-6"
+              >
               Make smarter decisions with expert-written blogs.
             </h2>
           </div>
@@ -1184,9 +1217,19 @@ onMouseLeave={(e) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left Column - Heading */}
           <div>
-            <div className="mb-2 text-gray-600">FAQ</div>
-            <h2 className="text-4xl font-serif mb-2">Have questions?</h2>
-            <h2 className="text-4xl font-serif">We've got answers.</h2>
+          <p
+            className="uppercase text-[18px] font-normal text-[#172747] leading-[100%] tracking-normal mb-2"
+            style={{ fontFamily: 'Lato' }}
+          >FAQ</p>
+             <h2  style={{
+                  fontFamily: "'Ivy Mode'",
+                  fontWeight: 300,
+                  fontSize: '56px',
+                  lineHeight: '140%',
+                  letterSpacing: '0'
+                }}
+                className="text-[#172747] mb-6"
+              >Have questions? <br/> We've got answers.</h2>
           </div>
           
           {/* Right Column - Accordion */}

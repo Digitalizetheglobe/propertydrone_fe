@@ -10,14 +10,18 @@ const Mainfooter = () => {
     <footer className="w-full relative">
       {/* Background Image - Full Width */}
       <div className="absolute inset-0 z-0">
-        <Image 
-          src={bg2} // Adjust the path as necessary
-          alt="City skyline background" 
-          fill
-          className="object-cover brightness-50"
-          priority
-        />
-      </div>
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="w-full h-full object-cover"
+  >
+    <source src="/video2.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div className="absolute inset-0 bg-black opacity-10"></div>
+</div>
 
       {/* Main Footer Container */}
       <div className="relative max-w-screen-xl mx-auto py-20">
@@ -92,7 +96,7 @@ const Mainfooter = () => {
             {/* Call to Action */}
             <div className="mt-20 flex justify-between items-center py-4">
               <div className="text-2xl font-light">Your questions are always welcome</div>
-              <Link href="/enquire" className="bg-white text-blue-900 px-6 py-2 rounded flex items-center">
+              <Link href="/contactus" className="bg-white text-[#172747] hover:bg-[#172747] hover:text-white hover:border hover:border-white px-6 py-2 rounded flex items-center">
                 Enquire Now <span className="ml-2">→</span>
               </Link>
             </div>
@@ -118,7 +122,7 @@ const Mainfooter = () => {
           {/* Copyright */}
           <div className=" pb-2 border-t border-gray-700">
             <div className="container mx-auto px-12 flex justify-between items-center text-xs text-gray-400">
-              <div>© 2023 Property Drone Realty. All Rights Reserved. Developed & Designed by Digitalia The Globe.</div>
+              <div>© 2025 Property Drone Realty. All Rights Reserved. Developed & Designed by Digitalies The Globe.</div>
               <div className="flex space-x-8">
                 <Link href="/terms">Terms of Usage</Link>
                 <Link href="/privacy">Privacy Policy</Link>

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import bg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 import { motion } from 'framer-motion';
 import { ArrowRight } from "lucide-react";
-import heroBackground from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
+import Link from 'next/link';
 
 interface Property {
   id: number;
@@ -198,16 +198,20 @@ export default function Properties() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       <section className="relative min-h-screen">
-        <div className="absolute inset-0 z-0">
-          <Image 
-            src={heroBackground}
-            alt="Luxury Property" 
-            fill
-            style={{ objectFit: "cover" }}
-            priority
-          />
-          <div className="absolute inset-0 bg-black opacity-40"></div>
-        </div>
+      <div className="absolute inset-0 z-0">
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="w-full h-full object-cover"
+  >
+    <source src="/video4.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div className="absolute inset-0 bg-black opacity-10"></div>
+</div>
+
         
         {/* Hero Content */}
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
@@ -224,11 +228,11 @@ export default function Properties() {
             
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="bg-blue-900 text-white px-6 py-3 flex items-center justify-center gap-2 hover:bg-blue-800 transition-colors">
+              <button className="bg-[#172747] text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
                 Explore Properties
                 <ArrowRight size={18} />
               </button>
-              <button className="border border-gray-300 bg-white text-gray-800 px-6 py-3 hover:bg-gray-50 transition-colors">
+              <button className="border border-white bg-white text-[#172747] px-6 py-3 hover:bg-[#172747] hover:text-white transition-colors">
                 Book Consultation
               </button>
             </div>
@@ -241,12 +245,12 @@ export default function Properties() {
           <div className="w-1/4">
             <div className="bg-white shadow-md rounded-xl p-6 sticky top-6 max-h-screen overflow-auto border border-gray-100">
               <div className="flex justify-between items-center my-6 pt-10">
-                <h2 className="text-xl font-bold text-gray-800">Filters</h2>
+                <h2 className="text-xl font-bold text-[#172747]">Filters</h2>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={resetFilters}
-                  className="text-blue-600 text-sm font-medium hover:underline"
+                  className="text-[#172747]text-sm font-medium hover:underline"
                 >
                   Clear All
                 </motion.button>
@@ -284,7 +288,7 @@ export default function Properties() {
               
 
               <div className="mb-8">
-                <h3 className="font-semibold text-gray-800 uppercase text-xs tracking-wider mb-4">Location</h3>
+                <h3 className="font-semibold text-[#172747] uppercase text-xs tracking-wider mb-4">Location</h3>
                 <div className="grid grid-cols-2 gap-3">
                   
                   <motion.button
@@ -474,7 +478,7 @@ export default function Properties() {
                             variants={badgeVariants}
                             initial="initial"
                             animate="animate"
-                            className="px-3 py-1 bg-white text-xs font-medium rounded-full shadow-sm text-blue-700"
+                            className="px-3 py-1 bg-white text-xs font-medium rounded-full shadow-sm text-[#172747]"
                           >
                             {property.badge}
                           </motion.span>
@@ -482,7 +486,7 @@ export default function Properties() {
                             variants={badgeVariants}
                             initial="initial"
                             animate="animate"
-                            className="px-3 py-1 bg-blue-500 text-xs font-medium rounded-full shadow-sm text-white"
+                            className="px-3 py-1 bg-[#172747] text-xs font-medium rounded-full shadow-sm text-white"
                           >
                             {property.secondaryBadge}
                           </motion.span>
@@ -510,7 +514,7 @@ export default function Properties() {
                         
                         <div className="justify-between text-sm mb-5">
                           <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-lg">
-                            <svg className="h-4 w-4 mr-1 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                             </svg>
                             {String(property.topology).split(',').map((item: string, index: number) => (
@@ -521,7 +525,7 @@ export default function Properties() {
                           </div>
                           
                           <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-lg">
-                            <svg className="h-4 w-4 mr-1 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
                             </svg>
                             <span className="font-medium text-gray-700">{property.carpetArea} </span>
@@ -538,18 +542,20 @@ export default function Properties() {
                           className="flex justify-between items-center"
                         >
                           {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
-                            <div className="font-bold text-xl text-blue-700">
+                            <div className="font-bold text-xl text-[#172747]">
                               ₹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
                             </div>
                           )}
                           
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition-all duration-200"
-                          >
-                            View Details
-                          </motion.button>
+                          <Link href={`/properties/${property.id}`} passHref>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              className="bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition-all duration-200"
+                            >
+                              View Details
+                            </motion.button>
+                          </Link>
                         </motion.div>
                       </div>
                     </motion.div>
