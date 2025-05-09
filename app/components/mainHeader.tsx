@@ -13,32 +13,33 @@ const MainHeader: React.FC = () => {
       style={{ zIndex: 1000 }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <nav className="flex items-center justify-between px-6 py-4 z-50 bg-opacity-140">
-                    <div className="flex items-center space-x-8 px-4 py-4 border border-[#FFFFFF80] bg-[#FFFFFF80] backdrop-blur-[18px] bg-opacity-40 rounded-lg">
+                    <div className="flex items-center space-x-8 px-4 py-4 border border-[#FFFFFF80] bg-[#FFFFFF80] backdrop-blur-[28px] bg-opacity-40 rounded-lg">
                         <Link href="/">
                             <Image src={logo} alt="Logo" width={200} height={100} />
                         </Link>
 
                         <div className="hidden md:flex space-x-6 px-6">
-                            <a href="/" className="text-gray-700 hover:text-[#172747]">
+                            <a href="/" className="text-black hover:text-[#172747]">
                                 Home
                             </a>
-                            <a href="aboutus" className="text-gray-700 hover:text-[#172747]">
+                            <a href="aboutus" className="text-black hover:text-[#172747]">
                                 About
                             </a>
-                            <a href="services" className="text-gray-700 hover:text-[#172747]">
-                                Services
-                            </a>
-                            <a href="career" className="text-gray-700 hover:text-[#172747]">
-                                Career
-                            </a>
-                            <a href="blog" className="text-gray-700 hover:text-[#172747]">
-                                Blog
-                            </a>
-                            <a href="properties" className="text-gray-700 hover:text-[#172747]">
+                             <a href="properties" className="text-black hover:text-[#172747] ">
                                 Properties
                             </a>
-                            <a href="developers" className="text-gray-700 hover:text-[#172747]">
+                            <a href="developers" className="text-black hover:text-[#172747]">
                                 Developer
+                            </a>
+                            <a href="services" className="text-black hover:text-[#172747]">
+                                Services
+                            </a>
+                           
+                            <a href="blog" className="text-black hover:text-[#172747]">
+                                Blog
+                            </a>
+                            <a href="career" className="text-black hover:text-[#172747]">
+                                Career
                             </a>
                         </div>
                     </div>

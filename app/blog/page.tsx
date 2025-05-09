@@ -1,137 +1,163 @@
-import React from 'react';
+"use client";
+
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from "lucide-react";
 import heroBackground from '../../public/images/7578550-uhd_3840_2160_30fps 1.png'; // Adjust the path as necessary
+
 const BlogPage = () => {
-    const blogPosts = [
-        {
-          id: 1,
-          title: 'Top 5 Areas to Invest in Pune',
-          date: '10th April 2023',
-          image: heroBackground,
-          link: '/blog/invest-pune'
-        },
-        {
-          id: 2,
-          title: 'What to Know Before Buying a New Flat',
-          date: '10th April 2023',
-          image: heroBackground,
-          link: '/blog/buying-new-flat'
-        },
-        {
-          id: 3,
-          title: 'What to Know Before Buying a New Flat',
-          date: '10th April 2023',
-          image: heroBackground,
-          link: '/blog/buying-new-flat-tips'
-        },
-        {
-          id: 4,
-          title: 'Top 5 Areas to Invest in Pune',
-          date: '10th April 2023',
-          image: heroBackground,
-          link: '/blog/pune-investment'
-        },
-        {
-          id: 5,
-          title: 'What to Know Before Buying a New Flat',
-          date: '10th April 2023',
-          image: heroBackground,
-          link: '/blog/flat-buying-guide'
-        },
-        {
-          id: 6,
-          title: 'What to Know Before Buying a New Flat',
-          date: '10th April 2023',
-          image: heroBackground,
-          link: '/blog/flat-purchase-guide'
-        },
-        {
-          id: 7,
-          title: 'Top 5 Areas to Invest in Pune',
-          date: '11th April 2023',
-          image: heroBackground,
-          link: '/blog/pune-property'
-        },
-        {
-          id: 8,
-          title: 'What to Know Before Buying a New Flat',
-          date: '11th April 2023',
-          image: heroBackground,
-          link: '/blog/flat-buying-checklist'
-        },
-        {
-          id: 9,
-          title: 'What to Know Before Buying a New Flat',
-          date: '11th April 2023',
-          image: heroBackground,
-          link: '/blog/new-flat-guide'
-        },
-      ];
+    interface BlogPost {
+        id: string;
+        blogImage: { url: string }[];
+        blogTitle: string;
+        createdAt: string;
+        tags: string[];
+        blogDescription: string;
+        writer?: string;
+        slug: string;
+    }
+    
+    const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [totalArticles, setTotalArticles] = useState(0);
+
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/blogs');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch blog data');
+                }
+                const data = await response.json();
+                setBlogPosts(data);
+                setTotalArticles(data.length);
+                setLoading(false);
+            } catch (err) {
+                console.error('Error fetching blog data:', err);
+                setError(err instanceof Error ? err.message : 'An unknown error occurred');
+                setLoading(false);
+            }
+        };
+
+        fetchBlogs();
+    }, []);
+
+    // Function to format date
+    const formatDate = (dateString: string): string => {
+      const date = new Date(dateString);
+      const day = date.getDate();
+      const month = date.toLocaleString('default', { month: 'long' });
+      const year = date.getFullYear();
+      
+      // Function to add ordinal suffix to day
+      const getOrdinalSuffix = (day: number): string => {
+        if (day > 3 && day < 21) return 'th';
+        switch (day % 10) {
+          case 1: return 'st';
+          case 2: return 'nd';
+          case 3: return 'rd';
+          default: return 'th';
+        }
+      };
+      
+      return `${day}${getOrdinalSuffix(day)} ${month} ${year}`;
+    };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <p className="text-xl">Loading blogs...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <p className="text-xl text-red-600">Error loading blogs: {error}</p>
+            </div>
+        );
+    }
 
     return (
         <>
             <section className="relative min-h-screen">
-        <div className="absolute inset-0 z-0">
-                      <Image 
-            src={heroBackground}
-            alt="Luxury Property" 
-            fill
-            style={{ objectFit: "cover" }}
-            priority
-          />
-          <div className="absolute inset-0 bg-black opacity-40"></div>
-        </div>
-        
-        {/* Hero Content */}
-        <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
-          <div className="text-center max-w-3xl mx-auto text-white">
-            <p className="text-sm uppercase font-medium tracking-wider text-gray-300 mb-4">NEWS AND INSIGHTS</p>
-            
-            <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
-             Blogs
-            </h1>
-            
-            <p className="text-gray-200 mb-8 max-w-xl mx-auto">
-            At PropertyDrone Realty,  we’re constantly growing and evolving. Find out more about our latest deals, appointments, team news and more.
-            </p>
-            
-            
-          </div>
-        </div>
-      </section>  
-      <div className="container mx-auto px-4 py-8">
-      <h2 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
-      27 Articles
-            </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {blogPosts.map((post) => (
-          <div key={post.id} className="flex flex-col">
-            <div className="relative h-48 w-full mb-2">
-              <Image 
-                src={post.image}
-                alt={post.title}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-md"
-              />
-            </div>
-            <div className="mt-2 flex flex-col">
-              <span className="text-sm text-gray-500">{post.date}</span>
-              <h3 className="text-lg font-medium mb-2">{post.title}</h3>
-              <Link href={post.link}>
-                <div className="mt-auto">
-                  <button className="bg-blue-800 text-white p-1 px-3 rounded-md flex items-center justify-center">
-                    <span>→</span>
-                  </button>
+                <div className="absolute inset-0 z-0">
+                    <Image 
+                        src={heroBackground}
+                        alt="Luxury Property" 
+                        fill
+                        style={{ objectFit: "cover" }}
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-black opacity-40"></div>
                 </div>
-              </Link>
+                
+                {/* Hero Content */}
+                <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
+                    <div className="text-center max-w-3xl mx-auto text-white">
+                        <p className="text-sm uppercase font-medium tracking-wider text-gray-300 mb-4">NEWS AND INSIGHTS</p>
+                        
+                        <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+                            Blogs
+                        </h1>
+                        
+                        <p className="text-gray-200 mb-8 max-w-xl mx-auto">
+                            At PropertyDrone Realty, we're constantly growing and evolving. Find out more about our latest deals, appointments, team news and more.
+                        </p>
+                    </div>
+                </div>
+            </section>  
+            <div className="container mx-auto px-4 py-8">
+                <h2 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+                    {totalArticles} Articles
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {blogPosts.map((post) => (
+                        <div key={post.id} className="flex flex-col">
+                            <div className="relative h-48 w-full mb-2">
+                                {post.blogImage && post.blogImage.length > 0 && post.blogImage[0].url ? (
+                                    <Image 
+                                        src={post.blogImage[0].url}
+                                        alt={post.blogTitle}
+                                        layout="fill"
+                                        objectFit="cover"
+                                        className="rounded-md"
+                                    />
+                                ) : (
+                                    <Image 
+                                        src={heroBackground}
+                                        alt={post.blogTitle}
+                                        layout="fill"
+                                        objectFit="cover"
+                                        className="rounded-md"
+                                    />
+                                )}
+                            </div>
+                            <div className="mt-2 flex flex-col">
+                                <span className="text-sm text-gray-500">{formatDate(post.createdAt)}</span>
+                                <h3 className="text-lg font-medium mb-2">{post.blogTitle}</h3>
+                                <div className="flex flex-wrap gap-2 mb-2">
+                                    {post.tags && post.tags.map((tag, index) => (
+                                        <span key={index} className="text-xs bg-gray-100 px-2 py-1 rounded">{tag}</span>
+                                    ))}
+                                </div>
+                                <p className="text-sm text-gray-600 mb-2 line-clamp-2">{post.blogDescription}</p>
+                                <div className="text-xs text-gray-500 mb-3">By {post.writer || 'Unknown'}</div>
+                                <Link href={`/blog/${post.id}`}>
+                                    <div className="mt-auto">
+                                        <button className="bg-[#172747]  hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747]  text-white p-1 px-3 rounded-md flex items-center justify-center">
+                                            <span>→</span>
+                                        </button>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
         </>
     );
 };

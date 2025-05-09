@@ -21,7 +21,7 @@ import d16 from "@/public/images/Frame 110.png";
 import d17 from "@/public/images/Frame 111.png";
 import d18 from "@/public/images/Frame 112.png";
 import b1 from "@/public/images/Frame 1618872604.png";
-import b2 from "@/public/images/Frame 1618872604 (1).png";
+import b2 from "@/public/images/buliding.png";
 import b3 from "@/public/images/Frame 1618872604 (3).png";
 // import d10 from "@/public/images/Frame 113.png";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp } from 'lucide-react';
@@ -30,6 +30,7 @@ import bg1 from '@/public/images/7578550-uhd_3840_2160_30fps 1.png'; // Adjust t
 // import main2 from '../public/images/mainvideo.mp4';
 import main2 from '../public/images/main2.png';
 import main3 from '../public/images/Frame 145.png';
+import main4 from '../public/images/buliding.png';
 import { useMemo as reactUseMemo } from 'react';
 // Import a placeholder image
 // import placeholderImg from '../public/images/placeholder.png'; // Make sure this exists
@@ -520,66 +521,100 @@ const resetFilters = () => {
 
   // Property card component to avoid repetition
  
-  const PropertyCard1 = ({ property }: { property: Property }) => {
-    return (
-      <div className="bg-white rounded-sm overflow-hidden border border-gray-100">
-        <div className="relative h-48 w-full">
-      {property?.multipleImages?.length > 0 && (
-        <Image
-          // src={property.multipleImages[0]} // Adjust index or use a map if multiple images needed
-          src={main2}
-          alt="Hero"
-          layout="fill"
-          objectFit="cover"
-          className="z-0"
-        />
-      )}
-      <div className="absolute inset-0 bg-black opacity-20 "></div>
-    </div>
-
-
-        
-        <div className="p-4 border-b border-gray-100">
-          <div className="flex items-center text-xs text-gray-500 mb-2">
-            <div className="flex items-center">
-              {/* <span>By {property.developerName}</span> */}
-              <span>By {'developerName'}</span>
-            </div>
-            <div className="flex items-center ml-auto">
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-              </svg>
-              <span>{property.location}</span>
-            </div>
+ const PropertyCard = ({ property, delay }: { property: Property; delay: number }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+ useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // When the card enters the viewport
+        if (entry.isIntersecting) {
+          // Add a small delay based on the card's index
+          setTimeout(() => {
+            setIsVisible(true);
+            // Once visible, no need to observe anymore
+            if (cardRef.current) observer.unobserve(cardRef.current);
+          }, delay);
+        }
+      },
+      { threshold: 0.05, rootMargin: "20px" } // Trigger earlier with lower threshold
+    );
+    
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+    return () => {
+      if (cardRef.current) observer.unobserve(cardRef.current);
+    };
+  }, [delay]);
+  
+  return (
+    <div 
+      ref={cardRef}
+      className={`bg-white rounded-sm overflow-hidden border border-gray-100 shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
+        isVisible 
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 translate-y-10'
+      }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="relative h-48 w-full overflow-hidden">
+        {property?.multipleImages?.length > 0 && (
+          <Image
+            src={main2}
+            alt="Hero"
+            layout="fill"
+            objectFit="cover"
+            className={`z-0 transition-transform duration-700 ease-in-out ${isHovered ? 'scale-110' : 'scale-100'}`}
+          />
+        )}
+        <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${isHovered ? 'opacity-30' : 'opacity-20'}`}></div>
+      </div>
+      
+      <div className="p-4 border-b border-gray-100">
+        <div className="flex items-center text-xs text-gray-500 mb-2">
+          <div className="flex items-center">
+            <span>By {'developerName'}</span>
           </div>
-          <h3 className="font-medium text-gray-900">{property.propertyName}</h3>
+          <div className="flex items-center ml-auto">
+            <svg className={`w-4 h-4 mr-1 transition-colors duration-300 ${isHovered ? 'text-blue-500' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <span className="transition-colors duration-300">{property.location}</span>
+          </div>
         </div>
-        
-        <div className="px-4 py-3 flex items-center text-sm text-gray-600 border-b border-gray-100">
-          <div className="flex-1">{property.topology || 'bed'}</div>
-          <div className="flex-1">{ 'bath'}</div>
-          <div className="flex-1">{property.carpetArea}</div>
+        <h3 className={`font-medium transition-colors duration-300 ${isHovered ? 'text-blue-800' : 'text-gray-900'}`}>{property.propertyName}</h3>
+      </div>
+      
+      <div className="px-4 py-3 flex items-center text-sm text-gray-600 border-b border-gray-100">
+        <div className="flex-1 transition-colors duration-300 hover:text-blue-700">{property.topology || 'bed'}</div>
+        <div className="flex-1 transition-colors duration-300 hover:text-blue-700">{'bath'}</div>
+        <div className="flex-1 transition-colors duration-300 hover:text-blue-700">{property.carpetArea}</div>
+      </div>
+      
+      <div className="p-4 flex items-center">
+        <div className="flex-1">
+          <span className={`transition-all duration-300 ${isHovered ? 'text-blue-700 font-medium' : 'text-blue-500'}`}>₹ {property.tentativeBudget}</span>
         </div>
-        
-        <div className="p-4 flex items-center">
-          <div className="flex-1">
-            <span className="text-blue-500">₹ {property.tentativeBudget}</span>
-          </div>
-          <div className="flex space-x-2 items-center">
-            <button className="p-2 border border-gray-300 rounded">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-              </svg>
-            </button>
-            <button className="bg-blue-900 text-white px-4 py-1 text-sm rounded-sm">
-              View Details
-            </button>
-          </div>
+        <div className="flex space-x-2 items-center">
+          <button className="p-2 border border-gray-300 rounded transition-all duration-300 hover:bg-gray-100 hover:border-gray-400">
+            <svg className="w-4 h-4 transition-colors duration-300 hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+            </svg>
+          </button>
+          <button className="bg-blue-900 text-white px-4 py-1 text-sm rounded-sm transition-all duration-300 hover:bg-blue-700 transform hover:scale-105">
+            View Details
+          </button>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
+
 
   return (
     <div className="min-h-screen">
@@ -597,7 +632,8 @@ const resetFilters = () => {
     <source src="/mainvideo.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
-  <div className="absolute inset-0 bg-black opacity-10"></div>
+  <div className="absolute inset-0 bg-black opacity-50"></div>
+
 </div>
 
 
@@ -723,7 +759,7 @@ onMouseLeave={(e) => {
    <div className=" mx-auto px-6 md:px-20 py-8">
   {/* Filter Section */}
   <div className="bg-[#172747] p-6 rounded-lg shadow-md mb-8">
-    <h3 className="text-xl font-semibold text-white  mb-4">Find Your Perfect Property</h3>
+    {/* <h3 className="text-xl font-semibold text-white  mb-4">Find Your Perfect Property</h3> */}
     
     {/* Filter Controls - Flex Layout */}
     <div className="flex flex-col md:flex-row md:items-end gap-4 mb-6">
@@ -838,11 +874,15 @@ onMouseLeave={(e) => {
         >
           Explore top-performing properties with high ROI and verified builder credibility.
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredProperties.map((property) => (
-            <PropertyCard1 key={property.id} property={property} />
-          ))}
-        </div>
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {featuredProperties.map((property, index) => (
+          <PropertyCard 
+            key={property.id} 
+            property={property} 
+            delay={index * 200} // Stagger the animations by 200ms per card
+          />
+        ))}
+      </div>
       </div>
       
       {/* Remaining Properties Slider */}
@@ -901,73 +941,89 @@ onMouseLeave={(e) => {
 
     {/* ------------------------ */}
 
-    <section className="max-w-6xl mx-auto px-4 py-12">
-      <div className="mb-8">
-        <h6 className="text-xs uppercase tracking-wider text-center mb-2">UPCOMING & LATEST LAUNCHES</h6>
-        <h2 className="text-3xl md:text-4xl text-center font-light leading-tight max-w-2xl mx-auto">
-          Be the first to discover the hottest launches in the Middle East
-        </h2>
-      </div>
+ <div className="bg-[#EEF1F5]">
+  <section className="max-w-6xl mx-auto px-4 py-12">
+    <div className="mb-8 animate-fade-in">
+      <h6 className="text-xs uppercase tracking-wider text-center mb-2 text-gray-500">
+        UPCOMING & LATEST LAUNCHES
+      </h6>
+      <h2 className="text-3xl md:text-4xl text-center font-light leading-tight max-w-2xl mx-auto">
+        Be the first to discover the hottest launches in the Middle East
+      </h2>
+    </div>
 
-      {/* Latest Properties Slider */}
-      <div>
-        <h3 className="text-xl font-light mb-6">Latest Launches</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {remainingProperties.slice(currentSlide * 2, currentSlide * 2 + 2).map((property) => (
-            <div key={property.id} className="flex flex-col">
-              <div className="relative h-64 w-full mb-4">
+    {/* Latest Properties Slider */}
+    <div>
+      <h3 className="text-xl font-light mb-6 animate-fade-in">Latest Launches</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {remainingProperties
+          .slice(currentSlide * 2, currentSlide * 2 + 2)
+          .map((property) => (
+            <div
+              key={property.id}
+              className="flex flex-col bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out transform hover:-translate-y-1"
+            >
+              <div className="relative h-64 w-full mb-4 overflow-hidden rounded-t-lg group">
                 <Image
-                  src={main2}
+                  src={main4}
                   alt={property.propertyName}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 />
               </div>
-              <h3 className="text-xl font-light">{property.propertyName}</h3>
-              <p className="text-sm text-gray-600">{property.location}</p>
-              <div className="flex justify-between items-center mt-2">
-                <div></div>
-                <p className="text-sm">From {property.tentativeBudget}</p>
+              <div className="px-4 pb-4">
+                <h3 className="text-xl font-light">{property.propertyName}</h3>
+                <p className="text-sm text-gray-600">{property.location}</p>
+                <div className="flex justify-between items-center mt-2">
+                  <div></div>
+                  <p className="text-sm">From {property.tentativeBudget}</p>
+                </div>
               </div>
             </div>
           ))}
+      </div>
+
+      <div className="mt-12 flex items-center justify-between w-full relative animate-fade-in">
+        {/* Slide Indicator */}
+        <div className="text-lg font-medium flex-shrink-0 z-10 pr-2">
+          <span className="font-bold">
+            {String(currentSlide + 1).padStart(2, '0')}
+          </span>
+          <span className="text-gray-400">
+            {' '}
+            / {String(Math.max(1, totalSlides)).padStart(2, '0')}
+          </span>
         </div>
 
-        <div className="mt-10 flex items-center">
-          <div className="flex-1">
-            <div className="relative">
-              <div className="absolute top-1/2 -translate-y-1/2 w-full h-px bg-gray-300"></div>
-              <div className="relative flex items-center">
-                <span className="bg-white pr-2 text-lg font-light">
-                  {String(currentSlide + 1).padStart(2, '0')}
-                </span>
-                <span className="bg-white px-2 text-lg font-light text-gray-400">
-                  / {String(Math.max(1, totalSlides)).padStart(2, '0')}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <button 
-              onClick={prevSlide} 
-              className="p-2 border border-gray-300 hover:bg-gray-100"
-              aria-label="Previous slide"
-              disabled={remainingProperties.length <= 2}
-            >
-              <ArrowLeft size={20} />
-            </button>
-            <button 
-              onClick={nextSlide} 
-              className="p-2 border border-gray-300 hover:bg-gray-100"
-              aria-label="Next slide"
-              disabled={remainingProperties.length <= 2}
-            >
-              <ArrowRight size={20} />
-            </button>
-          </div>
+        {/* Horizontal Divider */}
+        <div className="flex-grow h-px bg-gray-300 mx-4"></div>
+
+        {/* Navigation Buttons */}
+        <div className="flex gap-2 flex-shrink-0 z-10 pl-2">
+          <button
+            onClick={prevSlide}
+            className="p-2 border border-gray-300 rounded-full hover:bg-white transition duration-300 hover:shadow"
+            aria-label="Previous slide"
+            disabled={remainingProperties.length <= 2}
+          >
+            <ArrowLeft size={20} />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="p-2 border border-gray-300 rounded-full hover:bg-white transition duration-300 hover:shadow"
+            aria-label="Next slide"
+            disabled={remainingProperties.length <= 2}
+          >
+            <ArrowRight size={20} />
+          </button>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
+</div>
+
+
+  {/* -------------------- */}
     <section className="bg-[#172747] text-white py-16 px-4 md:px-8">
       <div className="container mx-auto px-20">
         <div className="mb-8">
@@ -1090,11 +1146,11 @@ onMouseLeave={(e) => {
                 className="text-[#172747] mb-6"
               >Your trust is our greatest award</h2>
         </div>
-        <div>
+        {/* <div>
           <button  className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center">
             Write a review <ChevronRight className="ml-2" size={16} />
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1187,7 +1243,7 @@ onMouseLeave={(e) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {blogPosts.map((post) => (
             <div key={post.id} className="border-r border-l border-gray-700 px-4">
-              <Link href={`/blog/${post.slug}`} className="block group">
+              <Link href={`/blog/${post.id}`} className="block group">
                 <div className="relative h-48 mb-4 overflow-hidden">
                   <Image 
                     src={post.image} 
@@ -1199,7 +1255,7 @@ onMouseLeave={(e) => {
                 </div>
                 <div className="text-gray-400 text-sm mb-2">{post.date}</div>
                 <h3 className="text-lg font-medium mb-4 group-hover:text-blue-400">{post.title}</h3>
-                <div className="inline-flex items-center text-blue-400">
+                <div className="inline-flex items-center hover:text-blue-400">
                   <ArrowRight size={16} />
                 </div>
               </Link>

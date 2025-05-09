@@ -89,90 +89,89 @@ export default function PropertyForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitMessage({ type: '', message: '' });
-    setErrors({});
+  e.preventDefault();
+  setIsSubmitting(true);
+  setSubmitMessage({ type: '', message: '' });
+  setErrors({});
 
-    // Validate required fields based on backend requirements
-    const newErrors: Errors = {};
-    if (!formData.propertyName) newErrors.propertyName = 'Property name is required';
-    if (!formData.slug) newErrors.slug = 'Slug is required';
+  // Validate required fields
+  const newErrors: Errors = {};
+  if (!formData.propertyName) newErrors.propertyName = 'Property name is required';
+  if (!formData.slug) newErrors.slug = 'Slug is required';
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      setIsSubmitting(false);
-      setSubmitMessage({
-        type: 'error',
-        message: 'Please fill in all required fields',
-      });
-      return;
-    }
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    setIsSubmitting(false);
+    setSubmitMessage({
+      type: 'error',
+      message: 'Please fill in all required fields',
+    });
+    return;
+  }
 
-    try {
-      // For API testing, prepare JSON payload first
-      const jsonPayload: FormData = {
-        ...formData,
-      };
+  try {
+    // Construct multipart/form-data
+    const formDataToSend = new FormData();
 
-      // Handle images based on the selected mode
-     const formDataToSend = new FormData();
-      // etc.
-
-// Append images
-if (imageMode === 'upload' && images.length > 0) {
-  images.forEach((image: File) => {
-    formDataToSend.append('multipleImages', image);
-  });
-}
-
-
-
-
-      // Send as JSON for compatibility with your test case
-      const response = await fetch('http://localhost:5000/properties', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(jsonPayload),
-      });
-
-      if (response.ok) {
-        setSubmitMessage({
-          type: 'success',
-          message: 'Property submitted successfully!',
-        });
-        // Reset form after successful submission
-        setFormData({
-          propertyName: '',
-          topology: '',
-          carpetArea: '',
-          city: '',
-          location: '',
-          tentativeBudget: '',
-          possession: '',
-          slug: '',
-          seoTitle: '',
-          seoDescription: '',
-          seoKeywords: '',
-        });
-        setImages([]);
-        setPreviewImages([]);
+    // Append all text fields
+    for (const key in formData) {
+      const value = formData[key as keyof FormData];
+      if (Array.isArray(value)) {
+        value.forEach((item) => formDataToSend.append(key, item));
       } else {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to submit property.');
+        formDataToSend.append(key, value || '');
       }
-    } catch (error) {
-      console.error('Error submitting property:', error);
-      setSubmitMessage({
-        type: 'error',
-        message: `Failed to submit property: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      });
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+
+    // Append images if in 'upload' mode
+    if (imageMode === 'upload' && images.length > 0) {
+      images.forEach((image: File) => {
+        formDataToSend.append('propertyImages', image); // multer expects 'propertyImages'
+      });
+    }
+
+    const response = await fetch('http://localhost:5000/properties', {
+      method: 'POST',
+      body: formDataToSend, // No content-type header; browser sets it with correct boundary
+    });
+
+    if (response.ok) {
+      setSubmitMessage({
+        type: 'success',
+        message: 'Property submitted successfully!',
+      });
+
+      // Reset form
+      setFormData({
+        propertyName: '',
+        topology: '',
+        carpetArea: '',
+        city: '',
+        location: '',
+        tentativeBudget: '',
+        possession: '',
+        slug: '',
+        seoTitle: '',
+        seoDescription: '',
+        seoKeywords: '',
+      });
+      setImages([]);
+      setPreviewImages([]);
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to submit property.');
+    }
+  } catch (error) {
+    console.error('Error submitting property:', error);
+    setSubmitMessage({
+      type: 'error',
+      message: `Failed to submit property: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
