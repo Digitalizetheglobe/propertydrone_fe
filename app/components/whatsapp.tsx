@@ -39,6 +39,7 @@ const WhatsAppPopup = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          zIndex: 1000,
         }}
       >
         <Image src={wp} alt="WhatsApp" width={35} height={35} />

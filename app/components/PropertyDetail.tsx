@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Phone, Mail, MapPin, Home, Bath, Bed, Square, Calendar } from 'lucide-react';
 import defaultImg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
-
+import image from '@/public/images/bgimage2.png';
 interface Property {
   id: number;
   propertyName: string;
@@ -73,8 +73,8 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
       <section className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
         {/* Background Image - Using standard img tag for external URLs */}
         <div className="absolute inset-0 h-full w-full">
-          <img
-            src={propertyImages[0] || defaultImg}
+          <Image
+            src={image}
             alt={property.propertyName}
             className="object-cover w-full h-full"
           />
@@ -108,7 +108,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
               <button className="bg-transparent text-white hover:text-red-700 rounded">
                 Properties
               </button>
-            </Link> / <Link href={`/properties/${property.slug}`}>
+            </Link> / <Link href={`/properties/${property.id}`}>
               <button className='text-[#FEEB8F]'>{property.propertyName}</button>
             </Link>
           </p>
