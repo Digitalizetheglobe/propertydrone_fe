@@ -26,7 +26,7 @@ const Mainfooter = () => {
       {/* Main Footer Container */}
       <div className="relative max-w-screen-xl mx-auto py-20">
         {/* Main Footer Content with Dark Blue Background */}
-        <div className="bg-[#172747] text-white" style={{ height: '517px', width: '1240px', maxWidth: '100%' }}>
+        <div className="bg-[#172747] text-white" style={{ height: '517px',  maxWidth: '100%' }}>
           <div className="container mx-auto px-12 pt-8 pb-12">
             <div className="grid grid-cols-4 gap-8">
               {/* Logo and Contact Info */}
@@ -103,7 +103,12 @@ const Mainfooter = () => {
           </div>
 
           {/* Social Icons */}
-          <div className="py-4 justify-center items-center">
+         
+
+          {/* Copyright */}
+         
+        </div>
+         <div className="py-4 justify-center items-center">
             <div className="container mx-auto px-12 flex justify-center items-center pt-8">
               <div className="flex space-x-6">
                 <Link href="#" className="text-white hover:text-gray-300">
@@ -118,10 +123,8 @@ const Mainfooter = () => {
               </div>
             </div>
           </div>
-
-          {/* Copyright */}
-          <div className=" pb-2 border-t border-gray-700">
-            <div className="container mx-auto px-12 flex justify-between items-center text-xs text-gray-400">
+         <div className=" pb-2 border-t border-white">
+            <div className="container mx-auto px-12 flex justify-between items-center text-xs text-white mt-10">
               <div>© 2025 Property Drone Realty. All Rights Reserved. Developed & Designed by Digitalies The Globe.</div>
               <div className="flex space-x-8">
                 <Link href="/terms">Terms of Usage</Link>
@@ -129,7 +132,6 @@ const Mainfooter = () => {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </footer>
   );
