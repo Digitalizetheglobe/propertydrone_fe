@@ -1,5 +1,8 @@
+"use client"
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import developerimg from '../../../public/images/developerbgimg.png'
+import Image from 'next/image';
 
 export default function PropertyDeveloperShowcase() {
   // Sample data for the property
@@ -43,8 +46,8 @@ export default function PropertyDeveloperShowcase() {
 
       {/* Property Image */}
       <div className="mb-6 relative">
-        <img 
-          src="/api/placeholder/1000/600" 
+        <Image 
+          src={developerimg}
           alt="Majestique The Ornate - Aerial View" 
           className="w-full h-auto rounded-md shadow-md"
         />
