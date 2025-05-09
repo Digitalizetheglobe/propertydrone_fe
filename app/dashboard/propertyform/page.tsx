@@ -116,19 +116,18 @@ export default function PropertyForm() {
       };
 
       // Handle images based on the selected mode
-      if (imageMode === 'upload' && images.length > 0) {
-        // In a real implementation, you would upload images first then get URLs
-        // For now, we'll just create placeholder URLs
-        jsonPayload.multipleImages = images.map((_, index) =>
-          `https://example.com/images/property${index + 1}.jpg`
-        );
-      } else if (imageMode === 'urls' && formData.multipleImages && formData.multipleImages.length > 0) {
-        // If using URLs mode, the multipleImages array is already set in the formData
-        // No need to modify it here
-      } else {
-        // Ensure multipleImages is an array even if empty
-        jsonPayload.multipleImages = [];
-      }
+     const formDataToSend = new FormData();
+      // etc.
+
+// Append images
+if (imageMode === 'upload' && images.length > 0) {
+  images.forEach((image: File) => {
+    formDataToSend.append('multipleImages', image);
+  });
+}
+
+
+
 
       // Send as JSON for compatibility with your test case
       const response = await fetch('http://localhost:5000/properties', {

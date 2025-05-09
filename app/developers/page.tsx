@@ -26,8 +26,8 @@ const companyData = [
   },
   {
     id: 2,
-    name: 'Majestique Landmark',
-    slug: 'majestique-landmark',
+    name: 'majestique-developer',
+    slug: 'majestique-developer',
     logo: d2,
     logo1: img1,
   },
@@ -131,7 +131,7 @@ const Developer = () => {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {companyData.map((company) => (
-                <Link href={`/developer/${company.id}`} key={company.id}>
+                <Link href={`/developers/${company.slug}`} key={company.slug}>
                   <div
                     className="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl cursor-pointer h-64"
                     onMouseEnter={() => setHoveredLogo(company.id)}

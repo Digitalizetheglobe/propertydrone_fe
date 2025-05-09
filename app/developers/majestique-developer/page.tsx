@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import developerimg from '../../../public/images/developerbgimg.png'
 import Image from 'next/image';
+import bgimage1 from '../../../public/images/bgimage2.png'
+import { motion } from "framer-motion";
 
 export default function PropertyDeveloperShowcase() {
   // Sample data for the property
@@ -32,6 +34,75 @@ export default function PropertyDeveloperShowcase() {
   ];
 
   return (
+    <>
+     <section className="relative min-h-screen">
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src={bgimage1}
+            alt="Luxury Property" 
+            fill
+            style={{ objectFit: "cover" }}
+            priority
+          />
+          <div className="absolute inset-0 bg-black opacity-40"></div>
+        </div>
+        
+        <div className="relative z-10 flex items-center justify-center min-h-screen px-4 bg-gradient-to-br  text-white">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto items-center">
+        
+        {/* Left: Text */}
+        <motion.div
+          initial={{ x: -80, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <p className="text-sm uppercase font-medium tracking-wider text-gray-300 mb-4">
+            Developer Details
+          </p>
+          <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+            Majestique Developers
+          </h1>
+          <p className="text-gray-200 mb-4">
+            Majestique began as a textile company with retail and production across major cities.
+            In 2007, it transitioned into real estate, delivering successful residential projects in Pune.
+          </p>
+          <p className="text-gray-300 mb-4">
+            <strong>Address:</strong> 9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045<br />
+            <strong>Email:</strong> info@propertydronerealty.com<br />
+            <strong>Mobile:</strong> +91 9175992110<br />
+            <strong>Phone:</strong> +91 9175992110<br />
+            <strong>Location:</strong> Maharashtra, India – Pune City
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 mt-6">
+            <button className="bg-blue-900 text-white px-6 py-3 flex items-center gap-2 hover:bg-blue-800 transition-colors">
+              Contact Us
+              <ArrowRight size={18} />
+            </button>
+            <button className="border border-gray-300 bg-white text-gray-800 px-6 py-3 hover:bg-gray-50 transition-colors">
+              Visit Website
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Right: Image */}
+        <motion.div
+          initial={{ x: 80, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <Image
+            src={bgimage1}
+            alt="Majestique Developers"
+            className="rounded-2xl shadow-lg"
+            width={500}
+            height={500}
+            priority
+          />
+        </motion.div>
+      </div>
+    </div>
+
+      </section>
     <div className="max-w-6xl mx-auto p-4 font-sans">
       {/* Property Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
@@ -82,5 +153,6 @@ export default function PropertyDeveloperShowcase() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { Phone, Mail, MapPin, Home, Bath, Bed, Square, Calendar } from 'lucide-react';
 import defaultImg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 import image from '@/public/images/bgimage2.png';
+import propertydetails from '@/public/images/bgimage1.png';
+import { ArrowRight } from 'lucide-react';
 interface Property {
   id: number;
   propertyName: string;
@@ -69,6 +71,9 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   };
 
   return (
+    <>
+     
+
     <div className="min-h-screen">
       <section className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
         {/* Background Image - Using standard img tag for external URLs */}
@@ -325,5 +330,6 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
         </div>
       </main>
     </div>
+    </>
   );
 }
