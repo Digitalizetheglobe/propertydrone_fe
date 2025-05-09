@@ -111,13 +111,13 @@ const Mainfooter = () => {
          <div className="py-4 justify-center items-center">
             <div className="container mx-auto px-12 flex justify-center items-center pt-8">
               <div className="flex space-x-6">
-                <Link href="#" className="text-white hover:text-gray-300">
+                <Link href="https://www.facebook.com/propertydrone.exp247" className="text-white hover:text-gray-300">
                   <FaFacebookF size={18} />
                 </Link>
-                <Link href="#" className="text-white hover:text-gray-300">
+                <Link href="https://www.youtube.com/@PropertyDrone" className="text-white hover:text-gray-300">
                   <FaYoutube size={18} />
                 </Link>
-                <Link href="#" className="text-white hover:text-gray-300">
+                <Link href="https://www.instagram.com/accounts/login/?next=%2Fpropertydrone_realty%2F&source=omni_redirect" className="text-white hover:text-gray-300">
                   <FaInstagram size={18} />
                 </Link>
               </div>
