@@ -9,11 +9,11 @@ const MainHeader: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 w-full backdrop-blur-[28px]"
+    <header className="fixed top-0 left-0 right-0 w-full  backdrop-blur-[28px]"
       style={{ zIndex: 1000 }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <nav className="flex items-center justify-between px-6 py-4 z-50 bg-opacity-140">
-                    <div className="flex items-center space-x-8 px-4 py-4 border border-[#FFFFFF80] bg-[#FFFFFF80] backdrop-blur-[28px] bg-opacity-40 rounded-lg">
+      <div className="max-w-7xl  mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="flex items-center justify-between  px-6 py-4 z-50 bg-opacity-140">
+                    <div className="flex items-center space-x-8 px-4 py-4 bg-[#FFFFFF80] backdrop-blur-[28px] bg-opacity-40 rounded-[4px]">
                         <Link href="/">
                             <Image src={logo} alt="Logo" width={200} height={100} />
                         </Link>
@@ -69,7 +69,7 @@ const MainHeader: React.FC = () => {
                             </svg>
                         </button> */}
                         <Link href="/contactus">
-                        <button className="px-4 py-5 bg-[#172747] backdrop-blur-[8px] border border-[#FFFFFF80]  z-50 text-white hover:text-[#172747] rounded-lg hover:bg-[#FFFFFF80]">
+                        <button className="px-4 py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white hover:text-[#172747] rounded-[4px] hover:bg-[#FFFFFF80]">
                             CONTACT US
                         </button>
                        </Link>

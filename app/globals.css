@@ -147,6 +147,16 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
+@font-face {
+  font-family: 'Ivy Mode';
+  src: url('/fonts/ivy-mode-regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Ivy Mode', sans-serif;
+}
 
 @layer base {
   * {

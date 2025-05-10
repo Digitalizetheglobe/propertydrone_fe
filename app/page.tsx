@@ -20,9 +20,9 @@ import d15 from "@/public/images/Frame 109.png";
 import d16 from "@/public/images/Frame 110.png";
 import d17 from "@/public/images/Frame 111.png";
 import d18 from "@/public/images/Frame 112.png";
-import b1 from "@/public/images/Frame 1618872604.png";
+import b1 from "@/public/images/service.png";
 import b2 from "@/public/images/buliding.png";
-import b3 from "@/public/images/Frame 1618872604 (3).png";
+import b3 from "@/public/images/service2.png";
 // import d10 from "@/public/images/Frame 113.png";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
@@ -681,40 +681,39 @@ const resetFilters = () => {
 
   {/* Main Hero Content */}
   <main className="relative z-10 container mx-auto px-4 pt-50">
-    <div className="flex flex-col items-start max-w-3xl">
+   <div className="flex flex-col items-center justify-center">
+  <div className="flex flex-row items-center justify-center gap-8">
     <h1
-  style={{
-    fontFamily: "Ivy Mode",
-    fontWeight: 300,
-    fontSize: '86px',
-    lineHeight: '80px',
-    letterSpacing: '0'
-  }}
-  className="text-white mb-10 mt=20"
->
+      style={{
+        fontFamily: "Ivy Mode",
+        fontWeight: 300,
+        fontSize: '86px',
+        lineHeight: '150%',
+        letterSpacing: '2px',
+        marginBottom: '20px',
+      }}
+      className="text-white"
+    >
+      Find the best <br /> properties in Pune
+    </h1>
 
-  Find the best <br></br> properties in Pune
-</h1>
-
-
-      <div className="flex flex-col md:flex-row items-start md:items-center mb-12">
-        <p className="text-white text-xl mb-4 md:mb-0 md:mr-8">
-          with Property Management company in Pune
-        </p>
-        <a 
-          href="contactus" 
-          className="flex items-center bg-white hover:border hover:border-white text-[#172747] px-4 py-2 rounded hover:bg-[#172747] hover:text-white transition duration-300"
-        >
-          Get Consultation 
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-          </svg>
-        </a>
-      </div>
-
-      {/* Property Category Cards */}
-      
+    <div className="flex flex-col md:flex-row justify-baseline items-baseline-last">
+      <p className="text-white text-xl mb-4 md:mb-0 md:mr-8 text-center md:text-left">
+        with Property Management <br/>company in Pune
+      </p>
+      <a 
+        href="contactus" 
+        className="flex items-center bg-white hover:border hover:border-white text-[#172747] px-4 py-2 rounded hover:bg-[#172747] hover:text-white transition duration-300"
+      >
+        Get Consultation 
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+        </svg>
+      </a>
     </div>
+  </div>
+</div>
+
     <div className="w-full overflow-hidden">
 
 <div 
@@ -727,7 +726,7 @@ onMouseLeave={() => setIsPaused(false)}
 {images.map((img, index) => (
 <div 
 key={index} 
-className="flex-shrink-0  h-34 mx-2 first:ml-0 transition-all duration-300 ease-in-out"
+className="flex-shrink-0  h-44 mx-2 first:ml-0 transition-all duration-300 ease-in-out"
 style={{ 
   transform: `scale(1)`,
   transformOrigin: 'center center',
@@ -743,7 +742,7 @@ onMouseLeave={(e) => {
   <Image
     src={img}
     alt={`Card ${index + 1}`}
-    className="w-auto h-28 object-cover transition-all duration-300"
+    className="w-auto h-38 object-cover transition-all duration-300"
   />
 </div>
 
@@ -755,17 +754,15 @@ onMouseLeave={(e) => {
   </main>
 </div>
 {/* ------------------------------ */}
-   {/* Filter Section */}
-   <div className=" mx-auto px-6 md:px-20 py-8">
-  {/* Filter Section */}
-  <div className="bg-[#172747] p-6 rounded-lg shadow-md mb-8">
+{/* Filter Section */}
+ <div className="bg-[#172747] justify-center p-6 shadow-md ">
     {/* <h3 className="text-xl font-semibold text-white  mb-4">Find Your Perfect Property</h3> */}
     
     {/* Filter Controls - Flex Layout */}
-    <div className="flex flex-col md:flex-row md:items-end gap-4 mb-6">
+    <div className="flex flex-col md:flex-row md:items-end gap-4 my-6 mx-20">
       {/* Search Input */}
       <div className="flex-1">
-  <label className="block text-sm font-medium text-white mb-1">Search</label>
+  {/* <label className="block text-sm font-medium text-white mb-1">Search</label> */}
   <div className="relative">
     <input
       type="text"
@@ -773,9 +770,9 @@ onMouseLeave={(e) => {
       value={filters.search || ''}
       onChange={handleFilterChange}
       placeholder="Search properties..."
-      className="w-full px-4 py-2 pl-10 border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
+      className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747] font-weight-400 font-size-[20px]"
     />
-    <div className="absolute left-3 top-2.5 text-white">
+    <div className="absolute left-3 top-2.5 text-[#172747]">
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
@@ -785,12 +782,12 @@ onMouseLeave={(e) => {
 
 {/* Location Dropdown */}
 <div className="flex-1">
-  <label className="block text-sm font-medium text-white mb-1">Location</label>
+  {/* <label className="block text-sm font-medium text-white mb-1">Location</label> */}
   <select
     name="location"
     value={filters.location || ''}
     onChange={handleFilterChange}
-    className="w-full px-3 py-2 border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white bg-transparent"
+    className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
   >
     <option value="" className="text-white">All Locations</option>
     {Array.from(new Set(properties.map(p => p.location))).map(location => (
@@ -802,41 +799,44 @@ onMouseLeave={(e) => {
       
       {/* Min Price Input */}
       <div className="flex-1">
-        <label className="block text-sm font-medium text-white mb-1">Min Price</label>
+        {/* <label className="block text-sm font-medium text-white mb-1">Min Price</label> */}
         <input
           type="number"
           name="minPrice"
           value={filters.minPrice || ''}
           onChange={handleFilterChange}
           placeholder="Min Price"
-          className="w-full px-3 py-2 placeholder:text-white border border-ehite rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+         className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
+   />
       </div>
       
       {/* Max Price Input */}
       <div className="flex-1">
-        <label className="block text-sm font-medium text-white mb-1">Max Price</label>
+        {/* <label className="block text-sm font-medium text-white mb-1">Max Price</label> */}
         <input
           type="number"
           name="maxPrice"
           value={filters.maxPrice || ''}
           onChange={handleFilterChange}
           placeholder="Max Price"
-          className="w-full px-3 py-2 placeholder:text-white border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
+    />
       </div>
 
       {/* Reset Button */}
       <div className="flex-none">
         <button
           onClick={resetFilters}
-          className="w-full px-4 py-2 bg-[#172747] border border-white text-white rounded hover:bg-white hover:text-[#172747] transition-colors duration-300"
+          className="w-full px-4 py-2 bg-[#172747] border border-white text-white rounded-[4px] hover:bg-white hover:text-[#172747] transition-colors duration-300"
         >
           Reset Filters
         </button>
       </div>
     </div>
   </div>
+   <div className=" mx-auto px-6 md:px-20 py-8">
+  
+ 
 
   {/* Loading and Error States */}
   {loading ? (
@@ -861,7 +861,7 @@ onMouseLeave={(e) => {
     <div className="space-y-10">
       {/* Featured Properties Section */}
       <div className="mb-8">
-        <h2 className="text-2xl text-[#172747] font-bold mb-6">Featured Properties</h2>
+        <h2 className="text-2xl text-[#172747] font-bold mb-6">FEATURED PROPERTIES</h2>
         <h3
           style={{
             fontFamily: "'Ivy Mode'",

@@ -6,8 +6,16 @@ import { ArrowRight } from "lucide-react";
 import AOS from 'aos'; // Importing AOS library
 import 'aos/dist/aos.css';
 
-import propertydetails from "@/public/images/7578550-uhd_3840_2160_30fps 1.png"; // Adjust the path as necessary
-
+import propertydetails1 from "@/public/images/bgimage1.png"; // Adjust the path as necessary
+// import propertydetails from "@/public/images/bgimage1.png"; // Adjust the path as necessary
+import service from "@/public/images/service.png"; // Adjust the path as necessary
+import service1 from "@/public/images/buliding.png";
+import service2 from "@/public/images/service2.png"; // Adjust the path as necessary
+import service3 from "@/public/images/service3.png"; // Adjust the path as necessary
+import service4 from "@/public/images/service4.png"; // Adjust the path as necessary
+import service5 from "@/public/images/service5.png"; // Adjust the path as necessary
+import service6 from "@/public/images/service6.png"; // Adjust the path as necessary
+// import service7 from "@/public/images/service.png"; // Adjust the path as necessary
 export default function Home() {
   const [formData, setFormData] = useState({
     name: '',
@@ -62,23 +70,23 @@ export default function Home() {
       <section className="relative min-h-screen">
         <div className="absolute inset-0 z-0">
           <Image 
-            src={propertydetails}
+            src={propertydetails1}
             alt="Luxury Property" 
             fill
             style={{ objectFit: "cover" }}
             priority
           />
-          <div className="absolute inset-0 bg-black opacity-40"></div>
+          {/* <div className="absolute inset-0 bg-black opacity-40"></div> */}
         </div>
         
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
-          <div className="text-center max-w-3xl mx-auto text-white">
-            <p className="text-sm uppercase font-medium tracking-wider text-gray-300 mb-4">OUR SERVICES</p>
+          <div className="text-center max-w-3xl mx-auto text-[#172747]">
+            <p className="text-sm uppercase font-medium tracking-wider text-[#172747] mb-4">OUR SERVICES</p>
             <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
               Making Your Property Journey<br />
               Smarter, Simpler, and Faster
             </h1>
-            <p className="text-gray-200 mb-8 max-w-xl mx-auto">
+            <p className="text-[#172747] mb-8 max-w-xl mx-auto">
               At PropertyDrone Realty, we offer more than listings—we offer complete solutions.
               From stunning drone views to personalized consultations, we&apos;re here to make your 
               real estate experience effortless and rewarding.
@@ -102,7 +110,7 @@ export default function Home() {
           <div className="relative flex flex-col md:flex-row items-center justify-center" data-aos="fade-right">
             <div className="w-[550px] h-[430px] relative z-0">
               <Image
-                src={propertydetails}
+                src={service}
                 alt="Residential property"
                 fill
                 style={{ objectFit: "cover" }}
@@ -143,7 +151,7 @@ export default function Home() {
             </div>
             <div className="w-[550px] h-[430px] relative z-0">
               <Image
-                src={propertydetails}
+                src={service1}
                 alt="Commercial property"
                 fill
                 style={{ objectFit: "cover" }}
@@ -157,7 +165,7 @@ export default function Home() {
           <div className="relative flex flex-col md:flex-row items-center justify-center" data-aos="fade-right">
             <div className="w-[550px] h-[430px] relative z-0">
               <Image
-                src={propertydetails}
+                src={service2}
                 alt="Residential property"
                 fill
                 style={{ objectFit: "cover" }}
@@ -198,7 +206,7 @@ export default function Home() {
             </div>
             <div className="w-[550px] h-[430px] relative z-0">
               <Image
-                src={propertydetails}
+                src={service3}
                 alt="Commercial property"
                 fill
                 style={{ objectFit: "cover" }}
@@ -212,7 +220,7 @@ export default function Home() {
           <div className="relative flex flex-col md:flex-row items-center justify-center" data-aos="fade-right">
             <div className="w-[550px] h-[430px] relative z-0">
               <Image
-                src={propertydetails}
+                src={service4}
                 alt="Residential property"
                 fill
                 style={{ objectFit: "cover" }}
@@ -253,7 +261,7 @@ export default function Home() {
             </div>
             <div className="w-[550px] h-[430px] relative z-0">
               <Image
-                src={propertydetails}
+                src={service5}
                 alt="Commercial property"
                 fill
                 style={{ objectFit: "cover" }}
@@ -270,7 +278,7 @@ export default function Home() {
             <div className="w-[605px] h-[550px]">
               <div className="relative w-full h-full">
                 <Image 
-                  src={propertydetails} 
+                  src={service6} 
                   alt="Customer support representative" 
                   fill
                   style={{ objectFit: "cover" }}
