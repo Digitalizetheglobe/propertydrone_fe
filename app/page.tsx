@@ -1040,7 +1040,7 @@ onMouseLeave={(e) => {
   {/* -------------------- */}
     <section className="bg-[#172747] text-white py-16 px-4 md:px-8 ">
       <div className="container ">
-        <div className="mb-8 mx-auto px-20">
+        <div className="mb-8 mx-auto max-w-6xl">
         
 
                <AnimatedLetters
@@ -1057,7 +1057,7 @@ onMouseLeave={(e) => {
 />
         </div>
          <div className="flex-grow h-px bg-gray-400 "></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto px-20 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto max-w-6xl">
           {features.map((feature) => (
             <div key={feature.id} className="border-l border-r px-4 border-gray-400 pt-6">
               <p className="text-gray-400 text-lg mb-4">{feature.id}</p>
@@ -1234,7 +1234,7 @@ onMouseLeave={(e) => {
     <section className="bg-[#172747] text-white py-16 px-4 md:px-8">
       <div className="container ">
         {/* Header Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 mx-auto px-20 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 mx-auto max-w-6xl ">
           <div>
           <p
             className="uppercase text-[18px] font-normal text-white leading-[100%] tracking-normal mb-2"
@@ -1269,7 +1269,7 @@ onMouseLeave={(e) => {
 
         {/* Blog Posts Grid */}
             <div className="flex-grow h-px bg-gray-400"></div>
-        <div className="grid grid-cols-1 md:grid-cols-3  mx-auto px-20 ">
+        <div className="grid grid-cols-1 md:grid-cols-3  mx-auto max-w-6xl ">
           
           {blogPosts.map((post) => (
             <div key={post.id} className="border-r border-l border-gray-400 p-4">
