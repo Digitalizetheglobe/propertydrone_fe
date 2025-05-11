@@ -207,7 +207,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
         {/* Hero Content */}
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
           <div className="text-center max-w-3xl mx-auto text-white">
-            <p className="text-sm uppercase font-medium tracking-wider text-gray-300 mb-4">OUR SERVICES</p>
+            <p className="text-sm uppercase font-medium tracking-wider text-gray-300 mb-4">CAREERS</p>
             
             <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
               Join Our Mission to Elevate <br/> Real Estate Innovation

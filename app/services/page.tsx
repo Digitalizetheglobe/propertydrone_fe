@@ -105,171 +105,184 @@ export default function Home() {
       </section>
 
       {/* Residential Property Section */}
-      <section className="py-8 justify-center bg-white">
-        <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <div className="relative flex flex-col md:flex-row items-center justify-center" data-aos="fade-right">
-            <div className="w-[550px] h-[430px] relative z-0">
-              <Image
-                src={service}
-                alt="Residential property"
-                fill
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className="md:-ml-20 z-10 bg-[#172747] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg">
-              <h2 className="text-3xl md:text-4xl font-serif mb-6">
-                Residential Property Consulting
-              </h2>
-              <p className="text-base">
-                We recognize how difficult it can be to discover the ideal home. Because of 
+      <section className="py-8 bg-white">
+  <div className="container mx-auto px-4 md:px-8 lg:px-12">
+      <div className="py-8 relative flex flex-col md:flex-row items-center justify-center mobile-adjusted" data-aos="fade-right">
+  <div className="w-[550px] h-[430px] relative z-0 mobile-img-box">
+    <Image
+      src={service}
+      alt="Residential property"
+      fill
+      style={{ objectFit: "cover" }}
+    />
+  </div>
+  <div className="md:-ml-20 z-10 bg-[#172747] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box">
+    <h2 className="text-3xl md:text-4xl font-serif mb-6">
+      Residential Property Consulting
+    </h2>
+    <p className="text-base">
+      We recognize how difficult it can be to discover the ideal home. Because of 
                 this, our team of experts is committed to offering knowledgeable suggestions 
                 and direction on purchasing, renting, and investing in residential properties 
                 available in Pune. We offer complete end-to-end services to ensure that our 
                 customers discover their ideal home that fits their needs and budget, including 
                 property assessments, inspections, market analysis, and negotiating help.
-              </p>
-            </div>
-          </div>
-        </div>
+    </p>
+  </div>
+</div>
+</div>
       </section>
 
       {/* Commercial Property Section */}
       <section className="py-8 bg-white">
-        <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <div className="relative flex flex-col md:flex-row items-center justify-center" data-aos="fade-left">
-            <div className="md:-mr-20 z-10 bg-[#2a4073] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg">
-              <h2 className="text-3xl md:text-4xl font-serif mb-6">
-                Commercial Property Solutions
-              </h2>
-              <p className="text-base">
-                Finding the right commercial space is critical for business success. Our commercial 
+  <div className="container mx-auto px-4 md:px-8 lg:px-12">
+      <div className=" py-8 relative flex flex-col md:flex-row items-center justify-center mobile-column-reverse" data-aos="fade-left">
+  <div className="md:-mr-20 z-10 bg-[#2a4073] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box-2">
+    <h2 className="text-3xl md:text-4xl font-serif mb-6">
+      Commercial Property Solutions
+    </h2>
+    <p className="text-base">
+       Finding the right commercial space is critical for business success. Our commercial 
                 property experts provide tailored guidance for office spaces, retail locations, 
                 warehouses, and investment properties. We analyze market trends, location advantages, 
                 and growth potential to ensure your business investment meets both current needs and 
                 future expansion goals.
-              </p>
-            </div>
-            <div className="w-[550px] h-[430px] relative z-0">
-              <Image
-                src={service1}
-                alt="Commercial property"
-                fill
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-          </div>
-        </div>
+    </p>
+  </div>
+  <div className="w-[550px] h-[430px] relative z-0 mobile-img-box-2">
+    <Image
+      src={service1}
+      alt="Commercial property"
+      fill
+      style={{ objectFit: "cover" }}
+    />
+  </div>
+</div>
+</div>
       </section>
-      <section className="py-8 justify-center bg-white">
-        <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <div className="relative flex flex-col md:flex-row items-center justify-center" data-aos="fade-right">
-            <div className="w-[550px] h-[430px] relative z-0">
-              <Image
-                src={service2}
-                alt="Residential property"
-                fill
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className="md:-ml-20 z-10 bg-[#172747] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg">
-              <h2 className="text-3xl md:text-4xl font-serif mb-6">
-                Residential Property Consulting
-              </h2>
-              <p className="text-base">
-                We recognize how difficult it can be to discover the ideal home. Because of 
+
+      {/* Residential Property Section */}
+<section className="py-8 bg-white">
+  <div className="container mx-auto px-4 md:px-8 lg:px-12">
+      <div className="relative flex flex-col md:flex-row items-center justify-center mobile-stack-normal" data-aos="fade-right">
+  <div className="w-[550px] h-[430px] relative z-0 mobile-img-box-3">
+    <Image
+      src={service2}
+      alt="Residential property"
+      fill
+      style={{ objectFit: "cover" }}
+    />
+  </div>
+  <div className="md:-ml-20 z-10 bg-[#172747] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box-3">
+    <h2 className="text-3xl md:text-4xl font-serif mb-6">
+      Residential Property Consulting
+    </h2>
+    <p className="text-base">
+        We recognize how difficult it can be to discover the ideal home. Because of 
                 this, our team of experts is committed to offering knowledgeable suggestions 
                 and direction on purchasing, renting, and investing in residential properties 
                 available in Pune. We offer complete end-to-end services to ensure that our 
                 customers discover their ideal home that fits their needs and budget, including 
                 property assessments, inspections, market analysis, and negotiating help.
-              </p>
-            </div>
-          </div>
-        </div>
+    </p>
+  </div>
+</div>
+</div>
       </section>
+
 
       {/* Commercial Property Section */}
       <section className="py-8 bg-white">
-        <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <div className="relative flex flex-col md:flex-row items-center justify-center" data-aos="fade-left">
-            <div className="md:-mr-20 z-10 bg-[#2a4073] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg">
-              <h2 className="text-3xl md:text-4xl font-serif mb-6">
-                Commercial Property Solutions
-              </h2>
-              <p className="text-base">
-                Finding the right commercial space is critical for business success. Our commercial 
-                property experts provide tailored guidance for office spaces, retail locations, 
-                warehouses, and investment properties. We analyze market trends, location advantages, 
-                and growth potential to ensure your business investment meets both current needs and 
-                future expansion goals.
-              </p>
-            </div>
-            <div className="w-[550px] h-[430px] relative z-0">
-              <Image
-                src={service3}
-                alt="Commercial property"
-                fill
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="py-8 justify-center bg-white">
-        <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <div className="relative flex flex-col md:flex-row items-center justify-center" data-aos="fade-right">
-            <div className="w-[550px] h-[430px] relative z-0">
-              <Image
-                src={service4}
-                alt="Residential property"
-                fill
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className="md:-ml-20 z-10 bg-[#172747] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg">
-              <h2 className="text-3xl md:text-4xl font-serif mb-6">
-                Residential Property Consulting
-              </h2>
-              <p className="text-base">
-                We recognize how difficult it can be to discover the ideal home. Because of 
+  <div className="container mx-auto px-4 md:px-8 lg:px-12">
+      <div className="relative flex flex-col md:flex-row items-center justify-center mobile-stack-reverse" data-aos="fade-left">
+  <div className="md:-mr-20 z-10 bg-[#2a4073] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box">
+    <h2 className="text-3xl md:text-4xl font-serif mb-6">
+      Commercial Property Solutions
+    </h2>
+    <p className="text-base">
+ We recognize how difficult it can be to discover the ideal home. Because of 
                 this, our team of experts is committed to offering knowledgeable suggestions 
                 and direction on purchasing, renting, and investing in residential properties 
                 available in Pune. We offer complete end-to-end services to ensure that our 
                 customers discover their ideal home that fits their needs and budget, including 
                 property assessments, inspections, market analysis, and negotiating help.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+    </p>
+  </div>
+  <div className="w-[550px] h-[430px] relative z-0 mobile-img-box">
+    <Image
+      src={service3}
+      alt="Commercial property"
+      fill
+      style={{ objectFit: "cover" }}
+    />
+  </div>
+</div>
+</div>
+</section>
+
+    <section className="py-8 justify-center bg-white">
+  <div className="container mx-auto px-4 md:px-8 lg:px-12">
+    <div
+      className="relative flex flex-col md:flex-row items-center justify-center mobile-stack-normal"
+      data-aos="fade-right"
+    >
+      <div className="w-[550px] h-[430px] relative z-0 mobile-img-box">
+        <Image
+          src={service4}
+          alt="Residential property"
+          fill
+          style={{ objectFit: "cover" }}
+        />
+      </div>
+      <div className="md:-ml-20 z-10 bg-[#172747] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box">
+        <h2 className="text-3xl md:text-4xl font-serif mb-6">
+          Residential Property Consulting
+        </h2>
+        <p className="text-base">
+          We recognize how difficult it can be to discover the ideal home. Because of 
+          this, our team of experts is committed to offering knowledgeable suggestions 
+          and direction on purchasing, renting, and investing in residential properties 
+          available in Pune. We offer complete end-to-end services to ensure that our 
+          customers discover their ideal home that fits their needs and budget, including 
+          property assessments, inspections, market analysis, and negotiating help.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Commercial Property Section */}
-      <section className="py-8 bg-white">
-        <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <div className="relative flex flex-col md:flex-row items-center justify-center" data-aos="fade-left">
-            <div className="md:-mr-20 z-10 bg-[#2a4073] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg">
-              <h2 className="text-3xl md:text-4xl font-serif mb-6">
-                Commercial Property Solutions
-              </h2>
-              <p className="text-base">
-                Finding the right commercial space is critical for business success. Our commercial 
-                property experts provide tailored guidance for office spaces, retail locations, 
-                warehouses, and investment properties. We analyze market trends, location advantages, 
-                and growth potential to ensure your business investment meets both current needs and 
-                future expansion goals.
-              </p>
-            </div>
-            <div className="w-[550px] h-[430px] relative z-0">
-              <Image
-                src={service5}
-                alt="Commercial property"
-                fill
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+     <section className="py-8 bg-white">
+  <div className="container mx-auto px-4 md:px-8 lg:px-12">
+    <div
+      className="relative flex flex-col md:flex-row items-center justify-center mobile-stack-reverse"
+      data-aos="fade-left"
+    >
+      <div className="md:-mr-20 z-10 bg-[#2a4073] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box">
+        <h2 className="text-3xl md:text-4xl font-serif mb-6">
+          Commercial Property Solutions
+        </h2>
+        <p className="text-base">
+          Finding the right commercial space is critical for business success. Our commercial 
+          property experts provide tailored guidance for office spaces, retail locations, 
+          warehouses, and investment properties. We analyze market trends, location advantages, 
+          and growth potential to ensure your business investment meets both current needs and 
+          future expansion goals.
+        </p>
+      </div>
+      <div className="w-[550px] h-[430px] relative z-0 mobile-img-box">
+        <Image
+          src={service5}
+          alt="Commercial property"
+          fill
+          style={{ objectFit: "cover" }}
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Contact Form Section */}
       <section className="py-16 bg-white">

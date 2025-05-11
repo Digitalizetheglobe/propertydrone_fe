@@ -89,8 +89,16 @@ const MainHeader: React.FC = () => {
 
                     <div className="flex items-center space-x-2">
                         {/* Hamburger menu for mobile */}
+                        
+
+                        {/* Contact button - smaller on mobile */}
+                        <Link href="/contactus">
+                            <button className="px-3 py-2 sm:px-4 sm:py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white hover:text-[#172747] rounded-[4px] hover:bg-[#FFFFFF80] text-sm sm:text-base">
+                                CONTACT US
+                            </button>
+                        </Link>
                         <button
-                            className="md:hidden hamburger-button p-1 bg-[#FFFFFF80] border  backdrop-blur-[18px] rounded-md"
+                            className="md:hidden hamburger-button p-1 bg-[#FFFFFF80] border  backdrop-blur-[18px] rounded-[4px]"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             aria-label="Toggle menu"
                         >
@@ -118,13 +126,6 @@ const MainHeader: React.FC = () => {
                                 )}
                             </svg>
                         </button>
-
-                        {/* Contact button - smaller on mobile */}
-                        <Link href="/contactus">
-                            <button className="px-3 py-2 sm:px-4 sm:py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white hover:text-[#172747] rounded-[4px] hover:bg-[#FFFFFF80] text-sm sm:text-base">
-                                CONTACT US
-                            </button>
-                        </Link>
                     </div>
                 </nav>
 
