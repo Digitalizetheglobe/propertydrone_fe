@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link";
 import Image from "next/image";
+import AnimatedLetters from '@/app/components/AnimatedLetters';
 // import logo from "@/app/images/PropertyDrone-Logo.png"; 
 import d1 from "@/public/images/Frame 104.png";
 import d2 from "@/public/images/Frame 105.png";
@@ -56,8 +57,15 @@ const faqData = [
     id: 4,
     question: 'How are drone views helpful in property buying?',
     answer: 'Drone views provide a comprehensive perspective of the property and its surroundings, helping you understand the location, neighborhood, and accessibility better.'
-  }
+  },
+  {
+    id: 5,
+    question: 'What types of properties does Property Drone Realty specialize in?',
+    answer: 'Property Drone Realty deals in residential apartments, villas, bungalows, and a wide variety of commercial spaces like offices and shops in Pune and surrounding areas.'
+  },
+ 
 ];
+
 
 const blogPosts = [
   {
@@ -551,67 +559,72 @@ const resetFilters = () => {
   }, [delay]);
   
   return (
-    <div 
-      ref={cardRef}
-      className={`bg-white rounded-sm overflow-hidden border border-gray-100 shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
-        isVisible 
-          ? 'opacity-100 translate-y-0' 
-          : 'opacity-0 translate-y-10'
-      }`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="relative h-48 w-full overflow-hidden">
-        {property?.multipleImages?.length > 0 && (
-          <Image
-            src={main2}
-            alt="Hero"
-            layout="fill"
-            objectFit="cover"
-            className={`z-0 transition-transform duration-700 ease-in-out ${isHovered ? 'scale-110' : 'scale-100'}`}
-          />
-        )}
-        <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${isHovered ? 'opacity-30' : 'opacity-20'}`}></div>
-      </div>
-      
-      <div className="p-4 border-b border-gray-100">
-        <div className="flex items-center text-xs text-gray-500 mb-2">
-          <div className="flex items-center">
-            <span>By {'developerName'}</span>
-          </div>
-          <div className="flex items-center ml-auto">
-            <svg className={`w-4 h-4 mr-1 transition-colors duration-300 ${isHovered ? 'text-blue-500' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            </svg>
-            <span className="transition-colors duration-300">{property.location}</span>
-          </div>
-        </div>
-        <h3 className={`font-medium transition-colors duration-300 ${isHovered ? 'text-blue-800' : 'text-gray-900'}`}>{property.propertyName}</h3>
-      </div>
-      
-      <div className="px-4 py-3 flex items-center text-sm text-gray-600 border-b border-gray-100">
-        <div className="flex-1 transition-colors duration-300 hover:text-blue-700">{property.topology || 'bed'}</div>
-        <div className="flex-1 transition-colors duration-300 hover:text-blue-700">{'bath'}</div>
-        <div className="flex-1 transition-colors duration-300 hover:text-blue-700">{property.carpetArea}</div>
-      </div>
-      
-      <div className="p-4 flex items-center">
-        <div className="flex-1">
-          <span className={`transition-all duration-300 ${isHovered ? 'text-blue-700 font-medium' : 'text-blue-500'}`}>₹ {property.tentativeBudget}</span>
-        </div>
-        <div className="flex space-x-2 items-center">
-          <button className="p-2 border border-gray-300 rounded transition-all duration-300 hover:bg-gray-100 hover:border-gray-400">
-            <svg className="w-4 h-4 transition-colors duration-300 hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-            </svg>
-          </button>
-          <button className="bg-blue-900 text-white px-4 py-1 text-sm rounded-sm transition-all duration-300 hover:bg-blue-700 transform hover:scale-105">
-            View Details
-          </button>
-        </div>
-      </div>
+   <div 
+  ref={cardRef}
+  className={`bg-white rounded-sm overflow-hidden border border-gray-400 shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
+    isVisible 
+      ? 'opacity-100 translate-y-0' 
+      : 'opacity-0 translate-y-10'
+  }`}
+  onMouseEnter={() => setIsHovered(true)}
+  onMouseLeave={() => setIsHovered(false)}
+>
+  <div className="relative h-48 w-full overflow-hidden">
+    {property?.multipleImages?.length > 0 && (
+      <Image
+        src={main2}
+        alt="Hero"
+        layout="fill"
+        objectFit="cover"
+        className={`z-0 transition-transform duration-700 ease-in-out ${isHovered ? 'scale-110' : 'scale-100'}`}
+      />
+    )}
+    <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${isHovered ? 'opacity-30' : 'opacity-20'}`}></div>
+  </div>
+  <div className="flex items-center text-xs text-gray-500 mb-2 border-b border-gray-400 px-4 py-2">
+  <div className="flex items-center pr-4 border-r border-gray-300">
+    <span>By {'developerName'}</span>
+  </div>
+  <div className="flex items-center pl-4 ml-auto">
+    <svg className={`w-4 h-4 mr-1 transition-colors duration-300 ${isHovered ? 'text-blue-500' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+    </svg>
+    <span className="transition-colors duration-300">{property.location}</span>
+  </div>
+</div>
+
+  <div className="p-4 ">
+    <h3 className={`font-medium transition-colors duration-300 ${isHovered ? 'text-blue-800' : 'text-gray-900'}`}>{property.propertyName}</h3>
+  </div>
+  
+  <div className="px-4 py-3 flex items-center text-sm text-gray-600 border-b border-gray-400">
+    <div className="flex-1 transition-colors bg-[#EEF1F5] p-2 duration-300 hover:text-blue-700">{property.topology || 'bed'}</div>
+    {/* <div className="flex-1 transition-colors duration-300 hover:text-blue-700">{'bath'}</div> */}
+   {property.carpetArea > 0 && (
+  <div className="flex-1 transition-colors bg-[#EEF1F5] p-2 duration-300 hover:text-blue-700">
+    {property.carpetArea}
+  </div>
+)}
+ </div>
+  
+  <div className="p-4 flex items-center">
+    <div className="flex-1">
+      <span className={`transition-all duration-300 ${isHovered ? 'text-blue-700 font-medium' : 'text-blue-500'}`}>₹ {property.tentativeBudget}</span>
     </div>
+    <div className="flex space-x-2 items-center">
+      <button className="p-2 border border-gray-400 rounded transition-all duration-300 hover:bg-gray-100 hover:border-gray-500">
+        <svg className="w-4 h-4 transition-colors duration-300 hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+        </svg>
+      </button>
+      <button className="bg-blue-900 text-white px-4 py-1 text-sm rounded-sm transition-all duration-300 hover:bg-blue-700 transform hover:scale-105">
+        View Details
+      </button>
+    </div>
+  </div>
+</div>
+
   );
 };
 
@@ -726,7 +739,7 @@ onMouseLeave={() => setIsPaused(false)}
 {images.map((img, index) => (
 <div 
 key={index} 
-className="flex-shrink-0  h-44 mx-2 first:ml-0 transition-all duration-300 ease-in-out"
+className="flex-shrink-0  h-40 mx-2 first:ml-0 transition-all duration-300 ease-in-out"
 style={{ 
   transform: `scale(1)`,
   transformOrigin: 'center center',
@@ -742,7 +755,7 @@ onMouseLeave={(e) => {
   <Image
     src={img}
     alt={`Card ${index + 1}`}
-    className="w-auto h-38 object-cover transition-all duration-300"
+    className="w-auto h-32 object-cover transition-all duration-300"
   />
 </div>
 
@@ -789,9 +802,9 @@ onMouseLeave={(e) => {
     onChange={handleFilterChange}
     className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
   >
-    <option value="" className="text-white">All Locations</option>
+    <option value="" className="text-[#172747] hover:bg-[#172747] ">All Locations</option>
     {Array.from(new Set(properties.map(p => p.location))).map(location => (
-      <option key={location} value={location} className="text-black">{location}</option>
+      <option key={location} value={location} className="text-[#172747] hover:bg-[#172747]">{location}</option>
     ))}
   </select>
 </div>
@@ -834,7 +847,7 @@ onMouseLeave={(e) => {
       </div>
     </div>
   </div>
-   <div className=" mx-auto px-6 md:px-20 py-8">
+   <div className=" mx-auto px-6 md:px-20 py-8 bg-[#EEF1F5]">
   
  
 
@@ -858,22 +871,20 @@ onMouseLeave={(e) => {
       </button>
     </div>
   ) : (
-    <div className="space-y-10">
+    <div className="space-y-10 max-w-6xl mx-auto px-4 ">
       {/* Featured Properties Section */}
-      <div className="mb-8">
-        <h2 className="text-2xl text-[#172747] font-bold mb-6">FEATURED PROPERTIES</h2>
-        <h3
-          style={{
-            fontFamily: "'Ivy Mode'",
-            fontWeight: 300,
-            fontSize: '56px',
-            lineHeight: '140%',
-            letterSpacing: '0'
-          }}
-          className="text-[#172747] mb-6"
-        >
-          Explore top-performing properties with high ROI and verified builder credibility.
-        </h3>
+      <div className="mb-8 ">
+<AnimatedLetters
+  text="FEATURED PROPERTIES"
+  as="h2"
+    className="uppercase text-[#172747] text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+/>
+
+<AnimatedLetters
+  text="Explore top-performing properties with high ROI and verified builder credibility."
+  as="h3"
+  className="text-[#172747] mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+/>
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {featuredProperties.map((property, index) => (
           <PropertyCard 
@@ -941,27 +952,33 @@ onMouseLeave={(e) => {
 
     {/* ------------------------ */}
 
- <div className="bg-[#EEF1F5]">
+ <div className="bg-white">
   <section className="max-w-6xl mx-auto px-4 py-12">
     <div className="mb-8 animate-fade-in">
-      <h6 className="text-xs uppercase tracking-wider text-center mb-2 text-gray-500">
-        UPCOMING & LATEST LAUNCHES
-      </h6>
-      <h2 className="text-3xl md:text-4xl text-center font-light leading-tight max-w-2xl mx-auto">
-        Be the first to discover the hottest launches in the Middle East
-      </h2>
+     
+      <AnimatedLetters
+  text="UPCOMING & LATEST LAUNCHES"
+  as="h2"
+    className="uppercase text-[#172747] text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+/>
+
+<AnimatedLetters
+  text="Be the first to discover the hottest launches in the Middle East"
+  as="h3"
+  className="text-[#172747] mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+/>
     </div>
 
     {/* Latest Properties Slider */}
     <div>
-      <h3 className="text-xl font-light mb-6 animate-fade-in">Latest Launches</h3>
+      {/* <h3 className="text-xl font-light mb-6 animate-fade-in">Latest Launches</h3> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {remainingProperties
           .slice(currentSlide * 2, currentSlide * 2 + 2)
           .map((property) => (
             <div
               key={property.id}
-              className="flex flex-col bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out transform hover:-translate-y-1"
+              className="flex flex-col hover:bg-[#EEF1F5]  rounded-[4px] shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out transform hover:-translate-y-1"
             >
               <div className="relative h-64 w-full mb-4 overflow-hidden rounded-t-lg group">
                 <Image
@@ -989,20 +1006,20 @@ onMouseLeave={(e) => {
           <span className="font-bold">
             {String(currentSlide + 1).padStart(2, '0')}
           </span>
-          <span className="text-gray-400">
+          <span className="text-[#172747]">
             {' '}
             / {String(Math.max(1, totalSlides)).padStart(2, '0')}
           </span>
         </div>
 
         {/* Horizontal Divider */}
-        <div className="flex-grow h-px bg-gray-300 mx-4"></div>
+        <div className="flex-grow h-px bg-[#172747] mx-4"></div>
 
         {/* Navigation Buttons */}
         <div className="flex gap-2 flex-shrink-0 z-10 pl-2">
           <button
             onClick={prevSlide}
-            className="p-2 border border-gray-300 rounded-full hover:bg-white transition duration-300 hover:shadow"
+            className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow"
             aria-label="Previous slide"
             disabled={remainingProperties.length <= 2}
           >
@@ -1010,7 +1027,7 @@ onMouseLeave={(e) => {
           </button>
           <button
             onClick={nextSlide}
-            className="p-2 border border-gray-300 rounded-full hover:bg-white transition duration-300 hover:shadow"
+            className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow"
             aria-label="Next slide"
             disabled={remainingProperties.length <= 2}
           >
@@ -1024,39 +1041,39 @@ onMouseLeave={(e) => {
 
 
   {/* -------------------- */}
-    <section className="bg-[#172747] text-white py-16 px-4 md:px-8">
-      <div className="container mx-auto px-20">
-        <div className="mb-8">
-        <p
-            className="uppercase text-[18px] font-normal leading-[100%] tracking-normal mb-2"
-            style={{ fontFamily: 'Lato' }}
-          >
-            WHY CHOOSE US
-          </p>
-
-          <h2  style={{
-                  fontFamily: "'Ivy Mode'",
-                  fontWeight: 300,
-                  fontSize: '56px',
-                  lineHeight: '140%',
-                  letterSpacing: '0'
-                }}
-                className="text-white mb-6"
-              >We're redefining how people explore and purchase property.</h2>
-        </div>
+    <section className="bg-[#172747] text-white py-16 px-4 md:px-8 ">
+      <div className="container ">
+        <div className="mb-8 mx-auto px-20">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+
+               <AnimatedLetters
+  text="WHY CHOOSE US"
+  as="h2"
+  className="uppercase text-white text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+            
+/>
+
+<AnimatedLetters
+  text="We're redefining how people explore and purchase property."
+  as="h3"
+  className="text-white mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+/>
+        </div>
+         <div className="flex-grow h-px bg-gray-400 mx-4"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto px-20 ">
           {features.map((feature) => (
-            <div key={feature.id} className="border-l border-r px-4 border-gray-700 pt-6">
+            <div key={feature.id} className="border-l border-r px-4 border-gray-400 pt-6">
               <p className="text-gray-400 text-lg mb-4">{feature.id}</p>
               <h3 className=" text-[24px] font-normal leading-[100%] tracking-normal mb-2"
             style={{ fontFamily: 'Lato' }}>{feature.title}</h3>
-              <p className="text-gray-400 text-[18px] font-normal leading-[100%] tracking-normal mb-2"
+              <p className="text-gray-400 text-[18px] font-normal leading-[100%] tracking-normal "
             style={{ fontFamily: 'Lato' }}>{feature.description}</p>
             </div>
           ))}
         </div>
+         
       </div>
+      <div className="flex-grow h-px bg-gray-400 mx-4"></div>
     </section>
 
     {/* ------------ */}
@@ -1075,13 +1092,27 @@ onMouseLeave={(e) => {
       <div className="relative z-10 container mx-auto max-w-4xl px-4">
         {/* Quote section */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif mb-6 leading-tight">
+          <h2  
+          style={{
+            fontFamily: "'Ivy Mode'",
+            fontWeight: 300,
+            fontSize: '56px',
+            lineHeight: '140%',
+            letterSpacing: '1px'
+          }}
+          className="text-[#172747] mb-6"
+        >
             "Let the experts help you<br />
             make the right investment"
           </h2>
+          
           <div className="mt-4">
-            <p className="font-medium text-lg">Nikhil Mawale</p>
-            <p className="text-gray-600">Founder</p>
+            <h2 className="text-2xl text-[#172747]  "  style={{
+            letterSpacing: '1px'
+          }} >Nikhil Mawale</h2>
+            <h2 className="text-2xl text-[#172747] font-bold mb-6 "  style={{
+            letterSpacing: '1px'
+          }} >Founder</h2>
           </div>
         </div>
         
@@ -1130,21 +1161,20 @@ onMouseLeave={(e) => {
     <section className="max-w-6xl mx-auto px-4 py-12">
       <div className="mb-10 flex justify-between items-center">
         <div>
-        <p
-            className="uppercase text-[18px] font-normal text-[#172747] leading-[100%] tracking-normal mb-2"
-            style={{ fontFamily: 'Lato' }}
-          >
-             TESTIMONIAL
-          </p>
-           <h2  style={{
-                  fontFamily: "'Ivy Mode'",
-                  fontWeight: 300,
-                  fontSize: '56px',
-                  lineHeight: '140%',
-                  letterSpacing: '0'
-                }}
-                className="text-[#172747] mb-6"
-              >Your trust is our greatest award</h2>
+       
+
+                  <AnimatedLetters
+  text="TESTIMONIAL"
+  as="h2"
+  className="uppercase text-white text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+            
+/>
+
+<AnimatedLetters
+  text="Your trust is our greatest award"
+  as="h3"
+  className="text-white mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+/>
         </div>
         {/* <div>
           <button  className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center">
@@ -1176,23 +1206,23 @@ onMouseLeave={(e) => {
   {/* Number Indicator */}
   <div className="text-lg font-medium flex-shrink-0 z-10 bg-white pr-2">
     <span className="font-bold">{String(currentIndex + 1).padStart(2, '0')}</span> / 
-    <span className="text-gray-400"> {String(testimonials.length).padStart(2, '0')}</span>
+    <span className="text-[#172747]"> {String(testimonials.length).padStart(2, '0')}</span>
   </div>
 
   {/* Horizontal Line */}
-  <div className="flex-grow h-px bg-gray-300 mx-4"></div>
+  <div className="flex-grow h-px bg-[#172747] mx-4"></div>
 
   {/* Navigation Arrows */}
   <div className="flex gap-2 flex-shrink-0 z-10 bg-white pl-2">
     <button 
       onClick={handlePrev}
-      className="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
+      className="p-2 border border-[#172747] rounded-full hover:bg-gray-100"
     >
       <ChevronLeft size={20} />
     </button>
     <button 
       onClick={handleNext}
-      className="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
+      className="p-2 border border-[#172747] rounded-full hover:bg-gray-100"
     >
       <ChevronRight size={20} />
     </button>
@@ -1204,9 +1234,9 @@ onMouseLeave={(e) => {
     {/* ----------------- */}
 
     <section className="bg-[#172747] text-white py-16 px-4 md:px-8">
-      <div className="container mx-auto px-20">
+      <div className="container ">
         {/* Header Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 mx-auto px-20 ">
           <div>
           <p
             className="uppercase text-[18px] font-normal text-white leading-[100%] tracking-normal mb-2"
@@ -1240,9 +1270,11 @@ onMouseLeave={(e) => {
        
 
         {/* Blog Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex-grow h-px bg-gray-400 mx-4"></div>
+        <div className="grid grid-cols-1 md:grid-cols-3  mx-auto px-20 ">
+          
           {blogPosts.map((post) => (
-            <div key={post.id} className="border-r border-l border-gray-700 px-4">
+            <div key={post.id} className="border-r border-l border-gray-400 p-4">
               <Link href={`/blog/${post.id}`} className="block group">
                 <div className="relative h-48 mb-4 overflow-hidden">
                   <Image 
@@ -1262,6 +1294,7 @@ onMouseLeave={(e) => {
             </div>
           ))}
         </div>
+            <div className="flex-grow h-px bg-gray-400 mx-4"></div>
       </div>
     </section>
 
@@ -1306,7 +1339,7 @@ onMouseLeave={(e) => {
                   </span>
                 </button>
                 {openIndex === index && (
-                  <div className="pb-4 text-gray-600">
+                  <div className="pb-4 text-gray-600 bg-[#EEF1F5] p-4 ">
                     {faq.answer}
                   </div>
                 )}

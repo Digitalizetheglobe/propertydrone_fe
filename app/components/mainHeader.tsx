@@ -19,26 +19,26 @@ const MainHeader: React.FC = () => {
                         </Link>
 
                         <div className="hidden md:flex space-x-6 px-6">
-                            <a href="/" className="text-black hover:text-[#172747]">
+                            <a href="/" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747] ">
                                 Home
                             </a>
-                            <a href="aboutus" className="text-black hover:text-[#172747]">
+                            <a href="aboutus" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
                                 About
                             </a>
-                             <a href="properties" className="text-black hover:text-[#172747] ">
+                             <a href="properties" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
                                 Properties
                             </a>
-                            <a href="developers" className="text-black hover:text-[#172747]">
+                            <a href="developers" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
                                 Developer
                             </a>
-                            <a href="services" className="text-black hover:text-[#172747]">
+                            <a href="services" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
                                 Services
                             </a>
                            
-                            <a href="blog" className="text-black hover:text-[#172747]">
+                            <a href="blog" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
                                 Blog
                             </a>
-                            <a href="career" className="text-black hover:text-[#172747]">
+                            <a href="career" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
                                 Career
                             </a>
                         </div>
