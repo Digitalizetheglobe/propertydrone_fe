@@ -695,20 +695,7 @@ const resetFilters = () => {
   {/* Main Hero Content */}
   <main className="relative z-10 container mx-auto px-4 pt-50">
     <div className="flex flex-col items-start max-w-3xl">
-    <h1
-  style={{
-    fontFamily: "Ivy Mode",
-    fontWeight: 300,
-    fontSize: '86px',
-    lineHeight: '80px',
-    letterSpacing: '0'
-  }}
-  className="text-white mb-10 mt=20"
->
-
-  Find the best <br></br> properties in Pune
-</h1>
-
+   <div className="max-w-full overflow-hidden px-4 sm:px-0"> <h1 style={{ fontFamily: "Ivy Mode", fontWeight: 300, fontSize: '86px', lineHeight: '80px', letterSpacing: '0' }} className="text-white mb-10 mt=20" > Find the best <br /> properties in Pune </h1> </div>
 
       <div className="flex flex-col md:flex-row items-start md:items-center mb-12">
         <p className="text-white text-xl mb-4 md:mb-0 md:mr-8">
@@ -769,85 +756,80 @@ onMouseLeave={(e) => {
 </div>
 {/* ------------------------------ */}
 {/* Filter Section */}
- <div className="bg-[#172747] justify-center p-6 shadow-md ">
-    {/* <h3 className="text-xl font-semibold text-white  mb-4">Find Your Perfect Property</h3> */}
+<div className="bg-[#172747] justify-center p-4 md:p-6 shadow-md">
+  <div className="flex flex-col md:flex-row md:items-end gap-4 my-6 mx-4 md:mx-20">
     
-    {/* Filter Controls - Flex Layout */}
-    <div className="flex flex-col md:flex-row md:items-end gap-4 my-6 mx-20">
-      {/* Search Input */}
-      <div className="flex-1">
-  {/* <label className="block text-sm font-medium text-white mb-1">Search</label> */}
-  <div className="relative">
-    <input
-      type="text"
-      name="search"
-      value={filters.search || ''}
-      onChange={handleFilterChange}
-      placeholder="Search properties..."
-      className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747] font-weight-400 font-size-[20px]"
-    />
-    <div className="absolute left-3 top-2.5 text-[#172747]">
-      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-      </svg>
-    </div>
-  </div>
-</div>
-
-{/* Location Dropdown */}
-<div className="flex-1">
-  {/* <label className="block text-sm font-medium text-white mb-1">Location</label> */}
-  <select
-    name="location"
-    value={filters.location || ''}
-    onChange={handleFilterChange}
-    className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
-  >
-    <option value="" className="text-[#172747] hover:bg-[#172747] ">All Locations</option>
-    {Array.from(new Set(properties.map(p => p.location))).map(location => (
-      <option key={location} value={location} className="text-[#172747] hover:bg-[#172747]">{location}</option>
-    ))}
-  </select>
-</div>
-
-      
-      {/* Min Price Input */}
-      <div className="flex-1">
-        {/* <label className="block text-sm font-medium text-white mb-1">Min Price</label> */}
+    {/* Search Input */}
+    <div className="w-full md:flex-1">
+      <div className="relative">
         <input
-          type="number"
-          name="minPrice"
-          value={filters.minPrice || ''}
+          type="text"
+          name="search"
+          value={filters.search || ''}
           onChange={handleFilterChange}
-          placeholder="Min Price"
-         className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
-   />
+          placeholder="Search properties..."
+          className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
+        />
+        <div className="absolute left-3 top-2.5 text-[#172747]">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
       </div>
-      
-      {/* Max Price Input */}
-      <div className="flex-1">
-        {/* <label className="block text-sm font-medium text-white mb-1">Max Price</label> */}
-        <input
-          type="number"
-          name="maxPrice"
-          value={filters.maxPrice || ''}
-          onChange={handleFilterChange}
-          placeholder="Max Price"
+    </div>
+
+    {/* Location Dropdown */}
+    <div className="w-full md:flex-1">
+      <select
+        name="location"
+        value={filters.location || ''}
+        onChange={handleFilterChange}
         className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
-    />
-      </div>
-
-      {/* Reset Button */}
-      <div className="flex-none">
-        <button
-          onClick={resetFilters}
-          className="w-full px-4 py-2 bg-[#172747] border border-white text-white rounded-[4px] hover:bg-white hover:text-[#172747] transition-colors duration-300"
-        >
-          Reset Filters
-        </button>
-      </div>
+      >
+        <option value="" className="text-[#172747]">All Locations</option>
+        {Array.from(new Set(properties.map(p => p.location))).map(location => (
+          <option key={location} value={location} className="text-[#172747]">{location}</option>
+        ))}
+      </select>
     </div>
+
+    {/* Min Price Input */}
+    <div className="w-full md:flex-1">
+      <input
+        type="number"
+        name="minPrice"
+        value={filters.minPrice || ''}
+        onChange={handleFilterChange}
+        placeholder="Min Price"
+        className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
+      />
+    </div>
+
+    {/* Max Price Input */}
+    <div className="w-full md:flex-1">
+      <input
+        type="number"
+        name="maxPrice"
+        value={filters.maxPrice || ''}
+        onChange={handleFilterChange}
+        placeholder="Max Price"
+        className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
+      />
+    </div>
+
+    {/* Reset Button */}
+    <div className="w-full md:w-auto">
+      <button
+        onClick={resetFilters}
+        className="w-full px-4 py-2 bg-[#172747] border border-white text-white rounded-[4px] hover:bg-white hover:text-[#172747] transition-colors duration-300"
+      >
+        Reset Filters
+      </button>
+    </div>
+
   </div>
+</div>
+
    <div className=" mx-auto px-6 md:px-20 py-8 bg-[#EEF1F5]">
   
  
