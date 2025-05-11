@@ -90,7 +90,7 @@ const MainHeader: React.FC = () => {
                     <div className="flex items-center space-x-2">
                         {/* Hamburger menu for mobile */}
                         <button
-                            className="md:hidden hamburger-button p-2 bg-[#FFFFFF80] border border-[#FFFFFF80] backdrop-blur-[18px] rounded-md"
+                            className="md:hidden hamburger-button p-1 bg-[#FFFFFF80] border border-[#FFFFFF80] backdrop-blur-[18px] rounded-md"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             aria-label="Toggle menu"
                         >

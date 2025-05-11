@@ -695,7 +695,21 @@ const resetFilters = () => {
   {/* Main Hero Content */}
   <main className="relative z-10 container mx-auto px-4 pt-50">
     <div className="flex flex-col items-start max-w-3xl">
-   <div className="max-w-full overflow-hidden px-4 sm:px-0"> <h1 style={{ fontFamily: "Ivy Mode", fontWeight: 300, fontSize: '86px', lineHeight: '80px', letterSpacing: '0' }} className="text-white mb-10 mt=20" > Find the best <br /> properties in Pune </h1> </div>
+      
+   <h1
+  style={{
+    fontFamily: "Ivy Mode",
+    fontWeight: 300,
+    // fontSize: '86px',
+    lineHeight: '80px',
+    letterSpacing: '0'
+  }}
+  className="text-white mb-10 mt=20 text-[42px] sm:text-[86px]"
+>
+  Find the best <br /> properties in Pune
+</h1>
+
+
 
       <div className="flex flex-col md:flex-row items-start md:items-center mb-12">
         <p className="text-white text-xl mb-4 md:mb-0 md:mr-8">
@@ -743,7 +757,7 @@ onMouseLeave={(e) => {
   <Image
     src={img}
     alt={`Card ${index + 1}`}
-    className="w-auto h-28 object-cover transition-all duration-300"
+    className="w-auto h-20 object-cover transition-all duration-300  sm:h-28"
   />
 </div>
 
