@@ -1013,7 +1013,7 @@ onMouseLeave={(e) => {
         </div>
 
         {/* Horizontal Divider */}
-        <div className="flex-grow h-px bg-[#172747] mx-4"></div>
+        <div className="flex-grow h-px bg-[#172747]"></div>
 
         {/* Navigation Buttons */}
         <div className="flex gap-2 flex-shrink-0 z-10 pl-2">
@@ -1059,7 +1059,7 @@ onMouseLeave={(e) => {
   className="text-white mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
 />
         </div>
-         <div className="flex-grow h-px bg-gray-400 mx-4"></div>
+         <div className="flex-grow h-px bg-gray-400 "></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto px-20 ">
           {features.map((feature) => (
             <div key={feature.id} className="border-l border-r px-4 border-gray-400 pt-6">
@@ -1073,7 +1073,7 @@ onMouseLeave={(e) => {
         </div>
          
       </div>
-      <div className="flex-grow h-px bg-gray-400 mx-4"></div>
+      <div className="flex-grow h-px bg-gray-400 "></div>
     </section>
 
     {/* ------------ */}
@@ -1166,14 +1166,14 @@ onMouseLeave={(e) => {
                   <AnimatedLetters
   text="TESTIMONIAL"
   as="h2"
-  className="uppercase text-white text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+  className="uppercase text-[#172747] text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
             
 />
 
 <AnimatedLetters
   text="Your trust is our greatest award"
   as="h3"
-  className="text-white mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+  className="text-[#172747] mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
 />
         </div>
         {/* <div>
@@ -1182,18 +1182,19 @@ onMouseLeave={(e) => {
           </button>
         </div> */}
       </div>
-
+            {/* <div className="flex-grow h-px bg-gray-400 "></div> */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {visibleTestimonials.map((testimonial) => (
-          <div key={testimonial.id} className="border-l border-r px-4 border-gray-200 pt-4">
-            <div className="mb-2">
+          <div key={testimonial.id} className="border-l border-r px-4 border-gray-400 pt-4">
+           <div className="flex justify-between items-center mb-2">
               <h3 className="font-medium">{testimonial.company}</h3>
+              <div className="flex">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} size={16} className="text-amber-400 fill-amber-400" />
+                ))}
+              </div>
             </div>
-            <div className="flex mb-2">
-              {[...Array(testimonial.rating)].map((_, i) => (
-                <Star key={i} size={16} className="text-amber-400 fill-amber-400" />
-              ))}
-            </div>
+            
             <p className="text-sm text-gray-700 mb-4 line-clamp-6">
               {testimonial.text}
             </p>
@@ -1201,7 +1202,7 @@ onMouseLeave={(e) => {
           </div>
         ))}
       </div>
-
+          {/* <div className="flex-grow h-px bg-gray-400 "></div> */}
       <div className="mt-12 flex items-center justify-between w-full relative">
   {/* Number Indicator */}
   <div className="text-lg font-medium flex-shrink-0 z-10 bg-white pr-2">
@@ -1210,7 +1211,7 @@ onMouseLeave={(e) => {
   </div>
 
   {/* Horizontal Line */}
-  <div className="flex-grow h-px bg-[#172747] mx-4"></div>
+  <div className="flex-grow h-px bg-[#172747] "></div>
 
   {/* Navigation Arrows */}
   <div className="flex gap-2 flex-shrink-0 z-10 bg-white pl-2">
@@ -1270,7 +1271,7 @@ onMouseLeave={(e) => {
        
 
         {/* Blog Posts Grid */}
-            <div className="flex-grow h-px bg-gray-400 mx-4"></div>
+            <div className="flex-grow h-px bg-gray-400"></div>
         <div className="grid grid-cols-1 md:grid-cols-3  mx-auto px-20 ">
           
           {blogPosts.map((post) => (
@@ -1294,7 +1295,7 @@ onMouseLeave={(e) => {
             </div>
           ))}
         </div>
-            <div className="flex-grow h-px bg-gray-400 mx-4"></div>
+            <div className="flex-grow h-px bg-gray-400"></div>
       </div>
     </section>
 

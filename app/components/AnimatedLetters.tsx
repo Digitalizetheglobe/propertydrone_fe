@@ -9,10 +9,12 @@ const letterVariant = {
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.04,
+      delay: i * 0.015, // <-- Faster animation
+      duration: 0.3,
     },
   }),
 };
+
 
 import { ElementType } from 'react';
 

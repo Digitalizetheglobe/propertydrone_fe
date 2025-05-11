@@ -168,19 +168,19 @@ const Mainfooter = () => {
           <div className="flex space-x-8">
             <Link 
               href="https://www.facebook.com/propertydrone.exp247" 
-              className="text-white hover:text-gray-300 transition-colors bg-[#172747] p-3 rounded-full hover:bg-[#1e335b] transition-all"
+              className="text-white hover:text-gray-300 transition-colors bg-[#172747] p-3 rounded-full hover:bg-[#1e335b] "
             >
               <FaFacebookF size={18} />
             </Link>
             <Link 
               href="https://www.youtube.com/@PropertyDrone" 
-              className="text-white hover:text-gray-300 transition-colors bg-[#172747] p-3 rounded-full hover:bg-[#1e335b] transition-all"
+              className="text-white hover:text-gray-300 transition-colors bg-[#172747] p-3 rounded-full hover:bg-[#1e335b] "
             >
               <FaYoutube size={18} />
             </Link>
             <Link 
               href="https://www.instagram.com/accounts/login/?next=%2Fpropertydrone_realty%2F&source=omni_redirect" 
-              className="text-white hover:text-gray-300 transition-colors bg-[#172747] p-3 rounded-full hover:bg-[#1e335b] transition-all"
+              className="text-white hover:text-gray-300 transition-colors bg-[#172747] p-3 rounded-full hover:bg-[#1e335b] "
             >
               <FaInstagram size={18} />
             </Link>
