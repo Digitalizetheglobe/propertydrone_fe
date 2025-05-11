@@ -694,39 +694,40 @@ const resetFilters = () => {
 
   {/* Main Hero Content */}
   <main className="relative z-10 container mx-auto px-4 pt-50">
-   <div className="flex flex-col items-center justify-center">
-  <div className="flex flex-row items-center justify-center gap-8">
+    <div className="flex flex-col items-start max-w-3xl">
     <h1
-      style={{
-        fontFamily: "Ivy Mode",
-        fontWeight: 300,
-        fontSize: '86px',
-        lineHeight: '150%',
-        letterSpacing: '2px',
-        marginBottom: '20px',
-      }}
-      className="text-white"
-    >
-      Find the best <br /> properties in Pune
-    </h1>
+  style={{
+    fontFamily: "Ivy Mode",
+    fontWeight: 300,
+    fontSize: '86px',
+    lineHeight: '80px',
+    letterSpacing: '0'
+  }}
+  className="text-white mb-10 mt=20"
+>
 
-    <div className="flex flex-col md:flex-row justify-baseline items-baseline-last">
-      <p className="text-white text-xl mb-4 md:mb-0 md:mr-8 text-center md:text-left">
-        with Property Management <br/>company in Pune
-      </p>
-      <a 
-        href="contactus" 
-        className="flex items-center bg-white hover:border hover:border-white text-[#172747] px-4 py-2 rounded hover:bg-[#172747] hover:text-white transition duration-300"
-      >
-        Get Consultation 
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-        </svg>
-      </a>
+  Find the best <br></br> properties in Pune
+</h1>
+
+
+      <div className="flex flex-col md:flex-row items-start md:items-center mb-12">
+        <p className="text-white text-xl mb-4 md:mb-0 md:mr-8">
+          with Property Management company in Pune
+        </p>
+        <a 
+          href="contactus" 
+          className="flex items-center bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50"
+        >
+          Get Consultation 
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+        </a>
+      </div>
+
+      {/* Property Category Cards */}
+      
     </div>
-  </div>
-</div>
-
     <div className="w-full overflow-hidden">
 
 <div 
@@ -739,7 +740,7 @@ onMouseLeave={() => setIsPaused(false)}
 {images.map((img, index) => (
 <div 
 key={index} 
-className="flex-shrink-0  h-40 mx-2 first:ml-0 transition-all duration-300 ease-in-out"
+className="flex-shrink-0  h-34 mx-2 first:ml-0 transition-all duration-300 ease-in-out"
 style={{ 
   transform: `scale(1)`,
   transformOrigin: 'center center',
@@ -755,7 +756,7 @@ onMouseLeave={(e) => {
   <Image
     src={img}
     alt={`Card ${index + 1}`}
-    className="w-auto h-32 object-cover transition-all duration-300"
+    className="w-auto h-28 object-cover transition-all duration-300"
   />
 </div>
 
