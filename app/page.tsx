@@ -529,102 +529,159 @@ const resetFilters = () => {
 
   // Property card component to avoid repetition
  
- const PropertyCard = ({ property, delay }: { property: Property; delay: number }) => {
+const PropertyCard = ({
+  property,
+  delay,
+}: {
+  property: Property;
+  delay: number;
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  
- useEffect(() => {
+
+  const baseUrl = "http://localhost:5000"; // For dev — ideally from env
+  const imagePath = property?.multipleImages?.[0]?.path
+    ? `${baseUrl}${property.multipleImages[0].path}`
+    : {main2};
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // When the card enters the viewport
         if (entry.isIntersecting) {
-          // Add a small delay based on the card's index
           setTimeout(() => {
             setIsVisible(true);
-            // Once visible, no need to observe anymore
             if (cardRef.current) observer.unobserve(cardRef.current);
           }, delay);
         }
       },
-      { threshold: 0.05, rootMargin: "20px" } // Trigger earlier with lower threshold
+      { threshold: 0.05, rootMargin: "20px" }
     );
-    
+
     if (cardRef.current) {
       observer.observe(cardRef.current);
     }
+
     return () => {
       if (cardRef.current) observer.unobserve(cardRef.current);
     };
   }, [delay]);
-  
+
   return (
-   <div 
-  ref={cardRef}
-  className={`bg-white rounded-sm overflow-hidden border border-gray-400 shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
-    isVisible 
-      ? 'opacity-100 translate-y-0' 
-      : 'opacity-0 translate-y-10'
-  }`}
-  onMouseEnter={() => setIsHovered(true)}
-  onMouseLeave={() => setIsHovered(false)}
->
-  <div className="relative h-48 w-full overflow-hidden">
-    {property?.multipleImages?.length > 0 && (
-      <Image
-        src={main2}
-        alt="Hero"
-        layout="fill"
-        objectFit="cover"
-        className={`z-0 transition-transform duration-700 ease-in-out ${isHovered ? 'scale-110' : 'scale-100'}`}
-      />
-    )}
-    <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${isHovered ? 'opacity-30' : 'opacity-20'}`}></div>
-  </div>
-  <div className="flex items-center text-xs text-gray-500 mb-2 border-b border-gray-400 px-4 py-2">
-  <div className="flex items-center pr-4 border-r border-gray-300">
-    <span>By {'developerName'}</span>
-  </div>
-  <div className="flex items-center pl-4 ml-auto">
-    <svg className={`w-4 h-4 mr-1 transition-colors duration-300 ${isHovered ? 'text-blue-500' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-    </svg>
-    <span className="transition-colors duration-300">{property.location}</span>
-  </div>
-</div>
+    <div
+      ref={cardRef}
+      className={`bg-white rounded-sm overflow-hidden border border-gray-400 shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+      }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="relative h-48 w-full overflow-hidden">
+        {imagePath && (
+          <Image
+            src={typeof imagePath === 'string' ? imagePath : main2}
+            alt={property.propertyName || "Property Image"}
+            layout="fill"
+            objectFit="cover"
+            className={`z-0 transition-transform duration-700 ease-in-out ${
+              isHovered ? "scale-110" : "scale-100"
+            }`}
+          />
+        )}
+        <div
+          className={`absolute inset-0 bg-black transition-opacity duration-300 ${
+            isHovered ? "opacity-30" : "opacity-20"
+          }`}
+        ></div>
+      </div>
 
-  <div className="p-4 ">
-    <h3 className={`font-medium transition-colors duration-300 ${isHovered ? 'text-blue-800' : 'text-gray-900'}`}>{property.propertyName}</h3>
-  </div>
-  
-  <div className="px-4 py-3 flex items-center text-sm text-gray-600 border-b border-gray-400">
-    <div className="flex-1 transition-colors bg-[#EEF1F5] p-2 duration-300 hover:text-blue-700">{property.topology || 'bed'}</div>
-    {/* <div className="flex-1 transition-colors duration-300 hover:text-blue-700">{'bath'}</div> */}
-   {property.carpetArea > 0 && (
-  <div className="flex-1 transition-colors bg-[#EEF1F5] p-2 duration-300 hover:text-blue-700">
-    {property.carpetArea}
-  </div>
-)}
- </div>
-  
-  <div className="p-4 flex items-center">
-    <div className="flex-1">
-      <span className={`transition-all duration-300 ${isHovered ? 'text-blue-700 font-medium' : 'text-blue-500'}`}>₹ {property.tentativeBudget}</span>
-    </div>
-    <div className="flex space-x-2 items-center">
-      <button className="p-2 border border-gray-400 rounded transition-all duration-300 hover:bg-gray-100 hover:border-gray-500">
-        <svg className="w-4 h-4 transition-colors duration-300 hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-        </svg>
-      </button>
-      <button className="bg-blue-900 text-white px-4 py-1 text-sm rounded-sm transition-all duration-300 hover:bg-blue-700 transform hover:scale-105">
-        View Details
-      </button>
-    </div>
-  </div>
-</div>
+      <div className="flex items-center text-xs text-gray-500 mb-2 border-b border-gray-400 px-4 py-2">
+        <div className="flex items-center pr-4 border-r border-gray-300">
+          <span>By developerName</span>
+        </div>
+        <div className="flex items-center pl-4 ml-auto">
+          <svg
+            className={`w-4 h-4 mr-1 transition-colors duration-300 ${
+              isHovered ? "text-blue-500" : ""
+            }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+            ></path>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            ></path>
+          </svg>
+          <span className="transition-colors duration-300">
+            {property.location}
+          </span>
+        </div>
+      </div>
 
+      <div className="p-4">
+        <h3
+          className={`font-medium transition-colors duration-300 ${
+            isHovered ? "text-blue-800" : "text-gray-900"
+          }`}
+        >
+          {property.propertyName}
+        </h3>
+      </div>
+
+      <div className="px-4 py-3 flex items-center text-sm text-gray-600 border-b border-gray-400">
+        <div className="flex-1 transition-colors bg-[#EEF1F5] p-2 duration-300 hover:text-blue-700">
+          {property.topology || "bed"}
+        </div>
+        {property.carpetArea > 0 && (
+          <div className="flex-1 transition-colors bg-[#EEF1F5] p-2 duration-300 hover:text-blue-700">
+            {property.carpetArea}
+          </div>
+        )}
+      </div>
+
+      <div className="p-4 flex items-center">
+        <div className="flex-1">
+          <span
+            className={`transition-all duration-300 ${
+              isHovered ? "text-blue-700 font-medium" : "text-blue-500"
+            }`}
+          >
+            ₹ {property.tentativeBudget}
+          </span>
+        </div>
+        <div className="flex space-x-2 items-center">
+          <button className="p-2 border border-gray-400 rounded transition-all duration-300 hover:bg-gray-100 hover:border-gray-500">
+            <svg
+              className="w-4 h-4 transition-colors duration-300 hover:text-blue-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+              ></path>
+            </svg>
+          </button>
+          <button className="bg-blue-900 text-white px-4 py-1 text-sm rounded-sm transition-all duration-300 hover:bg-blue-700 transform hover:scale-105">
+            View Details
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

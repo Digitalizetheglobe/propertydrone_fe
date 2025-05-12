@@ -74,7 +74,7 @@ const WhatsAppPopup = () => {
               fontWeight: "bold",
             }}
           >
-            <span>Build Infinity</span>
+            <span>Property Drone</span>
             <span onClick={() => setShowPopup(false)} style={{ cursor: "pointer", fontSize: "18px" }}>✖</span>
           </div>
 

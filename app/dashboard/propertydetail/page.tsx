@@ -20,6 +20,11 @@ export default function PropertyDetail() {
   const [isListening, setIsListening] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
+  
+  const baseUrl = "http://localhost:5000"; // For dev — ideally from env
+  const imagePath = propertyImages?.[0]
+    ? `${baseUrl}${propertyImages[0]}`
+    : null;
 
   useEffect(() => {
     fetch("http://localhost:5000/properties")
@@ -458,228 +463,172 @@ export default function PropertyDetail() {
       </div>
       
       {/* Edit Modal with Increased Width */}
-      {showModal && editProperty && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50 overflow-y-auto">
-          <div className="bg-white p-6 rounded-lg w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto my-8">
-            <h3 className="text-xl font-bold mb-4">Edit Property</h3>
-            
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Building Name</label>
-                  <input
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    type="text"
-                    name="buildingName"
-                    value={editProperty.buildingName || ''}
-                    onChange={handleInputChange}
-                    placeholder="Building Name"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                  <input
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    type="text"
-                    name="location"
-                    value={editProperty.location || ''}
-                    onChange={handleInputChange}
-                    placeholder="Location"
-                  />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                  <input
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    type="text"
-                    name="city"
-                    value={editProperty.city || ''}
-                    onChange={handleInputChange}
-                    placeholder="City"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Property Type</label>
-                  <input
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    type="text"
-                    name="propertyType"
-                    value={editProperty.propertyType || ''}
-                    onChange={handleInputChange}
-                    placeholder="Property Type"
-                  />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Unit No</label>
-                  <input
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    type="text"
-                    name="unitNo"
-                    value={editProperty.unitNo || ''}
-                    onChange={handleInputChange}
-                    placeholder="Unit No"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Floor</label>
-                  <input
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    type="text"
-                    name="floor"
-                    value={editProperty.floor || ''}
-                    onChange={handleInputChange}
-                    placeholder="Floor"
-                  />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Carpet Area (sq. ft.)</label>
-                  <input
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    type="number"
-                    name="carpetArea"
-                    value={editProperty.carpetArea || ''}
-                    onChange={handleInputChange}
-                    placeholder="Carpet Area"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Built-up Area (sq. ft.)</label>
-                  <input
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    type="number"
-                    name="buArea"
-                    value={editProperty.buArea || ''}
-                    onChange={handleInputChange}
-                    placeholder="Built-up Area"
-                  />
-                </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">About Property</label>
-                <textarea
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  name="aboutProperty"
-                  value={editProperty.aboutProperty || ''}
-                  onChange={handleInputChange}
-                  placeholder="About Property"
-                  rows={4}
-                />
-              </div>
-              
-              {/* Property Images Section */}
-              <div>
-                <label className="block text-lg font-medium text-gray-700 mb-3">Property Images</label>
-                
-                {/* Existing Images */}
-                {propertyImages.length > 0 && (
-                  <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-700 mb-2">Current Images</h4>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                      {propertyImages.map((image, index) => (
-                        <div key={index} className="relative group">
-                          <img 
-                            src={image} 
-                            alt={`Property image ${index + 1}`}
-                            className="w-full h-32 object-cover rounded border border-gray-200"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveExistingImage(index)}
-                            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                            aria-label="Delete image"
-                          >
-                            <TrashIcon className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {/* New Images Previews */}
-                {imagesPreviews.length > 0 && (
-                  <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-700 mb-2">New Images</h4>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                      {imagesPreviews.map((preview, index) => (
-                        <div key={index} className="relative group">
-                          <img 
-                            src={preview} 
-                            alt={`New image ${index + 1}`}
-                            className="w-full h-32 object-cover rounded border border-gray-200"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveNewImage(index)}
-                            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                            aria-label="Delete image"
-                          >
-                            <TrashIcon className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {/* Upload New Images */}
-                <div className="mt-3">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    className="hidden"
-                    ref={fileInputRef}
-                    onChange={handleImageUpload}
+      
+   {showModal && editProperty && (
+  <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50 overflow-y-auto">
+    <div className="bg-white p-6 rounded-lg w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto my-8">
+      <h3 className="text-xl font-bold mb-4">Edit Property</h3>
+
+      {/* Property Images Section */}
+      <div>
+        <label className="block text-lg font-medium text-gray-700 mb-3">Property Images</label>
+
+        {/* Existing Images */}
+        {editProperty.multipleImages && editProperty.multipleImages.length > 0 && (
+          <div className="mb-4">
+            <h4 className="text-sm font-medium text-gray-700 mb-2">Current Images</h4>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                {editProperty.multipleImages.map((image: { path: string; originalName?: string }, index: number) => {
+                const fullUrl = `${baseUrl}${image.path}`;
+                return (
+                  <div key={index} className="relative group">
+                  <img 
+                    src={fullUrl} 
+                    alt={image.originalName || `Property image ${index + 1}`}
+                    className="w-full h-32 object-cover rounded border border-gray-200"
                   />
                   <button
                     type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center px-4 py-2 bg-blue-50 border border-blue-300 text-blue-700 rounded hover:bg-blue-100 transition-colors"
+                    onClick={() => {
+                    const updatedImages = [...editProperty.multipleImages];
+                    updatedImages.splice(index, 1);
+                    setEditProperty({
+                      ...editProperty,
+                      multipleImages: updatedImages
+                    });
+                    }}
+                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Delete image"
                   >
-                    <UploadIcon className="w-5 h-5 mr-2" />
-                    Upload Images
+                    <TrashIcon className="w-4 h-4" />
                   </button>
-                  <p className="text-xs text-gray-500 mt-1">
-                    You can select multiple images. Supported formats: JPG, PNG, WEBP
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex justify-end space-x-2 mt-6">
-              <button 
-                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
-                onClick={() => {
-                  // Clean up preview URLs before closing
-                  imagesPreviews.forEach(preview => URL.revokeObjectURL(preview));
-                  setShowModal(false);
-                }}
-              >
-                Cancel
-              </button>
-              <button 
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
-                onClick={handleUpdateProperty}
-              >
-                Save Changes
-              </button>
+                  </div>
+                );
+                })}
             </div>
           </div>
+        )}
+
+        {/* New Images Previews */}
+        {imagesPreviews.length > 0 && (
+          <div className="mb-4">
+            <h4 className="text-sm font-medium text-gray-700 mb-2">New Images</h4>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {imagesPreviews.map((preview, index) => (
+                <div key={index} className="relative group">
+                  <img 
+                    src={preview} 
+                    alt={`New image ${index + 1}`}
+                    className="w-full h-32 object-cover rounded border border-gray-200"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveNewImage(index)}
+                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Delete image"
+                  >
+                    <TrashIcon className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Upload New Images */}
+        <div className="mt-3">
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            ref={fileInputRef}
+            onChange={handleImageUpload}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="flex items-center px-4 py-2 bg-blue-50 border border-blue-300 text-blue-700 rounded hover:bg-blue-100 transition-colors"
+          >
+            <UploadIcon className="w-5 h-5 mr-2" />
+            Upload Images
+          </button>
+          <p className="text-xs text-gray-500 mt-1">
+            You can select multiple images. Supported formats: JPG, PNG, WEBP
+          </p>
         </div>
-      )}
+      </div>
+
+      <div className="flex justify-end space-x-2 mt-6">
+        <button 
+          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
+          onClick={() => {
+            imagesPreviews.forEach(preview => URL.revokeObjectURL(preview));
+            setShowModal(false);
+          }}
+        >
+          Cancel
+        </button>
+        <button 
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
+          onClick={async () => {
+            try {
+              // First update the property details with existing images
+              const propertyData = {
+                ...editProperty,
+                // Keep the multipleImages array unchanged for existing images
+              };
+              
+              const response = await fetch(`http://localhost:5000/properties/${editProperty.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(propertyData),
+              });
+              
+              if (response.ok) {
+                // If there are new images, upload them
+                if (newImages.length > 0) {
+                  const formData = new FormData();
+                  newImages.forEach(image => {
+                    formData.append('images', image);
+                  });
+                  
+                  const uploadResponse = await fetch(`http://localhost:5000/properties/${editProperty.id}`, {
+                    method: "POST",
+                    body: formData,
+                  });
+                  
+                  if (!uploadResponse.ok) {
+                    alert("Property updated but failed to upload some images");
+                  }
+                }
+                
+                // Refresh the properties list
+                const updatedPropertiesResponse = await fetch("http://localhost:5000/properties");
+                const updatedProperties = await updatedPropertiesResponse.json();
+                setProperties(updatedProperties);
+                setFilteredProperties(updatedProperties);
+                
+                // Clean up preview URLs
+                imagesPreviews.forEach(preview => URL.revokeObjectURL(preview));
+                
+                setShowModal(false);
+              } else {
+                alert("Failed to update property");
+              }
+            } catch (error) {
+              console.error("Update failed", error);
+              alert("Error updating property");
+            }
+          }}
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
 }

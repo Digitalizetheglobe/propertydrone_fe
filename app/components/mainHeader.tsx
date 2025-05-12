@@ -1,6 +1,6 @@
 "use client"; // Add this directive at the top
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from "@/app/images/PropertyDrone-Logo.png";  // Adjust the path to your logo file
@@ -8,6 +8,8 @@ import logo from "@/app/images/PropertyDrone-Logo.png";  // Adjust the path to y
 const MainHeader: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [menuAnimationState, setMenuAnimationState] = useState('closed');
+    const menuRef = useRef<HTMLDivElement>(null);
 
     // Handle screen resize and detect mobile view
     useEffect(() => {
@@ -27,6 +29,25 @@ const MainHeader: React.FC = () => {
         };
     }, []);
 
+    // Handle menu open/close animations
+    useEffect(() => {
+        if (isMenuOpen) {
+            setMenuAnimationState('opening');
+            const timer = setTimeout(() => {
+                setMenuAnimationState('open');
+            }, 10); // Small delay to trigger the CSS transition
+            return () => clearTimeout(timer);
+        } else {
+            if (menuAnimationState === 'open' || menuAnimationState === 'opening') {
+                setMenuAnimationState('closing');
+                const timer = setTimeout(() => {
+                    setMenuAnimationState('closed');
+                }, 300); // Match this with the CSS transition duration
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [isMenuOpen]);
+
     // Close mobile menu when clicking outside
     useEffect(() => {
         if (!isMenuOpen) return;
@@ -43,6 +64,11 @@ const MainHeader: React.FC = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isMenuOpen]);
+
+    // Toggle menu with animation
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
 
     return (
         <header className="fixed top-0 left-0 right-0 w-full backdrop-blur-[28px]"
@@ -88,92 +114,98 @@ const MainHeader: React.FC = () => {
                     </div>
 
                     <div className="flex items-center space-x-2">
-                        {/* Hamburger menu for mobile */}
-                        
-
                         {/* Contact button - smaller on mobile */}
                         <Link href="/contactus">
-                            <button className="px-3 py-2 sm:px-4 sm:py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white hover:text-[#172747] rounded-[4px] hover:bg-[#FFFFFF80] text-sm sm:text-base">
+                            <button className="px-3 py-2 sm:px-4 sm:py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white hover:text-[#172747] rounded-[4px] hover:bg-[#FFFFFF80] text-sm sm:text-base transition-all duration-300">
                                 CONTACT US
                             </button>
                         </Link>
                         <button
-                            className="md:hidden hamburger-button p-1 bg-[#FFFFFF80] border  backdrop-blur-[18px] rounded-[4px]"
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="md:hidden hamburger-button p-1 bg-[#FFFFFF80] border backdrop-blur-[18px] rounded-[4px] transition-all duration-300"
+                            onClick={toggleMenu}
                             aria-label="Toggle menu"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6 text-[#172747]"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                {isMenuOpen ? (
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                ) : (
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                )}
-                            </svg>
+                            <div className="hamburger-icon w-6 h-6 relative flex justify-center items-center">
+                                <span className={`hamburger-line absolute w-5 h-0.5 bg-[#172747] transform transition-all duration-300 ease-in-out ${isMenuOpen ? 'rotate-45' : '-translate-y-1.5'}`}></span>
+                                <span className={`hamburger-line absolute w-5 h-0.5 bg-[#172747] transition-opacity duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+                                <span className={`hamburger-line absolute w-5 h-0.5 bg-[#172747] transform transition-all duration-300 ease-in-out ${isMenuOpen ? '-rotate-45' : 'translate-y-1.5'}`}></span>
+                            </div>
                         </button>
                     </div>
                 </nav>
 
-                {/* Mobile Navigation Menu - Slide out */}
-                {isMenuOpen && (
-                    <div className="md:hidden mobile-menu fixed top-[60px] left-0 right-0 bg-white shadow-lg animate-slideDown">
-                        <div className="flex flex-col bg-[#FFFFFF] bg-opacity-95 backdrop-blur-[28px]">
-                            <a href="/" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200">
-                                Home
-                            </a>
-                            <a href="aboutus" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200">
-                                About
-                            </a>
-                            <a href="properties" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200">
-                                Properties
-                            </a>
-                            <a href="developers" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200">
-                                Developer
-                            </a>
-                            <a href="services" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200">
-                                Services
-                            </a>
-                            <a href="blog" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200">
-                                Blog
-                            </a>
-                            <a href="career" className="text-[#172747] hover:bg-[#17274710] px-4 py-3">
-                                Career
-                            </a>
-                        </div>
+                {/* Mobile Navigation Menu with improved animations */}
+                <div 
+                    ref={menuRef}
+                    className={`md:hidden mobile-menu fixed top-[60px] left-0 right-0 bg-white shadow-lg transform transition-all duration-300 ease-in-out overflow-hidden ${
+                        menuAnimationState === 'closed' ? 'max-h-0 opacity-0 pointer-events-none' : 
+                        menuAnimationState === 'closing' ? 'max-h-[400px] opacity-0 pointer-events-none' : 
+                        menuAnimationState === 'opening' ? 'max-h-[400px] opacity-0' : 'max-h-[400px] opacity-100'
+                    }`}
+                >
+                    <div className="flex flex-col bg-[#FFFFFF] bg-opacity-95 backdrop-blur-[28px]">
+                        <a href="/" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
+                            Home
+                        </a>
+                        <a href="aboutus" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
+                            About
+                        </a>
+                        <a href="properties" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
+                            Properties
+                        </a>
+                        <a href="developers" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
+                            Developer
+                        </a>
+                        <a href="services" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
+                            Services
+                        </a>
+                        <a href="blog" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
+                            Blog
+                        </a>
+                        <a href="career" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 transform transition-all duration-300 hover:translate-x-2">
+                            Career
+                        </a>
                     </div>
-                )}
+                </div>
             </div>
             
-            {/* Add custom animation for mobile menu */}
+            {/* Add custom animations for hover effects and transitions */}
             <style jsx global>{`
-                @keyframes slideDown {
-                    from {
-                        opacity: 0;
-                        transform: translateY(-10px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
+                /* Menu link hover animation */
+                .mobile-menu a {
+                    position: relative;
+                    overflow: hidden;
                 }
                 
-                .animate-slideDown {
-                    animation: slideDown 0.2s ease-out forwards;
+                .mobile-menu a::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 0;
+                    height: 2px;
+                    background-color: #172747;
+                    transition: width 0.3s ease;
+                }
+                
+                .mobile-menu a:hover::after {
+                    width: 100%;
+                }
+                
+                /* Hamburger button animation */
+                .hamburger-button:hover {
+                    background-color: rgba(255, 255, 255, 0.9);
+                    transform: scale(1.05);
+                }
+                
+                /* Mobile menu transition */
+                .mobile-menu {
+                    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+                }
+                
+                /* Menu items staggered animation */
+                .mobile-menu a {
+                    transition: transform 0.3s ease, background-color 0.2s ease;
                 }
             `}</style>
         </header>

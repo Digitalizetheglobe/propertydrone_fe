@@ -22,6 +22,7 @@ interface Property {
   carpetArea: number;
   image: any;
   featured: boolean;
+  multipleImages?: any; // Add this property to the interface
 }
 
 export default function Properties() {
@@ -461,12 +462,16 @@ export default function Properties() {
                           variants={imageVariants}
                           className="h-56 bg-gray-200 relative"
                         >
-                          {/* Handle image object or string properly */}
+                          {/* Handle multipleImages array or fallback to single image */}
                           <Image 
-                            src={typeof property.image === 'object' ? property.image : bg} 
-                            alt={property.propertyName}
-                            fill
-                            className="object-cover"
+                          src={
+                            property.multipleImages && property.multipleImages.length > 0 
+                            ? property.multipleImages[0] 
+                            : property.image || bg
+                          } 
+                          alt={property.propertyName}
+                          fill
+                          className="object-cover"
                           />
                           
                           {/* Semi-transparent gradient overlay */}
