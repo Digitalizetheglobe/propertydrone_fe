@@ -149,7 +149,7 @@
 }
 @font-face {
   font-family: 'Ivy Mode';
-  src: url('/fonts/ivy-mode-regular.ttf') format('truetype');
+  src: url('/fonts/ivy-mode-light.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
