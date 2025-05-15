@@ -88,11 +88,14 @@ export default function Home() {
         
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
           <div className="text-center max-w-3xl mx-auto text-[#172747]">
-            <p className="text-sm uppercase font-medium tracking-wider text-[#172747] mb-4">OUR SERVICES</p>
-            <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+            <p className=" uppercase  tracking-wider text-gray-300 mb-4"
+             
+                      style={{ fontSize:'18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>OUR SERVICES</p>
+            <h2 className="text-white mb-6 font-[400] text-[56px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+              style={{ fontSize:'56px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}   >
               Making Your Property Journey<br />
               Smarter, Simpler, and Faster
-            </h1>
+            </h2>
             <p className="text-[#172747] mb-8 max-w-xl mx-auto">
               At PropertyDrone Realty, we offer more than listings—we offer complete solutions.
               From stunning drone views to personalized consultations, we&apos;re here to make your 

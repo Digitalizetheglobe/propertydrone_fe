@@ -155,7 +155,7 @@ export default function WhoWeAre() {
              
                       style={{ fontSize:'18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
             
-            >OUR SERVICES</p>
+            >About</p>
             
             <h2 className="text-white mb-6 font-[400] text-[56px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
               style={{ fontSize:'56px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}   >
@@ -297,7 +297,7 @@ export default function WhoWeAre() {
       </div>
     </div>
 
-      <div className="container mx-auto px-4 py-12">
+      <div className="container max-w-6xl mx-auto px-4 py-12">
         <h1 className="text-3xl font-serif mb-2">Who We Are</h1>
         <p className="text-gray-700 mb-8 max-w-3xl">
           PropertyOnline Realty is a trusted real estate agency offering expert services in both
