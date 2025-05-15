@@ -28,7 +28,7 @@ import e7 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Imag
 // import e11 from '@/public/images//PDR All Images-20250508T072635Z-001/PDR All Images/;
 import main3 from '@/public/images/Frame 145.png';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Globe, Book, Wallet, Zap  } from 'lucide-react';
 
 import type { StaticImageData } from 'next/image';
 
@@ -144,39 +144,158 @@ export default function WhoWeAre() {
     <source src="/video3.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
-  <div className="absolute inset-0 bg-black opacity-10"></div>
+  <div className="absolute inset-0 bg-black opacity-50"></div>
 </div>
 
         
         {/* Hero Content */}
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
           <div className="text-center max-w-3xl mx-auto text-white">
-            <p className="text-sm uppercase font-medium tracking-wider text-gray-300 mb-4">OUR SERVICES</p>
+            <p className=" uppercase  tracking-wider text-gray-300 mb-4"
+             
+                      style={{ fontSize:'18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
             
-            <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+            >OUR SERVICES</p>
+            
+            <h2 className="text-white mb-6 font-[400] text-[56px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+              style={{ fontSize:'56px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}   >
               Making Your Property Journey<br />
               Smarter, Simpler, and Faster
-            </h1>
+            </h2>
             
-            <p className="text-gray-200 mb-8 max-w-xl mx-auto">
-              At PropertyDrone Realty, we offer more than listings—we offer complete solutions.
-              From stunning drone views to personalized consultations, we're here to make your 
-              real estate experience effortless and rewarding.
+             <p className=" tracking-wider text-gray-300 mb-4"
+             
+                      style={{ fontSize:'20px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+            
+            >
+              PropertyDrone Realty is a young and dynamic real estate agency based in Pune, India. Since its establishment in 2020, the business has rapidly built a reputation as one of the top-tier channel partners in Pune by providing a wide array of real estate services to satisfy the needs of its customers.
             </p>
             
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="bg-[#172747] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
+              <Link href="/properties">
+              <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
                 Explore Properties
                 <FiArrowRight size={18} />
               </button>
-              <button className="border border-white bg-white text-[#172747] hover:bg-[#172747]  px-6 py-3 hover:text-white transition-colors">
+              </Link>
+              <Link href="/contactus">
+              <button className="border border-white rounded-[4px] bg-white text-[#172747] hover:bg-[#172747]  px-6 py-3 hover:text-white transition-colors">
                 Book Consultation
               </button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
+       <div className="w-full  py-16 px-4 md:px-8 bg-[#EEF1F5] ">
+      <div className=" flex max-w-6xl mx-auto  gap-4">
+        {/* Heading and CTA Section */}
+        <div className="flex items-center justify-center  bg-gray-50">
+  <div className=" p-10">
+    <h2
+      className="text-3xl md:text-4xl rounded-lg text-[#172747] mb-6 font-[200] leading-[140%] tracking-[1px]"
+      style={{ fontSize: '44px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}
+    >
+      We mean it <br></br>when we <br className="hidden sm:block" />
+      say <span className="text-indigo-500">the best</span>
+    </h2>
+
+    <div className="flex flex-col sm:flex-row gap-4 justify-center ">
+      <Link href="/careers">
+        <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
+          Career
+          <FiArrowRight size={18} />
+        </button>
+      </Link>
+      <Link href="/contactus">
+        <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
+             Connect
+          <FiArrowRight size={18} />
+        </button>
+      </Link>
+     
+    </div>
+  </div>
+</div>
+
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pl-2 w-full">
+          {/* Creators empowered */}
+          <div className="bg-gray-50 p-6 rounded-lg relative">
+            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+              <Zap className="w-6 h-6 text-indigo-500" />
+            </div>
+            <div className="mt-8">
+              <h3 className="  text-indigo-500 md:text-4xl rounded-lg font-[200]  tracking-[1px]"
+      style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>4 <span>Year</span></h3>
+              {/* <p className="text-2xl text-indigo-500 font-light"  style={{ fontSize: '36px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Year</p> */}
+              <p className="text-gray-700 mt-2"  style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>In the market</p>
+            </div>
+          </div>
+
+          {/* Learners enrolled */}
+          <div className="bg-gray-50 p-6 rounded-lg relative">
+            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+              <div className="w-6 h-6 flex items-center justify-center text-indigo-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+            </div>
+            <div className="mt-8 justify-baseline">
+             <h3 className="  text-indigo-500 md:text-4xl rounded-lg font-[200]  tracking-[1px]"
+      style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>500 <span >+</span></h3>
+              {/* <p className="text-2xl text-indigo-500 font-light"  style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}></p> */}
+              <p className="text-gray-700 mt-2"  style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Properties Sold</p>
+            </div>
+          </div>
+
+          {/* Courses created */}
+          <div className="bg-gray-50 p-6 rounded-lg relative">
+            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+              <Book className="w-6 h-6 text-indigo-500" />
+            </div>
+            <div className="mt-8">
+              <h3 className="  text-indigo-500 md:text-4xl rounded-lg font-[200]  tracking-[1px]"
+      style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>25 <span >+</span> </h3>
+              {/* <p className="text-2xl text-indigo-500 font-light"  style={{ fontSize: '36px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Lakhs</p> */}
+              <p className="text-gray-700 mt-2"  style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Industry awards</p>
+            </div>
+          </div>
+
+          {/* Countries served */}
+          <div className="bg-gray-50 p-6 rounded-lg relative">
+            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+              <Globe className="w-6 h-6 text-indigo-500" />
+            </div>
+            <div className="mt-8">
+              <h3 className="  text-indigo-500 md:text-4xl rounded-lg font-[200]  tracking-[1px]"
+      style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>150 </h3>
+              {/* <p className="text-2xl text-indigo-500 font-light"  style={{ fontSize: '36px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Lakhs</p> */}
+              <p className="text-gray-700 mt-2"  style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Bokers</p>
+            </div>
+          </div>
+
+          {/* Earned by creators Cities */}
+          <div className="md:col-span-2 lg:col-span-1 bg-gray-50 p-6 rounded-lg relative">
+            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+              <Wallet className="w-6 h-6 text-indigo-500" />
+            </div>
+            <div className="mt-8">
+               <h3 className="  text-indigo-500 md:text-4xl rounded-lg font-[200]  tracking-[1px]"
+      style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>9</h3>
+              {/* <p className="text-2xl text-indigo-500 font-light"  style={{ fontSize: '36px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Lakhs</p> */}
+              <p className="text-gray-700 mt-2"  style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Cities</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
       <div className="container mx-auto px-4 py-12">
         <h1 className="text-3xl font-serif mb-2">Who We Are</h1>
