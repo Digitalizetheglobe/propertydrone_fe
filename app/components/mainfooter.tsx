@@ -69,7 +69,7 @@ const Mainfooter = () => {
                       />
                     </div>
                     <span
-                      className="ml-2 text-base font-normal leading-none"
+                      className="ml-2 text-base  leading-none"
                       style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
                     >
                       info@propertydronealty.com

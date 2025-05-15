@@ -1155,7 +1155,7 @@ onMouseLeave={(e) => {
           style={{
             fontFamily: "'Ivy Mode'",
             fontWeight: 300,
-            fontSize: '56px',
+            fontSize: '50px',
             lineHeight: '140%',
             letterSpacing: '1px'
           }}
