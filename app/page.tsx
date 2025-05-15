@@ -33,6 +33,8 @@ import main2 from '../public/images/main2.png';
 import main3 from '../public/images/Frame 145.png';
 import main4 from '../public/images/buliding.png';
 import { useMemo as reactUseMemo } from 'react';
+// import { ChevronDown, ChevronUp } from 'lucide-react';
+
 // Import a placeholder image
 // import placeholderImg from '../public/images/placeholder.png'; // Make sure this exists
 
@@ -595,56 +597,57 @@ const PropertyCard = ({
         ></div>
       </div>
 
-      <div className="flex items-center text-xs text-gray-500 mb-2 border-b border-gray-400 px-4 py-2">
-        <div className="flex items-center pr-4 border-r border-gray-300">
-          <span>By developerName</span>
-        </div>
-        <div className="flex items-center pl-4 ml-auto">
-          <svg
-            className={`w-4 h-4 mr-1 transition-colors duration-300 ${
-              isHovered ? "text-blue-500" : ""
-            }`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-            ></path>
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-            ></path>
-          </svg>
-          <span className="transition-colors duration-300">
-            {property.location}
-          </span>
-        </div>
-      </div>
+     <div className="flex items-center text-xs text-black mb-2 border border-black px-4 py-2">
+  <div className="flex items-center pr-4 border-r border-black">
+    <span>By Developer</span>
+  </div>
+  <div className="flex items-center pl-4 ml-auto">
+    <svg
+      className={`w-4 h-4 mr-1 transition-colors duration-300 ${
+        isHovered ? "text-blue-500" : ""
+      }`}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+      ></path>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+      ></path>
+    </svg>
+    <span className="transition-colors duration-300">{property.location}</span>
+  </div>
+</div>
 
-      <div className="p-4">
+
+      <div className="p-2">
         <h3
-          className={`font-medium transition-colors duration-300 ${
+          className={`ml-2 text-base  leading-none ${
             isHovered ? "text-blue-800" : "text-gray-900"
           }`}
-        >
+                      style={{ fontSize: '28px', fontFamily: 'Lato', letterSpacing: '0.5px',lineHeight: '1.5' } }
+                    >
+        
           {property.propertyName}
         </h3>
       </div>
 
       <div className="px-4 py-3 flex items-center text-sm text-gray-600 border-b border-gray-400">
-        <div className="flex-1 transition-colors bg-[#EEF1F5] p-2 duration-300 hover:text-blue-700">
+        <div className="flex-1 transition-colors bg-[#EEF1F5] px-4 py-2 duration-300 hover:text-blue-700 letterSpacing-1">
           {property.topology || "bed"}
         </div>
         {property.carpetArea > 0 && (
-          <div className="flex-1 transition-colors bg-[#EEF1F5] p-2 duration-300 hover:text-blue-700">
-            {property.carpetArea}
+          <div className="flex-1 transition-colors bg-[#EEF1F5] px-4 py-2 duration-300 hover:text-blue-700">
+        {property.carpetArea || "carpet"} 
           </div>
         )}
       </div>
@@ -653,7 +656,7 @@ const PropertyCard = ({
         <div className="flex-1">
           <span
             className={`transition-all duration-300 ${
-              isHovered ? "text-blue-700 font-medium" : "text-blue-500"
+              isHovered ? "text-blue-800 font-medium" : "text-[#172747]"
             }`}
           >
             ₹ {property.tentativeBudget}
@@ -676,7 +679,7 @@ const PropertyCard = ({
               ></path>
             </svg>
           </button>
-          <button className="bg-blue-900 text-white px-4 py-1 text-sm rounded-sm transition-all duration-300 hover:bg-blue-700 transform hover:scale-105">
+          <button className="bg-[#172747] text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747]  px-4 py-2 text-sm rounded-[4px] transition-all duration-300  transform hover:scale-105">
             View Details
           </button>
         </div>
@@ -750,27 +753,29 @@ const PropertyCard = ({
   </header> */}
 
   {/* Main Hero Content */}
-  <main className="relative z-10 container mx-auto px-4 pt-50">
-    <div className="flex flex-col items-start max-w-3xl">
-      
-   <h1
+  <main className="relative z-10 container mx-auto px-4 pt-50 max-w-6xl ">
+    <div className="flex flex-row items-center justify-center gap-[10px]">
+    <div>
+      <h1
   style={{
     fontFamily: "Ivy Mode",
-    fontWeight: 300,
+    fontWeight: 100,
     // fontSize: '86px',
-    lineHeight: '80px',
+    lineHeight: '150%',
     letterSpacing: '0'
   }}
-  className="text-white mb-10 mt=20 text-[42px] sm:text-[86px]"
+  className="text-white mb-10 mt=20 text-[42px] sm:text-[76px]"
 >
   Find the best <br /> properties in Pune
 </h1>
 
+      </div>  
+   
 
 
-      <div className="flex flex-col md:flex-row items-start md:items-center mb-12">
+      <div className="flex flex-col md:flex-row items-start justify-baseline md:items-center ">
         <p className="text-white text-xl mb-4 md:mb-0 md:mr-8">
-          with Property Management company in Pune
+          with Property <br/> Management company <br/>in Pune
         </p>
         <a 
           href="contactus" 
@@ -786,7 +791,7 @@ const PropertyCard = ({
       {/* Property Category Cards */}
       
     </div>
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-hidden " id="filter-section">
 
 <div 
 ref={scrollContainerRef}
@@ -814,7 +819,7 @@ onMouseLeave={(e) => {
   <Image
     src={img}
     alt={`Card ${index + 1}`}
-    className="w-auto h-20 object-cover transition-all duration-300  sm:h-28"
+    className="w-auto h-20 object-cover transition-all duration-300  sm:h-30"
   />
 </div>
 
@@ -827,7 +832,7 @@ onMouseLeave={(e) => {
 </div>
 {/* ------------------------------ */}
 {/* Filter Section */}
-<div className="bg-[#172747] justify-center p-4 md:p-6 shadow-md">
+<div className="bg-[#172747] justify-center p-4 md:p-6 shadow-md" >
   <div className="flex flex-col md:flex-row md:items-end gap-4 my-6 mx-4 md:mx-20">
     
     {/* Search Input */}
@@ -1154,7 +1159,7 @@ onMouseLeave={(e) => {
             lineHeight: '140%',
             letterSpacing: '1px'
           }}
-          className="text-[#172747] mb-6"
+          className="text-[#172747] mb-6 "
         >
             "Let the experts help you<br />
             make the right investment"
@@ -1377,30 +1382,44 @@ onMouseLeave={(e) => {
           </div>
           
           {/* Right Column - Accordion */}
-          <div>
-            {faqData.map((faq, index) => (
-              <div key={faq.id} className="border-b border-gray-300">
-                <button
-                  className="w-full text-left py-4 pr-10 relative flex justify-between items-center"
-                  onClick={() => toggleAccordion(index)}
-                >
-                  <span className="font-medium">{faq.question}</span>
-                  <span className="absolute right-0">
-                    {openIndex === index ? (
-                      <ChevronUp size={16} />
-                    ) : (
-                      <ChevronDown size={16} />
-                    )}
-                  </span>
-                </button>
-                {openIndex === index && (
-                  <div className="pb-4 text-gray-600 bg-[#EEF1F5] p-4 ">
-                    {faq.answer}
-                  </div>
-                )}
-              </div>
-            ))}
+       <div className="space-y-3">
+  {faqData.map((faq, index) => {
+    const isOpen = openIndex === index;
+
+    return (
+      <div
+        key={faq.id}
+        className={`rounded-xl transition-all duration-300 ${
+          isOpen ? 'bg-white shadow-md' : 'bg-[#F1EEFF] shadow-2xl'
+        }`}
+      >
+        <button
+          onClick={() => toggleAccordion(index)}
+          className="w-full flex justify-between items-center px-6 py-5 text-left text-[#1C1C1C] font-semibold focus:outline-none"
+        >
+          <span className="text-base sm:text-[16px]">
+            {faq.question}
+          </span>
+          <span className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+            {isOpen ? (
+              <ChevronUp size={20} className="text-[#6B6B6B]" />
+            ) : (
+              <ChevronDown size={20} className="text-[#6B6B6B]" />
+            )}
+          </span>
+        </button>
+
+        {isOpen && (
+          <div className="px-6 py-4 text-[#4B4B4B] text-sm sm:text-[15px] bg-white border-t border-[#E0E0E0]">
+            {faq.answer}
           </div>
+        )}
+      </div>
+    );
+  })}
+</div>
+
+
         </div>
       </div>
     </section>

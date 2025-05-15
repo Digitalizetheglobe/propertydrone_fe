@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from "lucide-react";
-import heroBackground from '../../public/images/7578550-uhd_3840_2160_30fps 1.png'; // Adjust the path as necessary
-
+import heroBackground2 from '../../public/images/7578550-uhd_3840_2160_30fps 1.png'; // Adjust the path as necessary
+import heroBackground from '../../public/images/bgimage2.png';
 const BlogPage = () => {
     interface BlogPost {
         id: string;
@@ -128,7 +128,7 @@ const BlogPage = () => {
                                     />
                                 ) : (
                                     <Image 
-                                        src={heroBackground}
+                                        src={heroBackground2}
                                         alt={post.blogTitle}
                                         layout="fill"
                                         objectFit="cover"

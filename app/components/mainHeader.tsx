@@ -8,8 +8,12 @@ import logo from "@/app/images/PropertyDrone-Logo.png";  // Adjust the path to y
 const MainHeader: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [isFullMenuOpen, setIsFullMenuOpen] = useState(false);
     const [menuAnimationState, setMenuAnimationState] = useState('closed');
     const menuRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const dropdownButtonRef = useRef<HTMLButtonElement>(null);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     // Handle screen resize and detect mobile view
     useEffect(() => {
@@ -56,6 +60,7 @@ const MainHeader: React.FC = () => {
             const target = e.target as HTMLElement;
             if (!target.closest('.mobile-menu') && !target.closest('.hamburger-button')) {
                 setIsMenuOpen(false);
+                setIsFullMenuOpen(false);
             }
         };
         
@@ -65,16 +70,58 @@ const MainHeader: React.FC = () => {
         };
     }, [isMenuOpen]);
 
+    // Handle dropdown click outside to close
+    useEffect(() => {
+        if (!isDropdownOpen) return;
+        
+        const handleClickOutside = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if (!target.closest('.dropdown-menu') && !target.closest('.dropdown-button')) {
+                setIsDropdownOpen(false);
+            }
+        };
+        
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isDropdownOpen]);
+
     // Toggle menu with animation
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    // Toggle full menu
+    const toggleFullMenu = () => {
+        setIsFullMenuOpen(!isFullMenuOpen);
+    };
+
+    // Toggle dropdown
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
+
+    // Main navigation items with their display logic
+    const navigationItems = [
+        { name: 'Home', href: '/', alwaysShow: true },
+        { name: 'About', href: 'aboutus', alwaysShow: true },
+        { name: 'Services', href: 'services', alwaysShow: true },
+        { name: 'Properties', href: 'properties', alwaysShow: true },
+        { name: 'Developers', href: 'developers', alwaysShow: true },
+        { name: 'Blog', href: 'blog', alwaysShow: false },
+        { name: 'Career', href: 'career', alwaysShow: false }
+    ];
+
+    // Dropdown menu items (items that are not always shown)
+    const dropdownItems = navigationItems.filter(item => !item.alwaysShow);
+
     return (
-        <header className="fixed top-0 left-0 right-0 w-full backdrop-blur-[28px]"
+        <header className="fixed top-0 left-0 right-0 w-full bg-[#FFFFFF33] backdrop-blur-[28px]"
             style={{ zIndex: 1000 }}>
-            <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-                <nav className="flex items-center justify-between py-3 sm:py-4 z-50 bg-opacity-140">
+            <div className="max-w-6xl mx-auto lg:px-16">
+               <nav className="flex items-center justify-between px-4 sm:px-0 py-3 sm:py-4 z-50 bg-opacity-140">
+
                     {/* Logo container - made smaller on mobile */}
                     <div className="flex items-center space-x-2 sm:space-x-8 px-2 sm:px-4 py-2 sm:py-4 bg-[#FFFFFF80] backdrop-blur-[28px] bg-opacity-40 rounded-[4px]">
                         <Link href="/">
@@ -89,34 +136,71 @@ const MainHeader: React.FC = () => {
 
                         {/* Desktop Navigation */}
                         <div className="hidden md:flex space-x-6 px-6">
-                            <a href="/" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
-                                Home
-                            </a>
-                            <a href="aboutus" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
-                                About
-                            </a>
-                            <a href="properties" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
-                                Properties
-                            </a>
-                            <a href="developers" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
-                                Developer
-                            </a>
-                            <a href="services" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
-                                Services
-                            </a>
-                            <a href="blog" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
-                                Blog
-                            </a>
-                            <a href="career" className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]">
-                                Career
-                            </a>
+                            {navigationItems
+                                .filter(item => item.alwaysShow)
+                                .map((item) => (
+                                    <a 
+                                        key={item.name} 
+                                        href={item.href} 
+                                        className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]"
+                                    >
+                                        {item.name}
+                                    </a>    
+                                ))
+                            }
                         </div>
                     </div>
 
-                    <div className="flex items-center space-x-2">
-                        {/* Contact button - smaller on mobile */}
+                    <div className="flex items-center space-x-3">
+                        {/* More Button with Dropdown */}
+                        <div className="relative">
+                            <button
+                                ref={dropdownButtonRef}
+                                className=" hidden sm:flex dropdown-button pl-[12px] pr-[12px] py-5 bg-[#FFFFFF80] backdrop-blur-[18px] z-50 hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white text-black rounded-[4px]"
+                                onClick={toggleDropdown}
+                                onMouseEnter={() => setIsDropdownOpen(true)}
+                            >
+                                {isDropdownOpen ? 'More' : 'More'} <span className="ml-1">≡</span>
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            <div 
+                                ref={dropdownRef}
+                                className={`dropdown-menu absolute right-0 mt-1 w-48 ${isDropdownOpen ? 'block' : 'hidden'} bg-[#FFFFFF80] backdrop-blur-[28px] bg-opacity-40 rounded-[4px] shadow-lg z-50`}
+                                onMouseLeave={() => setIsDropdownOpen(false)}
+                            >
+                                {dropdownItems.map((item) => (
+                                    <a 
+                                        key={item.name} 
+                                        href={item.href} 
+                                        className="block px-4 py-3 text-black hover:bg-[#17274710] hover:text-[#172747] transition-all duration-300"
+                                    >
+                                        {item.name}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                                <Link href={`/#filter-section`}>
+                       <button className="hidden sm:flex p-3 sm:px-6 sm:py-5 bg-[#FFFFFF80] hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white backdrop-blur-[18px] z-50 text-black rounded-[4px]">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-5 w-5 sm:h-6 sm:w-6"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    />
+  </svg>
+</button>
+
+                        </Link>
                         <Link href="/contactus">
-                            <button className="px-3 py-2 sm:px-4 sm:py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white hover:text-[#172747] rounded-[4px] hover:bg-[#FFFFFF80] text-sm sm:text-base transition-all duration-300">
+                            <button className="px-3 py-2 sm:px-4 sm:py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white hover:text-black rounded-[4px] hover:bg-[#FFFFFF80] text-sm sm:text-base transition-all duration-300">
                                 CONTACT US
                             </button>
                         </Link>
@@ -144,27 +228,15 @@ const MainHeader: React.FC = () => {
                     }`}
                 >
                     <div className="flex flex-col bg-[#FFFFFF] bg-opacity-95 backdrop-blur-[28px]">
-                        <a href="/" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
-                            Home
-                        </a>
-                        <a href="aboutus" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
-                            About
-                        </a>
-                        <a href="properties" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
-                            Properties
-                        </a>
-                        <a href="developers" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
-                            Developer
-                        </a>
-                        <a href="services" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
-                            Services
-                        </a>
-                        <a href="blog" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2">
-                            Blog
-                        </a>
-                        <a href="career" className="text-[#172747] hover:bg-[#17274710] px-4 py-3 transform transition-all duration-300 hover:translate-x-2">
-                            Career
-                        </a>
+                        {navigationItems.map((item) => (
+                            <a 
+                                key={item.name} 
+                                href={item.href} 
+                                className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2"
+                            >
+                                {item.name}
+                            </a>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -189,6 +261,32 @@ const MainHeader: React.FC = () => {
                 }
                 
                 .mobile-menu a:hover::after {
+                    width: 100%;
+                }
+                
+                /* Dropdown menu animations */
+                .dropdown-menu {
+                    transition: opacity 0.3s ease, transform 0.3s ease;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                }
+                
+                .dropdown-menu a {
+                    position: relative;
+                    overflow: hidden;
+                }
+                
+                .dropdown-menu a::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 0;
+                    height: 2px;
+                    background-color: #172747;
+                    transition: width 0.3s ease;
+                }
+                
+                .dropdown-menu a:hover::after {
                     width: 100%;
                 }
                 

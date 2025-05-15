@@ -195,7 +195,7 @@ export default function Properties() {
     
     return true;
   });
-// Removed duplicate declaration of filteredProperties
+
   // Framer Motion variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -310,20 +310,11 @@ export default function Properties() {
       </section>
       
       {/* Filter controls */}
-            <div className="container mx-auto px-4 pt-4 pb-8">
+            <div className="container mx-auto px-4 pt-10 pb-8">
       <div className='flex'>
-
-
-
-
-
-
-
-
-        
           <div className="w-1/4">
-            <div className="bg-white shadow-md rounded-[4px] p-6 sticky top-6  overflow-auto border border-gray-100">
-              <div className="flex justify-between items-center mb-6">
+            <div className="bg-white shadow-md rounded-xl p-6 sticky top-6  overflow-auto border border-gray-100">
+              <div className="flex justify-between items-center my-6">
                 <h2 className="text-xl font-bold text-[#172747]">Filters</h2>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -339,7 +330,7 @@ export default function Properties() {
                 <input
                   type="text"
                   placeholder="Search properties"
-                  className="w-full border border-gray-300 rounded-[4px] py-3 px-4 pl-12 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full border border-gray-300 rounded-xl py-3 px-4 pl-12 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <svg className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -373,7 +364,7 @@ export default function Properties() {
                   <motion.button
                     whileHover={{ scale: 1.02, backgroundColor: "#f9fafb" }}
                     whileTap={{ scale: 0.98 }}
-                    className={`py-2.5 px-4 text-center border ${activeLocation === 'all' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-700'} rounded-[4px] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200`}
+                    className={`py-2.5 px-4 text-center border ${activeLocation === 'all' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-700'} rounded-xl hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200`}
                     onClick={() => setActiveLocation('all')}
                   >
                     All Locations
@@ -385,7 +376,7 @@ export default function Properties() {
                       key={index}
                       whileHover={{ scale: 1.02, backgroundColor: "#f9fafb" }}
                       whileTap={{ scale: 0.98 }}
-                      className={`py-2.5 px-4 text-center border ${activeLocation === location ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-700'} rounded-[4px] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200`}
+                      className={`py-2.5 px-4 text-center border ${activeLocation === location ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-700'} rounded-xl hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200`}
                       onClick={() => setActiveLocation(location)}
                     >
                       {location}
@@ -393,12 +384,46 @@ export default function Properties() {
                   ))}
                 </div>
               </div>
-              
+              {/* <div className="mb-8">
+                <h3 className="font-semibold text-gray-800 uppercase text-xs tracking-wider mb-4">Property Category</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  {propertyCategories.map((category) => (
+                    <motion.div 
+                      key={category.id}
+                      whileHover={{ scale: 1.05, backgroundColor: activeCategory === category.id ? "#dbeafe" : "#f9fafb" }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`flex flex-col items-center justify-center p-3 rounded-xl cursor-pointer transition-colors duration-200 ${activeCategory === category.id ? 'bg-blue-100 text-blue-700 font-medium shadow-sm' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'}`}
+                      onClick={() => setActiveCategory(category.id)}
+                    >
+                      <div className="h-10 w-10 mb-2 rounded-full flex items-center justify-center bg-white shadow-sm">
+                     
+                        <span className="text-sm font-medium">{category.name[0]}</span>
+                      </div>
+                      <span className="text-xs">{category.name}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div> */}
+              {/* <div className="mb-8">
+                <h3 className="font-semibold text-gray-800 uppercase text-xs tracking-wider mb-4">Property Type</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  {propertyTypes.map((type, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ scale: 1.02, backgroundColor: "#f9fafb" }}
+                      whileTap={{ scale: 0.98 }}
+                      className="py-2.5 px-4 text-center border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                    >
+                      {type}
+                    </motion.button>
+                  ))}
+                </div>
+              </div> */}
 
               <motion.button 
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-[4px] hover:shadow-lg transition-all duration-300 font-medium"
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium"
                 onClick={resetFilters}
               >
                 Reset Search
@@ -406,29 +431,14 @@ export default function Properties() {
             </div>
           </div>
 
-      
-              <div className="w-3/4 pl-6 py-6 ">
-              <div className="flex pb-4 gap-4">
-  <button
-    className="bg-[#172747] text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors"
-    onClick={() => setActiveCategory('primary')}
-  >
-    Primary Properties
-    <ArrowRight size={18} />
-  </button>
-  <button
-    className="bg-[#172747] text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors"
-    onClick={() => setActiveCategory('luxury')}
-  >
-    Luxury Properties
-    <ArrowRight size={18} />
-  </button>
-</div>
+      {/* Property listings */}
+              <div className="w-3/4 pl-6">
+             
                   {(activeCategory !== 'all' || activeLocation !== 'all' || featuredOnly) && (
                         <motion.div 
                           initial={{ opacity: 0, y: -10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="bg-blue-50 p-3 rounded-[4px] mb-6 flex flex-wrap items-center gap-2"
+                          className="bg-blue-50 p-3 rounded-xl mb-6 flex flex-wrap items-center gap-2"
                         >
                           <span className="text-sm font-medium text-blue-700 mr-2">Active Filters:</span>
                           
@@ -495,7 +505,7 @@ export default function Properties() {
                         <motion.div 
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="bg-red-50 text-red-600 p-5 rounded-[4px] border border-red-100 shadow-sm"
+                          className="bg-red-50 text-red-600 p-5 rounded-xl border border-red-100 shadow-sm"
                         >
                           {error}
                         </motion.div>
@@ -514,7 +524,7 @@ export default function Properties() {
                           whileHover="hover"
                           onHoverStart={() => setHoveredCard(property.id)}
                           onHoverEnd={() => setHoveredCard(null)}
-                          className="bg-white rounded-[4px] overflow-hidden shadow-md border border-gray-100 transform transition-all duration-300"
+                          className="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 transform transition-all duration-300"
                         >
                           <div className="relative overflow-hidden">
                             <motion.div 
