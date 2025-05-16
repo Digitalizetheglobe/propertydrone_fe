@@ -196,120 +196,117 @@ useEffect(() => {
         </div>
       </section>
        <div className="w-full  py-16 px-4 md:px-8 bg-[#EEF1F5] ">
-      <div className=" flex max-w-6xl mx-auto  gap-4">
+      <div className="max-w-6xl mx-auto gap-4 flex-col md:flex-row flex md:flex">
         {/* Heading and CTA Section */}
-        <div className="flex items-center justify-center  bg-gray-50 shadow-lg ">
-  <div className=" p-10">
-    <h2
-      className="text-3xl md:text-4xl rounded-lg text-[#172747] mb-6 font-[200] leading-[140%] tracking-[1px]"
-      style={{ fontSize: '44px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}
-    >
-      We mean it <br></br>when we <br className="hidden sm:block" />
-      say <span className="text-indigo-500">the best</span>
-    </h2>
+        <div className="flex items-center justify-center bg-gray-50 shadow-lg ">
+          <div className=" p-10">
+        <h2
+          className="text-3xl md:text-4xl rounded-lg text-[#172747] mb-6 font-[200] leading-[140%] tracking-[1px]"
+          style={{ fontSize: '44px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}
+        >
+          We mean it <br></br>when we <br className="hidden sm:block" />
+          say <span className="text-indigo-500">the best</span>
+        </h2>
 
-    <div className="flex flex-col sm:flex-row gap-4 justify-center ">
-      <Link href="/careers">
-        <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center ">
+          <Link href="/careers">
+            <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
           Career
           <FiArrowRight size={18} />
-        </button>
-      </Link>
-      <Link href="/contactus">
-        <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
-             Connect
+            </button>
+          </Link>
+          <Link href="/contactus">
+            <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
+          Connect
           <FiArrowRight size={18} />
-        </button>
-      </Link>
-     
-    </div>
-  </div>
-</div>
-
+            </button>
+          </Link>
+        </div>
+          </div>
+        </div>
 
         {/* Stats Grid */}
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pl-2 w-full">
-  {/* CARD TEMPLATE (repeated below with unique content) */}
-  <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
-    <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full transition-transform duration-300 group-hover:animate-bounce">
-      <Zap className="w-6 h-6 text-indigo-500 group-hover:text-indigo-600 transition-colors duration-300" />
-    </div>
-    <div className="mt-8">
-      <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-        4 <span>Year</span>
-      </h3>
-      <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-        In the market
-      </p>
-    </div>
-  </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pl-2 w-full">
+          {/* CARD TEMPLATE (repeated below with unique content) */}
+          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+        <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full transition-transform duration-300 group-hover:animate-bounce">
+          <Zap className="w-6 h-6 text-indigo-500 group-hover:text-indigo-600 transition-colors duration-300" />
+        </div>
+        <div className="mt-8">
+          <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+            4 <span>Year</span>
+          </h3>
+          <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+            In the market
+          </p>
+        </div>
+          </div>
 
-  {/* Properties Sold */}
-  <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
-    <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-      <div className="w-6 h-6 flex items-center justify-center text-indigo-500 transition-transform duration-300 group-hover:animate-bounce">
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          {/* Properties Sold */}
+          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+        <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+          <div className="w-6 h-6 flex items-center justify-center text-indigo-500 transition-transform duration-300 group-hover:animate-bounce">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
           <circle cx="9" cy="7" r="4"></circle>
           <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
           <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-        </svg>
-      </div>
-    </div>
-    <div className="mt-8">
-      <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-        500 <span>+</span>
-      </h3>
-      <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-        Properties Sold
-      </p>
-    </div>
-  </div>
+            </svg>
+          </div>
+        </div>
+        <div className="mt-8">
+          <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+            500 <span>+</span>
+          </h3>
+          <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+            Properties Sold
+          </p>
+        </div>
+          </div>
 
-  {/* Repeat the pattern below for other cards: Book, Globe, Wallet */}
-  <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
-    <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-      <Book className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
-    </div>
-    <div className="mt-8">
-      <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-        25 <span>+</span>
-      </h3>
-      <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-        Industry awards
-      </p>
-    </div>
-  </div>
+          {/* Repeat the pattern below for other cards: Book, Globe, Wallet */}
+          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+        <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+          <Book className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+        </div>
+        <div className="mt-8">
+          <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
+            25 <span>+</span>
+          </h3>
+          <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
+            Industry awards
+          </p>
+        </div>
+          </div>
 
-  <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
-    <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-      <Globe className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
-    </div>
-    <div className="mt-8">
-      <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-        150
-      </h3>
-      <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-        Brokers
-      </p>
-    </div>
-  </div>
+          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+        <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+          <Globe className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+        </div>
+        <div className="mt-8">
+          <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
+            150
+          </h3>
+          <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
+            Brokers
+          </p>
+        </div>
+          </div>
 
-  <div className="md:col-span-2 lg:col-span-1 bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
-    <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-      <Wallet className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
-    </div>
-    <div className="mt-8">
-      <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-        9
-      </h3>
-      <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-        Cities
-      </p>
-    </div>
-  </div>
-</div>
-
+          <div className="md:col-span-2 lg:col-span-1 bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+        <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+          <Wallet className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+        </div>
+        <div className="mt-8">
+          <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
+            9
+          </h3>
+          <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
+            Cities
+          </p>
+        </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -437,8 +434,8 @@ useEffect(() => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="rounded-[4px] bg-[#EEF1F5] border p-6 flex flex-col justify-center h-[520px] border-[#172747] hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
-          >
+             className="rounded-[4px] bg-[#EEF1F5] p-8 flex flex-col justify-center h-full lg:h-[520px] border border-[#172747] hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
+            >
             <Image
               src={quote}
               alt="Decorative quote"
@@ -454,13 +451,13 @@ useEffect(() => {
           </motion.div>
 
           {/* Second Row - Quote 2 (from left) */}
-          <motion.div
+            <motion.div
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="rounded-[4px] bg-[#EEF1F5] p-8 flex flex-col justify-center h-[520px] border border-[#172747] hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
-          >
+            className="rounded-[4px] bg-[#EEF1F5] p-8 flex flex-col justify-center h-full lg:h-[520px] border border-[#172747] hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
+            >
             <Image
               src={quote}
               alt="Decorative quote"
@@ -473,7 +470,7 @@ useEffect(() => {
               <p className="text-gray-700 text-lg font-medium">Ayush Thakur</p>
               <p className="text-gray-600 text-lg">— Co-Founder</p>
             </div>
-          </motion.div>
+            </motion.div>
 
           {/* Ayush Image (from right) */}
           <motion.div
