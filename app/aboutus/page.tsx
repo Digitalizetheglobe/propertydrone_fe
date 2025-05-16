@@ -166,10 +166,10 @@ useEffect(() => {
             
             >About</p>
             
-            <h2 className="text-white mb-6 font-[400] text-[56px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-              style={{ fontSize:'56px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}   >
-              Propertydrone Realty
-            </h2>
+            <h2 className="text-white mb-6 font-[400] text-[56px] leading-[140%] tracking-[1px]"
+   style={{ fontSize:'56px', fontFamily: 'Lato, sans-serif', letterSpacing: '1px' }}>
+   Propertydrone Realty
+</h2>
             
              <p className=" tracking-wider text-gray-300 mb-4"
              
