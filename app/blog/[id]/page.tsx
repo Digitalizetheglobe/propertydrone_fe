@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import blogimg from '@/public/images/bgimage2.png';
 
 interface Blog {
   id: number;
@@ -44,7 +45,6 @@ const BlogDetail = () => {
       <h3>What Is a Smart Home?</h3>
       <p>A smart home is equipped with devices that automate tasks normally handled by humans. These include lighting, heating, security systems, and even appliances. They are often connected through a central hub and controlled via smartphone apps or voice commands.</p>
     
-      <img src="/images/smart-home-living.jpg" alt="Smart living room" class="rounded-lg w-full h-auto my-6" />
     
       <h3>Impact on Property Value</h3>
       <p>Smart homes are becoming a key factor in determining property value. According to a report by Coldwell Banker, 81% of buyers are more likely to purchase a home if smart technology is already installed. Features like smart security systems and energy-efficient lighting appeal to both tech-savvy millennials and eco-conscious families.</p>
@@ -55,7 +55,6 @@ const BlogDetail = () => {
         <li>Improved comfort and convenience</li>
       </ul>
     
-      <img src="/images/smart-home-security.jpg" alt="Smart home security" class="rounded-lg w-full h-auto my-6" />
     
       <h3>Challenges to Adoption</h3>
       <p>Despite the benefits, there are barriers to widespread smart home adoption. These include data privacy concerns, upfront costs, and the complexity of integrating devices from different manufacturers.</p>
@@ -67,7 +66,6 @@ const BlogDetail = () => {
       <h3>Real Estate Trends</h3>
       <p>Real estate agents are now highlighting smart features in listings. Properties with pre-installed smart systems are often sold faster and at a premium. In competitive markets, smart technology can be a true differentiator.</p>
     
-      <img src="/images/real-estate-smart.jpg" alt="Smart real estate technology" class="rounded-lg w-full h-auto my-6" />
     
       <h3>The Future of Smart Living</h3>
       <p>As 5G and IoT technologies mature, smart homes will evolve into intelligent ecosystems that anticipate needs and learn from user behavior. Soon, your home may adjust lighting based on your mood, restock groceries automatically, or alert you to maintenance issues before they become costly repairs.</p>
@@ -76,7 +74,7 @@ const BlogDetail = () => {
     `
 ,    
       blogImage: [{
-        path: '/images/smart-home-bg.jpg',
+        path: '/images/bgimage2.png',
         filename: 'smart-home-bg.jpg',
         fieldName: 'blogImage',
         originalName: 'smart-home-bg.jpg'
@@ -130,7 +128,7 @@ const BlogDetail = () => {
             />
           ) : (
             <Image
-              src="/images/default-bg.jpg"
+              src="/images/bgimage2.png"
               alt="Default blog image"
               fill
               style={{ objectFit: "cover" }}
