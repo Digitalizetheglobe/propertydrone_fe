@@ -34,7 +34,14 @@ import main3 from '../public/images/7578550-uhd_3840_2160_30fps 1.png';
 import main33 from '../public/images/Frame 145.png';
 import main4 from '../public/images/buliding.png';
 import { useMemo as reactUseMemo } from 'react';
-import { m } from "framer-motion";
+
+import { motion } from 'framer-motion';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+// import { useEffect } from 'react';
+
+
+
 // import { ChevronDown, ChevronUp } from 'lucide-react';
 
 // Import a placeholder image
@@ -262,7 +269,36 @@ export default function Home() {
   //   { name: "Aundh", properties: 72, image: "/api/placeholder/400/320" },
   //   { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
   // ];
-
+  const containerVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.2,
+      duration: 0.6,
+      ease: 'easeOut',
+    },
+  }),
+};
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
+useEffect(() => {
+  AOS.init({
+    duration: 800, // Animation duration
+    once: true,    // Only animate once
+  });
+}, []);
   const [properties, setProperties] = useState<Property[]>([]);
 
   // First, let's group properties by location and count them
@@ -992,12 +1028,19 @@ onMouseLeave={() => setIsPaused(false)}
       <div className="max-w-6xl mx-auto px-4 py-12">
      
       <div className="text-center mb-8">
-        <p className="text-sm font-medium uppercase tracking-wider text-gray-600 mb-2">TOP LOCALITIES</p>
-        <h2 className="text-3xl md:text-4xl font-serif font-light">
-          Find homes in the most sought-after
-          <br />
-          neighborhoods of Pune.
-        </h2>
+        
+            <AnimatedLetters
+  text="TOP LOCALITIES"
+  as="h2"
+  className="uppercase text-[#172747] text-[16px] text-center sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+            
+/>
+
+<AnimatedLetters
+  text="Find homes in the most sought-after neighborhoods of Pune."
+  as="h3"
+   className="text-[#172747] text-center mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+      />
       </div>
 
      
@@ -1045,9 +1088,15 @@ onMouseLeave={() => setIsPaused(false)}
       as="h2"
       className="uppercase text-[#172747] text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
       />
-
+ 
       <AnimatedLetters
-      text="Be the first to discover the hottest launches in the Middle East"
+      text="Be the first to discover the hottest"
+      as="h3"
+      className="text-[#172747]  font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+      />
+
+       <AnimatedLetters
+      text="launches in Pune."
       as="h3"
       className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
       />
@@ -1143,21 +1192,37 @@ onMouseLeave={() => setIsPaused(false)}
    className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
       />
         </div>
-         <div className="flex-grow h-px bg-gray-400 "></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto max-w-6xl">
-          {features.map((feature) => (
-            <div key={feature.id} className="border-l border-r px-4 border-gray-400 pt-6">
-              <p className="text-gray-400 text-lg mb-4">{feature.id}</p>
-              <h3 className=" text-[24px] font-normal leading-[100%] tracking-normal mb-2"
-            style={{ fontFamily: 'Lato' }}>{feature.title}</h3>
-              <p className="text-gray-400 text-[18px] font-normal leading-[100%] tracking-normal "
-            style={{ fontFamily: 'Lato' }}>{feature.description}</p>
-            </div>
-          ))}
+        <div>
+           {/* <div className="flex-grow h-px bg-gray-400 "></div> */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto max-w-6xl gap-4">
+  {features.map((feature, index) => (
+    <div
+      key={feature.id}
+      className="border rounded-[4px] px-4 py-6 border-gray-400 hover:bg-[#EEF1F5] hover:text-[#172747] transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-sm hover:shadow-lg"
+      data-aos="fade-up"
+      data-aos-delay={index * 100}
+    >
+      <p className="text-gray-400 hover:text-[#172747] text-lg mb-4">{feature.id}</p>
+      <h3
+        className="text-[24px] font-normal leading-[100%] tracking-normal mb-2"
+        style={{ fontFamily: 'Lato' }}
+      >
+        {feature.title}
+      </h3>
+      <p
+        className="text-gray-400 hover:text-[#172747] text-[18px] font-normal leading-[100%] tracking-normal"
+        style={{ fontFamily: 'Lato' }}
+      >
+        {feature.description}
+      </p>
+    </div>
+  ))}
+</div>
+
+         {/* <div className="flex-grow h-px bg-gray-400 "></div> */}
         </div>
-         
       </div>
-      <div className="flex-grow h-px bg-gray-400 "></div>
+      
     </section>
 
     {/* ------------ */}
@@ -1267,25 +1332,59 @@ onMouseLeave={() => setIsPaused(false)}
         </div> */}
       </div>
             {/* <div className="flex-grow h-px bg-gray-400 "></div> */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {visibleTestimonials.map((testimonial) => (
-          <div key={testimonial.id} className="border-l border-r px-4 border-gray-400 pt-4">
-           <div className="flex justify-between items-center mb-2">
-              <h3 className="font-medium">{testimonial.company}</h3>
-              <div className="flex">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} size={16} className="text-amber-400 fill-amber-400" />
-                ))}
-              </div>
+       <motion.div
+      className="grid grid-cols-1 md:grid-cols-3 gap-6"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+    >
+      {visibleTestimonials.map((testimonial) => (
+        <motion.div
+          key={testimonial.id}
+          className="border-l border-r px-4 border-gray-400 pt-4 bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+          variants={cardVariants}
+        >
+          <div className="flex justify-between items-center mb-2">
+            <h3
+              className="ml-2 text-gray-700 font-normal leading-none"
+              style={{
+                fontSize: '20px',
+                fontFamily: 'Lato',
+                letterSpacing: '0.5px',
+              }}
+            >
+              {testimonial.company}
+            </h3>
+            <div className="flex">
+              {[...Array(testimonial.rating)].map((_, i) => (
+                <Star
+                  key={i}
+                  size={16}
+                  className="text-amber-400 fill-amber-400"
+                />
+              ))}
             </div>
-            
-            <p className="text-sm text-gray-700 mb-4 line-clamp-6">
-              {testimonial.text}
-            </p>
-            <p className="text-sm text-gray-500">{testimonial.date}</p>
           </div>
-        ))}
-      </div>
+          <p
+            className="ml-2 mb-2 text-gray-500 font-normal leading-none"
+            style={{
+              fontSize: '18px',
+              fontFamily: 'Lato',
+              letterSpacing: '0.5px',
+            }}
+          >
+            {testimonial.text}
+          </p>
+          <p
+            className="text-sm text-gray-500"
+            style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
+          >
+            {testimonial.date}
+          </p>
+        </motion.div>
+      ))}
+    </motion.div>
           {/* <div className="flex-grow h-px bg-gray-400 "></div> */}
       <div className="mt-12 flex items-center justify-between w-full relative">
   {/* Number Indicator */}
@@ -1321,7 +1420,7 @@ onMouseLeave={() => setIsPaused(false)}
     <section className="bg-[#172747] text-white py-16 px-4 md:px-8">
       <div className="container ">
         {/* Header Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 mx-auto max-w-6xl ">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 mx-auto max-w-6xl px-4">
           <div>
           <p
             className="uppercase test-[16px] sm:text-[18px]  text-white leading-[100%] tracking-normal mb-2"
@@ -1355,31 +1454,42 @@ onMouseLeave={() => setIsPaused(false)}
        
 
         {/* Blog Posts Grid */}
-            <div className="flex-grow h-px bg-gray-400"></div>
-        <div className="grid grid-cols-1 md:grid-cols-3  mx-auto max-w-6xl ">
-          
-          {blogPosts.map((post) => (
-            <div key={post.id} className="border-r border-l border-gray-400 p-4">
-              <Link href={`/blog/${post.id}`} className="block group">
-                <div className="relative h-48 mb-4 overflow-hidden">
-                  <Image 
-                    src={post.image} 
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
-                <div className="text-gray-400 text-sm mb-2">{post.date}</div>
-                <h3 className="text-lg font-medium mb-4 group-hover:text-blue-400">{post.title}</h3>
-                <div className="inline-flex items-center hover:text-blue-400">
-                  <ArrowRight size={16} />
-                </div>
-              </Link>
+            {/* <div className="flex-grow h-px bg-gray-400"></div> */}
+       <div className="grid grid-cols-1 md:grid-cols-3 mx-auto max-w-6xl px-4 gap-6">
+      {blogPosts.map((post, i) => (
+        <motion.div
+          key={post.id}
+          className="border border-gray-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 "
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          custom={i}
+        >
+          <Link href={`/blog/${post.id}`} className="block group">
+            <div className="relative h-48 overflow-hidden">
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                className="object-cover transform transition-transform duration-300 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
             </div>
-          ))}
-        </div>
-            <div className="flex-grow h-px bg-gray-400"></div>
+            <div className="p-4">
+              <div className="text-gray-400 text-sm mb-2">{post.date}</div>
+              <h3 className="text-lg font-medium mb-4 group-hover:text-blue-500 transition-colors duration-300">
+                {post.title}
+              </h3>
+              <div className="inline-flex items-center text-gray-500 group-hover:text-blue-500 transition-colors duration-300">
+                <ArrowRight size={16} />
+              </div>
+            </div>
+          </Link>
+        </motion.div>
+      ))}
+    </div>
+            {/* <div className="flex-grow h-px bg-gray-400"></div> */}
       </div>
     </section>
 
@@ -1422,7 +1532,8 @@ onMouseLeave={() => setIsPaused(false)}
           onClick={() => toggleAccordion(index)}
           className="w-full flex justify-between items-center px-6 py-5 text-left text-[#1C1C1C] font-semibold focus:outline-none"
         >
-          <span className="text-base sm:text-[16px]">
+          <span className="text-base sm:text-[16px]" 
+           style={{ fontFamily: 'Lato', letterSpacing: '1px' }}>
             {faq.question}
           </span>
           <span className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
@@ -1435,7 +1546,8 @@ onMouseLeave={() => setIsPaused(false)}
         </button>
 
         {isOpen && (
-          <div className="px-6 py-4 text-[#4B4B4B] text-sm sm:text-[15px] bg-white border-t border-[#E0E0E0]">
+          <div className=" px-6 py-4 text-[#4B4B4B] text-sm sm:text-[15px] bg-white border-t border-[#E0E0E0]  ml-2  font-normal leading-none"
+                      style={{ fontFamily: 'Lato', letterSpacing: '1px' , lineHeight: '150%'}}>
             {faq.answer}
           </div>
         )}

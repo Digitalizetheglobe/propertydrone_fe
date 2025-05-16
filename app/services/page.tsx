@@ -91,8 +91,11 @@ export default function Home() {
             <p className=" uppercase  tracking-wider text-gray-300 mb-4"
              
                       style={{ fontSize:'18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>OUR SERVICES</p>
-            <h2 className="text-white mb-6 font-[400] text-[56px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-              style={{ fontSize:'56px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}   >
+            <h2
+              className="text-[#172747] mb-6 font-[400] text-[56px] leading-[140%] tracking-[1px] font-[Ivy Mode] 
+                max-sm:text-[42px]"
+              style={{ fontSize: '56px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}
+            >
               Making Your Property Journey<br />
               Smarter, Simpler, and Faster
             </h2>
