@@ -6,6 +6,10 @@ import Image from 'next/image';
 import { ArrowRight, Upload } from "lucide-react";
 import Link from 'next/link';
 import openrole from "@/public/images/openrole.png";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+// import { useEffect } from 'react';
+
 
 // Define TypeScript interfaces outside the component
 interface Job {
@@ -33,7 +37,14 @@ interface FormattedJob {
 }
 
 const BenefitsSection = () => {
-  // For TypeScript in Next.js App Router
+  // For TypeScript in Next.js App
+  //  Router
+  useEffect(() => {
+  AOS.init({
+    duration: 800,
+    once: true,
+  });
+}, []);
   const [formData, setFormData] = useState<{
     firstName: string;
     lastName: string;
@@ -96,7 +107,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
       }
 
       // Send to API endpoint
-      const response = await fetch('http://localhost:5000/applications', {
+      const response = await fetch('http://localhost:5000/applications/submit', {
         method: 'POST',
         body: submissionData,
         // Don't set Content-Type header when sending FormData
@@ -195,44 +206,48 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
       <section id="top" className="relative min-h-screen">
         <div className="absolute inset-0 z-0">
           <Image 
-            src="/images/7578550-uhd_3840_2160_30fps 1.png"
+            src="/images/bgimage1.png"
             alt="Luxury Property" 
             fill
             style={{ objectFit: "cover" }}
             priority
           />
-          <div className="absolute inset-0 bg-black opacity-40"></div>
+          {/* <div className="absolute inset-0 bg-black opacity-40"></div> */}
         </div>
         
         {/* Hero Content */}
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
-          <div className="text-center max-w-3xl mx-auto text-white">
-            <p className="text-sm uppercase font-medium tracking-wider text-gray-300 mb-4">CAREERS</p>
+          <div className="text-center max-w-3xl mx-auto text-[#172747]">
+            <p className="text-sm uppercase font-medium tracking-wider  mb-4">CAREERS</p>
             
             <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
               Join Our Mission to Elevate <br/> Real Estate Innovation
             </h1>
             
-            <p className="text-gray-200 mb-8 max-w-xl mx-auto">
+            <p className=" mb-8 max-w-xl mx-auto">
               We're building a future where technology, vision, and real estate come together. Explore roles that match your passion and be part of a team shaping the industry.
             </p>
             
             {/* CTA Button */}
             <div className="flex justify-center">
-              <a
+              <Link
                 href="#open-roles"
-                className="inline-flex items-center py-2 px-6 bg-white/50 border border-white/50 backdrop-blur-md rounded-lg transition-all hover:bg-blue-900 hover:border-white hover:text-white text-blue-900"
-              >
-                View Open Roles
-              </a>
+                 >
+                <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
+                 View Open Roles
+               
+              </button>
+              </Link>
+             
             </div>
+
           </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="w-full py-16 border-t border-gray-200">
-        <div className="container mx-auto px-4">
+      <section className="w-full py-16 bg-[#EEF1F5] border-t border-gray-500">
+        <div className="container mx-auto px-4 max-w-6xl text-[#172747]">
           <div className="mb-12">
             <p className="uppercase text-sm font-medium tracking-wider mb-2">BENEFITS</p>
             <h2 className="text-4xl md:text-5xl font-light leading-tight max-w-xl">
@@ -241,60 +256,50 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Personal Growth */}
-            <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-xl font-medium mb-3">Personal Growth</h3>
-              <p className="text-gray-600">
-                Support includes a generous professional development budget
-              </p>
-            </div>
+  {[
+    {
+      title: 'Personal Growth',
+      desc: 'Support includes a generous professional development budget',
+    },
+    {
+      title: 'Full Benefits',
+      desc: 'Top-notch medical, dental, vision, life, disability, and 401k benefits',
+    },
+    {
+      title: 'Our Culture',
+      desc: 'There are many great reasons to be "OOO" and we support them',
+    },
+    {
+      title: 'Equity for All',
+      desc: 'Everyone should feel ownership over their work—literally',
+    },
+    {
+      title: 'Collaborative Team',
+      desc: 'Work with a diverse, talented, and supportive team where every voice is valued',
+    },
+    {
+      title: 'Performance Rewards',
+      desc: 'We offer competitive compensation and recognition for exceptional contributions',
+    },
+  ].map((item, index) => (
+    <div
+      key={index}
+      className="border-t bg-gray-300 border-gray-200 pt-6 transition transform hover:-translate-y-1 hover:shadow-lg hover:bg-gray-50 p-4 rounded-xl"
+      data-aos="fade-up"
+      data-aos-delay={index * 100}
+    >
+      <h3 className="text-xl font-medium mb-3">{item.title}</h3>
+      <p className="text-gray-600">{item.desc}</p>
+    </div>
+  ))}
+</div>
 
-            {/* Full Benefits */}
-            <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-xl font-medium mb-3">Full Benefits</h3>
-              <p className="text-gray-600">
-                Top-notch medical, dental, vision, life, disability, and 401k benefits
-              </p>
-            </div>
-
-            {/* Our culture */}
-            <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-xl font-medium mb-3">Our Culture</h3>
-              <p className="text-gray-600">
-                There are many great reasons to be "OOO" and we support them
-              </p>
-            </div>
-
-            {/* Equity for All */}
-            <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-xl font-medium mb-3">Equity for All</h3>
-              <p className="text-gray-600">
-                Everyone should feel ownership over their work—literally
-              </p>
-            </div>
-
-            {/* Collaborative Team */}
-            <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-xl font-medium mb-3">Collaborative Team</h3>
-              <p className="text-gray-600">
-                Work with a diverse, talented, and supportive team where every voice is valued
-              </p>
-            </div>
-
-            {/* Performance Rewards */}
-            <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-xl font-medium mb-3">Performance Rewards</h3>
-              <p className="text-gray-600">
-                We offer competitive compensation and recognition for exceptional contributions
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
       {/* Open Roles Section */}
       <section id="open-roles" className="bg-gray-100 py-16">
-        <div className="container mx-auto px-4">
+        <div className="container max-w-6xl mx-auto px-4">
           <div className="flex flex-col md:flex-row">
             {/* Left side with text and job listings */}
             <div className="w-full md:w-1/2 pr-0 md:pr-8">
@@ -354,7 +359,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
         
       </section>
       <section className="bg-gray-100 py-16">
-      <div className="container mx-auto px-4">
+      <div className="container max-w-6xl mx-auto px-4">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden max-w-4xl mx-auto">
           <div className="p-8 md:p-12">
             <div className="flex flex-col md:flex-row">

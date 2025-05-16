@@ -9,18 +9,18 @@ import d3 from "@/public/images/Frame 106.png";
 import d4 from "@/public/images/Frame 107.png";
 import d5 from "@/public/images/Frame 108.png";
 import d6 from "@/public/images/Frame 109.png";
-import d7 from "@/public/images/Frame 110.png";
-import d8 from "@/public/images/Frame 111.png";
-import d9 from "@/public/images/Frame 112.png";
-import d10 from "@/public/images/Frame 104.png";
-import d11 from "@/public/images/Frame 105.png";
-import d12 from "@/public/images/Frame 106.png";
-import d13 from "@/public/images/Frame 107.png";
-import d14 from "@/public/images/Frame 108.png";
-import d15 from "@/public/images/Frame 109.png";
-import d16 from "@/public/images/Frame 110.png";
-import d17 from "@/public/images/Frame 111.png";
-import d18 from "@/public/images/Frame 112.png";
+import d7 from "@/public/images/Frame 104.png";
+import d8 from "@/public/images/Frame 105.png";
+import d9 from "@/public/images/Frame 106.png";
+import d10 from "@/public/images/Frame 107.png";
+import d11 from "@/public/images/Frame 108.png";
+import d12 from "@/public/images/Frame 109.png";
+import d13 from "@/public/images/Frame 104.png";
+import d14 from "@/public/images/Frame 105.png";
+import d15 from "@/public/images/Frame 106.png";
+import d16 from "@/public/images/Frame 107.png";
+import d17 from "@/public/images/Frame 108.png";
+import d18 from "@/public/images/Frame 109.png";
 import b1 from "@/public/images/service.png";
 import b2 from "@/public/images/buliding.png";
 import b3 from "@/public/images/service2.png";
@@ -30,9 +30,11 @@ import { useState, useEffect, useRef } from 'react';
 import bg1 from '@/public/images/7578550-uhd_3840_2160_30fps 1.png'; // Adjust the path as necessary
 // import main2 from '../public/images/mainvideo.mp4';
 import main2 from '../public/images/main2.png';
-import main3 from '../public/images/Frame 145.png';
+import main3 from '../public/images/7578550-uhd_3840_2160_30fps 1.png';
+import main33 from '../public/images/Frame 145.png';
 import main4 from '../public/images/buliding.png';
 import { useMemo as reactUseMemo } from 'react';
+import { m } from "framer-motion";
 // import { ChevronDown, ChevronUp } from 'lucide-react';
 
 // Import a placeholder image
@@ -342,8 +344,27 @@ const locationCounts = useMemo(() => {
     setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
   };
 
-  const images = [d1, d2, d3, d4, d5, d6, d7, d8, d9,d10,d11,d12,d13,d14,d15,d16,d17,d18];
-  
+ const images = [
+  { img: d1, link: 'anp-corp' },
+  { img: d2, link: 'majestique-developer' },
+  { img: d3, link: 'krunal-groups' },
+  { img: d4, link: 'kasturi' },
+  { img: d6, link: 'skyi-developers' },
+  { img: d5, link: 'Solitaire' },
+  { img: d7, link: 'anp-corp' },
+  { img: d8, link: 'majestique-developer' },
+  { img: d9, link: 'krunal-groups' },
+  { img: d10, link: 'kasturi' },
+  { img: d12, link: 'skyi-developers' },
+  { img: d11, link: 'Solitaire' },
+  { img: d13, link: 'anp-corp' },
+  { img: d14, link: 'majestique-developer' },
+  { img: d15, link: 'krunal-groups' },
+  { img: d16, link: 'kasturi' },
+  { img: d18, link: 'skyi-developers' },
+  { img: d17, link: 'Solitaire' },
+ 
+];
   interface FormData {
     name: string;
     email: string;
@@ -754,38 +775,39 @@ const PropertyCard = ({
 
   {/* Main Hero Content */}
   <main className="relative z-10 container mx-auto px-4 pt-50 max-w-6xl ">
-    <div className="flex flex-row items-center justify-center gap-[10px]">
+    <div className="flex flex-col md:flex-row gap-[20px] py-4">
     <div>
       <h1
-  style={{
-    fontFamily: "Ivy Mode",
-    fontWeight: 100,
-    // fontSize: '86px',
-    lineHeight: '150%',
-    letterSpacing: '0'
-  }}
-  className="text-white mb-10 mt=20 text-[42px] sm:text-[76px]"
->
-  Find the best <br /> properties in Pune
-</h1>
+        style={{
+        fontFamily: "Ivy Mode",
+        fontWeight: 100,
+        lineHeight: '150%',
+        letterSpacing: '0'
+        }}
+        className="text-white text-[42px] sm:text-[76px]"
+      >
+        Find the best <br /> properties in Pune
+      </h1>
 
       </div>  
-   
+     
 
 
-      <div className="flex flex-col md:flex-row items-start justify-baseline md:items-center ">
-        <p className="text-white text-xl mb-4 md:mb-0 md:mr-8">
-          with Property <br/> Management company <br/>in Pune
+      <div className="flex flex-col sm:mb-[20px]  md:flex-row md:items-end md:justify-between">
+        <p className="text-white text-[18px] sm:text-[32px] mb-4 md:mb-0 leading-none"
+          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
+          with Property <br /> Management <br />company  in Pune
         </p>
-        <a 
-          href="contactus" 
-          className="flex items-center bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50"
+        <Link href="/contactus">
+        <button
+          className="flex  ml-0 md:ml-[20px] bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50 md:mt-auto "
         >
           Get Consultation 
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
           </svg>
-        </a>
+        </button>
+        </Link>
       </div>
 
       {/* Property Category Cards */}
@@ -800,30 +822,31 @@ style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
 onMouseEnter={() => setIsPaused(true)}
 onMouseLeave={() => setIsPaused(false)}
 >
-{images.map((img, index) => (
-<div 
-key={index} 
-className="flex-shrink-0  h-34 mx-2 first:ml-0 transition-all duration-300 ease-in-out"
-style={{ 
-  transform: `scale(1)`,
-  transformOrigin: 'center center',
-}}
-onMouseEnter={(e) => {
-  e.currentTarget.style.transform = 'scale(1.05)';
-}}
-onMouseLeave={(e) => {
-  e.currentTarget.style.transform = 'scale(1)';
-}}
->
-<div className=" shadow-md   flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
-  <Image
-    src={img}
-    alt={`Card ${index + 1}`}
-    className="w-auto h-20 object-cover transition-all duration-300  sm:h-30"
-  />
-</div>
-
-</div>
+{images.map((imgObj, index) => (
+  <div
+    key={index}
+    className="flex-shrink-0 h-32 mx-2 first:ml-0 mt-10 sm:mt-0 transition-all duration-300 ease-in-out"
+    style={{
+      transform: 'scale(1)',
+      transformOrigin: 'center center',
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.transform = 'scale(1.05)';
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.transform = 'scale(1)';
+    }}
+  >
+    <div className="shadow-md flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
+      <Link href={`/developers/${imgObj.link}`}>
+        <Image
+          src={imgObj.img}
+          alt={`Card ${index + 1}`}
+          className="w-auto h-22 object-cover transition-all duration-300 sm:h-30"
+        />
+      </Link>
+    </div>
+  </div>
 ))}
 </div>
 
@@ -933,23 +956,23 @@ onMouseLeave={(e) => {
     <div className="space-y-10 max-w-6xl mx-auto px-4 ">
       {/* Featured Properties Section */}
       <div className="mb-8 ">
-<AnimatedLetters
-  text="FEATURED PROPERTIES"
-  as="h2"
-    className="uppercase text-[#172747] text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-/>
+    <AnimatedLetters
+      text="FEATURED PROPERTIES"
+      as="h2"
+        className="uppercase text-[#172747] text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+    />
 
-<AnimatedLetters
-  text="Explore top-performing properties with high ROI and verified builder credibility."
-  as="h3"
-  className="text-[#172747] mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-/>
+    <AnimatedLetters
+      text="Explore top-performing properties with high ROI and verified builder credibility."
+      as="h3"
+       className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+      />
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {featuredProperties.map((property, index) => (
           <PropertyCard 
-            key={property.id} 
-            property={property} 
-            delay={index * 200} // Stagger the animations by 200ms per card
+        key={property.id} 
+        property={property} 
+        delay={index * 200} // Stagger the animations by 200ms per card
           />
         ))}
       </div>
@@ -966,7 +989,7 @@ onMouseLeave={(e) => {
 
       {/* -------------------------------------------------------------- */}
 
-      {/* <div className="max-w-6xl mx-auto px-4 py-12">
+      <div className="max-w-6xl mx-auto px-4 py-12">
      
       <div className="text-center mb-8">
         <p className="text-sm font-medium uppercase tracking-wider text-gray-600 mb-2">TOP LOCALITIES</p>
@@ -983,9 +1006,10 @@ onMouseLeave={(e) => {
     
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
       {locationCounts.map((locationData: { location: string; count: number; image: string }, index: number) => (
-        <div key={index} className="relative overflow-hidden group h-64 rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
+       <Link key={index} href={`/properties?location=${locationData.location}`}>
+       <div key={index} className="relative overflow-hidden group h-52  rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
           <Image
-        src= {main}
+        src= {main3}
         alt={`${locationData.location} properties`}
         className="w-full h-full object-cover"
           />
@@ -994,6 +1018,7 @@ onMouseLeave={(e) => {
         <p className="text-sm">{locationData.count} {locationData.count === 1 ? 'Property' : 'Properties'}</p>
           </div>
         </div>
+        </Link>
       ))}
     </div>
   </div>
@@ -1007,25 +1032,25 @@ onMouseLeave={(e) => {
         </button>
         </Link>
       </div>
-    </div> */}
+    </div>
 
     {/* ------------------------ */}
 
  <div className="bg-white">
   <section className="max-w-6xl mx-auto px-4 py-12">
-    <div className="mb-8 animate-fade-in">
+    <div className="mb-8 animate-fade-in text-justify">
      
       <AnimatedLetters
-  text="UPCOMING & LATEST LAUNCHES"
-  as="h2"
-    className="uppercase text-[#172747] text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-/>
+      text="UPCOMING & LATEST LAUNCHES"
+      as="h2"
+      className="uppercase text-[#172747] text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+      />
 
-<AnimatedLetters
-  text="Be the first to discover the hottest launches in the Middle East"
-  as="h3"
-  className="text-[#172747] mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-/>
+      <AnimatedLetters
+      text="Be the first to discover the hottest launches in the Middle East"
+      as="h3"
+      className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+      />
     </div>
 
     {/* Latest Properties Slider */}
@@ -1108,15 +1133,15 @@ onMouseLeave={(e) => {
                <AnimatedLetters
   text="WHY CHOOSE US"
   as="h2"
-  className="uppercase text-white text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+  className="uppercase text-white text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
             
 />
 
 <AnimatedLetters
   text="We're redefining how people explore and purchase property."
   as="h3"
-  className="text-white mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-/>
+   className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+      />
         </div>
          <div className="flex-grow h-px bg-gray-400 "></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto max-w-6xl">
@@ -1140,7 +1165,7 @@ onMouseLeave={(e) => {
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image 
-          src= {main3}
+          src= {main33}
           alt="Background" 
           layout="fill"
           objectFit="cover"
@@ -1155,7 +1180,7 @@ onMouseLeave={(e) => {
           style={{
             fontFamily: "'Ivy Mode'",
             fontWeight: 300,
-            fontSize: '50px',
+            fontSize: '46px',
             lineHeight: '140%',
             letterSpacing: '1px'
           }}
@@ -1232,8 +1257,8 @@ onMouseLeave={(e) => {
 <AnimatedLetters
   text="Your trust is our greatest award"
   as="h3"
-  className="text-[#172747] mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-/>
+   className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+      />
         </div>
         {/* <div>
           <button  className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center">
@@ -1299,17 +1324,17 @@ onMouseLeave={(e) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 mx-auto max-w-6xl ">
           <div>
           <p
-            className="uppercase text-[18px] font-normal text-white leading-[100%] tracking-normal mb-2"
+            className="uppercase test-[16px] sm:text-[18px]  text-white leading-[100%] tracking-normal mb-2"
             style={{ fontFamily: 'Lato' }}
           >INSIGHTS & UPDATES</p>
             <h2  style={{
                   fontFamily: "'Ivy Mode'",
                   fontWeight: 300,
-                  fontSize: '56px',
+                  // fontSize: '56px',
                   lineHeight: '140%',
                   letterSpacing: '0'
                 }}
-                className="text-white mb-6"
+                className="text-white mb-0 sm:mb-6 text-[32px] sm:text-[50px]"
               >
               Make smarter decisions with expert-written blogs.
             </h2>
@@ -1373,23 +1398,23 @@ onMouseLeave={(e) => {
              <h2  style={{
                   fontFamily: "'Ivy Mode'",
                   fontWeight: 300,
-                  fontSize: '56px',
+                  // fontSize: '56px',
                   lineHeight: '140%',
                   letterSpacing: '0'
                 }}
-                className="text-[#172747] mb-6"
+                className="text-[#172747] mb-0 sm:mb-6 text-[32px] sm:text-[50px]"
               >Have questions? <br/> We've got answers.</h2>
           </div>
           
           {/* Right Column - Accordion */}
-       <div className="space-y-3">
+       <div className="space-y-3 py-4">
   {faqData.map((faq, index) => {
     const isOpen = openIndex === index;
 
     return (
       <div
         key={faq.id}
-        className={`rounded-xl transition-all duration-300 ${
+        className={`rounded-xl  transition-all duration-300 ${
           isOpen ? 'bg-white shadow-md' : 'bg-[#F1EEFF] shadow-2xl'
         }`}
       >

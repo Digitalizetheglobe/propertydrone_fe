@@ -35,11 +35,11 @@ export default function AnimatedLetters({ text, className = '', as: Tag = 'h2' }
           whileInView="visible"
           viewport={{ once: true }}
           variants={letterVariant}
-          style={{ display: 'inline-block' }}
-        >
+          style={{ display: 'inline-block' }} >
           {char === ' ' ? '\u00A0' : char}
         </motion.span>
       ))}
     </Tag>
   );
+  
 }

@@ -1,10 +1,8 @@
-// app/properties/property/[id]/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import PropertyDetail from '@/app/components/PropertyDetail';
-
 
 interface Property {
   id: number;
@@ -26,26 +24,30 @@ interface Property {
 
 export default function PropertyPage() {
   const params = useParams();
-  const [property, setProperty] = useState<Property | null>(null);
+  const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchProperty = async () => {
+    const fetchProperties = async () => {
       try {
-        const id = params.id;
-        if (!id) {
-          throw new Error('Property ID is required');
-        }
-
-        const response = await fetch(`http://localhost:5000/properties/${id}`);
-        
+        const response = await fetch(`http://localhost:5000/properties`);
         if (!response.ok) {
-          throw new Error('Failed to fetch property details');
+          throw new Error('Failed to fetch properties');
         }
+        const data: Property[] = await response.json();
 
-        const data = await response.json();
-        setProperty(data);
+        // Get the location from the URL param
+        const locationParam = params.location?.toString().toLowerCase();
+
+        // Filter properties by last word of slug
+        const filtered = data.filter((property) => {
+          const slugWords = property.slug.split('-');
+          const lastWord = slugWords[slugWords.length - 1].toLowerCase();
+          return lastWord === locationParam;
+        });
+
+        setFilteredProperties(filtered);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
@@ -53,8 +55,8 @@ export default function PropertyPage() {
       }
     };
 
-    fetchProperty();
-  }, [params.id]);
+    fetchProperties();
+  }, [params.location]);
 
   if (loading) {
     return (
@@ -75,27 +77,32 @@ export default function PropertyPage() {
     );
   }
 
-  if (!property) {
+  if (filteredProperties.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
-          <p>Property not found</p>
+          <p>No properties found for this location.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <PropertyDetail
-      property={{
-        ...property,
-        multipleImages: property.multipleImages.map((image) => ({
-          url: image,
-          path: image, // Replace with the correct value if available
-          filename: image.split('/').pop() || 'unknown', // Extract filename or provide a default
-          originalName: image.split('/').pop() || 'unknown', // Extract original name or provide a default
-        })),
-      }}
-    />
+    <div>
+      {filteredProperties.map((property) => (
+        <PropertyDetail
+          key={property.id}
+          property={{
+            ...property,
+            multipleImages: property.multipleImages.map((image) => ({
+              url: image,
+              path: image,
+              filename: image.split('/').pop() || 'unknown',
+              originalName: image.split('/').pop() || 'unknown',
+            })),
+          }}
+        />
+      ))}
+    </div>
   );
 }

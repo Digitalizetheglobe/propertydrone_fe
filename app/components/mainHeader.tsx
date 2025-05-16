@@ -156,11 +156,11 @@ const MainHeader: React.FC = () => {
                         <div className="relative">
                             <button
                                 ref={dropdownButtonRef}
-                                className=" hidden sm:flex dropdown-button pl-[12px] pr-[12px] py-5 bg-[#FFFFFF80] backdrop-blur-[18px] z-50 hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white text-black rounded-[4px]"
+                                className=" hidden sm:flex dropdown-button pl-[16px] pr-[16px] py-5 bg-[#FFFFFF80] backdrop-blur-[18px] z-50 hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white text-black rounded-[4px]"
                                 onClick={toggleDropdown}
                                 onMouseEnter={() => setIsDropdownOpen(true)}
                             >
-                                {isDropdownOpen ? 'More' : 'More'} <span className="ml-1">≡</span>
+                                {isDropdownOpen ? 'More ' : 'More '} <span className="ml-2">  ≡</span>
                             </button>
 
                             {/* Dropdown Menu */}

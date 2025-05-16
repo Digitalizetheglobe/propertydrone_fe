@@ -6,6 +6,7 @@ import bg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 interface ImageItem {
   path: string;
@@ -41,7 +42,9 @@ export default function Properties() {
   const [error, setError] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [activeImageIndexes, setActiveImageIndexes] = useState<Record<number, number>>({});
-
+  const searchParams = useSearchParams();
+const locationParam = searchParams.get('location'); // e.g., "Baner"
+const lastWord = locationParam ? locationParam.trim().split(' ').pop() : null;
   // API base URL - ideally from environment variables
   const baseUrl = "http://localhost:5000";
 
@@ -184,17 +187,21 @@ export default function Properties() {
   };
 
   const filteredProperties = properties.filter(property => {
-    // Check featured filter
-    if (featuredOnly && !property.featured) return false;
-    
-    // Check category filter
-    if (activeCategory !== 'all' && property.secondaryBadge.toLowerCase() !== activeCategory) return false;
-    
-    // Check location filter
-    if (activeLocation !== 'all' && property.location !== activeLocation) return false;
-    
-    return true;
-  });
+  // Featured filter
+  if (featuredOnly && !property.featured) return false;
+
+  // Category filter
+  if (activeCategory === 'primary' && property.tentativeBudget >= 25000000) return false;
+  if (activeCategory === 'luxury' && property.tentativeBudget < 25000000) return false;
+
+  // Location filter from query param
+  if (lastWord && property.location.toLowerCase() !== lastWord.toLowerCase()) return false;
+
+  // UI location filter
+  if (activeLocation !== 'all' && property.location !== activeLocation) return false;
+
+  return true;
+});
 // Removed duplicate declaration of filteredProperties
   // Framer Motion variants
   const containerVariants = {
@@ -321,7 +328,7 @@ export default function Properties() {
 
 
         
-          <div className="w-1/4">
+          <div className="w-1/4 sticky top-6">
             <div className="bg-white shadow-md rounded-[4px] p-6 sticky top-6  overflow-auto border border-gray-100">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold text-[#172747]">Filters</h2>
@@ -398,7 +405,7 @@ export default function Properties() {
               <motion.button 
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-[4px] hover:shadow-lg transition-all duration-300 font-medium"
+               className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors "
                 onClick={resetFilters}
               >
                 Reset Search
@@ -583,7 +590,7 @@ export default function Properties() {
                               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
                             </motion.div>
                             
-                            <div className="absolute top-4 left-4 flex space-x-2">
+                            {/* <div className="absolute top-4 left-4 flex space-x-2">
                               <motion.span 
                                 variants={badgeVariants}
                                 initial="initial"
@@ -600,7 +607,7 @@ export default function Properties() {
                               >
                                 {property.secondaryBadge}
                               </motion.span>
-                            </div>
+                            </div> */}
                             
                             {/* Property location on image */}
                             <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-white">
@@ -615,15 +622,15 @@ export default function Properties() {
                           </div>
                           
                           <div className="p-5">
-                            <h3 className="text-xl font-bold leading-tight">
+                            <h3 className="text-xl mb-2 font-bold leading-tight">
                               {property.propertyName}
                             </h3>
-                            <p className="text-sm text-gray-600 mb-4">
+                            {/* <p className="text-sm text-gray-600 mb-4">
                               <span className="font-semibold text-gray-800">Possession:</span> {property.possession}
-                            </p>
+                            </p> */}
                             
-                            <div className="flex justify-between text-sm mb-5 gap-2">
-                              <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-lg">
+                            <div className=" justify-between text-sm mb-5 ">
+                              <div className="flex mb-2 items-center bg-gray-50 px-3 py-1.5 rounded-lg">
                                 <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                 </svg>

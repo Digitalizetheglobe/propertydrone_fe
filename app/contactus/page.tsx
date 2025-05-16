@@ -4,9 +4,36 @@ import Link from 'next/link';
 import bg1 from "@/public/images/7578550-uhd_3840_2160_30fps 1.png";
 import logo from "@/app/images/PropertyDrone-Logo.png";  // Adjust the path to your logo file
 import { useState } from 'react';
-
+import { ChevronDown, ChevronUp } from 'lucide-react';
 export default function ContactUs() {
-  
+  const faqData = [
+  {
+    id: 1,
+    question: 'Are all listings verified on PropertyDrone Realty?',
+    answer: 'Yes, every listing goes through a strict verification process to ensure accuracy, legality, and transparency.'
+  },
+  {
+    id: 2,
+    question: 'Do I have to pay any brokerage fees?',
+    answer: 'Our fee structure depends on the type of service you choose. We offer transparent pricing with no hidden costs.'
+  },
+  {
+    id: 3,
+    question: 'Can I schedule a site visit through the website?',
+    answer: 'Yes, you can easily schedule site visits directly through our website by selecting your preferred date and time.'
+  },
+  {
+    id: 4,
+    question: 'How are drone views helpful in property buying?',
+    answer: 'Drone views provide a comprehensive perspective of the property and its surroundings, helping you understand the location, neighborhood, and accessibility better.'
+  },
+  {
+    id: 5,
+    question: 'What types of properties does Property Drone Realty specialize in?',
+    answer: 'Property Drone Realty deals in residential apartments, villas, bungalows, and a wide variety of commercial spaces like offices and shops in Pune and surrounding areas.'
+  },
+ 
+];
   // State for menu toggle
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
@@ -81,7 +108,11 @@ export default function ContactUs() {
       setError("Something went wrong. Please try again.");
     }
   };
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
+  const toggleAccordion = (index: number): void => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
   return (
     <main className="relative">
       {/* Hero Section with Form */}
@@ -227,6 +258,69 @@ export default function ContactUs() {
         </div>
       </div>
     </section>
+      <section className="bg-gray-100 py-16">
+      <div className="container mx-auto px-6 max-w-6xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Left Column - Heading */}
+          <div>
+          <p
+            className="uppercase text-[18px] font-normal text-[#172747] leading-[100%] tracking-normal mb-2"
+            style={{ fontFamily: 'Lato' }}
+          >FAQ</p>
+             <h2  style={{
+                  fontFamily: "'Ivy Mode'",
+                  fontWeight: 300,
+                  // fontSize: '56px',
+                  lineHeight: '140%',
+                  letterSpacing: '0'
+                }}
+                className="text-[#172747] mb-0 sm:mb-6 text-[32px] sm:text-[50px]"
+              >Have questions? <br/> We've got answers.</h2>
+          </div>
+          
+          {/* Right Column - Accordion */}
+       <div className="space-y-3 py-4">
+  {faqData.map((faq, index) => {
+    const isOpen = openIndex === index;
+
+    return (
+      <div
+        key={faq.id}
+        className={`rounded-xl  transition-all duration-300 ${
+          isOpen ? 'bg-white shadow-md' : 'bg-[#F1EEFF] shadow-2xl'
+        }`}
+      >
+        <button
+          onClick={() => toggleAccordion(index)}
+          className="w-full flex justify-between items-center px-6 py-5 text-left text-[#1C1C1C] font-semibold focus:outline-none"
+        >
+          <span className="text-base sm:text-[16px]">
+            {faq.question}
+          </span>
+          <span className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+            {isOpen ? (
+              <ChevronUp size={20} className="text-[#6B6B6B]" />
+            ) : (
+              <ChevronDown size={20} className="text-[#6B6B6B]" />
+            )}
+          </span>
+        </button>
+
+        {isOpen && (
+          <div className="px-6 py-4 text-[#4B4B4B] text-sm sm:text-[15px] bg-white border-t border-[#E0E0E0]">
+            {faq.answer}
+          </div>
+        )}
+      </div>
+    );
+  })}
+</div>
+
+
+        </div>
+      </div>
+    </section>
+
     <section className="bg-gray-100 py-20 mt-24 px-6">
       <div className="max-w-4xl mx-auto">
         <h3 className="text-sm font-medium text-gray-500 mb-4">GET IN TOUCH</h3>

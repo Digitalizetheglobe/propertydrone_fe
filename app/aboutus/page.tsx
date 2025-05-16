@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { ArrowRight } from 'lucide-react';
 import React from 'react';
+
 import Image from 'next/image';
 // import heroBackground from '@/public/images/7578550-uhd_3840_2160_30fps 1.png'; // Replace with the correct path to your image
 import { FiArrowRight } from 'react-icons/fi'; // Corrected import from 'react-icons/fi'
@@ -32,7 +33,9 @@ import ico2 from '@/public/images/ico2.png';
 import ico3 from '@/public/images/ico3.png';  
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight, X, Globe, Book, Wallet, Zap  } from 'lucide-react';
-
+import AOS from 'aos';
+import { motion } from 'framer-motion';
+import 'aos/dist/aos.css';
 import type { StaticImageData } from 'next/image';
 
 interface ImageType {
@@ -41,6 +44,7 @@ interface ImageType {
   alt: string;
   size: 'large' | 'small';
 }
+
 
 const images: ImageType[] = [
   { id: 1, src:e, alt: 'Image 1', size: 'large' },
@@ -58,7 +62,9 @@ const images: ImageType[] = [
 ];
 
 export default function WhoWeAre() {
-
+useEffect(() => {
+  AOS.init({ duration: 1000 });
+}, []);
   const awards = [
     {
       id: 1,
@@ -192,7 +198,7 @@ export default function WhoWeAre() {
        <div className="w-full  py-16 px-4 md:px-8 bg-[#EEF1F5] ">
       <div className=" flex max-w-6xl mx-auto  gap-4">
         {/* Heading and CTA Section */}
-        <div className="flex items-center justify-center  bg-gray-50">
+        <div className="flex items-center justify-center  bg-gray-50 shadow-lg ">
   <div className=" p-10">
     <h2
       className="text-3xl md:text-4xl rounded-lg text-[#172747] mb-6 font-[200] leading-[140%] tracking-[1px]"
@@ -222,83 +228,92 @@ export default function WhoWeAre() {
 
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pl-2 w-full">
-          {/* Creators empowered */}
-          <div className="bg-gray-50 p-6 rounded-lg relative">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <Zap className="w-6 h-6 text-indigo-500" />
-            </div>
-            <div className="mt-8">
-              <h3 className="  text-indigo-500 md:text-4xl rounded-lg font-[200]  tracking-[1px]"
-      style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>4 <span>Year</span></h3>
-              {/* <p className="text-2xl text-indigo-500 font-light"  style={{ fontSize: '36px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Year</p> */}
-              <p className="text-gray-700 mt-2"  style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>In the market</p>
-            </div>
-          </div>
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pl-2 w-full">
+  {/* CARD TEMPLATE (repeated below with unique content) */}
+  <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+    <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full transition-transform duration-300 group-hover:animate-bounce">
+      <Zap className="w-6 h-6 text-indigo-500 group-hover:text-indigo-600 transition-colors duration-300" />
+    </div>
+    <div className="mt-8">
+      <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+        4 <span>Year</span>
+      </h3>
+      <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+        In the market
+      </p>
+    </div>
+  </div>
 
-          {/* Learners enrolled */}
-          <div className="bg-gray-50 p-6 rounded-lg relative">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <div className="w-6 h-6 flex items-center justify-center text-indigo-500">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-              </div>
-            </div>
-            <div className="mt-8 justify-baseline">
-             <h3 className="  text-indigo-500 md:text-4xl rounded-lg font-[200]  tracking-[1px]"
-      style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>500 <span >+</span></h3>
-              {/* <p className="text-2xl text-indigo-500 font-light"  style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}></p> */}
-              <p className="text-gray-700 mt-2"  style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Properties Sold</p>
-            </div>
-          </div>
+  {/* Properties Sold */}
+  <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+    <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+      <div className="w-6 h-6 flex items-center justify-center text-indigo-500 transition-transform duration-300 group-hover:animate-bounce">
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </div>
+    </div>
+    <div className="mt-8">
+      <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+        500 <span>+</span>
+      </h3>
+      <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+        Properties Sold
+      </p>
+    </div>
+  </div>
 
-          {/* Courses created */}
-          <div className="bg-gray-50 p-6 rounded-lg relative">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <Book className="w-6 h-6 text-indigo-500" />
-            </div>
-            <div className="mt-8">
-              <h3 className="  text-indigo-500 md:text-4xl rounded-lg font-[200]  tracking-[1px]"
-      style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>25 <span >+</span> </h3>
-              {/* <p className="text-2xl text-indigo-500 font-light"  style={{ fontSize: '36px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Lakhs</p> */}
-              <p className="text-gray-700 mt-2"  style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Industry awards</p>
-            </div>
-          </div>
+  {/* Repeat the pattern below for other cards: Book, Globe, Wallet */}
+  <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+    <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+      <Book className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+    </div>
+    <div className="mt-8">
+      <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
+        25 <span>+</span>
+      </h3>
+      <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
+        Industry awards
+      </p>
+    </div>
+  </div>
 
-          {/* Countries served */}
-          <div className="bg-gray-50 p-6 rounded-lg relative">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <Globe className="w-6 h-6 text-indigo-500" />
-            </div>
-            <div className="mt-8">
-              <h3 className="  text-indigo-500 md:text-4xl rounded-lg font-[200]  tracking-[1px]"
-      style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>150 </h3>
-              {/* <p className="text-2xl text-indigo-500 font-light"  style={{ fontSize: '36px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Lakhs</p> */}
-              <p className="text-gray-700 mt-2"  style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Bokers</p>
-            </div>
-          </div>
+  <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+    <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+      <Globe className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+    </div>
+    <div className="mt-8">
+      <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
+        150
+      </h3>
+      <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
+        Brokers
+      </p>
+    </div>
+  </div>
 
-          {/* Earned by creators Cities */}
-          <div className="md:col-span-2 lg:col-span-1 bg-gray-50 p-6 rounded-lg relative">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <Wallet className="w-6 h-6 text-indigo-500" />
-            </div>
-            <div className="mt-8">
-               <h3 className="  text-indigo-500 md:text-4xl rounded-lg font-[200]  tracking-[1px]"
-      style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>9</h3>
-              {/* <p className="text-2xl text-indigo-500 font-light"  style={{ fontSize: '36px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Lakhs</p> */}
-              <p className="text-gray-700 mt-2"  style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>Cities</p>
-            </div>
-          </div>
-        </div>
+  <div className="md:col-span-2 lg:col-span-1 bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+    <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+      <Wallet className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+    </div>
+    <div className="mt-8">
+      <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
+        9
+      </h3>
+      <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
+        Cities
+      </p>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
 
-      <div className="container max-w-6xl mx-auto px-4 py-12">
+      <div className="container max-w-6xl mx-auto px-4 py-6">
         <h2  className="text-[#172747] mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">Who We Are</h2>
       <div className="flex justify-between items-center mb-8">
         <p className="text-gray-700 max-w-3xl ml-2 text-base  leading-none"
@@ -320,207 +335,199 @@ export default function WhoWeAre() {
         
         {/* Three Column Features */}
          {/* <div className="flex-grow h-px bg-[#172747] "></div> */}
-        <div className="flex flex-col md:flex-row justify-between pt-8">
+        <div className="flex flex-col md:flex-row justify-between pt-8 gap-4">
           {/* Our Strength */}
-          
-             <div className="w-full md:w-1/3 p-4 border-t-2 border-l-2 border-b-2 border-r border-[#172747]">
-            <div className="flex justify-center md:justify-start">
-              <div className="w-12 h-12 flex items-center justify-center mb-6">
-                <Image 
-                  src={ico1}
-                  alt="Decorative quote"
-                  className="h-10 w-12 inline-block ml-10"  >
-                    </Image>  
-                </div>
+         
+             <div className="relative max-w-[320px] max-h-[340px] bg-gradient-to-b from-[#c3e6ec] to-[#a7d1d9] rounded-[10px] p-8 pb-6 m-3 text-black font-sans overflow-hidden group transition-all duration-500 ease-out">
+      {/* Circle effect on hover */}
+      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-gradient-to-br from-[#364a60] to-[#384c6c] scale-100 origin-center transition-transform duration-300 ease-out group-hover:scale-[28] z-0"></div>
+  <div className="w-12 h-12 ">
+              <Image 
+                src={ico1}
+                alt="Decorative quote"
+                className="h-10 w-12 inline-block"  
+              />
+              </div>
+            <div className="flex justify-between items-center md:justify-start">
+              <h2 className="relative z-10 text-[#262626] text-xl font-bold mb-2 group-hover:text-white transition-colors duration-500">
+              Our Strength
+              </h2>
+             
             </div>
-            <h2 className="text-xl font-serif mb-3">Our Strength</h2>
-            <p className="text-sm text-gray-700">
-              Our team of experienced real estate advisors and consultants is our biggest asset. They bring in-depth market knowledge and a professional approach to help clients with buying, selling, investing, or leasing – making your journey seamless and well-informed.
+             
+            <p className="relative z-10 text-[#452c2c] text-base font-normal leading-6 group-hover:text-white/80 transition-colors duration-500">
+         Our team of experienced real estate advisors and consultants is our biggest asset. They bring in-depth market knowledge and a professional approach to help clients with buying, selling, investing, or leasing – making your journey seamless and well-informed.
             </p>
           </div>
+          
           
           {/* Our Vision */}
-          <div className="w-full md:w-1/3 p-4 border-t-2 border-r border-b-2 border-l border-[#172747]">
-            <div className="flex justify-center md:justify-start">
-              <div className="w-12 h-12 flex items-center justify-center mb-6">
-                 <Image 
-                  src={ico2}
-                  alt="Decorative quote"
-                  className="h-10 w-12 inline-block ml-10"  >
-                    </Image> 
-              </div>
-            </div>
-            <h2 className="text-xl font-serif mb-3">Our Vision</h2>
-            <p className="text-sm text-gray-700">
-              We aim to be a leading real estate consultancy renowned for our integrity, expertise, and client-first approach. Our goal is to transform the industry with innovative, tailored solutions that help people make confident real estate decisions.
-            </p>
-          </div>
           
-          {/* Our Mission */}
-          <div className="w-full md:w-1/3 p-4 border-t-2 border-r-2 border-b-2 border-l border-[#172747]">
-            <div className="flex justify-center md:justify-start">
-              <div className="w-12 h-12 flex items-center justify-center mb-6">
-                <Image 
-                  src={ico3}
-                  alt="Decorative quote"
-                  className="h-10 w-12 inline-block ml-10"  >
-                    </Image> 
+           <div className="relative max-w-[320px] max-h-[340px] bg-gradient-to-b from-[#c3e6ec] to-[#a7d1d9] rounded-[10px] p-8 pb-6 m-3 text-black font-sans overflow-hidden group transition-all duration-500 ease-out">
+      {/* Circle effect on hover */}
+      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-gradient-to-br from-[#364a60] to-[#384c6c] scale-100 origin-center transition-transform duration-300 ease-out group-hover:scale-[28] z-0"></div>
+  <div className="w-12 h-12 ">
+              <Image 
+                src={ico2}
+                alt="Decorative quote"
+                className="h-10 w-12 inline-block"  
+              />
               </div>
+            <div className="flex justify-between items-center md:justify-start">
+              <h2 className="relative z-10 text-[#262626] text-xl font-bold mb-2 group-hover:text-white transition-colors duration-500">
+              Our Vision
+              </h2>
+             
             </div>
-            <h2 className="text-xl font-serif mb-3">Our Mission</h2>
-            <p className="text-sm text-gray-700">
-              We provide personalized, end-to-end real estate services that exceed client expectations. By combining market insight with technology, we deliver results and build lasting relationships.
+             
+            <p className="relative z-10 text-[#452c2c] text-base font-normal leading-6 group-hover:text-white/80 transition-colors duration-500">
+          We aim to be a leading real estate consultancy renowned for our integrity, expertise, and client-first approach. Our goal is to transform the industry with innovative, tailored solutions that help people make confident real estate decisions.
             </p>
           </div>
+           <div className="relative max-w-[320px] max-h-[340px] bg-gradient-to-b from-[#c3e6ec] to-[#a7d1d9] rounded-[10px] p-8 pb-6 m-3 text-black font-sans overflow-hidden group transition-all duration-500 ease-out">
+      {/* Circle effect on hover */}
+      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-gradient-to-br from-[#364a60] to-[#384c6c] scale-100 origin-center transition-transform duration-300 ease-out group-hover:scale-[28] z-0"></div>
+  <div className="w-12 h-12 ">
+              <Image 
+                src={ico3}
+                alt="Decorative quote"
+                className="h-10 w-12 inline-block"  
+              />
+              </div>
+            <div className="flex justify-between items-center md:justify-start">
+              <h2 className="relative z-10 text-[#262626] text-xl font-bold mb-2 group-hover:text-white transition-colors duration-500">
+              Our Mission
+              </h2>
+             
+            </div>
+             
+            <p className="relative z-10 text-[#452c2c] text-base font-normal leading-6 group-hover:text-white/80 transition-colors duration-500">
+           We provide personalized, end-to-end real estate services that exceed client expectations. By combining market insight with technology, we deliver results and build lasting relationships.
+            </p>
+          </div>
+          {/* Our Mission */}
+          
         </div>
-        <div className="flex-grow h-px bg-[#172747] "></div>
+        {/* <div className="flex-grow h-px bg-[#172747] "></div> */}
       </div>
 
       {/* Our Team Section */}
       <div className="w-full bg-gray-100 py-12">
-        <div className="container mx-auto px-4 max-w-6xl ">
-          {/* Header Section */}
-          <div className="flex flex-col md:flex-row justify-between items-start mb-8">
-            <div>
-               <h2  className="text-[#172747] mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">Our Team</h2>
-              <p className="text-gray-700 text-sm max-w-lg">
-                Meet the minds shaping the future of real estate through innovation and dedication.
-                Our firm's finest experts, deeply committed to client success, deliver tailored, effective
-                investment property solutions.
-              </p>
-            </div>
-            <Link href="/careers">
-            <button className="bg-[#172747] text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747] text-sm px-4 py-2 mt-4 md:mt-0">
-              View Open Roles
-            </button>
-            </Link>
-          </div>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-          {/* Team Members Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* First Row */}
-            <div className="flex flex-col md:flex-row">
-              {/* Team Member 1 Image */}
-              <div className="w-full">
-                <Image
-                  src={nikhil}
-                  alt="Founder" 
-                  className="w-full h-[500px] object-cover object-center"
-                />
-              </div>
-            </div>
-            
-            {/* Quote 1 */}
-            <div className="bg-white p-6 flex flex-col justify-center h-[500px] broder border-[#172747]">
-            <Image 
-  src={quote}
-  alt="Decorative quote"
-  className="h-10 w-10 inline-block ml-10"
-/>
+          {/* First Row - Nikhil Image (from left) */}
+          <motion.div
+            initial={{ opacity: 0, x: -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="relative rounded-[4px] h-[520px] overflow-hidden hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
+          >
+            <Image
+              src={nikhil}
+              alt="Nikhil Manocha - Founder and CEO"
+              className="w-full h-full object-cover object-center"
+            />
+          </motion.div>
 
-
-              <p className="text-[#172747] text-[32px]  leading-[140%] tracking-normal font-['Ivy Mode'] mb-4 mx-10">
-                At PropertyOnline Realty, we're not just listing properties—we're elevating how people experience real estate.
-              </p>
-              <div className="mx-10">
-                <p className="text-[#00000099]" style={{ fontSize:'18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>Nikhil Manocha</p>
-                <p className="text-[#00000099] "style={{ fontSize:'18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>— Founder and CEO</p>
-              </div>
-            </div>
-
-            {/* Second Row */}
-            <div className="bg-white p-6 flex flex-col justify-center h-[550px] width-[500px] broder-2 border-[#172747]">
-            <Image 
+          {/* Quote 1 (from right) */}
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="rounded-[4px] bg-[#EEF1F5] border p-6 flex flex-col justify-center h-[520px] border-[#172747] hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
+          >
+            <Image
               src={quote}
               alt="Decorative quote"
               className="h-10 w-10 inline-block ml-10"
             />
-              <p className="text-gray-800 text-[32px] mx-10 font-light leading-[140%] tracking-normal font-['Ivy Mode'] mb-4">
-                We're building more than a platform—we're creating a trusted space where investors, sellers, and developers connect with confidence and clarity.
-              </p>
-              <div className="mx-10">
-                <p className="font-medium text-sm">Ayush Thakur</p>
-                <p className="text-gray-600 text-xs">— Co-Founder</p>
-              </div>
+            <p className="text-[#172747] text-[32px] leading-[140%] tracking-normal font-['Ivy Mode'] mb-4 mx-10">
+              At PropertyOnline Realty, we're not just listing properties—we're elevating how people experience real estate.
+            </p>
+            <div className="mx-10">
+              <p className="text-[#00000099]" style={{ fontSize: '18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>Nikhil Manocha</p>
+              <p className="text-[#00000099]" style={{ fontSize: '18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>— Founder and CEO</p>
             </div>
+          </motion.div>
 
-            {/* Team Member 2 Image */}
-            <div className="flex flex-col md:flex-row">
-              <div className="w-full">
-                <Image
-                  src={ayush}
-                  alt="Co-Founder" 
-                  className="w-full h-[550px] object-cover object-center"
-                />
-              </div>
+          {/* Second Row - Quote 2 (from left) */}
+          <motion.div
+            initial={{ opacity: 0, x: -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="rounded-[4px] bg-[#EEF1F5] p-8 flex flex-col justify-center h-[520px] border border-[#172747] hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
+          >
+            <Image
+              src={quote}
+              alt="Decorative quote"
+              className="h-10 w-10 inline-block ml-10"
+            />
+            <p className="text-[#172747] text-[32px] leading-[140%] tracking-normal font-['Ivy Mode'] mb-4 mx-10">
+              We're building more than a platform—we're creating a trusted space where property seekers and developers connect with confidence and clarity.
+            </p>
+            <div className="mx-10">
+              <p className="text-gray-700 text-lg font-medium">Ayush Thakur</p>
+              <p className="text-gray-600 text-lg">— Co-Founder</p>
             </div>
-          </div>
+          </motion.div>
+
+          {/* Ayush Image (from right) */}
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="relative border border-[#172747] rounded-[4px] h-[520px] overflow-hidden hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
+          >
+            <Image
+              src={ayush}
+              alt="Ayush Thakur - Co-Founder"
+              className="w-full h-full object-cover object-center"
+            />
+          </motion.div>
+
+        </div>
         </div>
       </div>
    
       {/* Other Team Members Section */}
-      <div className="w-full bg-gray-100 py-10">
-        <div className="container mx-auto px-4">
-          {/* Section Heading */}
-          <h2 className="text-2xl font-serif text-center mb-8">Other Team Members</h2>
-          
-          {/* Team Members Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Team Member Card 1 */}
-            <div className="bg-white">
-              <div className="h-48 overflow-hidden">
-                <Image 
-                  src={emp} 
-                  alt="Team Member" 
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
-              <div className="p-4">
-                <p className="font-medium text-sm">Name</p>
-                <p className="text-gray-600 text-xs">—Designation</p>
-              </div>
-            </div>
-            
-            {/* Team Member Card 2 */}
-            <div className="bg-white">
-              <div className="h-48 overflow-hidden">
-                <Image
-                  src={emp2} 
-                  alt="Team Member" 
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
-              <div className="p-4">
-                <p className="font-medium text-sm">Name</p>
-                <p className="text-gray-600 text-xs">—Designation</p>
-              </div>
-            </div>
-            
-            {/* Team Member Card 3 */}
-            <div className="bg-white">
-              <div className="h-48 overflow-hidden">
-                <Image
-                  src={emp3} 
-                  alt="Team Member" 
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
-              <div className="p-4">
-                <p className="font-medium text-sm">Name</p>
-                <p className="text-gray-600 text-xs">—Designation</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Image Slider */}
-          <div className="relative w-full max-w-6xl mx-auto px-4 py-8">
+      <div className="w-full bg-gray-100 py-4">
+      <div className="container mx-auto px-4 max-w-6xl py-6">
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {[emp, emp2, emp3].map((image, index) => (
+    <div
+      key={index}
+      className="bg-white rounded-lg shadow-md hover:shadow-xl transform transition duration-500 hover:scale-105 overflow-hidden"
+      data-aos="fade-up"
+      data-aos-delay={index * 200}
+    >
+      <div className=" overflow-hidden"> {/* Increased height */}
+        <Image
+          src={image}
+          alt={`Team Member ${index + 1}`}
+          className="w-full h-full object-cover object-center"
+        />
+      </div>
+      <div className="p-4">
+        <p className="font-medium text-base">Name</p>
+        <p className="text-gray-600 text-sm">—Designation</p>
+      </div>
+    </div>
+  ))}
+</div>
+      <div className="relative w-full max-w-6xl mx-auto px-4 py-8">
             {/* Main Slider */}
             <div className="flex items-center justify-center gap-4 overflow-hidden relative">
               {visibleImages.map((image, index) => (
                 <div 
                   key={`${image.id}-${index}`}
-                  className={`relative cursor-pointer transition-all duration-300 flex-shrink-0 bg-gray-200
-                    ${image.size === 'large' ? 'w-64 h-48' : 'w-20 h-20'}`}
+                 className={`relative cursor-pointer transition-all duration-300 flex-shrink-0 bg-gray-200
+  ${image.size === 'large' ? 'w-64 h-48' : 'w-[160px] h-48'}`}
+
                   onClick={() => openModal(image)}
                 >
                   <Image
@@ -548,7 +555,7 @@ export default function WhoWeAre() {
               onClick={nextSlide}
               aria-label="Next slide"
             >
-              <ChevronRight size={20} />
+              <ChevronRight size={30} />
             </button>
 
             {/* Modal for enlarged view */}
@@ -572,7 +579,8 @@ export default function WhoWeAre() {
               </div>
             )}
           </div>
-        </div>
+      </div>
+
         <section className="bg-[#0F1E3D] py-16 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Heading */}
@@ -602,70 +610,83 @@ export default function WhoWeAre() {
         </div>
       </div>
     </section>
-      <section className="relative w-full py-16 md:py-24">
-          {/* Background image */}
-          <div className="absolute inset-0 z-0">
-            <Image 
-              src= {main3}
-              alt="Background" 
-              layout="fill"
-              objectFit="cover"
-              priority
-            />
-          </div>
+        <section className="relative w-full py-16 md:py-24">
+      {/* Background image */}
+      <div className="absolute inset-0 z-0">
+        <Image 
+          src= {main3}
+          alt="Background" 
+          layout="fill"
+          objectFit="cover"
+          priority
+        />
+      </div>
+      
+      <div className="relative z-10 container mx-auto max-w-4xl px-4">
+        {/* Quote section */}
+        <div className="text-center mb-12">
+          <h2  
+          style={{
+            fontFamily: "'Ivy Mode'",
+            fontWeight: 300,
+            fontSize: '46px',
+            lineHeight: '140%',
+            letterSpacing: '1px'
+          }}
+          className="text-[#172747] mb-6 "
+        >
+            "Let the experts help you<br />
+            make the right investment"
+          </h2>
           
-          <div className="relative z-10 container mx-auto max-w-4xl px-4">
-            {/* Quote section */}
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-serif mb-6 leading-tight">
-                "Let the experts help you<br />
-                make the right investment"
-              </h2>
-              <div className="mt-4">
-                <p className="font-medium text-lg">Nikhil Mawale</p>
-                <p className="text-gray-600">Founder</p>
-              </div>
-            </div>
-            
-            {/* Form section */}
-            <div className="bg-white rounded-md shadow-sm p-6 max-w-3xl mx-auto">
-              <form  className="flex flex-col md:flex-row items-center gap-4">
-                <div className="w-full md:flex-1">
-                  <input
-                    type="text"
-                    name="name"
-                    
-                    placeholder="Name"
-                    className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
-                    required
-                  />
-                </div>
-                <div className="w-full md:flex-1">
-                  <input
-                    type="tel"
-                    name="phone"
-                  
-                    
-                    placeholder="Phone"
-                    className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
-                    required
-                  />
-                </div>
-                <Link href="/contactus">
-                <button
-                  type="submit"
-                  className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center"
-                >
-                  Get a Consultation
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
-                </Link>
-              </form>
-            </div>
+          <div className="mt-4">
+            <h2 className="text-2xl text-[#172747]  "  style={{
+            letterSpacing: '1px'
+          }} >Nikhil Mawale</h2>
+            <h2 className="text-2xl text-[#172747] font-bold mb-6 "  style={{
+            letterSpacing: '1px'
+          }} >Founder</h2>
           </div>
-        </section>
+        </div>
+        
+        {/* Form section */}
+        <div className="bg-white rounded-md shadow-sm p-6 max-w-3xl mx-auto">
+          <form  className="flex flex-col md:flex-row items-center gap-4">
+            <div className="w-full md:flex-1">
+              <input
+                type="text"
+                name="name"
+               
+                placeholder="Name"
+                className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
+                required
+              />
+            </div>
+            <div className="w-full md:flex-1">
+              <input
+                type="tel"
+                name="phone"
+              
+                placeholder="Phone"
+                className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
+                required
+              />
+            </div>
+            <Link href="/contactus">
+            <button
+              type="submit"
+              className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center"
+            >
+              Get a Consultation
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </button>
+            </Link>
+          </form>
+        </div>
+      </div>
+    </section>
       </div>
     </div>
   );

@@ -85,7 +85,7 @@ const Mainfooter = () => {
                       />
                     </div>
                     <span
-                      className="ml-2 text-base font-normal leading-relaxed"
+                      className="ml-2 text-base  leading-relaxed"
                       style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
                     >
                       9th Floor, Shivam Regency,<br />
