@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import image1 from'@/public/images/bgimage2.png';
 import { Metadata, ResolvingMetadata } from 'next';
 
 interface RealEstateBasic {
@@ -55,7 +56,52 @@ export default async function RealEstateBasicPage({
   const basic: RealEstateBasic = await getRealEstateBasic(id);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
+       <section className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
+          {/* Background Image - Using standard img tag for external URLs */}
+          <div className="absolute inset-0 h-full w-full">
+            <Image
+              src={image1}
+              alt={basic.title}
+              className="object-cover w-full h-full"
+            />
+          </div>
+
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/50"></div>
+
+          {/* Content */}
+          <div className="relative flex flex-col max-w-6xl justify-center h-full ml-10 text-white px-4">
+               <h1
+        style={{
+        fontFamily: "Ivy Mode",
+        fontWeight: 100,
+        lineHeight: '150%',
+        letterSpacing: '0'
+        }}
+        className="mb-4 text-white text-[42px] sm:text-[56px]"
+      
+            >
+              {basic.title}
+            </h1>
+
+             <p className="text-white text-[18px] sm:text-[28px] my-4 md:mb-0 leading-none"
+          style={{ fontWeight:'300',fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
+              <Link href="/">
+                <button className="bg-transparent text-white hover:text-red-700 rounded">
+                  Home
+                </button>
+              </Link> / <Link href="/real">
+                <button className="bg-transparent text-white hover:text-red-700 rounded">
+                  Properties
+                </button>
+              </Link> / <Link href={`/real/`}>
+                <button className='text-[#FEEB8F]'>bhavik</button>
+              </Link>
+            </p>
+          </div>
+        </section>
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
       <Link
         href="/real"
         className="inline-flex items-center text-blue-500 hover:text-blue-600 mb-6"
@@ -111,5 +157,6 @@ export default async function RealEstateBasicPage({
         </div>
       </article>
     </div>
+    </>
   );
 }

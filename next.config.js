@@ -17,6 +17,19 @@ const nextConfig = {
   
   // Other Next.js configurations
   reactStrictMode: true,
+
+  // Image configuration
+  images: {
+    domains: ['localhost'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '5000',
+        pathname: '/uploads/**',
+      },
+    ],
+  },
 }
 
 module.exports = nextConfig 

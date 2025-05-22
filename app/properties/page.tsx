@@ -368,55 +368,44 @@ const filteredProperties = properties.filter(property => {
       
       {/* Filter controls */}
             <div className="container mx-auto px-4 pt-4 pb-8">
-      <div className='flex'>
+      <div className='flex flex-col lg:flex-row'>
 
-
-
-
-
-
-
-
-        
-          <div className="w-1/4 sticky top-6">
-            <div className="bg-white shadow-md rounded-[4px] p-6 sticky top-6  overflow-auto border border-gray-100">
+          <div className="w-full lg:w-1/4 mb-6 lg:mb-0">
+            <div className="bg-white shadow-md rounded-[4px] p-4 lg:p-6 sticky top-6 overflow-auto border border-gray-100">
               <div className="flex items-center justify-center mb-6">
-  <div className="flex bg-blue-50 p-2 border border-bg-gradient-to-br from-amber-100 to-blue-60 rounded-full ">
-    <button
-      className={`px-12 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${
-        activeTab === 'all'
-          ? 'bg-white text-[#172747] shadow-sm'
-          : 'text-gray-500'
-      }`}
-      onClick={() => setActiveTab('all')}
-    >
-      All
-    </button>
-    <Link href={"/luxe-properties"} >
-       <button
-  className={`px-12 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-200 cursor-pointer ${
-    activeTab === 'luxe'
-      ? 'bg-white border border-bg-gradient-to-br from-amber-100 to-blue-60 text-[#172747] shadow-sm'
-      : 'text-gray-500 '
-  }`}
-  onClick={() => setActiveTab('luxe')}
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-4 w-4"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-  >
-    <path d="M12 2l3.09 6.26L22 9.27l-5.45 5.31L17.82 22 12 18.56 6.18 22l1.27-7.42L2 9.27l6.91-1.01L12 2z" />
-  </svg>
-  Luxe
-</button>
-    
-    </Link>
-  
-
-  </div>
-</div>
+                <div className="flex bg-blue-50 p-2 border border-bg-gradient-to-br from-amber-100 to-blue-60 rounded-full w-full justify-center">
+                  <button
+                    className={`px-6 lg:px-12 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${
+                      activeTab === 'all'
+                        ? 'bg-white text-[#172747] shadow-sm'
+                        : 'text-gray-500'
+                    }`}
+                    onClick={() => setActiveTab('all')}
+                  >
+                    All
+                  </button>
+                  <Link href={"/luxe-properties"} >
+                    <button
+                      className={`px-6 lg:px-12 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-200 cursor-pointer ${
+                        activeTab === 'luxe'
+                          ? 'bg-white border border-bg-gradient-to-br from-amber-100 to-blue-60 text-[#172747] shadow-sm'
+                          : 'text-gray-500 '
+                      }`}
+                      onClick={() => setActiveTab('luxe')}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M12 2l3.09 6.26L22 9.27l-5.45 5.31L17.82 22 12 18.56 6.18 22l1.27-7.42L2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                      Luxe
+                    </button>
+                  </Link>
+                </div>
+              </div>
 
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold cursor-pointer text-[#172747]">Filters</h2>
@@ -459,12 +448,9 @@ const filteredProperties = properties.filter(property => {
                 </div>
               </div>
 
-              
-
               <div className="mb-8">
                 <h3 className="font-semibold text-[#172747] uppercase text-xs tracking-wider mb-4">Location</h3>
-                <div className="grid grid-cols-2 gap-3">
-                  
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <motion.button
                     whileHover={{ scale: 1.02, backgroundColor: "#f9fafb" }}
                     whileTap={{ scale: 0.98 }}
@@ -473,7 +459,6 @@ const filteredProperties = properties.filter(property => {
                   >
                     All Locations
                   </motion.button>
-                  
                   
                   {availableLocations.map((location, index) => (
                     <motion.button
@@ -502,8 +487,8 @@ const filteredProperties = properties.filter(property => {
           </div>
 
       
-              <div className="w-3/4 pl-6 py-6 ">
-              <div className="flex pb-4 gap-4">
+              <div className="w-full lg:w-3/4 lg:pl-6 py-6">
+              <div className="flex flex-col sm:flex-row pb-4 gap-4">
 
 </div>
                   {(activeCategory !== 'all' || activeLocation !== 'all' || featuredOnly) && (
@@ -583,7 +568,7 @@ const filteredProperties = properties.filter(property => {
                         </motion.div>
                       ) : (
                   <motion.div 
-                    className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
@@ -696,15 +681,12 @@ const filteredProperties = properties.filter(property => {
                             </div>
                           </div>
                           
-                          <div className="p-5">
-                            <h3 className="text-xl mb-2 font-bold leading-tight">
+                          <div className="p-4 lg:p-5">
+                            <h3 className="text-lg lg:text-xl mb-2 font-bold leading-tight">
                               {property.propertyName}
                             </h3>
-                            {/* <p className="text-sm text-gray-600 mb-4">
-                              <span className="font-semibold text-gray-800">Possession:</span> {property.possession}
-                            </p> */}
                             
-                            <div className=" justify-between text-sm mb-5 ">
+                            <div className="flex flex-col sm:flex-row justify-between text-sm mb-5 gap-2">
                               <div className="flex mb-2 items-center bg-gray-50 px-3 py-1.5 rounded-[4px]">
                                 <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -731,19 +713,19 @@ const filteredProperties = properties.filter(property => {
                                 opacity: 1 
                               }}
                               transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                              className="flex justify-between items-center"
+                              className="flex flex-col sm:flex-row justify-between items-center gap-3"
                             >
                               {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
-                                <div className="font-bold text-xl text-[#172747]">
+                                <div className="font-bold text-lg lg:text-xl text-[#172747]">
                                   ₹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
                                 </div>
                               )}
                               
-                              <Link href={`/properties/${property.id}`} passHref>
+                              <Link href={`/properties/${property.id}`} passHref className="w-full sm:w-auto">
                                 <motion.button
                                   whileHover={{ scale: 1.05 }}
                                   whileTap={{ scale: 0.95 }}
-                                  className="bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
+                                  className="w-full bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
                                 >
                                   View Details
                                 </motion.button>

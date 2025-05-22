@@ -198,68 +198,78 @@ const propertyData = [
 const testimonials = [
   {
     id: 1,
-    text: "Nikhil and his team were with me throughout the process, understanding my requirements and suggesting the best projects.",
+    name: "Paresh Bansod",
+    text: "I am really glad that I came across PropertyDrone Realty. Nikhil along with his colleagues Vishal and Akshay were with me throughout the entire process. They understood my requirements really well and suggested the best suitable projects. They answered my each and every query. And once I finalised the project, they also helped in the negotiation. I would totally recommend them if you are buying a flat in Pune.",
     date: "16th April, 2025",
-    company: "Primdjfke Business Hub",
+    company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 2,
-    text: "Being NRIs, we found Nikhil's YouTube videos informative, which led us to find a place in Pune within a year.",
+    name: "Subhamoy Saha",
+    text: "Being NRIs we were looking to settle down in Pune in near future. We came to know about Nikhil and through his YouTube Videos. His videos were concise, compact, and informative in describing a property so we decided to reach out to him. We started to narrow down our requirements and location with him around Nov 2021 and within a year we had found a place.",
     date: "16th April, 2025",
-    company: "Prislkdfjiome Business Hub",
+    company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 3,
-    text: "PropertyDrone Realty played a huge part in our journey towards finding and building a home.",
+    name: "Subhamoy Saha",
+    text: "PropertyDrone Realty is such a huge part of our journey towards finding and building a home. We found out about Nikhil through YouTube, contacted him, did some consulting and he took me for a tour of several projects and locations as per my requirement. After a series of shortlisting and visiting potential properties, Nikhil and Vishal explained the USPs of the different projects and compared them to help us be clear about which one we want.",
     date: "16th April, 2025",
-    company: "sdfjkPrime Business Hub",
+    company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 4,
-    text: "Nikhil and Atharva were super helpful and patient, answering all of my questions and helping me find my dream home.",
+    name: "Jagdish Thadhani",
+    text: "I knew having a real estate agent would be a crucial factor in finding a perfect flat in Pune and I am so glad that I chose to work with PropertyDrone Realty. Nikhil is the most wonderful person to work with. Nikhil and his colleague Atharva, both were super helpful and patient, answering all of my questions (not matter how silly). He really took into account my needs and wants when compiling a list of apartments for viewing and I am so happy to say that I’ve found my dream home.",
     date: "16th April, 2025",
-    company: "Prisdfjome Business Hub",
+    company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 5,
-    text: "The team understood my needs and provided excellent guidance throughout the property selection process.",
+    name: "Shankar H",
+    text: "PropertyDrone Realty provided excellent support throughout my home-buying journey. Nikhil and his team gave me clear comparisons of projects, scheduled visits efficiently, and negotiated the best price possible. Highly recommended for anyone looking for transparency and professionalism.",
     date: "16th April, 2025",
-    company: "uuaauu Business Hub",
+    company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 6,
-    text: "Their expertise and dedication made the entire home-buying experience smooth and stress-free.",
+    name: "Bhavik Balpande",
+    text: "From the first call to finalizing the property, the entire team was super supportive. I appreciate how they explained every aspect, from floor plans to legal formalities. Nikhil and Vishal ensured a stress-free experience.",
     date: "16th April, 2025",
-    company: "uaaauuu Business Hub",
+    company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 7,
-    text: "I highly recommend PropertyDrone Realty for their professionalism and commitment to client satisfaction.",
+    name: "Ankush Jain",
+    text: "Being a first-time buyer, I had a lot of confusion and hesitation. But the PropertyDrone team, especially Akshay, was very patient and guided me through every step. Their honest opinions and expert suggestions helped me make the right decision.",
     date: "16th April, 2025",
-    company: "usdvvuuu Business Hub",
+    company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 8,
-    text: "Thanks to the team's support, I was able to make informed decisions and secure the perfect property.",
+    name: "Dimple",
+    text: "I came across PropertyDrone through YouTube, and contacting them was the best decision. They understood my preferences and budget well, and helped me find a beautiful flat. Their professional and friendly approach made the whole process seamless.",
     date: "16th April, 2025",
-    company: "uzduuu Business Hub",
+    company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 9,
-    text: "Their personalized approach and attention to detail exceeded my expectations.",
+    name: "Om B",
+    text: "Nikhil and team are truly passionate about helping home buyers. They were always available to answer doubts and helped me finalize a property I’m proud to call my home. Their negotiation skills and market knowledge are top-notch.",
     date: "16th April, 2025",
-    company: "uuuu Business Hub",
+    company: "PropertyDrone Realty",
     rating: 5
   }
 ];
+
 
 
 // import d from "@/app/images/d10.png";
@@ -1369,7 +1379,7 @@ onMouseLeave={() => setIsPaused(false)}
             
             <div className="flex gap-2">
               {Array.from({ length: Math.ceil(videos.length / 3) }).map((_, index) => (
-                <button
+                <button 
                   key={index}
                   onClick={() => handleSlideChange(index)}
                   className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-[#172747]' : 'bg-gray-300'}`}
