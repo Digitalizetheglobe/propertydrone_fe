@@ -6,7 +6,7 @@ import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-function LoginPageContent() {
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const registered = searchParams.get("registered");
@@ -120,10 +120,10 @@ function LoginPageContent() {
   );
 }
 
-export default function LoginPage() {
+export default function Login() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <LoginPageContent />
+      <LoginContent />
     </Suspense>
   );
 }

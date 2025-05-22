@@ -102,14 +102,22 @@ const BlogPage = () => {
                 
                 <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
                     <div className="text-center max-w-3xl mx-auto text-white">
-                        <p className="text-sm uppercase font-medium tracking-wider text-gray-300 mb-4">NEWS AND INSIGHTS</p>
+                        <p className=" uppercase text-gray-300 tracking-wider  mb-4"
+             
+                      style={{ fontSize:'18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>NEWS AND INSIGHTS</p>
                         
-                        <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
-                            Blogs
-                        </h1>
-                        
-                        <p className="text-gray-200 mb-8 max-w-xl mx-auto">
-                            At PropertyDrone Realty, we're constantly growing and evolving. Find out more about our latest deals, appointments, team news and more.
+                       <h2
+              className=" mb-6 font-[400] text-[56px] leading-[140%] tracking-[1px] font-[Ivy Mode] 
+                max-sm:text-[42px]"
+              style={{ fontSize: '56px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}
+            > Blogs
+                        </h2>
+                       
+                         <p className=" tracking-wider text-gray-300 mb-4"
+             
+                      style={{ fontSize:'20px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+            
+            > At PropertyDrone Realty, we're constantly growing and evolving. Find out more about our latest deals, appointments, team news and more.
                         </p>
                     </div>
                 </div>

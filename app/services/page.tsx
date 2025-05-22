@@ -88,7 +88,7 @@ export default function Home() {
         
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
           <div className="text-center max-w-3xl mx-auto text-[#172747]">
-            <p className=" uppercase  tracking-wider text-gray-300 mb-4"
+            <p className=" uppercase  tracking-wider  mb-4"
              
                       style={{ fontSize:'18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>OUR SERVICES</p>
             <h2
@@ -99,15 +99,18 @@ export default function Home() {
               Making Your Property Journey<br />
               Smarter, Simpler, and Faster
             </h2>
-            <p className="text-[#172747] mb-8 max-w-xl mx-auto">
-              At PropertyDrone Realty, we offer more than listings—we offer complete solutions.
+ <p className=" tracking-wider text-gray-300 mb-4"
+             
+                      style={{ fontSize:'20px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+            
+            > At PropertyDrone Realty, we offer more than listings—we offer complete solutions.
               From stunning drone views to personalized consultations, we&apos;re here to make your 
               real estate experience effortless and rewarding.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="bg-blue-900 text-white px-6 py-3 flex items-center justify-center gap-2 hover:bg-blue-800 transition-colors">
+              <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
                 Explore Properties
-                <ArrowRight size={18} />
+                {/* <FiArrowRight size={18} /> */}
               </button>
               <button className="border border-gray-300 bg-white text-gray-800 px-6 py-3 hover:bg-gray-50 transition-colors">
                 Book Consultation

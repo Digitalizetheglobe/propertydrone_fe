@@ -218,9 +218,15 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
         {/* Hero Content */}
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
           <div className="text-center max-w-3xl mx-auto text-[#172747]">
-            <p className="text-sm uppercase font-medium tracking-wider  mb-4">CAREERS</p>
+ <p className=" uppercase  tracking-wider  mb-4"
+             
+                      style={{ fontSize:'18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>CAREERS</p>
             
-            <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+            <h1
+              className="text-[#172747] mb-6 font-[400] text-[56px] leading-[140%] tracking-[1px] font-[Ivy Mode] 
+                max-sm:text-[42px]"
+              style={{ fontSize: '56px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}
+            >
               Join Our Mission to Elevate <br/> Real Estate Innovation
             </h1>
             
@@ -246,7 +252,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
       </section>
 
       {/* Benefits Section */}
-      <section className="w-full py-16 bg-[#EEF1F5] border-t border-gray-500">
+      <section className="w-full py-10 bg-gray-50 ">
         <div className="container mx-auto px-4 max-w-6xl text-[#172747]">
           <div className="mb-12">
             <p className="uppercase text-sm font-medium tracking-wider mb-2">BENEFITS</p>
@@ -284,7 +290,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
   ].map((item, index) => (
     <div
       key={index}
-      className="border-t bg-gray-300 border-gray-200 pt-6 transition transform hover:-translate-y-1 hover:shadow-lg hover:bg-gray-50 p-4 rounded-xl"
+      className="border-t bg-[#EEF1F5] border-gray-200 pt-6 transition transform hover:-translate-y-1 hover:shadow-lg hover:bg-gray-200 p-4 rounded-[4px]"
       data-aos="fade-up"
       data-aos-delay={index * 100}
     >
@@ -298,7 +304,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
       </section>
 
       {/* Open Roles Section */}
-      <section id="open-roles" className="bg-gray-100 py-16">
+      <section id="open-roles" className="bg-[#EEF1F5] py-10">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="flex flex-col md:flex-row">
             {/* Left side with text and job listings */}
@@ -330,8 +336,8 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
                       index !== jobs.length - 1 ? 'border-b border-gray-200' : ''
                     }`}
                   >
-                    <span className="text-gray-800 font-medium">{job.jobTitle}</span>
-                    <div className="bg-blue-900 text-white p-2 rounded-full">
+                    <span className="text-[#172747] font-medium">{job.jobTitle}</span>
+                    <div className="bg-[#172747] text-white p-2 rounded-full">
                       <ArrowRight size={16} />
                     </div>
                   </Link>
@@ -358,9 +364,9 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
         </div>
         
       </section>
-      <section className="bg-gray-100 py-16">
+      <section className="bg-gray-50 py-16">
       <div className="container max-w-6xl mx-auto px-4">
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden max-w-4xl mx-auto">
+        <div className="bg-white rounded-[4px] shadow-sm overflow-hidden max-w-4xl mx-auto">
           <div className="p-8 md:p-12">
             <div className="flex flex-col md:flex-row">
               {/* Left column */}
@@ -384,7 +390,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
                   <div className="mb-6">
                     <label 
                       htmlFor="resume" 
-                      className="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                      className="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-[4px] cursor-pointer hover:bg-gray-50 transition-colors"
                     >
                       <Upload className="mr-2 text-gray-600" size={18} />
                       <span>{fileName || 'Upload Your Resume'}</span>
@@ -473,8 +479,8 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
                     <button 
                       type="submit" 
                       disabled={isSubmitting}
-                      className="px-6 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-75"
-                    >
+                      className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
+               
                       {isSubmitting ? 'Sending...' : 'Send Application'}
                     </button>
                   </div>

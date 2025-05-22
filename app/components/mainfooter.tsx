@@ -29,12 +29,12 @@ const Mainfooter = () => {
       {/* Main Footer Container */}
       <div className="relative max-w-6xl mx-auto py-16">
         {/* Main Footer Content with Dark Blue Background */}
-        <div className="bg-[#172747] text-white rounded-lg shadow-xl overflow-hidden">
+        <div className="bg-[#172747] text-white rounded-[4px] shadow-xl overflow-hidden">
           <div className="container mx-auto px-8 py-12">
             {/* Footer Content Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
               {/* Logo and Contact Info */}
-              <div className="space-y-6">
+              <div className="space-y-6 ">
                 <div className="mb-4">
                   <Image
                     src={logo}
@@ -43,82 +43,91 @@ const Mainfooter = () => {
                   />
                 </div>
 
-                <div className="space-y-5" style={{ color: '#FFFFFF99' }}>
-                  <div className="flex items-center">
-                    <div className="flex justify-center items-center w-10">
-                      <Image 
-                        src={mob}
-                        alt="Phone icon"
-                        className="h-5 w-5"
-                      />
-                    </div>
-                    <span
-                      className="ml-2 text-base font-normal leading-none"
-                      style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
-                    >
-                      +91 9730145675
-                    </span>
-                  </div>
+                <div className="space-y-5 text-white" style={{ color: '#FFFFFF99' }}>
+  {/* Phone */}
+  <a href="tel:+919730145675" className="flex  hover:underline">
+    <div className="flex justify-start items-start w-10">
+      <Image 
+        src={mob}
+        alt="Phone icon"
+        className="h-5 w-5"
+      />
+    </div>
+    <span
+      className=" text-base leading-none"
+      style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
+    >
+      +91 9730145675
+    </span>
+  </a>
+  <a href="mailto:info@propertydronealty.com" className="flex hover:underline">
+    <div className="flex justify-start items-start w-10">
+      <Image 
+        src={mail}
+        alt="Phone icon"
+        className="h-5 w-5"
+      />
+    </div>
+    <span
+      className=" text-base leading-none"
+      style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
+    >
+     info@propertydronealty.com
+    </span>
+  </a>
 
-                  <div className="flex items-center">
-                    <div className="flex justify-center items-center w-10">
-                      <Image 
-                        src={mail}
-                        alt="Mail icon"
-                        className="h-5 w-5"
-                      />
-                    </div>
-                    <span
-                      className="ml-2 text-base  leading-none"
-                      style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
-                    >
-                      info@propertydronealty.com
-                    </span>
-                  </div>
+ 
 
-                  <div className="flex items-start">
-                    <div className="flex justify-center w-10 mt-1">
-                      <Image 
-                        src={loc}
-                        alt="Location icon"
-                        className="h-5 w-5"
-                      />
-                    </div>
-                    <span
-                      className="ml-2 text-base  leading-relaxed"
-                      style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
-                    >
-                      9th Floor, Shivam Regency,<br />
-                      Baner Shivayog, Baner, Pune,<br />
-                      Maharashtra 411045
-                    </span>
-                  </div>
-                </div>
+  {/* Location */}
+  <a
+    href="https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-start hover:underline"
+  >
+    <div className="flex justify-start items-start w-10">
+      <Image 
+        src={loc}
+        alt="Location icon"
+        className="h-5 w-5"
+      />
+    </div>
+    <span
+      className=" text-base leading-relaxed"
+      style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
+    >
+      9th Floor, Shivam Regency,<br />
+      Baner Shivayog, Baner, Pune,<br />
+      Maharashtra 411045
+    </span>
+  </a>
+</div>
+
               </div>
 
               {/* Quick Links */}
-              <div className="mt-2">
+                <div className="mt-2 md:ml-20">
                 <h3 className="text-sm font-semibold mb-6 text-white tracking-wide">Quick Links</h3>
                 <ul className="space-y-3 text-sm" style={{ fontFamily: 'Lato', letterSpacing: '0.5px', color: '#FFFFFF99' }}>
                   <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-                  <li><Link href="/about-us" className="hover:text-white transition-colors">About Us</Link></li>
+                  <li><Link href="/aboutus" className="hover:text-white transition-colors">About Us</Link></li>
                   <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
                   <li><Link href="/developers" className="hover:text-white transition-colors">Developers</Link></li>
                   <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
-                  <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
-                  <li><Link href="/contact-us" className="hover:text-white transition-colors">Contact Us</Link></li>
+                  <li><Link href="/career" className="hover:text-white transition-colors">Career</Link></li>
+                  <li><Link href="/contactus" className="hover:text-white transition-colors">Contact Us</Link></li>
                 </ul>
-              </div>
+                </div>
 
               {/* Properties by locality - First Column */}
               <div className="mt-2">
                 <h3 className="text-sm font-semibold mb-6 text-white tracking-wide" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>Properties by locality</h3>
                 <ul className="space-y-3 text-sm" style={{ fontFamily: 'Lato', letterSpacing: '0.5px', color: '#FFFFFF99' }}>
-                  <li><Link href="/properties/ulhasnagar" className="hover:text-white transition-colors">Top Projects in Ulhasnagar</Link></li>
-                  <li><Link href="/properties/baner" className="hover:text-white transition-colors">Top Projects in Baner</Link></li>
-                  <li><Link href="/properties/hinjewadi" className="hover:text-white transition-colors">Top Projects in Hinjewadi</Link></li>
-                  <li><Link href="/properties/vishwa" className="hover:text-white transition-colors">Top Projects in Vishwa</Link></li>
-                  <li><Link href="/properties/moshi" className="hover:text-white transition-colors">Top Projects in Moshi</Link></li>
+                  {/* <li><Link  href={`/properties?location=`} className="hover:text-white transition-colors">Top Projects in Ulhasnagar</Link></li> */}
+                  <li><Link href="/properties?location=baner" className="hover:text-white transition-colors">Top Projects in Baner</Link></li>
+                  <li><Link  href="/properties?location=Hinjewadi" className="hover:text-white transition-colors">Top Projects in Hinjewadi</Link></li>
+                  <li><Link  href={`/properties?location= Wakad`} className="hover:text-white transition-colors">Top Projects in Wakad</Link></li>
+                  <li><Link  href={`/properties?location=Ravet`} className="hover:text-white transition-colors">Top Projects in Ravet</Link></li>
                 </ul>
               </div>
 
@@ -126,10 +135,10 @@ const Mainfooter = () => {
               <div className="mt-2">
                 <h3 className="text-sm font-semibold mb-6 text-white tracking-wide" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>Properties by developer</h3>
                 <ul className="space-y-3 text-sm" style={{ fontFamily: 'Lato', letterSpacing: '0.5px', color: '#FFFFFF99' }}>
-                  <li><Link href="/properties/amp-corp" className="hover:text-white transition-colors">Top Projects by AMP Corp</Link></li>
-                  <li><Link href="/properties/majestic-dev" className="hover:text-white transition-colors">Top Projects by Majestic Dev</Link></li>
-                  <li><Link href="/properties/korat-group" className="hover:text-white transition-colors">Top Projects by Korat Group</Link></li>
-                  <li><Link href="/properties/katalur" className="hover:text-white transition-colors">Top Projects by Katalur</Link></li>
+                  <li><Link href="/properties/anp-corp" className="hover:text-white transition-colors">Top Projects by ANP Corp</Link></li>
+                  <li><Link href="/properties/majestique-developer" className="hover:text-white transition-colors">Top Projects by Majestique Developer</Link></li>
+                  <li><Link href="/properties/krunal-group" className="hover:text-white transition-colors">Top Projects by Krunal Group</Link></li>
+                  <li><Link href="/properties/kasturi" className="hover:text-white transition-colors">Top Projects by Kasturi</Link></li>
                   <li><Link href="/properties/skyi-developers" className="hover:text-white transition-colors">Top Projects by Skyi Developers</Link></li>
                   <li><Link href="/properties/solitaire" className="hover:text-white transition-colors">Top Projects by Solitaire</Link></li>
                 </ul>

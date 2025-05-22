@@ -5,7 +5,7 @@ import logo from "@/app/images/PropertyDrone-Logo.png";
 
 export default function Header() {
   return (
-    <header className="bg-blue-200 text-[#224295] py-4 shadow-md items-center justify-center mx-auto max-w-6xl">
+    <header className="bg-blue-200 text-[#224295] py-4 shadow-md items-center justify-center mx-auto ">
       <div className=" mx-auto flex justify-between items-center px-6">
       <h1 className="text-xl font-bold">
       <Link href="/dashboard">

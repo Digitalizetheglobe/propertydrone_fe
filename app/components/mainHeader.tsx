@@ -117,7 +117,7 @@ const MainHeader: React.FC = () => {
     const dropdownItems = navigationItems.filter(item => !item.alwaysShow);
 
     return (
-        <header className="fixed top-0 left-0 right-0 w-full bg-[#FFFFFF33] backdrop-blur-[28px]"
+        <header className="fixed top-0 left-0  right-0 w-full bg-[#FFFFFF33] backdrop-blur-[28px]"
             style={{ zIndex: 1000 }}>
             <div className="max-w-6xl mx-auto lg:px-16">
                <nav className="flex items-center justify-between px-4 sm:px-0 py-3 sm:py-4 z-50 bg-opacity-140">

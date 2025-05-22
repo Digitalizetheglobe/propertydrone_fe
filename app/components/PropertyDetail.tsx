@@ -97,22 +97,22 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
           <div className="absolute inset-0 bg-black/50"></div>
 
           {/* Content */}
-          <div className="relative flex flex-col justify-center h-full ml-10 text-white px-4">
-            <h1
-              className="text-3xl md:text-5xl font-figtree"
-              style={{
-                fontFamily: "'Figtree', sans-serif",
-                width: "100%",
-                height: "auto",
-                marginBottom: "0.25em",
-                fontWeight: "900",
-                fontSize: '2rem',
-              }}
+          <div className="relative flex flex-col max-w-6xl justify-center h-full ml-10 text-white px-4">
+               <h1
+        style={{
+        fontFamily: "Ivy Mode",
+        fontWeight: 100,
+        lineHeight: '150%',
+        letterSpacing: '0'
+        }}
+        className="mb-4 text-white text-[42px] sm:text-[56px]"
+      
             >
               {property.propertyName}
             </h1>
 
-            <p className="mt-2 text-sm md:text-lg" style={{ fontWeight: 500 }}>
+             <p className="text-white text-[18px] sm:text-[28px] my-4 md:mb-0 leading-none"
+          style={{ fontWeight:'300',fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
               <Link href="/">
                 <button className="bg-transparent text-white hover:text-red-700 rounded">
                   Home
@@ -127,16 +127,16 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
             </p>
           </div>
         </section>
-        <main className="max-w-7xl mx-auto px-4 py-8">
+        <main className="max-w-6xl mx-auto px-4 py-8">
 
           {/* Main Image Gallery - Using standard img tags for external URLs */}
           <div className="mb-8">
-            <div className="relative h-96 w-full overflow-hidden rounded-lg mb-2">
+            <div className="relative h-[350px] w-[400] overflow-hidden rounded-lg mb-2">
               {propertyImages.length > 0 ? (
                 <img
                   src={propertyImages[mainImage]}
                   alt={`${property?.propertyName || 'Property'} Image`}
-                  className="object-cover w-full h-full"
+                  className="object-cover h-[350px] w-[400]"
                 />
               ) : (
                 <Image
@@ -153,10 +153,10 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                   <div
                     key={index}
                     className={`relative h-20 w-32 flex-shrink-0 cursor-pointer rounded-md overflow-hidden
-                    ${mainImage === index ? 'ring-4 ring-blue-500' : 'opacity-80'}`}
+                    ${mainImage === index ? 'ring-4 ring-[#172747]' : 'opacity-80'}`}
                     onClick={() => setMainImage(index)}
                   >
-                    <img
+                    <img   
                       src={img}
                       alt={`Thumbnail ${index + 1}`}
                       className="object-cover w-full h-full"
@@ -239,7 +239,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
 
             {/* Contact Form */}
             <div className="lg:col-span-1">
-              <div className="bg-gray-800 rounded-lg shadow-md p-6 mb-8 text-white">
+              <div className="bg-[#172747] rounded-lg shadow-md p-6 mb-8 text-white">
                 <h2 className="text-xl font-semibold mb-4">Contact the listing owner</h2>
                 <form onSubmit={handleSubmit}>
                   <div className="mb-4">
@@ -291,7 +291,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
+                    className="w-full bg-[#172747] hover:bg-white hover:text-[#172747] border border-white text-white font-medium py-2 px-4 rounded"
                   >
                     Send
                   </button>

@@ -13,8 +13,10 @@ import {
   faFileCirclePlus,
   faBriefcase, 
   faUserTie,
-  faFileAlt
+  faFileAlt,
+  faFileVideo
 } from '@fortawesome/free-solid-svg-icons';
+import path from "path";
 
 const sections = [
   
@@ -24,18 +26,18 @@ const sections = [
   //   icon: faEnvelopeOpenText,
   //   description: "Customize contact form fields and settings" 
   // },
-  { 
-    name: "Project Detail", 
-    path: "/dashboard/projectdetail", 
-    icon: faFolderOpen,
-    description: "Manage existing project information" 
-  },
-  { 
-    name: "Add Project", 
-    path: "/dashboard/projectform", 
-    icon: faFolderPlus,
-    description: "Create new projects in the system" 
-  },
+  // { 
+  //   name: "Project Detail", 
+  //   path: "/dashboard/projectdetail", 
+  //   icon: faFolderOpen,
+  //   description: "Manage existing project information" 
+  // },
+  // { 
+  //   name: "Add Project", 
+  //   path: "/dashboard/projectform", 
+  //   icon: faFolderPlus,
+  //   description: "Create new projects in the system" 
+  // },
   { 
     name: "Property Detail", 
     path: "/dashboard/propertydetail", 
@@ -83,6 +85,32 @@ const sections = [
     path: "/dashboard/careerform", 
     icon: faFileAlt,
     description: "Create new job opportunities" 
+  },
+  { 
+    name: "Youtube video", 
+    path:"/dashboard/youtube",
+    icon: faFileVideo,
+    // icon: fa-file-video,
+    description: "View and manage Youtube videos" 
+  },
+  { 
+    name: "Add Youtube video", 
+    path: "/dashboard/youtube/new", 
+    icon: faFileAlt,
+    description: "Create new Youtube video" 
+  },
+  { 
+    name: "Real-Estate", 
+    path:"/dashboard/allreal",
+    icon: faFileVideo,
+    // icon: fa-file-video,
+    description: "View and manage Youtube videos" 
+  },
+  { 
+    name: "Add Youtube video", 
+    path: "/dashboard/addreal", 
+    icon: faFileAlt,
+    description: "Create new Youtube video" 
   },
 ];
 

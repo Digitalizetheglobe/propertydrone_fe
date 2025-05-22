@@ -1,13 +1,21 @@
-
 'use client';
 
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import heroBackground from '@/public/images/7578550-uhd_3840_2160_30fps 1.png'; 
 import { ArrowRight } from 'lucide-react';
 import { useEffect } from 'react';
-export default function JobApplicationForm() {
+
+export default function JobTitle() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <JobTitleContent />
+    </Suspense>
+  );
+}
+
+function JobTitleContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const jobId = searchParams.get('jobId') || '';

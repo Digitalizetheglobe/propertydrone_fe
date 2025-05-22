@@ -1,10 +1,18 @@
 // app/dashboard/applicationsform/page.tsx
 'use client';
 
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function JobApplicationForm() {
+export default function ApplicationsForm() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ApplicationsFormContent />
+    </Suspense>
+  );
+}
+
+function ApplicationsFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const jobId = searchParams.get('jobId') || '';

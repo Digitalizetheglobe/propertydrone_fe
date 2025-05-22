@@ -17,6 +17,12 @@ interface FormData {
   seoDescription: string;
   seoKeywords: string;
   multipleImages?: string[];
+  propertyType: string;
+  youtubeUrl: string;
+  googleMapUrl: string;
+  propertyCategory: string;
+  beds: string;   // Use string for input compatibility
+  baths: string;
 }
 
 interface Errors {
@@ -24,6 +30,7 @@ interface Errors {
 }
 
 export default function PropertyForm() {
+  // All hooks must be at the top level
   const [formData, setFormData] = useState<FormData>({
     propertyName: '',
     topology: '',
@@ -36,8 +43,13 @@ export default function PropertyForm() {
     seoTitle: '',
     seoDescription: '',
     seoKeywords: '',
+    propertyType: '',
+    youtubeUrl: '',
+    googleMapUrl: '',
+    propertyCategory: '',
+    beds: '',
+    baths: '',
   });
-
   const [errors, setErrors] = useState<Errors>({});
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
@@ -45,7 +57,7 @@ export default function PropertyForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<{ type: string; message: string }>({ type: '', message: '' });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -141,21 +153,7 @@ export default function PropertyForm() {
         message: 'Property submitted successfully!',
       });
 
-      // Reset form
-      setFormData({
-        propertyName: '',
-        topology: '',
-        carpetArea: '',
-        city: '',
-        location: '',
-        tentativeBudget: '',
-        possession: '',
-        slug: '',
-        seoTitle: '',
-        seoDescription: '',
-        seoKeywords: '',
-      });
-      setImages([]);
+     setImages([]);
       setPreviewImages([]);
     } else {
       const errorData = await response.json();
@@ -291,6 +289,99 @@ export default function PropertyForm() {
               placeholder="e.g., Dec 2025"
             />
           </div>
+          {/* Property Type */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Property Type
+  </label>
+  <select
+    name="propertyType"
+    value={formData.propertyType}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-md"
+  >
+    <option value="">Select type</option>
+    <option value="Luxury">Luxury</option>
+    <option value="Premium">Premium</option>
+  </select>
+</div>
+
+{/* Property Category */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Property Category
+  </label>
+  <input
+    type="text"
+    name="propertyCategory"
+    value={formData.propertyCategory}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-md"
+    placeholder="e.g., Residential"
+  />
+</div>
+
+{/* YouTube URL */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    YouTube URL
+  </label>
+  <input
+    type="text"
+    name="youtubeUrl"
+    value={formData.youtubeUrl}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-md"
+    placeholder="https://youtube.com/example"
+  />
+</div>
+
+{/* Google Map URL */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Google Map URL
+  </label>
+  <input
+    type="text"
+    name="googleMapUrl"
+    value={formData.googleMapUrl}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-md"
+    placeholder="https://maps.google.com/example"
+  />
+</div>
+
+{/* Beds */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Beds
+  </label>
+  <input
+    type="number"
+    name="beds"
+    value={formData.beds}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-md"
+    min={0}
+    placeholder="e.g., 3"
+  />
+</div>
+
+{/* Baths */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Baths
+  </label>
+  <input
+    type="number"
+    name="baths"
+    value={formData.baths}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-md"
+    min={0}
+    placeholder="e.g., 2"
+  />
+</div>
           
           {/* Slug */}
           <div>

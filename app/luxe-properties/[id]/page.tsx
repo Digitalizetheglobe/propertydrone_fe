@@ -2,7 +2,9 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from 'react';
 import { useParams } from 'next/navigation';
-import PropertyDetail from '@/app/components/PropertyDetail';
+import LuxePropertyDetail from "@/app/components/luxePropertyDetail";
+
+
 
 interface PropertyImage {
   path: string;
@@ -29,6 +31,7 @@ interface Property {
 }
 
 function PropertyPageContent() {
+  const [activeTab, setActiveTab] = useState('Overview');
   const params = useParams();
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
@@ -114,7 +117,7 @@ function PropertyPageContent() {
     );
   }
 
-  return <PropertyDetail property={property} />;
+  return <LuxePropertyDetail property={property} />;
 }
 
 export default function PropertyPage() {

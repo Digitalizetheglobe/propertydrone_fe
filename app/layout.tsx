@@ -7,6 +7,7 @@ import MainHeader from "./components/mainHeader";
 import ScrollButton from "./components/scrollbutton";
 import WhatsAppPopup from "./components/whatsapp";
 import Mainfooter from "./components/mainfooter";
+import LayoutWithConditionalHeader from "./components/LayoutWithConditionalHeader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,13 +41,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
 
-         <AuthProvider>
-          <MainHeader/>
-          {children}
-          <WhatsAppPopup/>
-          <ScrollButton/>
-          <Mainfooter/>
-
+        <AuthProvider>
+          <LayoutWithConditionalHeader>
+            {children}
+          </LayoutWithConditionalHeader>
+          {/* {typeof window !== "undefined" && window.location.pathname.startsWith("/dashboard") ? null : <MainHeader />} */}
+          <WhatsAppPopup />
+          <ScrollButton />
+          {/* {typeof window !== "undefined" && window.location.pathname.startsWith("/dashboard") ? null : <Mainfooter />} */}
         </AuthProvider>
       </body>
     </html>

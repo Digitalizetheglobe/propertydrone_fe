@@ -160,14 +160,22 @@ useEffect(() => {
         {/* Hero Content */}
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
           <div className="text-center max-w-3xl mx-auto text-white">
-            <p className=" uppercase  tracking-wider text-gray-300 mb-4"
+            <p className=" uppercase  tracking-wider text-gray-300 mb-4  text-[16px] sm:text-[18px]"
              
-                      style={{ fontSize:'18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+                      style={{  fontFamily: 'Lato', letterSpacing: '0.5px' }}
             
             >About</p>
             
-            <h2 className="text-white mb-6 font-[400] text-[56px] leading-[140%] tracking-[1px]"
-   style={{ fontSize:'56px', fontFamily: 'Lato, sans-serif', letterSpacing: '1px' }}>
+             
+      <h2
+        style={{
+        fontFamily: "Ivy Mode",
+        fontWeight: 100,
+        lineHeight: '150%',
+        letterSpacing: '0'
+        }}
+        className="mb-4 text-white text-[42px] sm:text-[56px]"
+      >
    Propertydrone Realty
 </h2>
             
@@ -201,7 +209,7 @@ useEffect(() => {
         <div className="flex items-center justify-center bg-gray-50 shadow-lg ">
           <div className=" p-10">
         <h2
-          className="text-3xl md:text-4xl rounded-lg text-[#172747] mb-6 font-[200] leading-[140%] tracking-[1px]"
+          className="text-3xl md:text-4xl rounded-[4px] text-[#172747] mb-6 font-[200] leading-[140%] tracking-[1px]"
           style={{ fontSize: '44px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}
         >
           We mean it <br></br>when we <br className="hidden sm:block" />
@@ -228,7 +236,7 @@ useEffect(() => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pl-2 w-full">
           {/* CARD TEMPLATE (repeated below with unique content) */}
-          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
         <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full transition-transform duration-300 group-hover:animate-bounce">
           <Zap className="w-6 h-6 text-indigo-500 group-hover:text-indigo-600 transition-colors duration-300" />
         </div>
@@ -243,7 +251,7 @@ useEffect(() => {
           </div>
 
           {/* Properties Sold */}
-          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
         <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
           <div className="w-6 h-6 flex items-center justify-center text-indigo-500 transition-transform duration-300 group-hover:animate-bounce">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -265,7 +273,7 @@ useEffect(() => {
           </div>
 
           {/* Repeat the pattern below for other cards: Book, Globe, Wallet */}
-          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
         <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
           <Book className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
         </div>
@@ -279,7 +287,7 @@ useEffect(() => {
         </div>
           </div>
 
-          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
         <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
           <Globe className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
         </div>
@@ -293,7 +301,7 @@ useEffect(() => {
         </div>
           </div>
 
-          <div className="md:col-span-2 lg:col-span-1 bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-lg relative hover:shadow-lg transform hover:scale-105">
+          <div className="md:col-span-2 lg:col-span-1 bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
         <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
           <Wallet className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
         </div>
@@ -312,22 +320,16 @@ useEffect(() => {
 
       <div className="container max-w-6xl mx-auto px-4 py-6">
         <h2  className="text-[#172747] mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">Who We Are</h2>
-      <div className="flex justify-between items-center mb-8">
-        <p className="text-gray-700 max-w-3xl ml-2 text-base  leading-none"
-                      style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>
+      <div className="flex justify-between items-center mb-8  md:flex">
+        <p className="text-gray-700 max-w-3xl ml-2 leading-none"
+              style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>
           PropertyOnline Realty is a trusted real estate agency offering expert services in both
           residential and commercial properties. Whether you're looking for villas, apartments,
           flats, bungalows, shop spaces, or office setups – we've got it covered.
         </p>
         
         {/* Enquiry Button */}
-        <div>
-          <Link href="/contactus">
-        <button className="bg-[#172747] text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747] px-4 py-2 transition">
-          Make an enquiry
-        </button>
-          </Link>
-        </div>
+        
       </div>
         
         {/* Three Column Features */}
@@ -335,9 +337,9 @@ useEffect(() => {
         <div className="flex flex-col md:flex-row justify-between pt-8 gap-4">
           {/* Our Strength */}
          
-             <div className="relative max-w-[320px] max-h-[340px] bg-gradient-to-b from-[#c3e6ec] to-[#a7d1d9] rounded-[10px] p-8 pb-6 m-3 text-black font-sans overflow-hidden group transition-all duration-500 ease-out">
+             <div className="relative max-w-[320px] max-h-[340px] bg-gradient-to-b from-[#EEF1F5] to-[#e9ecf0] rounded-[10px] p-8 pb-6 m-3 text-black font-sans overflow-hidden group transition-all duration-500 ease-out">
       {/* Circle effect on hover */}
-      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-gradient-to-br from-[#364a60] to-[#384c6c] scale-100 origin-center transition-transform duration-300 ease-out group-hover:scale-[28] z-0"></div>
+      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-gradient-to-br from-[#172747] to-[#384c6c] scale-100 origin-center transition-transform duration-300 ease-out group-hover:scale-[28] z-0"></div>
   <div className="w-12 h-12 ">
               <Image 
                 src={ico1}
@@ -360,9 +362,9 @@ useEffect(() => {
           
           {/* Our Vision */}
           
-           <div className="relative max-w-[320px] max-h-[340px] bg-gradient-to-b from-[#c3e6ec] to-[#a7d1d9] rounded-[10px] p-8 pb-6 m-3 text-black font-sans overflow-hidden group transition-all duration-500 ease-out">
+           <div className="relative max-w-[320px] max-h-[340px] bg-gradient-to-b from-[#EEF1F5] to-[#e9ecf0] rounded-[10px] p-8 pb-6 m-3 text-black font-sans overflow-hidden group transition-all duration-500 ease-out">
       {/* Circle effect on hover */}
-      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-gradient-to-br from-[#364a60] to-[#384c6c] scale-100 origin-center transition-transform duration-300 ease-out group-hover:scale-[28] z-0"></div>
+      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-gradient-to-br from-[#172747] to-[#384c6c] scale-100 origin-center transition-transform duration-300 ease-out group-hover:scale-[28] z-0"></div>
   <div className="w-12 h-12 ">
               <Image 
                 src={ico2}
@@ -381,9 +383,9 @@ useEffect(() => {
           We aim to be a leading real estate consultancy renowned for our integrity, expertise, and client-first approach. Our goal is to transform the industry with innovative, tailored solutions that help people make confident real estate decisions.
             </p>
           </div>
-           <div className="relative max-w-[320px] max-h-[340px] bg-gradient-to-b from-[#c3e6ec] to-[#a7d1d9] rounded-[10px] p-8 pb-6 m-3 text-black font-sans overflow-hidden group transition-all duration-500 ease-out">
+           <div className="relative max-w-[320px] max-h-[340px] bg-gradient-to-b from-[#EEF1F5] to-[#e9ecf0] rounded-[10px] p-8 pb-6 m-3 text-black font-sans overflow-hidden group transition-all duration-500 ease-out">
       {/* Circle effect on hover */}
-      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-gradient-to-br from-[#364a60] to-[#384c6c] scale-100 origin-center transition-transform duration-300 ease-out group-hover:scale-[28] z-0"></div>
+      <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-gradient-to-br from-[#172747] to-[#384c6c] scale-100 origin-center transition-transform duration-300 ease-out group-hover:scale-[28] z-0"></div>
   <div className="w-12 h-12 ">
               <Image 
                 src={ico3}
@@ -498,7 +500,7 @@ useEffect(() => {
   {[emp, emp2, emp3].map((image, index) => (
     <div
       key={index}
-      className="bg-white rounded-lg shadow-md hover:shadow-xl transform transition duration-500 hover:scale-105 overflow-hidden"
+      className="bg-white rounded-[4px] shadow-md hover:shadow-xl transform transition duration-500 hover:scale-105 overflow-hidden"
       data-aos="fade-up"
       data-aos-delay={index * 200}
     >

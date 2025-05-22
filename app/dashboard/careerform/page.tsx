@@ -1,11 +1,19 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 export default function CareerForm() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CareerFormContent />
+    </Suspense>
+  );
+}
+
+function CareerFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');

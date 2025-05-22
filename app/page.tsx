@@ -25,7 +25,7 @@ import b1 from "@/public/images/service.png";
 import b2 from "@/public/images/buliding.png";
 import b3 from "@/public/images/service2.png";
 // import d10 from "@/public/images/Frame 113.png";
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp, Building2 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import bg1 from '@/public/images/7578550-uhd_3840_2160_30fps 1.png'; // Adjust the path as necessary
 // import main2 from '../public/images/mainvideo.mp4';
@@ -40,6 +40,31 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 // import { useEffect } from 'react';
 
+
+import axios from 'axios';
+import Head from 'next/head';
+
+interface YoutubeVideo {
+  id: number;
+  title: string;
+  description: string;
+  youtube_url: string;
+  author: string;
+  date: string;
+}
+
+const getYoutubeVideoId = (url: string): string | null => {
+  if (!url) return null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? match[2] : null;
+};
+
+const formatDate = (dateString: string) => {
+  if (!dateString) return '';
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+};
 
 
 // import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -173,68 +198,69 @@ const propertyData = [
 const testimonials = [
   {
     id: 1,
-    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    text: "Nikhil and his team were with me throughout the process, understanding my requirements and suggesting the best projects.",
     date: "16th April, 2025",
     company: "Primdjfke Business Hub",
     rating: 5
   },
   {
     id: 2,
-    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    text: "Being NRIs, we found Nikhil's YouTube videos informative, which led us to find a place in Pune within a year.",
     date: "16th April, 2025",
     company: "Prislkdfjiome Business Hub",
     rating: 5
   },
   {
     id: 3,
-    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    text: "PropertyDrone Realty played a huge part in our journey towards finding and building a home.",
     date: "16th April, 2025",
     company: "sdfjkPrime Business Hub",
     rating: 5
   },
   {
     id: 4,
-    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    text: "Nikhil and Atharva were super helpful and patient, answering all of my questions and helping me find my dream home.",
     date: "16th April, 2025",
-    company: "Prisdfjome Business Hub", 
+    company: "Prisdfjome Business Hub",
     rating: 5
   },
   {
     id: 5,
-    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    text: "The team understood my needs and provided excellent guidance throughout the property selection process.",
     date: "16th April, 2025",
     company: "uuaauu Business Hub",
     rating: 5
   },
   {
     id: 6,
-    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    text: "Their expertise and dedication made the entire home-buying experience smooth and stress-free.",
     date: "16th April, 2025",
     company: "uaaauuu Business Hub",
     rating: 5
   },
   {
     id: 7,
-    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    text: "I highly recommend PropertyDrone Realty for their professionalism and commitment to client satisfaction.",
     date: "16th April, 2025",
     company: "usdvvuuu Business Hub",
     rating: 5
   },
   {
     id: 8,
-    text: "I decided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    text: "Thanks to the team's support, I was able to make informed decisions and secure the perfect property.",
     date: "16th April, 2025",
     company: "uzduuu Business Hub",
     rating: 5
   },
   {
     id: 9,
-    text: "I decsddided to expand my business and enter the Dubai market, but didn't know where to start. I was advised to get a consultation from Mira. They told me about the specifics of local laws, helped me to get all the necessary licenses and even filled out all the documents for me. I thought it would take a very long time, but it turned out to be very fast.",
+    text: "Their personalized approach and attention to detail exceeded my expectations.",
     date: "16th April, 2025",
     company: "uuuu Business Hub",
     rating: 5
   }
 ];
+
 
 // import d from "@/app/images/d10.png";
 
@@ -351,23 +377,20 @@ const locationCounts = useMemo(() => {
       [name]: value
     }));
   };
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const maxVisible = 3;
+ const itemsPerPage = 3;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(testimonials.length / itemsPerPage);
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex + 1 >= testimonials.length - maxVisible + 1 ? 0 : prevIndex + 1
-    );
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const visibleTestimonials = testimonials.slice(startIndex, startIndex + itemsPerPage);
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex - 1 < 0 ? testimonials.length - maxVisible : prevIndex - 1
-    );
+  const goToPreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
-
-  const visibleTestimonials = testimonials.slice(currentIndex, currentIndex + maxVisible);
-
   // Removed duplicate handleSubmit function
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = Math.ceil(propertyData.length / 2);
@@ -401,10 +424,7 @@ const locationCounts = useMemo(() => {
   { img: d17, link: 'Solitaire' },
  
 ];
-  interface FormData {
-    name: string;
-    email: string;
-  }
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -469,15 +489,7 @@ const locationCounts = useMemo(() => {
     fetchProperties();
   }, []);
 
-  interface Filters {
-    type: string;
-    location: string;
-    bedrooms: string;
-    minPrice: string;
-    maxPrice: string;
-    search: string; 
-    
-  }
+ 
 
   // Apply filters to properties
 // Apply filters to properties
@@ -573,19 +585,7 @@ const resetFilters = () => {
       cancelAnimationFrame(animationId);
     };
   }, [isPaused]);
-  // Functions for slider controls
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-    }
-  };
-
+  // Functions for slider control
   // Property card component to avoid repetition
  
 const PropertyCard = ({
@@ -627,42 +627,38 @@ const PropertyCard = ({
   }, [delay]);
 
   return (
+    
+       <Link href={`/properties/${property.id}`} passHref>
     <div
-      ref={cardRef}
-      className={`bg-white rounded-sm overflow-hidden border border-gray-400 shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-      }`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="relative h-48 w-full overflow-hidden">
-        {imagePath && (
-          <Image
-            src={typeof imagePath === 'string' ? imagePath : main2}
-            alt={property.propertyName || "Property Image"}
-            layout="fill"
-            objectFit="cover"
-            className={`z-0 transition-transform duration-700 ease-in-out ${
-              isHovered ? "scale-110" : "scale-100"
-            }`}
-          />
-        )}
-        <div
-          className={`absolute inset-0 bg-black transition-opacity duration-300 ${
-            isHovered ? "opacity-30" : "opacity-20"
-          }`}
-        ></div>
-      </div>
-
-     <div className="flex items-center text-xs text-black mb-2 border border-black px-4 py-2">
-  <div className="flex items-center pr-4 border-r border-black">
-    <span>By Developer</span>
+  ref={cardRef}
+  className={`bg-white rounded-md  cursor-pointer overflow-hidden border border-gray-300 shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
+    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+  }`}
+  onMouseEnter={() => setIsHovered(true)}
+  onMouseLeave={() => setIsHovered(false)}
+>
+  <div className="relative h-52 w-full overflow-hidden">
+    {imagePath && (
+      <Image
+        src={typeof imagePath === 'string' ? imagePath : main2}
+        alt={property.propertyName || "Property Image"}
+        layout="fill"
+        objectFit="cover"
+        className={`z-0 transition-transform duration-700 ease-in-out ${
+          isHovered ? "scale-110" : "scale-100"
+        }`}
+      />
+    )}
   </div>
-  <div className="flex items-center pl-4 ml-auto">
+
+  {/* Developer and Location */}
+  <div className="flex border-b border-[#00000033]">
+  <div className="w-1/2 flex items-center justify-center border-r border-[#00000033] py-2">
+    <span className="text-black text-lg font-medium">By Developer</span>
+  </div>
+  <div className="w-1/2 flex items-center justify-center py-2 space-x-1">
     <svg
-      className={`w-4 h-4 mr-1 transition-colors duration-300 ${
-        isHovered ? "text-blue-500" : ""
-      }`}
+      className="w-5 h-5 text-black"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -673,78 +669,141 @@ const PropertyCard = ({
         strokeLinejoin="round"
         strokeWidth="2"
         d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-      ></path>
+      />
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"
         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-      ></path>
+      />
     </svg>
-    <span className="transition-colors duration-300">{property.location}</span>
+    <span className="text-black text-lg font-medium">{property.location || "Location"}</span>
   </div>
 </div>
 
 
-      <div className="p-2">
-        <h3
-          className={`ml-2 text-base  leading-none ${
-            isHovered ? "text-blue-800" : "text-gray-900"
-          }`}
-                      style={{ fontSize: '28px', fontFamily: 'Lato', letterSpacing: '0.5px',lineHeight: '1.5' } }
-                    >
-        
-          {property.propertyName}
-        </h3>
-      </div>
+  {/* Title */}
+  <div className="px-4 pt-1 pb-2">
+    <h3
+      className={` ${
+        isHovered ? "text-blue-800" : "text-[#172747]"
+      }`}
+      style={{
+        fontSize: '20px',
+        fontFamily: 'Lato, sans-serif',
+        letterSpacing: '0.5px',
+        lineHeight: '1.3',
+      }}
+    >
+      {property.propertyName || "Prime Business Hub"}
+    </h3>
+  </div>
 
-      <div className="px-4 py-3 flex items-center text-sm text-gray-600 border-b border-gray-400">
-        <div className="flex-1 transition-colors bg-[#EEF1F5] px-4 py-2 duration-300 hover:text-blue-700 letterSpacing-1">
-          {property.topology || "bed"}
-        </div>
-        {property.carpetArea > 0 && (
-          <div className="flex-1 transition-colors bg-[#EEF1F5] px-4 py-2 duration-300 hover:text-blue-700">
-        {property.carpetArea || "carpet"} 
-          </div>
-        )}
-      </div>
-
-      <div className="p-4 flex items-center">
-        <div className="flex-1">
-          <span
-            className={`transition-all duration-300 ${
-              isHovered ? "text-blue-800 font-medium" : "text-[#172747]"
-            }`}
-          >
-            ₹ {property.tentativeBudget}
-          </span>
-        </div>
-        <div className="flex space-x-2 items-center">
-          <button className="p-2 border border-gray-400 rounded transition-all duration-300 hover:bg-gray-100 hover:border-gray-500">
-            <svg
-              className="w-4 h-4 transition-colors duration-300 hover:text-blue-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-              ></path>
-            </svg>
-          </button>
-          <button className="bg-[#172747] text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747]  px-4 py-2 text-sm rounded-[4px] transition-all duration-300  transform hover:scale-105">
-            View Details
-          </button>
-        </div>
-      </div>
+  {/* Property Details */}
+  <div className="flex justify-between items-center px-4 pb-2 space-x-2">
+    {/* <div className="bg-[#EEF1F5] text-xs text-gray-800 px-3 py-1 rounded-md">
+      {property.bedroom || "5"} Bedroom
     </div>
+    <div className="bg-[#EEF1F5] text-xs text-gray-800 px-3 py-1 rounded-md">
+      {property.bathroom || "4"} Bathroom
+    </div> */}
+    <div className="bg-[#EEF1F5] text-xs text-gray-800 px-3 py-1 rounded-md">
+      {property.carpetArea || "1520"} sqft
+    </div>
+  </div>
+
+  {/* Price and Actions */}
+  <div className="flex items-center justify-between px-4 py-3">
+    <span
+      className={`text-[20px] font-semibold ${
+        isHovered ? "text-blue-800" : "text-[#2B3C74]"
+      }`}
+    >
+      ₹ {property.tentativeBudget || "4.53 Cr"}
+    </span>
+    <div className="flex space-x-2 items-center">
+      <button className="p-2 border border-gray-300 rounded hover:bg-gray-100">
+        <svg
+          className="w-4 h-4 text-gray-600 hover:text-blue-600"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+          />
+        </svg>
+      </button>
+      <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105">
+        View Details
+      </button>
+    </div>
+  </div>
+</div>
+</Link>
   );
 };
+ const [videos, setVideos] = useState<YoutubeVideo[]>([]);
+  // const [loading, setLoading] = useState<boolean>(true);
+  // const [error, setError] = useState<string>('');
+  // const [currentSlide, setCurrentSlide] = useState(0);
+  // const [isPaused, setIsPaused] = useState(false);
+  const sliderRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Fetch all videos
+  const fetchVideos = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('http://localhost:5000/youtube-videos');
+      setVideos(response.data);
+      setError('');
+    } catch (err) {
+      setError('Failed to load videos. Please refresh the page.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+
+  // Auto-slider functionality
+  useEffect(() => {
+    if (videos.length > 0 && !isPaused) {
+      sliderRef.current = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % Math.ceil(videos.length / 3));
+      }, 5000);
+    }
+
+    return () => {
+      if (sliderRef.current) {
+        clearInterval(sliderRef.current);
+      }
+    };
+  }, [videos.length, isPaused]);
+
+  const handlePause = () => {
+    setIsPaused(true);
+  };
+
+  const handleResume = () => {
+    setIsPaused(false);
+  };
+
+  const handleSlideChange = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  const displayVideos = () => {
+    const startIndex = currentSlide * 3;
+    return videos.slice(startIndex, startIndex + 3);
+  };
 
   return (
     <div className="min-h-screen">
@@ -771,7 +830,7 @@ const PropertyCard = ({
   {/* <header className="relative z-10 items-center justify-center mx-auto max-w-6xl">
   <div className="items-center justify-center mx-auto max-w-6xl">
       <nav className="flex items-center justify-between px-6 py-4 bg-opacity-40">
-          <div className="flex items-center space-x-8 px-4 py-4 bg-gray-200 bg-opacity-40 rounded-lg">
+          <div className="flex items-center space-x-8 px-4 py-4 bg-gray-200 bg-opacity-40 rounded-[4px]">
             <Link href="/">
               <Image src={logo} alt="Logo" width={200} height={100} />
             </Link>
@@ -787,13 +846,13 @@ const PropertyCard = ({
 
       <div className="flex items-center space-x-2">
         <button 
-          className="px-5 py-5 bg-gray-200 text-gray-700 rounded-lg"
+          className="px-5 py-5 bg-gray-200 text-gray-700 rounded-[4px]"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           More <span className="ml-1">≡</span>
         </button>
         
-        <button className="px-6 py-5 bg-gray-200 text-gray-700 rounded-lg">
+        <button className="px-6 py-5 bg-gray-200 text-gray-700 rounded-[4px]">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -820,7 +879,7 @@ const PropertyCard = ({
         lineHeight: '150%',
         letterSpacing: '0'
         }}
-        className="text-white text-[42px] sm:text-[76px]"
+        className="text-white text-[42px] sm:text-[80px]"
       >
         Find the best <br /> properties in Pune
       </h1>
@@ -830,13 +889,13 @@ const PropertyCard = ({
 
 
       <div className="flex flex-col sm:mb-[20px]  md:flex-row md:items-end md:justify-between">
-        <p className="text-white text-[18px] sm:text-[32px] mb-4 md:mb-0 leading-none"
-          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
+        <p className="text-white text-[18px] sm:text-[28px] mb-4 md:mb-0 leading-none"
+          style={{ fontWeight:'300',fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
           with Property <br /> Management <br />company  in Pune
         </p>
         <Link href="/contactus">
         <button
-          className="flex  ml-0 md:ml-[20px] bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50 md:mt-auto "
+          className="flex  ml-0 md:ml-[20px] bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50 md:mt-auto cursor-pointer"
         >
           Get Consultation 
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
@@ -878,7 +937,7 @@ onMouseLeave={() => setIsPaused(false)}
         <Image
           src={imgObj.img}
           alt={`Card ${index + 1}`}
-          className="w-auto h-22 object-cover transition-all duration-300 sm:h-30"
+          className="w-auto cursor-pointerh-22 object-cover transition-all duration-300 sm:h-30"
         />
       </Link>
     </div>
@@ -889,6 +948,31 @@ onMouseLeave={() => setIsPaused(false)}
 </div>
   </main>
 </div>
+ <style>
+        {`
+          @keyframes opacityEffect {
+            0% { border-right: 1px solid transparent; }
+            10%, 80% { border-right: 1px solid #bd9f67; }
+            100% { border-right: 1px solid transparent; }
+          }
+          @keyframes trailEffect {
+            0% {
+              background: linear-gradient(90deg, rgba(189, 159, 103, 0) 90%, rgb(189, 159, 103) 100%);
+              opacity: 0;
+            }
+            30%, 70% {
+              background: linear-gradient(90deg, rgba(189, 159, 103, 0) 70%, rgb(189, 159, 103) 100%);
+              opacity: 1;
+            }
+            95% {
+              background: linear-gradient(90deg, rgba(189, 159, 103, 0) 90%, rgb(189, 159, 103) 100%);
+              opacity: 0;
+            }
+          }
+        `}
+      </style>
+
+     
 {/* ------------------------------ */}
 {/* Filter Section */}
 <div className="bg-[#172747] justify-center p-4 md:p-6 shadow-md" >
@@ -956,7 +1040,7 @@ onMouseLeave={() => setIsPaused(false)}
     <div className="w-full md:w-auto">
       <button
         onClick={resetFilters}
-        className="w-full px-4 py-2 bg-[#172747] border border-white text-white rounded-[4px] hover:bg-white hover:text-[#172747] transition-colors duration-300"
+        className="w-full px-4 py-2 bg-[#172747] border border-white text-white rounded-[4px] hover:bg-white hover:text-[#172747] transition-colors cursor-pointer duration-300"
       >
         Reset Filters
       </button>
@@ -972,7 +1056,7 @@ onMouseLeave={() => setIsPaused(false)}
   {/* Loading and Error States */}
   {loading ? (
     <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 text-white border-t-2 border-b-2 border-blue-500"></div>
+      <div className="animate-spin rounded-full h-12 w-12 text-white border-t-2 border-b-2 border-[#172747]"></div>
     </div>
   ) : error ? (
     <div className="text-center text-red-500 p-4">
@@ -983,7 +1067,7 @@ onMouseLeave={() => setIsPaused(false)}
       <p className="text-gray-500">No properties found matching your criteria.</p>
       <button 
         onClick={resetFilters}
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300"
+        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-[#172747] transition-colors duration-300 cursor-pointer"
       >
         Reset Filters
       </button>
@@ -1037,7 +1121,12 @@ onMouseLeave={() => setIsPaused(false)}
 />
 
 <AnimatedLetters
-  text="Find homes in the most sought-after neighborhoods of Pune."
+  text="Find homes in the most sought-after "
+  as="h3"
+   className="text-[#172747] text-center font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+      />
+<AnimatedLetters
+  text="neighborhoods of Pune."
   as="h3"
    className="text-[#172747] text-center mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
       />
@@ -1048,28 +1137,40 @@ onMouseLeave={() => setIsPaused(false)}
     <h2 className="text-2xl text-[#172747] font-bold mb-6">Popular Locations</h2>
     
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-      {locationCounts.map((locationData: { location: string; count: number; image: string }, index: number) => (
-       <Link key={index} href={`/properties?location=${locationData.location}`}>
-       <div key={index} className="relative overflow-hidden group h-52  rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
-          <Image
-        src= {main3}
-        alt={`${locationData.location} properties`}
-        className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4 text-white">
-        <h3 className="text-xl font-medium">{locationData.location}</h3>
-        <p className="text-sm">{locationData.count} {locationData.count === 1 ? 'Property' : 'Properties'}</p>
-          </div>
+     {locationCounts.map((locationData: { location: string; count: number; image: string }, index: number) => (
+  <Link key={index} href={`/properties?location=${locationData.location}`}>
+    <div className="relative grid h-52 w-fullcursor-pointer  place-content-center overflow-hidden rounded-[4px] bg-[#172747] shadow-md transition-transform duration-300 hover:scale-105 group">
+       <div className="absolute right-6 top-6 p-1 z-50 rounded-full">
+          <Building2 className="w-8 h-8 text-[#EEF1F5] transition-colors duration-300" />
         </div>
-        </Link>
-      ))}
+       <span className="absolute top-[20px] left-1/2 -translate-x-1/2 bg-[#172747] pr-9 pt-2 text-xl font-semibold uppercase text-[#EEF1F5] opacity-0 tracking-[6px] transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:tracking-[3px]">
+        explore now
+      </span>
+
+      {/* Animated border */}
+      <div className="absolute inset-0 border-2 border-[#EEF1F5] opacity-0 rotate-[10deg] transition-all duration-500 ease-in-out group-hover:inset-[10px] group-hover:opacity-100 group-hover:rotate-0 rounded-[4px] pointer-events-none"></div>
+
+      {/* Overlay Text */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-[#EEF1F5]">
+        <h3 className="text-2xl font-semibold">{locationData.location}</h3>
+        <p className="text-xl">
+          {locationData.count} {locationData.count === 1 ? 'Property' : 'Properties'}
+        </p>
+      </div>
+
+      {/* Bottom Strip Animation */}
+     
+    </div>
+  </Link>
+))}
+
     </div>
   </div>
 
       
       <div className="flex justify-center">
         <Link href="/properties">
-        <button className="bg-[#172747] text-white px-6 py-2 flex items-center gap-2 rounded hover:bg-[#172747] transition">
+        <button className="bg-[#172747] cursor-pointer text-white px-6 py-2 flex items-center gap-2 rounded hover:bg-[#172747] transition">
           View All Locations
           <ArrowRight size={16} />
         </button>
@@ -1078,7 +1179,7 @@ onMouseLeave={() => setIsPaused(false)}
     </div>
 
     {/* ------------------------ */}
-
+ 
  <div className="bg-white">
   <section className="max-w-6xl mx-auto px-4 py-12">
     <div className="mb-8 animate-fade-in text-justify">
@@ -1152,7 +1253,7 @@ onMouseLeave={() => setIsPaused(false)}
         <div className="flex gap-2 flex-shrink-0 z-10 pl-2">
           <button
             onClick={prevSlide}
-            className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow"
+            className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
             aria-label="Previous slide"
             disabled={remainingProperties.length <= 2}
           >
@@ -1160,7 +1261,7 @@ onMouseLeave={() => setIsPaused(false)}
           </button>
           <button
             onClick={nextSlide}
-            className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow"
+            className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
             aria-label="Next slide"
             disabled={remainingProperties.length <= 2}
           >
@@ -1172,7 +1273,121 @@ onMouseLeave={() => setIsPaused(false)}
   </section>
 </div>
 
+ <div className="container mx-auto max-w-6xl px-4 py-8">
+     
 
+      <div className="mb-8">
+        
+        
+            <AnimatedLetters
+  text="Featured Videos"
+  as="h2"
+  className="uppercase text-[#172747] text-[16px] text-center sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+            
+/>
+
+<AnimatedLetters
+  text="Explore insightful YouTube videos handpicked for you "
+  as="h3"
+   className="text-[#172747] text-center font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+      />
+      </div>
+
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {error}
+        </div>
+      )}
+
+      {loading ? (
+        <div className="text-center py-10">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#172747] mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading amazing videos...</p>
+        </div>
+      ) : videos.length === 0 ? (
+        <div className="text-center py-16 bg-gray-100 rounded-lg">
+          <i className="fas fa-video text-gray-400 text-4xl mb-4"></i>
+          <p className="text-gray-500 text-lg">No videos found in the collection</p>
+        </div>
+      ) : (
+        <div className="mb-8">
+          <div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6" 
+            onMouseEnter={handlePause}
+            onMouseLeave={handleResume}
+          >
+            {displayVideos().map((video) => {
+              const videoId = getYoutubeVideoId(video.youtube_url);
+
+              return (
+                <div key={video.id} className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl border border-gray-200">
+                  {videoId ? (
+                    <div className="relative pb-[56.25%] h-0">
+                      <iframe
+                        className="absolute top-0 left-0 w-full h-full"
+                        src={`https://www.youtube.com/embed/${videoId}`}
+                        title={video.title || "YouTube Video"}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                  ) : (
+                    <div className="bg-gray-200 h-48 flex items-center justify-center">
+                      <p className="text-gray-500">Invalid YouTube URL</p>
+                    </div>
+                  )}
+
+                  <div className="p-5">
+                    <h2 className="text-xl font-bold mb-3 line-clamp-2 text-gray-800">{video.title || "Untitled"}</h2>
+                    {/* <p className="text-gray-600 mb-4 line-clamp-3">{video.description || "No description"}</p> */}
+
+                    {/* <div className="flex justify-between items-center text-sm">
+                      <div className="flex items-center">
+                        <i className="fas fa-user-circle mr-2 text-blue-500"></i>
+                        <span className="font-medium text-gray-700">{video.author || "Unknown"}</span>
+                      </div>
+                      <div className="flex items-center text-gray-500">
+                        <i className="far fa-calendar-alt mr-2"></i>
+                        {formatDate(video.date)}
+                      </div>
+                    </div> */}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Slider controls */}
+          <div className="flex justify-center items-center gap-4">
+            <button 
+              onClick={() => setCurrentSlide((prev) => (prev - 1 + Math.ceil(videos.length / 3)) % Math.ceil(videos.length / 3))}
+              className=" text-[#172747]  w-10 h-10 flex items-center justify-center p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
+            >
+             <ArrowLeft size={20} /> 
+            </button>
+            
+            <div className="flex gap-2">
+              {Array.from({ length: Math.ceil(videos.length / 3) }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleSlideChange(index)}
+                  className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-[#172747]' : 'bg-gray-300'}`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+            
+            <button 
+              onClick={() => setCurrentSlide((prev) => (prev + 1) % Math.ceil(videos.length / 3))}
+              className=" text-[#172747]  w-10 h-10 flex items-center justify-center p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
+            >
+                <ArrowRight size={20} /> 
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   {/* -------------------- */}
     <section className="bg-[#172747] text-white py-16 px-4 md:px-8 ">
       <div className="container ">
@@ -1192,6 +1407,66 @@ onMouseLeave={() => setIsPaused(false)}
    className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
       />
         </div>
+         {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto max-w-6xl gap-4">
+      {features.map((feature, index) => (
+        <div
+          key={feature.id}
+          className="w-[260px] h-[210px] [perspective:1000px] group"
+        >
+          <div className="relative w-full h-full transition-transform duration-[999ms] [transform-style:preserve-3d] group-hover:rotate-y-180">
+         
+            <div className="absolute w-full h-full bg-[#172747] text-white flex items-center justify-center border-[2px] border-white rounded-[4px] [backface-visibility:hidden]">
+              <div
+                className="rounded-[4px] px-4 py-6 hover:bg-[#EEF1F5] hover:text-[#172747] shadow-sm hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1"
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+              >
+                <p className="text-gray-400 hover:text-[#172747] text-[28px] mb-2">
+                  {feature.id}
+                </p>
+                <h3
+                  className="text-[24px] leading-[100%] tracking-normal mb-2"
+                  style={{ fontFamily: 'Lato' }}
+                >
+                  {feature.title}
+                </h3>
+                <p
+                  className="text-gray-400 hover:text-[#172747] text-[18px] leading-[100%] tracking-normal"
+                  style={{ fontFamily: 'Lato' }}
+                >
+                  {feature.description}
+                </p>
+              </div>
+            </div>
+
+            
+            <div className="absolute w-full h-full bg-white text-[#172747] flex items-center justify-center text-2xl border-[2px] border-[#172747] rounded-[4px] [backface-visibility:hidden] rotate-y-180">
+             <div
+                className="rounded-[4px] px-4 py-6  shadow-sm hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1"
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+              >
+                <p className="text-[#172747] 0 text-[28px] mb-2">
+                  {feature.id}
+                </p>
+                <h3
+                  className="text-[24px] leading-[100%] tracking-normal mb-2"
+                  style={{ fontFamily: 'Lato' }}
+                >
+                  {feature.title}
+                </h3>
+                <p
+                  className="text-[#172747] hover:text-gray-400 text-[18px] leading-[100%] tracking-normal"
+                  style={{ fontFamily: 'Lato' }}
+                >
+                  {feature.description}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div> */}
         <div>
            {/* <div className="flex-grow h-px bg-gray-400 "></div> */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto max-w-6xl gap-4">
@@ -1202,15 +1477,15 @@ onMouseLeave={() => setIsPaused(false)}
       data-aos="fade-up"
       data-aos-delay={index * 100}
     >
-      <p className="text-gray-400 hover:text-[#172747] text-lg mb-4">{feature.id}</p>
+      <p className="text-gray-400 hover:text-[#172747] text-[28px] mb-2">{feature.id}</p>
       <h3
-        className="text-[24px] font-normal leading-[100%] tracking-normal mb-2"
+        className="text-[24px] leading-[100%] tracking-normal mb-2"
         style={{ fontFamily: 'Lato' }}
       >
         {feature.title}
       </h3>
       <p
-        className="text-gray-400 hover:text-[#172747] text-[18px] font-normal leading-[100%] tracking-normal"
+        className="text-gray-400 hover:text-[#172747] text-[18px] leading-[100%] tracking-normal"
         style={{ fontFamily: 'Lato' }}
       >
         {feature.description}
@@ -1256,12 +1531,13 @@ onMouseLeave={() => setIsPaused(false)}
           </h2>
           
           <div className="mt-4">
-            <h2 className="text-2xl text-[#172747]  "  style={{
-            letterSpacing: '1px'
-          }} >Nikhil Mawale</h2>
-            <h2 className="text-2xl text-[#172747] font-bold mb-6 "  style={{
-            letterSpacing: '1px'
-          }} >Founder</h2>
+            <h2 
+          className="text-[24px] leading-[100%] text-[#172747] tracking-normal"
+        style={{ fontFamily: 'Lato',letterSpacing: '1px' }} >Nikhil Mawale</h2>
+            <h2 
+            className="text-[20px] leading-[100%] text-[#172747] f mb-6 tracking-normal "
+        style={{ fontFamily: 'Lato',letterSpacing: '1px' }}
+          >Founder</h2>
           </div>
         </div>
         
@@ -1293,7 +1569,7 @@ onMouseLeave={() => setIsPaused(false)}
             <Link href="/contactus">
             <button
               type="submit"
-              className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center"
+              className="w-full cursor-pointer md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center "
             >
               Get a Consultation
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
@@ -1307,113 +1583,95 @@ onMouseLeave={() => setIsPaused(false)}
     </section>
 
     {/* ------------------ */}
-    <section className="max-w-6xl mx-auto px-4 py-12">
+     <section className="max-w-6xl mx-auto px-4 py-12">
       <div className="mb-10 flex justify-between items-center">
         <div>
+          <AnimatedLetters
+            text="TESTIMONIAL"
+            as="h2"
+            className="uppercase text-[#172747] text-[18px] tracking-[1px] leading-[100%] mb-2"
+          />
+          <AnimatedLetters
+            text="Your trust is our greatest award"
+            as="h3"
+            className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+          />
+        </div>
+      </div>
+
+       <div style={{ padding: '20px' }}>
+      {/* Cards */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        gap: '20px',
+      }}>
+        {visibleTestimonials.map((item, index) => (
+          <div key={index} style={{
+            border: '1px solid #ddd',
+            borderRadius: '8px',
+            padding: '20px',
+            width: '320px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+            fontFamily: 'Poppins, sans-serif',
+          }}>
+            <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>{item.company}</h3>
+
+            {/* Stars */}
+            <div style={{ marginBottom: '15px', color: '#f9b31e' }}>
+              {'★'.repeat(5)}
+            </div>
+
+            {/* Content */}
+            <p style={{ color: '#444', fontSize: '15px', lineHeight: '1.6' }}>{item.text}</p>
+            <p style={{ marginTop: '10px', color: '#999', fontSize: '13px' }}>{item.date}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Pagination */}
+      <div style={{
+        marginTop: '30px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'Poppins, sans-serif',
+      }}>
+         <div style={{ margin: '0 10px', fontSize: '16px' }}>
+          <strong>{String(currentPage).padStart(2, '0')}</strong>
+          <span style={{ color: '#999' }}> / {String(totalPages).padStart(2, '0')}</span>
+        </div> 
+          {/* Horizontal Line */}
+        <div className="flex-grow h-px bg-[#172747]"></div>
+        <button onClick={goToPreviousPage} disabled={currentPage === 1} className="cursor-pointer"
+          style={{
+            border: '1px solid #16213E',
+            borderRadius: '50%',
+            width: '36px',
+            height: '36px',
+            marginRight: '5px',
+            background: '#fff',
+            cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+          }}>‹</button>
+
        
 
-                  <AnimatedLetters
-  text="TESTIMONIAL"
-  as="h2"
-  className="uppercase text-[#172747] text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-            
-/>
-
-<AnimatedLetters
-  text="Your trust is our greatest award"
-  as="h3"
-   className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-      />
-        </div>
-        {/* <div>
-          <button  className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center">
-            Write a review <ChevronRight className="ml-2" size={16} />
-          </button>
-        </div> */}
+        <button onClick={goToNextPage} disabled={currentPage === totalPages} className="cursor-pointer"
+          style={{
+            border: '1px solid #16213E',
+            borderRadius: '50%',
+            width: '36px',
+            height: '36px',
+            marginLeft: '5px',
+            background: '#fff',
+            cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+          }}>›</button>
       </div>
-            {/* <div className="flex-grow h-px bg-gray-400 "></div> */}
-       <motion.div
-      className="grid grid-cols-1 md:grid-cols-3 gap-6"
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
-    >
-      {visibleTestimonials.map((testimonial) => (
-        <motion.div
-          key={testimonial.id}
-          className="border-l border-r px-4 border-gray-400 pt-4 bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
-          variants={cardVariants}
-        >
-          <div className="flex justify-between items-center mb-2">
-            <h3
-              className="ml-2 text-gray-700 font-normal leading-none"
-              style={{
-                fontSize: '20px',
-                fontFamily: 'Lato',
-                letterSpacing: '0.5px',
-              }}
-            >
-              {testimonial.company}
-            </h3>
-            <div className="flex">
-              {[...Array(testimonial.rating)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={16}
-                  className="text-amber-400 fill-amber-400"
-                />
-              ))}
-            </div>
-          </div>
-          <p
-            className="ml-2 mb-2 text-gray-500 font-normal leading-none"
-            style={{
-              fontSize: '18px',
-              fontFamily: 'Lato',
-              letterSpacing: '0.5px',
-            }}
-          >
-            {testimonial.text}
-          </p>
-          <p
-            className="text-sm text-gray-500"
-            style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
-          >
-            {testimonial.date}
-          </p>
-        </motion.div>
-      ))}
-    </motion.div>
-          {/* <div className="flex-grow h-px bg-gray-400 "></div> */}
-      <div className="mt-12 flex items-center justify-between w-full relative">
-  {/* Number Indicator */}
-  <div className="text-lg font-medium flex-shrink-0 z-10 bg-white pr-2">
-    <span className="font-bold">{String(currentIndex + 1).padStart(2, '0')}</span> / 
-    <span className="text-[#172747]"> {String(testimonials.length).padStart(2, '0')}</span>
-  </div>
-
-  {/* Horizontal Line */}
-  <div className="flex-grow h-px bg-[#172747] "></div>
-
-  {/* Navigation Arrows */}
-  <div className="flex gap-2 flex-shrink-0 z-10 bg-white pl-2">
-    <button 
-      onClick={handlePrev}
-      className="p-2 border border-[#172747] rounded-full hover:bg-gray-100"
-    >
-      <ChevronLeft size={20} />
-    </button>
-    <button 
-      onClick={handleNext}
-      className="p-2 border border-[#172747] rounded-full hover:bg-gray-100"
-    >
-      <ChevronRight size={20} />
-    </button>
-  </div>
-</div>
-
+    </div>
     </section>
+
+    {/* ---- */}
 
     {/* ----------------- */}
 
@@ -1433,21 +1691,23 @@ onMouseLeave={() => setIsPaused(false)}
                   lineHeight: '140%',
                   letterSpacing: '0'
                 }}
-                className="text-white mb-0 sm:mb-6 text-[32px] sm:text-[50px]"
+                className="text-white mb-0  text-[32px] sm:text-[50px]"
               >
               Make smarter decisions with expert-written blogs.
             </h2>
           </div>
-          <div className=" items-center">
+         <div className="items-baseline ">
+          <div className="items-center mt-0 md:mt-10">
             <p className="text-gray-300">
               Get the latest on market trends, property tips, and expert insights. Our blog brings you quick, valuable reads to guide your real estate journey with confidence.
             </p>
             <Link href="/blog">
-            <button className="bg-white text-[#172747] border border-white mt-4 px-4 py-2 rounded hover:bg-[#172747] hover:text-white hover:border hover:border-white transition">
-              Read Our Blog
-            </button>
-          </Link>
+              <button className="bg-white cursor-pointer text-[#172747] border border-white mt-4 px-4 py-2 rounded hover:bg-[#172747] hover:text-white hover:border hover:border-white transition">
+                Read Our Blog
+              </button>
+            </Link>
           </div>
+         </div>
         </div>
 
         {/* Call to Action */}
@@ -1459,7 +1719,7 @@ onMouseLeave={() => setIsPaused(false)}
       {blogPosts.map((post, i) => (
         <motion.div
           key={post.id}
-          className="border border-gray-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 "
+          className="border border-gray-300 hover:bg-white hover:text-[#172747] hover:border-0 rounded-[4px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 "
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -1467,7 +1727,7 @@ onMouseLeave={() => setIsPaused(false)}
           custom={i}
         >
           <Link href={`/blog/${post.id}`} className="block group">
-            <div className="relative h-48 overflow-hidden">
+            <div className="relative cursor-pointer h-48 overflow-hidden ">
               <Image
                 src={post.image}
                 alt={post.title}
@@ -1476,12 +1736,12 @@ onMouseLeave={() => setIsPaused(false)}
                 sizes="(max-width: 768px) 100vw, 33vw"
               />
             </div>
-            <div className="p-4">
-              <div className="text-gray-400 text-sm mb-2">{post.date}</div>
-              <h3 className="text-lg font-medium mb-4 group-hover:text-blue-500 transition-colors duration-300">
+            <div className="p-4 ">
+              <div className="text-gray-400 text-sm mb-2 group-hover:text-[#172747]">{post.date}</div>
+              <h3 className="text-lg font-medium mb-4 group-hover:text-[#172747] transition-colors duration-300">
                 {post.title}
               </h3>
-              <div className="inline-flex items-center text-gray-500 group-hover:text-blue-500 transition-colors duration-300">
+              <div className="inline-flex items-center text-gray-500 group-hover:text-[#172747] transition-colors duration-300">
                 <ArrowRight size={16} />
               </div>
             </div>
@@ -1502,7 +1762,7 @@ onMouseLeave={() => setIsPaused(false)}
           {/* Left Column - Heading */}
           <div>
           <p
-            className="uppercase text-[18px] font-normal text-[#172747] leading-[100%] tracking-normal mb-2"
+            className="uppercase text-[18px]  text-[#172747] leading-[100%] tracking-normal mb-2"
             style={{ fontFamily: 'Lato' }}
           >FAQ</p>
              <h2  style={{
@@ -1524,19 +1784,19 @@ onMouseLeave={() => setIsPaused(false)}
     return (
       <div
         key={faq.id}
-        className={`rounded-xl  transition-all duration-300 ${
-          isOpen ? 'bg-white shadow-md' : 'bg-[#F1EEFF] shadow-2xl'
+        className={`rounded-[4px]  transition-all duration-300 ${
+          isOpen ? 'bg-white shadow-md' : 'bg-[#F1EEFF] shadow-sm'
         }`}
       >
         <button
           onClick={() => toggleAccordion(index)}
-          className="w-full flex justify-between items-center px-6 py-5 text-left text-[#1C1C1C] font-semibold focus:outline-none"
+          className="w-full flex justify-between cursor-pointer items-center px-6 py-5 text-left text-[#1C1C1C]  focus:outline-none"
         >
-          <span className="text-base sm:text-[16px]" 
+          <span className="sm:text-[16px]" 
            style={{ fontFamily: 'Lato', letterSpacing: '1px' }}>
             {faq.question}
           </span>
-          <span className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+          <span className={`transition-transform cursor-pointer duration-300 ${isOpen ? 'rotate-180' : ''}`}>
             {isOpen ? (
               <ChevronUp size={20} className="text-[#6B6B6B]" />
             ) : (
@@ -1546,7 +1806,7 @@ onMouseLeave={() => setIsPaused(false)}
         </button>
 
         {isOpen && (
-          <div className=" px-6 py-4 text-[#4B4B4B] text-sm sm:text-[15px] bg-white border-t border-[#E0E0E0]  ml-2  font-normal leading-none"
+          <div className=" px-6 py-4 text-[#4B4B4B] text-sm sm:text-[15px] cursor-pointer bg-white border-t border-[#E0E0E0]   "
                       style={{ fontFamily: 'Lato', letterSpacing: '1px' , lineHeight: '150%'}}>
             {faq.answer}
           </div>

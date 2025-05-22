@@ -72,12 +72,12 @@ export default function PropertyDeveloperShowcase() {
                 className="text-white mb-0  text-[32px] sm:text-[50px]"
               > Majestique Developers
           </h2>
-          <p className="text-gray-300 max-w-3xl  text-base  leading-none mb-4"
+          <p className="text-gray-300 max-w-3xl    leading-none mb-4"
                       style={{ fontFamily: 'Lato', letterSpacing: '1px',lineHeight: '1.5' }}>
            Majestique began as a textile company with retail and production across major cities.
             In 2007, it transitioned into real estate, delivering successful residential projects in Pune.
           </p>
-         <p className="text-gray-200 max-w-3xl  text-base  leading-none"
+         <p className="text-gray-200 max-w-3xl    leading-none"
                       style={{ fontFamily: 'Lato', letterSpacing: '1px',lineHeight: '1.5' }}>
            
             <strong>Address:</strong> 9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045<br />
