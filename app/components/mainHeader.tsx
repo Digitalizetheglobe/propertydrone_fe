@@ -105,10 +105,10 @@ const MainHeader: React.FC = () => {
     // Main navigation items with their display logic
     const navigationItems = [
         { name: 'Home', href: '/', alwaysShow: true },
-        { name: 'About', href: 'aboutus', alwaysShow: true },
-        { name: 'Services', href: 'services', alwaysShow: true },
-        { name: 'Properties', href: 'properties', alwaysShow: true },
-        { name: 'Developers', href: 'developers', alwaysShow: true },
+        { name: 'About', href: '/about-us-real-estate-agency', alwaysShow: true },
+        { name: 'Services', href: '/our-services-real-estate-services', alwaysShow: true },
+        { name: 'Properties', href: '/our-properties-in-pune', alwaysShow: true },
+        { name: 'Developers', href: '/estate_developer', alwaysShow: true },
         { name: 'Blog', href: 'blog', alwaysShow: false },
         { name: 'Career', href: 'career', alwaysShow: false }
     ];
@@ -117,13 +117,13 @@ const MainHeader: React.FC = () => {
     const dropdownItems = navigationItems.filter(item => !item.alwaysShow);
 
     return (
-        <header className="fixed top-0 left-0  right-0 w-full bg-[#FFFFFF33] backdrop-blur-[28px]"
+        <header className="fixed top-0 left-0  right-0 w-full bg-[#FFFFFF33] backdrop-blur-[28px] "
             style={{ zIndex: 1000 }}>
             <div className="max-w-6xl mx-auto lg:px-16">
                <nav className="flex items-center justify-between px-4 sm:px-0 py-3 sm:py-4 z-50 bg-opacity-140">
 
                     {/* Logo container - made smaller on mobile */}
-                    <div className="flex items-center space-x-2 sm:space-x-8 px-2 sm:px-4 py-2 sm:py-4 bg-[#FFFFFF80] backdrop-blur-[28px] bg-opacity-40 rounded-[4px]">
+                    <div className="flex items-center space-x-2 sm:space-x-8 px-2 sm:px-4 py-2 cursor-pointer sm:py-4 bg-[#FFFFFF80] backdrop-blur-[28px] bg-opacity-40 rounded-[4px]">
                         <Link href="/">
                             <Image 
                                 src={logo} 
@@ -135,7 +135,7 @@ const MainHeader: React.FC = () => {
                         </Link>
 
                         {/* Desktop Navigation */}
-                        <div className="hidden md:flex space-x-6 px-6">
+                        <div className="hidden cursor-pointer md:flex space-x-6 px-6">
                             {navigationItems
                                 .filter(item => item.alwaysShow)
                                 .map((item) => (
@@ -151,7 +151,7 @@ const MainHeader: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center cursor-pointer space-x-3">
                         {/* More Button with Dropdown */}
                         <div className="relative">
                             <button
@@ -181,7 +181,7 @@ const MainHeader: React.FC = () => {
                             </div>
                         </div>
                                 <Link href={`/#filter-section`}>
-                       <button className="hidden sm:flex p-3 sm:px-6 sm:py-5 bg-[#FFFFFF80] hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white backdrop-blur-[18px] z-50 text-black rounded-[4px]">
+                       <button className="hidden  cursor-pointer sm:flex p-3 sm:px-6 sm:py-5 bg-[#FFFFFF80] hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white backdrop-blur-[18px] z-50 text-black rounded-[4px]">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className="h-5 w-5 sm:h-6 sm:w-6"
@@ -199,8 +199,8 @@ const MainHeader: React.FC = () => {
 </button>
 
                         </Link>
-                        <Link href="/contactus">
-                            <button className="px-3 py-2 sm:px-4 sm:py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white hover:text-black rounded-[4px] hover:bg-[#FFFFFF80] text-sm sm:text-base transition-all duration-300">
+                        <Link href="/contact-us-propertydrone-realty">
+                            <button className="px-3 cursor-pointer py-2 sm:px-4 sm:py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white hover:text-black rounded-[4px] hover:bg-[#FFFFFF80] text-sm sm:text-base transition-all duration-300">
                                 CONTACT US
                             </button>
                         </Link>
@@ -221,13 +221,13 @@ const MainHeader: React.FC = () => {
                 {/* Mobile Navigation Menu with improved animations */}
                 <div 
                     ref={menuRef}
-                    className={`md:hidden mobile-menu fixed top-[60px] left-0 right-0 bg-white shadow-lg transform transition-all duration-300 ease-in-out overflow-hidden ${
+                    className={`md:hidden cursor-pointer mobile-menu fixed top-[60px] left-0 right-0 bg-white shadow-lg transform transition-all duration-300 ease-in-out overflow-hidden ${
                         menuAnimationState === 'closed' ? 'max-h-0 opacity-0 pointer-events-none' : 
                         menuAnimationState === 'closing' ? 'max-h-[400px] opacity-0 pointer-events-none' : 
                         menuAnimationState === 'opening' ? 'max-h-[400px] opacity-0' : 'max-h-[400px] opacity-100'
                     }`}
                 >
-                    <div className="flex flex-col bg-[#FFFFFF] bg-opacity-95 backdrop-blur-[28px]">
+                    <div className="flex flex-col cursor-pointer bg-[#FFFFFF] bg-opacity-95 backdrop-blur-[28px]">
                         {navigationItems.map((item) => (
                             <a 
                                 key={item.name} 

@@ -88,19 +88,10 @@ export default function PropertyDeveloperShowcase() {
         >
           With a clear vision for the future and the passion to make it happen, Solitaire has created outstanding structures that exude sheer brilliance.
         </p>
-        <p
-          className="text-gray-200 max-w-3xl text-base leading-none"
-          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
-        >
-          <strong>Address:</strong> 9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045<br />
-          <strong>Email:</strong> info@propertydronerealty.com<br />
-          <strong>Mobile:</strong> +91 9175992110<br />
-          <strong>Phone:</strong> +91 9175992110<br />
-          <strong>Location:</strong> Maharashtra, India – Pune City
-        </p>
+       
 
         <div className="flex flex-col sm:flex-row mt-6 gap-4">
-          <Link href="/contactus">
+          <Link href="/contact-us-propertydrone-realty">
             <button className="border border-white rounded-[4px] bg-white text-[#172747] hover:bg-[#172747] px-6 py-3 hover:text-white transition-colors">
               Book Consultation
             </button>
@@ -118,10 +109,20 @@ export default function PropertyDeveloperShowcase() {
           src={developerimg}
           alt="Solitaire Developers"
           className="rounded-2xl shadow-lg"
-          width={400}
-          height={450}
+          width={300}
+          height={320}
           priority
         />
+         <p
+          className="text-gray-200 max-w-3xl text-base pt-6 leading-none"
+          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
+        >
+          <strong>Address:</strong> 9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045<br />
+          <strong>Email:</strong> info@propertydronerealty.com<br />
+          <strong>Mobile:</strong> +91 9175992110<br />
+          <strong>Phone:</strong> +91 9175992110<br />
+          <strong>Location:</strong> Maharashtra, India – Pune City
+        </p>
       </motion.div>
     </div>
   </div>

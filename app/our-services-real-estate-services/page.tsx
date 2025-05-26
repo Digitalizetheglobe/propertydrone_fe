@@ -18,7 +18,9 @@ import service6 from "@/public/images/service6.png";
 export default function Home() {
   const [formData, setFormData] = useState({
     name: '',
-    phone: ''
+    email: '',
+    mobile: '',
+    message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string } | null>(null);
@@ -40,7 +42,9 @@ export default function Home() {
   }, []);
   
   
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -53,7 +57,7 @@ export default function Home() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:5000/contacts", {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -61,7 +65,7 @@ export default function Home() {
 
       if (response.ok) {
         setSubmitStatus({ success: true, message: 'We will contact you soon!' });
-        setFormData({ name: '', phone: '' });
+        setFormData({ name: '', email: '', mobile: '', message: '' });
       } else {
         setSubmitStatus({ success: false, message: 'Something went wrong. Please try again.' });
       }
@@ -99,7 +103,7 @@ export default function Home() {
               Making Your Property Journey<br />
               Smarter, Simpler, and Faster
             </h2>
- <p className=" tracking-wider text-gray-300 mb-4"
+ <p className=" tracking-wider text-[#172747]  mb-4"
              
                       style={{ fontSize:'20px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
             
@@ -123,7 +127,7 @@ export default function Home() {
       {/* Content wrapper with overflow control */}
       <div className="overflow-hidden w-full">
         {/* Residential Property Section */}
-        <section className="py-8 bg-white">
+        <section className="py-4 bg-white">
           <div className="container mx-auto px-4 md:px-8 lg:px-12 overflow-hidden">
             <div className="py-8 relative flex flex-col md:flex-row items-center justify-center mobile-adjusted" data-aos="fade-right">
               <div className="w-[550px] h-[430px] relative z-0 mobile-img-box">
@@ -147,7 +151,7 @@ export default function Home() {
                 </h2>
                 <p className="text-base font-normal leading-none"
                   style={{ fontFamily: 'Lato', letterSpacing: '0.5px', color: '#FFFFFF99', lineHeight: '150%' }}>
-                  We know the difficulties of selling a home, because that is what our job is. To increase visibility and spark interest in our customers’ properties, we provide a variety of sales and marketing services through traditional as well as digital marketing channels. Our team of marketing specialists design customized marketing strategies and provide skilled negotiating services so that we can help you receive the highest potential price for your homes.
+                  We know the difficulties of selling a home, because that is what our job is. To increase visibility and spark interest in our customers' properties, we provide a variety of sales and marketing services through traditional as well as digital marketing channels. Our team of marketing specialists design customized marketing strategies and provide skilled negotiating services so that we can help you receive the highest potential price for your homes.
     </p>
               </div>
             </div>
@@ -155,7 +159,7 @@ export default function Home() {
         </section>
 
         {/* Commercial Property Section */}
-        <section className="py-8 bg-white">
+        <section className="py-4 bg-white">
           <div className="container mx-auto px-4 md:px-8 lg:px-12 overflow-hidden">
             <div className="py-8 relative flex flex-col md:flex-row items-center justify-center mobile-column-reverse" data-aos="fade-left">
               <div className="md:-mr-20 z-10 bg-[#EEF1F5] text-[#172747] p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box-2">
@@ -179,7 +183,7 @@ export default function Home() {
           </div>
         </section>
         {/* Residential Property Section */}
-        <section className="py-8 bg-white">
+        <section className="py-4 bg-white">
           <div className="container mx-auto px-4 md:px-8 lg:px-12 overflow-hidden">
             <div className="py-8 relative flex flex-col md:flex-row items-center justify-center mobile-adjusted" data-aos="fade-right">
               <div className="w-[550px] h-[430px] relative z-0 mobile-img-box">
@@ -203,7 +207,7 @@ export default function Home() {
                 </h2>
                 <p className="text-base font-normal leading-none"
                   style={{ fontFamily: 'Lato', letterSpacing: '0.5px', color: '#FFFFFF99', lineHeight: '150%' }}>
-                  We know the difficulties of selling a home, because that is what our job is. To increase visibility and spark interest in our customers’ properties, we provide a variety of sales and marketing services through traditional as well as digital marketing channels. Our team of marketing specialists design customized marketing strategies and provide skilled negotiating services so that we can help you receive the highest potential price for your homes.
+                  We know the difficulties of selling a home, because that is what our job is. To increase visibility and spark interest in our customers' properties, we provide a variety of sales and marketing services through traditional as well as digital marketing channels. Our team of marketing specialists design customized marketing strategies and provide skilled negotiating services so that we can help you receive the highest potential price for your homes.
     </p>
               </div>
             </div>
@@ -211,7 +215,7 @@ export default function Home() {
         </section>
 
         {/* Commercial Property Section */}
-        <section className="py-8 bg-white">
+        <section className="py-4 bg-white">
           <div className="container mx-auto px-4 md:px-8 lg:px-12 overflow-hidden">
             <div className="py-8 relative flex flex-col md:flex-row items-center justify-center mobile-column-reverse" data-aos="fade-left">
               <div className="md:-mr-20 z-10 bg-[#EEF1F5] text-[#172747] p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box-2">
@@ -235,7 +239,7 @@ export default function Home() {
           </div>
         </section>
         {/* Residential Property Section */}
-        <section className="py-8 bg-white">
+        <section className="py-4 bg-white">
           <div className="container mx-auto px-4 md:px-8 lg:px-12 overflow-hidden">
             <div className="py-8 relative flex flex-col md:flex-row items-center justify-center mobile-adjusted" data-aos="fade-right">
               <div className="w-[550px] h-[430px] relative z-0 mobile-img-box">
@@ -267,7 +271,7 @@ export default function Home() {
         </section>
 
         {/* Commercial Property Section */}
-        <section className="py-8 bg-white">
+        <section className="py-4 bg-white">
           <div className="container mx-auto px-4 md:px-8 lg:px-12 overflow-hidden">
             <div className="py-8 relative flex flex-col md:flex-row items-center justify-center mobile-column-reverse" data-aos="fade-left">
               <div className="md:-mr-20 z-10 bg-[#EEF1F5] text-[#172747] p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box-2">
@@ -276,7 +280,7 @@ export default function Home() {
                 </h2>
                 <p className="text-base font-normal leading-none"
                   style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '150%', color: '#2a4073' }}>
-               Being a real estate company, we very well know how time consuming and stress-intensive real estate management can be. For this exact reason, we provide full property management as one of our services. It consists of tenant vetting and placement, rent collecting, maintenance and repair, and financial reporting. Your rental revenue is increased while your properties are maintained in excellent shape.
+               Being a real estate company, we very well know how time consuming and stress-intensive real estate management can be. For this exact reason, we provide full property management as one of our services. It consists of tenant vetting and placement, rent collecting, maintenance and repair, and financial reporting. Your rental revenue is increased while your properties are maintained in excellent shape.
                 </p>
               </div>
               <div className="w-[550px] h-[430px] relative z-0 mobile-img-box-2">
@@ -290,7 +294,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="py-8 bg-white">
+        <section className="py-4 bg-white">
           <div className="container mx-auto px-4 md:px-8 lg:px-12 overflow-hidden">
             <div className="py-8 relative flex flex-col md:flex-row items-center justify-center mobile-adjusted" data-aos="fade-right">
               <div className="w-[550px] h-[430px] relative z-0 mobile-img-box">
@@ -322,7 +326,7 @@ export default function Home() {
         </section>
 
         {/* Commercial Property Section */}
-        <section className="py-8 bg-white">
+        <section className="py-4 bg-white">
           <div className="container mx-auto px-4 md:px-8 lg:px-12 overflow-hidden">
             <div className="py-8 relative flex flex-col md:flex-row items-center justify-center mobile-column-reverse" data-aos="fade-left">
               <div className="md:-mr-20 z-10 bg-[#EEF1F5] text-[#172747] p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box-2">
@@ -331,7 +335,7 @@ export default function Home() {
                 </h2>
                 <p className="text-base font-normal leading-none"
                   style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '150%', color: '#2a4073' }}>
-               Being a real estate company, we very well know how time consuming and stress-intensive real estate management can be. For this exact reason, we provide full property management as one of our services. It consists of tenant vetting and placement, rent collecting, maintenance and repair, and financial reporting. Your rental revenue is increased while your properties are maintained in excellent shape.
+               Being a real estate company, we very well know how time consuming and stress-intensive real estate management can be. For this exact reason, we provide full property management as one of our services. It consists of tenant vetting and placement, rent collecting, maintenance and repair, and financial reporting. Your rental revenue is increased while your properties are maintained in excellent shape.
                 </p>
               </div>
               <div className="w-[550px] h-[430px] relative z-0 mobile-img-box-2">
@@ -382,14 +386,35 @@ export default function Home() {
                         required
                       />
                     </div>
-                    <div className="mb-6">
+                    <div className="mb-4">
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Email"
+                        className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                      />
+                    </div>
+                    <div className="mb-4">
                       <input
                         type="tel"
-                        name="phone"
-                        value={formData.phone}
+                        name="mobile"
+                        value={formData.mobile}
                         onChange={handleChange}
-                        placeholder="Phone"
+                        placeholder="Mobile Number"
                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                      />
+                    </div>
+                    <div className="mb-6">
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder="Your Message"
+                        className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-32 resize-none"
                         required
                       />
                     </div>
@@ -398,7 +423,7 @@ export default function Home() {
                       disabled={isSubmitting}
                       className="w-full bg-gray-800 hover:bg-gray-700 text-white py-2 rounded transition duration-200"
                     >
-                      {isSubmitting ? 'Submitting...' : 'Order a Call back'}
+                      {isSubmitting ? 'Submitting...' : 'Send Message'}
                     </button>
                     {submitStatus && (
                       <div className={`mt-4 text-center ${submitStatus.success ? 'text-green-600' : 'text-red-600'}`}>

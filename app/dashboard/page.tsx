@@ -107,7 +107,7 @@ const sections = [
     description: "View and manage Youtube videos" 
   },
   { 
-    name: "Add Youtube video", 
+    name: "Add real estate basic", 
     path: "/dashboard/addreal", 
     icon: faFileAlt,
     description: "Create new Youtube video" 

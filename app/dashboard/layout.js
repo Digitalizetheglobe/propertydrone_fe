@@ -6,7 +6,9 @@ import { useAuth } from '../context/AuthContext';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout({
+  children,
+}) {
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -17,7 +19,6 @@ export default function DashboardLayout({ children }) {
     }
   }, [user, loading, router]);
 
-  // Show loading state or nothing while checking authentication
   if (loading || !user) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
@@ -26,7 +27,7 @@ export default function DashboardLayout({ children }) {
     <>
       <Header />
       <main className="min-h-screen bg-gray-50">
-        {children}
+        <div className="flex-grow">{children}</div>
       </main>
       <Footer />
     </>

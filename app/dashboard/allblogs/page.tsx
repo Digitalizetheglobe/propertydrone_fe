@@ -25,7 +25,7 @@ export default function AllBlogs() {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/blogs");
+      const response = await axios.get("https://api.propertydronerealty.com/blogs");
       setBlogs(response.data);
     } catch (error) {
       console.error("Error fetching blogs:", error);
@@ -35,7 +35,7 @@ export default function AllBlogs() {
   // Delete a blog
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:5000/blogs/${id}`);
+      await axios.delete(`https://api.propertydronerealty.com/blogs/${id}`);
       setBlogs(blogs.filter((blog) => blog.id !== id));
       if (selectedBlog?.id === id) {
         setSelectedBlog(null);
@@ -49,7 +49,7 @@ export default function AllBlogs() {
   const handleUpdate = async () => {
     if (!editBlog || !editBlog.id) return;
     try {
-      await axios.put(`http://localhost:5000/blogs/${editBlog.id}`, editBlog);
+      await axios.put(`https://api.propertydronerealty.com/blogs/${editBlog.id}`, editBlog);
       fetchBlogs(); // Refresh after update
       setEditBlog(null);
     } catch (error) {

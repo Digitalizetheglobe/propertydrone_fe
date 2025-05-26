@@ -55,7 +55,7 @@ const YoutubeVideoList: React.FC = () => {
   const fetchVideos = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/youtube-videos');
+      const response = await axios.get('https://api.propertydronerealty.com/youtube-videos');
       setVideos(response.data);
       setError('');
     } catch (err) {
@@ -105,7 +105,7 @@ const YoutubeVideoList: React.FC = () => {
 
     try {
       if (!currentVideo) return;
-      await axios.put(`http://localhost:5000/youtube-videos/${currentVideo.id}`, formData);
+      await axios.put(`https://api.propertydronerealty.com/youtube-videos/${currentVideo.id}`, formData);
       setUpdateSuccess('Video updated successfully!');
       fetchVideos();
       setTimeout(() => {
@@ -121,7 +121,7 @@ const YoutubeVideoList: React.FC = () => {
   const handleDelete = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this video?')) {
       try {
-        await axios.delete(`http://localhost:5000/youtube-videos/${id}`);
+        await axios.delete(`https://api.propertydronerealty.com/youtube-videos/${id}`);
         setDeleteSuccess('Video deleted successfully!');
         fetchVideos();
         setTimeout(() => {

@@ -39,8 +39,8 @@ const companyData = [
   },
   {
     id: 3,
-    name: 'kunal-group',
-    slug: 'kunal-group',
+    name: 'krunal-group',
+    slug: 'krunal-group',
     logo: d3,
     logo1: img3, // Added default background
   },
@@ -142,56 +142,67 @@ const Developer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
           {companyData.map((company, index) => (
             <motion.div
-              key={company.slug}
-              custom={index}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={cardVariants}
-            >
-              <Link href={`/developers/${company.slug}`}>
-                <div
-                  className="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl cursor-pointer h-64"
-                  onMouseEnter={() => setHoveredLogo(company.id)}
-                  onMouseLeave={() => setHoveredLogo(null)}
-                >
-                  {/* Default state - Logo only */}
-                  <div className={`absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 ${hoveredLogo === company.id ? 'opacity-0' : 'opacity-100'}`}>
-                    <Image
-                      src={company.logo}
-                      alt={company.name}
-                      width={150}
-                      height={80}
-                      className="object-contain"
-                    />
-                  </div>
+  key={company.slug}
+  custom={index}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.2 }}
+  variants={cardVariants}
+>
+  <Link href={`/estate_developer/${company.slug}`} className="block">
+    <div
+      className="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl cursor-pointer h-64"
+      onMouseEnter={() => setHoveredLogo(company.id)}
+      onMouseLeave={() => setHoveredLogo(null)}
+    >
+      {/* Logo (Default View) */}
+      <div
+        className={`absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300 ${
+          hoveredLogo === company.id ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
+        <Image
+          src={company.logo}
+          alt={company.name}
+          width={150}
+          height={80}
+          className="object-contain"
+        />
+      </div>
 
-                  {/* Hover state - Full image with button overlay */}
-                  <div
-                    className={`absolute inset-0 transition-opacity duration-300 ${hoveredLogo === company.id ? 'opacity-100' : 'opacity-0'}`}
-                  >
-                    <div className="relative w-full h-full">
-                      <Image
-                        src={company.logo1}
-                        alt={`${company.name} Properties`}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                        className="z-0"
-                      />
-                      <div className="absolute inset-0 bg-black opacity-50"></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-4 z-20 flex justify-center">
-                        <div className="flex items-center py-2 px-6 bg-white/50 border border-white/50 backdrop-blur-[28px] rounded-lg transition-all hover:bg-[#172747] hover:backdrop-blur-[8px] hover:border-white hover:text-white text-[#172747] z-50">
-                          <span className="mr-2 font-medium">View Details</span>
-                          <ArrowRight size={20} className="text-inherit" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
+      {/* Hover State: Full Background with Overlay */}
+      <div
+        className={`absolute inset-0 transition-opacity duration-300 ${
+          hoveredLogo === company.id ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        <div className="relative w-full h-full">
+          {/* Background Image */}
+          <Image
+            src={company.logo1}
+            alt={`${company.name} Properties`}
+            fill
+            className="object-cover z-0"
+          />
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
+
+          {/* View Details Button */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 z-20 flex justify-center">
+            <div className="flex items-center py-2 px-6 bg-white/50 border border-white/50 backdrop-blur-[28px] rounded-lg transition-all hover:bg-[#172747] hover:backdrop-blur-[8px] hover:border-white hover:text-white text-[#172747]">
+              <span className="mr-2 font-medium">View Details</span>
+              <ArrowRight size={20} className="text-inherit" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Link>
+</motion.div>
+
           ))}
         </div>
+        
       </div>
     </div>
       </div>

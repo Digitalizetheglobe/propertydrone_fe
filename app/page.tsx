@@ -214,56 +214,56 @@ const testimonials = [
   },
   {
     id: 3,
-    name: "Subhamoy Saha",
-    text: "PropertyDrone Realty is such a huge part of our journey towards finding and building a home. We found out about Nikhil through YouTube, contacted him, did some consulting and he took me for a tour of several projects and locations as per my requirement. After a series of shortlisting and visiting potential properties, Nikhil and Vishal explained the USPs of the different projects and compared them to help us be clear about which one we want.",
+    name: "Vicky Kothawade",
+    text: "I had a great experience while buying a new Flat in Pune West location and I'd like to specifically mention Ashitosh for his professionalism and support throughout the process. He provided detailed insights and guided me efficiently, making the entire journey smooth and hassle-free. His expertise in real estate and commitment to customer satisfaction is truly commendable.",
     date: "16th April, 2025",
     company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 4,
-    name: "Jagdish Thadhani",
-    text: "I knew having a real estate agent would be a crucial factor in finding a perfect flat in Pune and I am so glad that I chose to work with PropertyDrone Realty. Nikhil is the most wonderful person to work with. Nikhil and his colleague Atharva, both were super helpful and patient, answering all of my questions (not matter how silly). He really took into account my needs and wants when compiling a list of apartments for viewing and I am so happy to say that I’ve found my dream home.",
+    name: "Bhagyashri Shingadi",
+    text: "We had a good experience from start to end while looking for a new house.Vishal Pandey is such an amazing person who explained us everything before hand and made our life easier to short list the property and then finalize it.We all need a trustworthy person in such processes and I think Vishal is one of those honest guy I had ever met.Proffesional and hardworking. We are greatful and thankful to him.",
     date: "16th April, 2025",
     company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 5,
-    name: "Shankar H",
-    text: "PropertyDrone Realty provided excellent support throughout my home-buying journey. Nikhil and his team gave me clear comparisons of projects, scheduled visits efficiently, and negotiated the best price possible. Highly recommended for anyone looking for transparency and professionalism.",
+    name: "Rashmi Chhetri",
+    text: "My experience with Property drone was really amazing. I can say that this is where I experienced Professionalism at its peak! They really walked the talk of 'Customer is King'. I started my hunt in 2023 with very limited time in Pune. When i restarted in May this year, I was amazed to see the same zeal and dedication the 2nd time around!",
     date: "16th April, 2025",
     company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 6,
-    name: "Bhavik Balpande",
-    text: "From the first call to finalizing the property, the entire team was super supportive. I appreciate how they explained every aspect, from floor plans to legal formalities. Nikhil and Vishal ensured a stress-free experience.",
+    name: "ketan Upadhyay",
+    text: "I wanted to take a moment to express my sincere gratitude to Vishal Pandey for the exceptional service provided during our recent purchase of plot in the Vaarivana project. Vishal's teams dedication and professionalism truly made our experience remarkable.",
     date: "16th April, 2025",
     company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 7,
-    name: "Ankush Jain",
-    text: "Being a first-time buyer, I had a lot of confusion and hesitation. But the PropertyDrone team, especially Akshay, was very patient and guided me through every step. Their honest opinions and expert suggestions helped me make the right decision.",
+    name: "Ujjwal Rai",
+    text: "We came to know about vishal & his team as a channel partner. This was our first property we purchased and we were very new to this field. The way Nikhil and Vishal guided us throughout the journey of hunting the right project, Knowing our requirements first, Showing the A class builders, differentiation and builder history. It was a smooth process & we really enjoyed buying property with them. As we friends booked property in Vaarivana.",
     date: "16th April, 2025",
     company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 8,
-    name: "Dimple",
-    text: "I came across PropertyDrone through YouTube, and contacting them was the best decision. They understood my preferences and budget well, and helped me find a beautiful flat. Their professional and friendly approach made the whole process seamless.",
+    name: "Radha Rao",
+    text: "It is our pleasure to write this letter of recommendation for Nikhil & his team at Property Drone Realty.From our very first interaction, Nikhil, vishal and ikram impressed us with their exceptional professionalism, in-depth knowledge of the local real estate market in Pune, neighbourhood nuances, and property values. Their ability to understand our specific needs and preferences allowed them to curate tailored property options that perfectly aligned with our criteria. They went above and beyond, providing comprehensive property choices and invaluable insights to guide our decision-making process.",
     date: "16th April, 2025",
     company: "PropertyDrone Realty",
     rating: 5
   },
   {
     id: 9,
-    name: "Om B",
-    text: "Nikhil and team are truly passionate about helping home buyers. They were always available to answer doubts and helped me finalize a property I’m proud to call my home. Their negotiation skills and market knowledge are top-notch.",
+    name: "Surbhi Tadwal",
+    text: "We had a good experience while looking for a new house. Vishal Pandey helped us a-lot in finalising our deal. He just didn't help you in finding your dream house but also give you the wise advice and which is really appreciable. Thanks a-lot for helping us.",
     date: "16th April, 2025",
     company: "PropertyDrone Realty",
     rating: 5
@@ -278,18 +278,30 @@ const testimonials = [
 interface Property {
   id: number;
   propertyName: string;
-  location: string;
-  city: string;
-  tentativeBudget: number;
-  badge: string;
-  secondaryBadge: string;
-  possession: string;
-  topology: number;
+  propertyType: string;
+  youtubeUrl: string;
+  googleMapUrl: string;
+  propertyCategory: string;
+  beds: number;
   baths: number;
-  carpetArea: number;
-  image: any;
-  featured: boolean;
-  multipleImages?: any;
+  topology: string;
+  carpetArea: string;
+  city: string;
+  location: string;
+  tentativeBudget: string;
+  possession: string;
+  multipleImages: Array<{
+    path: string;
+    filename: string;
+    originalName: string;
+  }>;
+  slug: string;
+  seoDescription: string;
+  seoTitle: string;
+  seoKeywords: string;
+  createdAt: string;
+  updatedAt: string;
+  featured?: boolean;
   type?: string;
 }
 
@@ -338,12 +350,18 @@ useEffect(() => {
   const [properties, setProperties] = useState<Property[]>([]);
 
   // First, let's group properties by location and count them
-const locationCounts = useMemo(() => {
+interface LocationData {
+  location: string;
+  count: number;
+  image: string;
+}
+
+const locationCounts = useMemo<LocationData[]>(() => {
   // Skip if properties aren't loaded yet
   if (!properties.length) return [];
   
   // Create a map to store location counts and data
-  const locationMap = new Map();
+  const locationMap = new Map<string, LocationData>();
   
   // Group properties by location
   properties.forEach(property => {
@@ -354,11 +372,11 @@ const locationCounts = useMemo(() => {
         location: location,
         count: 1,
         // Use the first property's image as the location image
-        image: property.image || "/api/placeholder/400/320"
+        image: property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : "/api/placeholder/400/320"
       });
     } else {
       // Increment count for existing location
-      const current = locationMap.get(location);
+      const current = locationMap.get(location)!;
       locationMap.set(location, {
         ...current,
         count: current.count + 1
@@ -436,10 +454,33 @@ const locationCounts = useMemo(() => {
 ];
 
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    try {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          mobile: formData.phone,
+          message: ""
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to submit contact form");
+
+      console.log('Form submitted successfully');
+      
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        phone: ''
+      });
+    } catch (err) {
+      console.error('Error submitting form:', err);
+    }
   };
 
   const [filters, setFilters] = useState({
@@ -464,7 +505,7 @@ const locationCounts = useMemo(() => {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:5000/properties');
+        const response = await fetch('https://api.propertydronerealty.com/properties');
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }
@@ -523,15 +564,17 @@ useEffect(() => {
   }
 
   if (filters.minPrice) {
-    filtered = filtered.filter(property => 
-      property.tentativeBudget >= parseInt(filters.minPrice, 10)
-    );
+    filtered = filtered.filter(property => {
+      const budget = parseInt(property.tentativeBudget.replace(/[^0-9]/g, ''));
+      return budget >= parseInt(filters.minPrice, 10);
+    });
   }
 
   if (filters.maxPrice) {
-    filtered = filtered.filter(property => 
-      property.tentativeBudget <= parseInt(filters.maxPrice, 10)
-    );
+    filtered = filtered.filter(property => {
+      const budget = parseInt(property.tentativeBudget.replace(/[^0-9]/g, ''));
+      return budget <= parseInt(filters.maxPrice, 10);
+    });
   }
 
   // Update filtered properties and separate featured/remaining
@@ -609,7 +652,7 @@ const PropertyCard = ({
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const baseUrl = "http://localhost:5000"; // For dev — ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
   const imagePath = property?.multipleImages?.[0]?.path
     ? `${baseUrl}${property.multipleImages[0].path}`
     : {main2};
@@ -638,7 +681,7 @@ const PropertyCard = ({
 
   return (
     
-       <Link href={`/properties/${property.id}`} passHref>
+       <Link href={`/our-properties-in-pune/${property.id}`} passHref>
     <div
   ref={cardRef}
   className={`bg-white rounded-md  cursor-pointer overflow-hidden border border-gray-300 shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
@@ -710,29 +753,30 @@ const PropertyCard = ({
   </div>
 
   {/* Property Details */}
-  <div className="flex justify-between items-center px-4 pb-2 space-x-2">
+  <div className="justify-between items-center px-4 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
     {/* <div className="bg-[#EEF1F5] text-xs text-gray-800 px-3 py-1 rounded-md">
       {property.bedroom || "5"} Bedroom
     </div>
     <div className="bg-[#EEF1F5] text-xs text-gray-800 px-3 py-1 rounded-md">
       {property.bathroom || "4"} Bathroom
     </div> */}
-    <div className="bg-[#EEF1F5] text-xs text-gray-800 px-3 py-1 rounded-md">
-      {property.carpetArea || "1520"} sqft
-    </div>
+    {/* <div className="bg-[#EEF1F5] text-xs text-gray-800 px-3 py-1 rounded-md">
+      {property.carpetArea || ""} sqft
+    </div> */}
+    {/* <span
+      className={`text-[18px] font-lato letter-spacing-2 line-height-1 ${
+        isHovered ? "text-blue-800" : "text-[#2B3C74]"
+      }`}
+    >
+       {property.tentativeBudget || ""}
+    </span> */}
   </div>
 
   {/* Price and Actions */}
   <div className="flex items-center justify-between px-4 py-3">
-    <span
-      className={`text-[20px] font-semibold ${
-        isHovered ? "text-blue-800" : "text-[#2B3C74]"
-      }`}
-    >
-      ₹ {property.tentativeBudget || "4.53 Cr"}
-    </span>
+   
     <div className="flex space-x-2 items-center">
-      <button className="p-2 border border-gray-300 rounded hover:bg-gray-100">
+      {/* <button className="p-2 border border-gray-300 rounded hover:bg-gray-100">
         <svg
           className="w-4 h-4 text-gray-600 hover:text-blue-600"
           fill="none"
@@ -747,7 +791,7 @@ const PropertyCard = ({
             d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
           />
         </svg>
-      </button>
+      </button> */}
       <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105">
         View Details
       </button>
@@ -768,7 +812,7 @@ const PropertyCard = ({
   const fetchVideos = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/youtube-videos');
+      const response = await axios.get('https://api.propertydronerealty.com/youtube-videos');
       setVideos(response.data);
       setError('');
     } catch (err) {
@@ -903,7 +947,7 @@ const PropertyCard = ({
           style={{ fontWeight:'300',fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
           with Property <br /> Management <br />company  in Pune
         </p>
-        <Link href="/contactus">
+        <Link href="/contact-us-propertydrone-realty">
         <button
           className="flex  ml-0 md:ml-[20px] bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50 md:mt-auto cursor-pointer"
         >
@@ -943,7 +987,7 @@ onMouseLeave={() => setIsPaused(false)}
     }}
   >
     <div className="shadow-md flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
-      <Link href={`/developers/${imgObj.link}`}>
+      <Link href={`/estate_developer/${imgObj.link}`}>
         <Image
           src={imgObj.img}
           alt={`Card ${index + 1}`}
@@ -1148,7 +1192,7 @@ onMouseLeave={() => setIsPaused(false)}
     
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
      {locationCounts.map((locationData: { location: string; count: number; image: string }, index: number) => (
-  <Link key={index} href={`/properties?location=${locationData.location}`}>
+  <Link key={index} href={`/our-properties-in-pune?location=${locationData.location}`}>
     <div className="relative grid h-52 w-fullcursor-pointer  place-content-center overflow-hidden rounded-[4px] bg-[#172747] shadow-md transition-transform duration-300 hover:scale-105 group">
        <div className="absolute right-6 top-6 p-1 z-50 rounded-full">
           <Building2 className="w-8 h-8 text-[#EEF1F5] transition-colors duration-300" />
@@ -1179,7 +1223,7 @@ onMouseLeave={() => setIsPaused(false)}
 
       
       <div className="flex justify-center">
-        <Link href="/properties">
+        <Link href="/our-properties-in-pune">
         <button className="bg-[#172747] cursor-pointer text-white px-6 py-2 flex items-center gap-2 rounded hover:bg-[#172747] transition">
           View All Locations
           <ArrowRight size={16} />
@@ -1222,11 +1266,11 @@ onMouseLeave={() => setIsPaused(false)}
           .map((property) => (
             <div
               key={property.id}
-              className="flex flex-col hover:bg-[#EEF1F5]  rounded-[4px] shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out transform hover:-translate-y-1"
+              className="flex flex-col hover:bg-[#EEF1F5] rounded-[4px] shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out transform hover:-translate-y-1"
             >
               <div className="relative h-64 w-full mb-4 overflow-hidden rounded-t-lg group">
                 <Image
-                  src={main4}
+                  src={property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : main4}
                   alt={property.propertyName}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
@@ -1234,10 +1278,20 @@ onMouseLeave={() => setIsPaused(false)}
               </div>
               <div className="px-4 pb-4">
                 <h3 className="text-xl font-light">{property.propertyName}</h3>
-                <p className="text-sm text-gray-600">{property.location}</p>
+                <p className="text-sm text-gray-600">{property.location}, {property.city}</p>
                 <div className="flex justify-between items-center mt-2">
-                  <div></div>
-                  <p className="text-sm">From {property.tentativeBudget}</p>
+                  <div className="flex gap-2">
+                    {property.beds && (
+                      <span className="text-sm text-gray-600">{property.beds} Beds</span>
+                    )}
+                    {property.baths && (
+                      <span className="text-sm text-gray-600">{property.baths} Baths</span>
+                    )}
+                    {property.carpetArea && (
+                      <span className="text-sm text-gray-600">{property.carpetArea} sq.ft</span>
+                    )}
+                  </div>
+                  <p className="text-sm font-medium">{property.tentativeBudget}</p>
                 </div>
               </div>
             </div>
@@ -1495,8 +1549,8 @@ onMouseLeave={() => setIsPaused(false)}
         {feature.title}
       </h3>
       <p
-        className="text-gray-400 hover:text-[#172747] text-[18px] leading-[100%] tracking-normal"
-        style={{ fontFamily: 'Lato' }}
+        className="text-gray-400 hover:text-[#172747] text-[18px] leading-[100%] tracking-normal " style={{lineHeight: '1.5',fontFamily: 'Lato'}}
+       
       >
         {feature.description}
       </p>
@@ -1576,7 +1630,7 @@ onMouseLeave={() => setIsPaused(false)}
                 required
               />
             </div>
-            <Link href="/contactus">
+            <Link href="/contact-us-propertydrone-realty">
             <button
               type="submit"
               className="w-full cursor-pointer md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center "
@@ -1611,7 +1665,7 @@ onMouseLeave={() => setIsPaused(false)}
 
        <div style={{ padding: '20px' }}>
       {/* Cards */}
-      <div style={{
+      <motion.div style={{
         display: 'flex',
         justifyContent: 'center',
         flexWrap: 'wrap',
@@ -1626,7 +1680,7 @@ onMouseLeave={() => setIsPaused(false)}
             boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
             fontFamily: 'Poppins, sans-serif',
           }}>
-            <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>{item.company}</h3>
+            <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>{item.name}</h3>
 
             {/* Stars */}
             <div style={{ marginBottom: '15px', color: '#f9b31e' }}>
@@ -1638,7 +1692,7 @@ onMouseLeave={() => setIsPaused(false)}
             <p style={{ marginTop: '10px', color: '#999', fontSize: '13px' }}>{item.date}</p>
           </div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Pagination */}
       <div style={{

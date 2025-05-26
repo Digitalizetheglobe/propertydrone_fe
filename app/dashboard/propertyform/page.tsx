@@ -142,7 +142,7 @@ export default function PropertyForm() {
       });
     }
 
-    const response = await fetch('http://localhost:5000/properties', {
+    const response = await fetch('https://api.propertydronerealty.com/properties', {
       method: 'POST',
       body: formDataToSend, // No content-type header; browser sets it with correct boundary
     });

@@ -58,7 +58,7 @@ function LuxePropertiesContent() {
   const [activeTab, setActiveTab] = useState('all');
 
   // API base URL - ideally from environment variables
-  const baseUrl = "http://localhost:5000";
+  const baseUrl = "https://api.propertydronerealty.com";
 
   const propertyCategories = [
     { id: 'all', name: 'All', icon: '/icons/home.svg' },

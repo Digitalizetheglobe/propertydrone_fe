@@ -33,12 +33,12 @@ export default function ApplicationsDashboard() {
     const fetchData = async () => {
       try {
         // Fetch applications
-        const appsResponse = await fetch('http://localhost:5000/applications');
+        const appsResponse = await fetch('https://api.propertydronerealty.com/applications');
         const appsData = await appsResponse.json();
         setApplications(appsData);
         
         // Fetch available jobs for filter
-        const jobsResponse = await fetch('http://localhost:5000/careers');
+        const jobsResponse = await fetch('https://api.propertydronerealty.com/careers');
         const jobsData = await jobsResponse.json();
         setAvailableJobs(jobsData);
         
@@ -59,7 +59,7 @@ interface DeleteResponse {
 const handleDelete = async (id: string): Promise<void> => {
     if (confirm('Are you sure you want to delete this application?')) {
         try {
-            const response: Response = await fetch(`http://localhost:5000/applications/${id}`, {
+            const response: Response = await fetch(`https://api.propertydronerealty.com/applications/${id}`, {
                 method: 'DELETE'
             });
             
@@ -78,7 +78,7 @@ interface UpdateStatusResponse {
 
 const updateStatus = async (id: string, newStatus: string): Promise<void> => {
     try {
-        const response: Response = await fetch(`http://localhost:5000/applications/${id}/status`, {
+        const response: Response = await fetch(`https://api.propertydronerealty.com/applications/${id}/status`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

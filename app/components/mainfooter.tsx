@@ -110,12 +110,13 @@ const Mainfooter = () => {
                 <h3 className="text-sm font-semibold mb-6 text-white tracking-wide">Quick Links</h3>
                 <ul className="space-y-3 text-sm" style={{ fontFamily: 'Lato', letterSpacing: '0.5px', color: '#FFFFFF99' }}>
                   <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-                  <li><Link href="/aboutus" className="hover:text-white transition-colors">About Us</Link></li>
-                  <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
-                  <li><Link href="/developers" className="hover:text-white transition-colors">Developers</Link></li>
+                  <li><Link href="/about-us-real-estate-agency" className="hover:text-white transition-colors">About Us</Link></li>
+                  <li><Link href="/our-services-real-estate-services" className="hover:text-white transition-colors">Services</Link></li>
+                  <li><Link href="/estate_developer" className="hover:text-white transition-colors">Developers</Link></li>
+                  <li><Link href="/our-properties-in-pune" className="hover:text-white transition-colors">Developers</Link></li>
                   <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
                   <li><Link href="/career" className="hover:text-white transition-colors">Career</Link></li>
-                  <li><Link href="/contactus" className="hover:text-white transition-colors">Contact Us</Link></li>
+                  <li><Link href="/contact-us-propertydrone-realty" className="hover:text-white transition-colors">Contact Us</Link></li>
                 </ul>
                 </div>
 
@@ -124,10 +125,10 @@ const Mainfooter = () => {
                 <h3 className="text-sm font-semibold mb-6 text-white tracking-wide" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>Properties by locality</h3>
                 <ul className="space-y-3 text-sm" style={{ fontFamily: 'Lato', letterSpacing: '0.5px', color: '#FFFFFF99' }}>
                   {/* <li><Link  href={`/properties?location=`} className="hover:text-white transition-colors">Top Projects in Ulhasnagar</Link></li> */}
-                  <li><Link href="/properties?location=baner" className="hover:text-white transition-colors">Top Projects in Baner</Link></li>
-                  <li><Link  href="/properties?location=Hinjewadi" className="hover:text-white transition-colors">Top Projects in Hinjewadi</Link></li>
-                  <li><Link  href={`/properties?location= Wakad`} className="hover:text-white transition-colors">Top Projects in Wakad</Link></li>
-                  <li><Link  href={`/properties?location=Ravet`} className="hover:text-white transition-colors">Top Projects in Ravet</Link></li>
+                  <li><Link href="/our-properties-in-pune?location=baner" className="hover:text-white transition-colors">Top Projects in Baner</Link></li>
+                  <li><Link  href="/our-properties-in-pune?location=Hinjewadi" className="hover:text-white transition-colors">Top Projects in Hinjewadi</Link></li>
+                  <li><Link  href={`/our-properties-in-pune?location= Wakad`} className="hover:text-white transition-colors">Top Projects in Wakad</Link></li>
+                  <li><Link  href={`/our-properties-in-pune?location=Ravet`} className="hover:text-white transition-colors">Top Projects in Ravet</Link></li>
                 </ul>
               </div>
 
@@ -135,12 +136,12 @@ const Mainfooter = () => {
               <div className="mt-2">
                 <h3 className="text-sm font-semibold mb-6 text-white tracking-wide" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>Properties by developer</h3>
                 <ul className="space-y-3 text-sm" style={{ fontFamily: 'Lato', letterSpacing: '0.5px', color: '#FFFFFF99' }}>
-                  <li><Link href="/properties/anp-corp" className="hover:text-white transition-colors">Top Projects by ANP Corp</Link></li>
-                  <li><Link href="/properties/majestique-developer" className="hover:text-white transition-colors">Top Projects by Majestique Developer</Link></li>
-                  <li><Link href="/properties/krunal-group" className="hover:text-white transition-colors">Top Projects by Krunal Group</Link></li>
-                  <li><Link href="/properties/kasturi" className="hover:text-white transition-colors">Top Projects by Kasturi</Link></li>
-                  <li><Link href="/properties/skyi-developers" className="hover:text-white transition-colors">Top Projects by Skyi Developers</Link></li>
-                  <li><Link href="/properties/solitaire" className="hover:text-white transition-colors">Top Projects by Solitaire</Link></li>
+                  <li><Link href="/estate_developer/anp-corp" className="hover:text-white transition-colors">Top Projects by ANP Corp</Link></li>
+                  <li><Link href="/estate_developer/majestique-developer" className="hover:text-white transition-colors">Top Projects by Majestique Developer</Link></li>
+                  <li><Link href="/estate_developer/krunal-group" className="hover:text-white transition-colors">Top Projects by Krunal Group</Link></li>
+                  <li><Link href="/estate_developer/kasturi" className="hover:text-white transition-colors">Top Projects by Kasturi</Link></li>
+                  <li><Link href="/estate_developer/skyi-developers" className="hover:text-white transition-colors">Top Projects by Skyi Developers</Link></li>
+                  <li><Link href="/estate_developer/solitaire" className="hover:text-white transition-colors">Top Projects by Solitaire</Link></li>
                 </ul>
               </div>
             </div>
@@ -163,7 +164,7 @@ const Mainfooter = () => {
                 Your questions are always welcome
               </div>
               <Link 
-                href="/contactus" 
+                href="/contact-us-propertydrone-realty" 
                 className="bg-white text-[#172747] hover:bg-transparent hover:text-white border border-transparent hover:border-white px-8 py-3 rounded flex items-center transition-all duration-300 font-medium"
               >
                 Enquire Now <span className="ml-3">→</span>
@@ -203,8 +204,8 @@ const Mainfooter = () => {
               © 2025 Property Drone Realty. All Rights Reserved. Developed & Designed by Digitalize The Globe.
             </div>
             <div className="flex space-x-8">
-              <Link href="/terms" className="hover:text-gray-300 transition-colors">Terms of Usage</Link>
-              <Link href="/privacy" className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
+              {/* <Link href="/terms" className="hover:text-gray-300 transition-colors">Terms of Usage</Link> */}
+              <Link href="/privacy-policy" className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
             </div>
           </div>
 

@@ -88,7 +88,7 @@ export default function PropertyDeveloperShowcase() {
           </p>
            <div className="flex flex-col sm:flex-row mt-6 gap-4">
              
-              <Link href="/contactus">
+              <Link href="/contact-us-propertydrone-realty">
               <button className="border border-white rounded-[4px] bg-white text-[#172747] hover:bg-[#172747]  px-6 py-3 hover:text-white transition-colors">
                 Book Consultation
               </button>
@@ -127,7 +127,7 @@ export default function PropertyDeveloperShowcase() {
         <h1 className="text-3xl md:text-4xl text-indigo-950 font-serif tracking-wide">
           {propertyData.name}
         </h1>
-        <Link href="/properties">
+        <Link href="/our-properties-in-pune">
               <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
                 Explore Properties
                 <FiArrowRight size={18} />

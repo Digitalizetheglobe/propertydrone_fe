@@ -223,7 +223,7 @@ useEffect(() => {
           <FiArrowRight size={18} />
             </button>
           </Link>
-          <Link href="/contactus">
+          <Link href="/contact-us-propertydrone-realty">
             <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
           Connect
           <FiArrowRight size={18} />
@@ -293,10 +293,10 @@ useEffect(() => {
         </div>
         <div className="mt-8">
           <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-            150
+            27 / 7
           </h3>
           <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-            Brokers
+            Support
           </p>
         </div>
           </div>
@@ -322,7 +322,8 @@ useEffect(() => {
         <h2  className="text-[#172747] mb-6 font-[300] text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">Who We Are</h2>
       <div className="flex justify-between items-center mb-8  md:flex">
         <p className="text-gray-700 max-w-3xl ml-2 leading-none"
-              style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>
+              style={{ fontFamily: 'Lato', letterSpacing: '0.5px' , lineHeight: '1.5' }}
+        >
           PropertyOnline Realty is a trusted real estate agency offering expert services in both
           residential and commercial properties. Whether you're looking for villas, apartments,
           flats, bungalows, shop spaces, or office setups – we've got it covered.
@@ -348,13 +349,13 @@ useEffect(() => {
               />
               </div>
             <div className="flex justify-between items-center md:justify-start">
-              <h2 className="relative z-10 text-[#262626] text-xl font-bold mb-2 group-hover:text-white transition-colors duration-500">
+              <h2 className="relative z-10 text-[#172747] text-xl font-[Ivy Mode] mb-2 group-hover:text-white transition-colors duration-500">
               Our Strength
               </h2>
              
             </div>
              
-            <p className="relative z-10 text-[#452c2c] text-base font-normal leading-6 group-hover:text-white/80 transition-colors duration-500">
+            <p className="relative z-10 text-[#172747]  group-hover:text-white/80 transition-colors duration-500" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' , lineHeight: '1.5' }}>
          Our team of experienced real estate advisors and consultants is our biggest asset. They bring in-depth market knowledge and a professional approach to help clients with buying, selling, investing, or leasing – making your journey seamless and well-informed.
             </p>
           </div>
@@ -373,14 +374,14 @@ useEffect(() => {
               />
               </div>
             <div className="flex justify-between items-center md:justify-start">
-              <h2 className="relative z-10 text-[#262626] text-xl font-bold mb-2 group-hover:text-white transition-colors duration-500">
-              Our Vision
+               <h2 className="relative z-10 text-[#172747] text-xl font-[Ivy Mode] mb-2 group-hover:text-white transition-colors duration-500">
+               Our Vision
               </h2>
              
             </div>
              
-            <p className="relative z-10 text-[#452c2c] text-base font-normal leading-6 group-hover:text-white/80 transition-colors duration-500">
-          We aim to be a leading real estate consultancy renowned for our integrity, expertise, and client-first approach. Our goal is to transform the industry with innovative, tailored solutions that help people make confident real estate decisions.
+         <p className="relative z-10 text-[#172747]  group-hover:text-white/80 transition-colors duration-500" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' , lineHeight: '1.5' }}>
+        We aim to be a leading real estate consultancy renowned for our integrity, expertise, and client-first approach. Our goal is to transform the industry with innovative, tailored solutions that help people make confident real estate decisions.
             </p>
           </div>
            <div className="relative max-w-[320px] max-h-[340px] bg-gradient-to-b from-[#EEF1F5] to-[#e9ecf0] rounded-[10px] p-8 pb-6 m-3 text-black font-sans overflow-hidden group transition-all duration-500 ease-out">
@@ -394,14 +395,14 @@ useEffect(() => {
               />
               </div>
             <div className="flex justify-between items-center md:justify-start">
-              <h2 className="relative z-10 text-[#262626] text-xl font-bold mb-2 group-hover:text-white transition-colors duration-500">
+               <h2 className="relative z-10 text-[#172747] text-xl font-[Ivy Mode] mb-2 group-hover:text-white transition-colors duration-500">
               Our Mission
               </h2>
              
             </div>
              
-            <p className="relative z-10 text-[#452c2c] text-base font-normal leading-6 group-hover:text-white/80 transition-colors duration-500">
-           We provide personalized, end-to-end real estate services that exceed client expectations. By combining market insight with technology, we deliver results and build lasting relationships.
+           <p className="relative z-10 text-[#172747]  group-hover:text-white/80 transition-colors duration-500" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' , lineHeight: '1.5' }}>
+        We provide personalized, end-to-end real estate services that exceed client expectations. By combining market insight with technology, we deliver results and build lasting relationships.
             </p>
           </div>
           {/* Our Mission */}
@@ -671,7 +672,7 @@ useEffect(() => {
                 required
               />
             </div>
-            <Link href="/contactus">
+            <Link href="/contact-us-propertydrone-realty">
             <button
               type="submit"
               className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center"

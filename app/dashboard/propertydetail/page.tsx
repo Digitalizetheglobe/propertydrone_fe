@@ -21,13 +21,13 @@ export default function PropertyDetail() {
   const [showFilters, setShowFilters] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   
-  const baseUrl = "http://localhost:5000"; // For dev — ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
   const imagePath = propertyImages?.[0]
     ? `${baseUrl}${propertyImages[0]}`
     : null;
 
   useEffect(() => {
-    fetch("http://localhost:5000/properties")
+    fetch("https://api.propertydronerealty.com/properties")
       .then((res) => res.json())
       .then((data) => {
         setProperties(data);
@@ -140,7 +140,7 @@ export default function PropertyDetail() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/properties/${id}`, {
+      const response = await fetch(`https://api.propertydronerealty.com/properties/${id}`, {
         method: "DELETE",
       });
 
@@ -209,7 +209,7 @@ export default function PropertyDetail() {
         images: propertyImages // Include existing images that weren't deleted
       };
       
-      const response = await fetch(`http://localhost:5000/properties/${editProperty.id}`, {
+      const response = await fetch(`https://api.propertydronerealty.com/properties/${editProperty.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(propertyData),
@@ -223,7 +223,7 @@ export default function PropertyDetail() {
             formData.append('images', image);
           });
           
-          const uploadResponse = await fetch(`http://localhost:5000/properties/${editProperty.id}/images`, {
+          const uploadResponse = await fetch(`https://api.propertydronerealty.com/properties/${editProperty.id}/images`, {
             method: "POST",
             body: formData,
           });
@@ -234,7 +234,7 @@ export default function PropertyDetail() {
         }
         
         // Refresh the properties list
-        const updatedPropertiesResponse = await fetch("http://localhost:5000/properties");
+        const updatedPropertiesResponse = await fetch("https://api.propertydronerealty.com/properties");
         const updatedProperties = await updatedPropertiesResponse.json();
         setProperties(updatedProperties);
         setFilteredProperties(updatedProperties);
@@ -579,7 +579,7 @@ export default function PropertyDetail() {
                 // Keep the multipleImages array unchanged for existing images
               };
               
-              const response = await fetch(`http://localhost:5000/properties/${editProperty.id}`, {
+              const response = await fetch(`https://api.propertydronerealty.com/properties/${editProperty.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(propertyData),
@@ -593,7 +593,7 @@ export default function PropertyDetail() {
                     formData.append('images', image);
                   });
                   
-                  const uploadResponse = await fetch(`http://localhost:5000/properties/${editProperty.id}`, {
+                  const uploadResponse = await fetch(`https://api.propertydronerealty.com/properties/${editProperty.id}`, {
                     method: "POST",
                     body: formData,
                   });
@@ -604,7 +604,7 @@ export default function PropertyDetail() {
                 }
                 
                 // Refresh the properties list
-                const updatedPropertiesResponse = await fetch("http://localhost:5000/properties");
+                const updatedPropertiesResponse = await fetch("https://api.propertydronerealty.com/properties");
                 const updatedProperties = await updatedPropertiesResponse.json();
                 setProperties(updatedProperties);
                 setFilteredProperties(updatedProperties);

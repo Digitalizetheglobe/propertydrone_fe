@@ -45,7 +45,7 @@ export default function AddRealEstateBasic() {
       });
 
       // Using the correct API endpoint
-      const response = await fetch('http://localhost:5000/real-estate', {
+      const response = await fetch('https://api.propertydronerealty.com/real-estate', {
         method: 'POST',
         body: formDataToSend,
       });

@@ -58,7 +58,7 @@ function PropertiesContent() {
   const [activeTab, setActiveTab] = useState('luxe');
 
   // API base URL - ideally from environment variables
-  const baseUrl = "http://localhost:5000";
+  const baseUrl = "https://api.propertydronerealty.com";
 
   const propertyCategories = [
     { id: 'all', name: 'All', icon: '/icons/home.svg' },
@@ -531,6 +531,7 @@ const AnimatedStarButton = () => {
                     </svg>
                     Luxe
                   </button>
+                  <Link href="/our-properties-in-pune">
                   <button
                     className={`px-6 lg:px-12 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${
                       activeTab === 'all'
@@ -541,6 +542,7 @@ const AnimatedStarButton = () => {
                   >
                     All
                   </button>
+                  </Link>
                 </div>
               </div>
 

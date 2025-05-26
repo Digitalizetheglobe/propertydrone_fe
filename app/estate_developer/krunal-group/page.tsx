@@ -4,10 +4,9 @@ import { ArrowRight } from 'lucide-react';
 import developerimg from '../../../public/images/developerbgimg.png'
 import Image from 'next/image';
 import bgimage1 from '../../../public/images/bgimage2.png'
-import i from '../../../public/images/downloa.png'
 import { motion } from "framer-motion";
-import { FiArrowRight } from 'react-icons/fi';
-import Link from 'next/link';
+import image from '../../../public/images/logo111.png'
+import Link from 'next/link'; 
 export default function PropertyDeveloperShowcase() {
   // Sample data for the property
   const propertyData = {
@@ -37,7 +36,7 @@ export default function PropertyDeveloperShowcase() {
 
   return (
     <>
-     <section className="relative min-h-screen">
+    <section className="relative min-h-screen">
   <div className="absolute inset-0 z-0">
     <Image
       src={bgimage1}
@@ -73,39 +72,24 @@ export default function PropertyDeveloperShowcase() {
           }}
           className="text-white mb-0 text-[32px] sm:text-[50px]"
         >
-          ANP Corp
+          Kunal Group
         </h2>
         <p
           className="text-gray-300 max-w-3xl text-base leading-none mb-4"
           style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
         >
-          We have been a part of the real estate industry since 1996. Initially known as Prakash Constructions, then very famously known as 5 Star Constructions, and now it comes with a new identity, ANP Corp.
+          Kunal Group has been creating landmark projects that are fine works of architecture for the last 32 years. We render the best luxury apartments with utilizable spaces and myriads of modern amenities. We ensure that you are enveloped in spaciousness and luxury.
         </p>
         <p
           className="text-gray-300 max-w-3xl text-base leading-none mb-4"
           style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
         >
-          Since our establishment, the goal has always been about giving an experience to the customers and not just spaces — retail, residential and commercial spaces of top-notch standards to match with the best across the world.
+          We are driven by the passion to bring the world to Pune. With cutting-edge technology and innovative construction practices, we aim to build developments that transform luxury and bring excellence to the fore, commanding appreciation in value and identity.
         </p>
-        <p
-          className="text-gray-300 max-w-3xl text-base leading-none mb-4"
-          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
-        >
-          ANP Corp, with its brand new identity, is particular about offering a life which is more pleasurable and delightful in the most magnificent way possible. Grandiosity not only comes from just a well-planned layout, but from every small detail that makes for a fine living.
-        </p>
-        <p
-          className="text-gray-200 max-w-3xl text-base leading-none"
-          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
-        >
-          <strong>Address:</strong> 9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045<br />
-          <strong>Email:</strong> info@propertydronerealty.com<br />
-          <strong>Mobile:</strong> +91 9175992110<br />
-          <strong>Phone:</strong> +91 9175992110<br />
-          <strong>Location:</strong> Maharashtra, India – Pune City
-        </p>
+        
 
         <div className="flex flex-col sm:flex-row mt-6 gap-4">
-          <Link href="/contactus">
+          <Link href="/contact-us-propertydrone-realty">
             <button className="border border-white rounded-[4px] bg-white text-[#172747] hover:bg-[#172747] px-6 py-3 hover:text-white transition-colors">
               Book Consultation
             </button>
@@ -120,13 +104,23 @@ export default function PropertyDeveloperShowcase() {
         transition={{ duration: 0.8 }}
       >
         <Image
-          src={i}
-          alt="ANP Corp"
+          src={image}
+          alt="Kunal Group"
           className="rounded-2xl shadow-lg"
           width={400}
           height={450}
           priority
         />
+        <p
+          className="text-gray-200 max-w-3xl pt-6 text-base leading-none"
+          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
+        >
+          <strong>Address:</strong> 9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045<br />
+          <strong>Email:</strong> info@propertydronerealty.com<br />
+          <strong>Mobile:</strong> +91 9175992110<br />
+          <strong>Phone:</strong> +91 9175992110<br />
+          <strong>Location:</strong> Maharashtra, India – Pune City
+        </p>
       </motion.div>
     </div>
   </div>

@@ -5,11 +5,12 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Head from 'next/head';
-import { Phone, Mail, MapPin, Home, Bath, Bed, Square, Calendar } from 'lucide-react';
+import { Phone, Mail,  Home, Bath, Bed, Square, Calendar, MapPin, Video, ChevronUp, ChevronDown, Lock  } from 'lucide-react';
 import defaultImg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 import image from '@/public/images/bgimage2.png';
 import propertydetails from '@/public/images/bgimage1.png';
 import { ArrowRight } from 'lucide-react';
+
 
 interface PropertyImage {
   path: string;
@@ -36,6 +37,8 @@ interface Property {
   propertyType?: string;
   beds?: string | number;
   baths?: string | number;
+  googleMapUrl?: string;
+  youtubeUrl?: string;
 }
 
 interface PropertyDetailProps {
@@ -53,6 +56,15 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   const [mainImage, setMainImage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+   const [isBlurred, setIsBlurred] = useState(false);
+
+  const handleDropdownClick = () => {
+    setIsBlurred(true);
+  };
+
+  const handleUnlock = () => {
+    setIsBlurred(false);
+  };
 
   // Add styles for hiding scrollbar
   const scrollbarHideStyles = {
@@ -117,7 +129,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Set up the base URL for images
-  const baseUrl = "http://localhost:5000"; // For dev — ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
 
   // Process the image paths
   const propertyImages = property?.multipleImages?.map(img => `${baseUrl}${img.path}`) || [];
@@ -186,7 +198,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
               <meta name="keywords" content={property.seoKeywords} />
             </Head>
             
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6">
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
               {/* Left side */}
               <div className="md:w-1/2 self-start bg-white rounded-lg overflow-hidden shadow-md">
                 <div className="relative">
@@ -335,12 +347,135 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
               </div>
             </div>
           </div>
+           <div className="max-w-6xl mx-auto pb-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Left Column */}
+      <div className="space-y-6">
+        {/* Location Section */}
+        <div className="bg-white rounded-lg shadow-sm border p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-800 flex items-center" >
+              <MapPin className="mr-2 text-gray-600" size={20} />
+              Location
+            </h2>
+            <button className="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-green-700 transition-colors">
+              <a href={property.googleMapUrl || "https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045"} target="_blank" rel="noopener noreferrer">
+                📍 View on Map
+              </a>
+            </button>
+          </div>
+          
+          <div className="space-y-2 text-gray-700">
+            <div className="flex items-start">
+              <MapPin className="mr-2 mt-1 text-gray-400" size={16} />
+              {property.location}, {property.city} || Pune
+            </div>
+           
+          </div>
+        </div>
+
+        {/* Pros & Cons Section */}
+         <div className="relative bg-white rounded-lg shadow-sm border p-4">
+      {/* Main Content */}
+      <div className={`transition-all duration-300 ${isBlurred ? 'blur-sm pointer-events-none' : ''}`}>
+        <h2 className="text-[#172747] mb-4 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode]">Pros & Cons</h2>
+        
+        <div className="space-y-3">
+          {/* Pros */}
+          <div className="bg-green-50 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <span className="text-green-600 font-medium">👍 Pros</span>
+              </div>
+              <button 
+                onClick={handleDropdownClick}
+                className="text-green-600 hover:text-green-700 transition-colors cursor-pointer"
+              >
+                <ChevronUp size={20} />
+              </button>
+            </div>
+          </div>
+
+          {/* Cons */}
+          <div className="bg-red-50 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <span className="text-red-600 font-medium">👎 Cons</span>
+              </div>
+              <button 
+                onClick={handleDropdownClick}
+                className="text-red-600 hover:text-red-700 transition-colors cursor-pointer"
+              >
+                <ChevronDown size={20} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Lock Overlay */}
+      {isBlurred && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-sm rounded-lg">
+          <div className="text-center">
+          
+              {/* <button 
+                onClick={handleUnlock}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg mb-4"
+              >
+                Unlock Content
+              </button> */}
+              {/* </Link> */}
+                
+            <button className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
+             <Link href="/contact-us-propertydrone-realty">
+              <Lock className="text-gray-600 cursor-pointer " size={24} />
+            </Link>
+               </button>
+
+            {/* <p className="text-gray-600 mb-4 font-medium">Content is locked</p> */}
+            
+          </div>
+        </div>
+      )}
+    </div>
+      </div>
+
+      {/* Right Column - Video Section */}
+      <div className="bg-white rounded-lg shadow-sm border p-6">
+        <h2 className="text-lg flex items-center text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
+          <Video className="mr-2 text-gray-600" size={20} />
+          Video
+        </h2>
+        
+        <div className="space-y-4">
+          <h3 className="font-medium text-gray-700">Walkthrough</h3>
+          
+          {/* Video Thumbnail */}
+          <div className="relative bg-gray-900 rounded-lg overflow-hidden">
+            <a href={property.youtubeUrl || "https://youtu.be/DrIKLgR6STs"} target="_blank" rel="noopener noreferrer">
+              <img 
+                src={`https://img.youtube.com/vi/${property.youtubeUrl?.split('v=')[1]?.split('?')[0] || 'DrIKLgR6STs'}/maxresdefault.jpg`}
+                alt="Property walkthrough video thumbnail"
+                className="w-full h-auto"
+              />
+              
+              {/* Play Button Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="bg-white bg-opacity-90 rounded-full p-4 hover:bg-opacity-100 transition-all cursor-pointer">
+                  <div className="w-0 h-0 border-l-[20px] border-l-gray-800 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1"></div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Property Information */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4">About This Property</h2>
-                <p className="text-gray-600 mb-4">
+                <h2 className="text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode]">About This Property</h2>
+                <p className="text-gray-700 max-w-3xl ml-2 leading-none"
+              style={{ fontFamily: 'Lato', letterSpacing: '0.5px',lineHeight: '1.6' }}>
                   {property.seoDescription || `Immaculate luxurious ${property.city} apartment. Fresh color palette, space that could be for
                   work, entertaining, or simply to showcase a growing art collection. Elegant features such
                   as plush comfortable, unique trim, tall ceilings throughout the light-drenched rooms that will
@@ -348,7 +483,8 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                   miniature chef-style open-loft multipurpose connection, effortless doors with highest end
                   materials, fully natural.`}
                 </p>
-                <p className="text-gray-600">
+                   <p className="text-gray-700 max-w-3xl ml-2 leading-none"
+              style={{ fontFamily: 'Lato', letterSpacing: '0.5px',lineHeight: '1.6' }}>
                   All units are flexible whether with original layout or a blank canvas, which are easily
                   converted to optimum needs. This opportunity to express and work development did not include
                   the commercial or residential complications of bigger cities within smaller areas, huge lots
@@ -357,11 +493,13 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
               </div>
 
               <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4">Property Overview</h2>
+                <h2 className="text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode]">Property Overview</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {Object.entries(propertyDetails).map(([key, value]) => (
                     <div key={key} className="flex flex-col items-center justify-center bg-gray-50 p-4 rounded-md">
-                      <div className="mb-2">
+                       <div className=" text-gray-700 "
+              style={{ fontFamily: 'Lato', letterSpacing: '0.5px',lineHeight: '1.6' }}>
+                  
                         {key === 'beds' && <Bed className="w-6 h-6 text-gray-600" />}
                         {key === 'baths' && <Bath className="w-6 h-6 text-gray-600" />}
                         {key === 'area' && <Square className="w-6 h-6 text-gray-600" />}
@@ -371,27 +509,29 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                         {key === 'parking' && <Home className="w-6 h-6 text-gray-600" />}
                         {key === 'basement' && <Home className="w-6 h-6 text-gray-600" />}
                       </div>
-                      <p className="font-medium text-gray-800">{value}</p>
-                      <p className="text-xs text-gray-500 capitalize">{key}</p>
+                      <p className="font-medium text-gray-800"     style={{ fontFamily: 'Lato', letterSpacing: '0.5px',lineHeight: '1.6' }}>{value}</p>
+                      <p className="text-xs text-gray-500 capitalize"     style={{ fontFamily: 'Lato', letterSpacing: '0.5px',lineHeight: '1.6' }}>{key}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4">Property Details</h2>
+               <h2  className="text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode]">Property Details</h2>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col">
-                    <p className="text-gray-600"><span className="font-medium">Property Name:</span> {property.propertyName}</p>
-                    <p className="text-gray-600"><span className="font-medium">Topology:</span> {property.topology}</p>
-                    <p className="text-gray-600"><span className="font-medium">Carpet Area:</span> {property.carpetArea}</p>
-                    <p className="text-gray-600"><span className="font-medium">City:</span> {property.city}</p>
+                  <div className="flex flex-col text-gray-700 max-w-3xl ml-2 leading-none"
+              style={{ fontFamily: 'Lato', letterSpacing: '0.5px',lineHeight: '1.6' }}>
+                    <p className="text-gray-600"><span >Property Name:</span> {property.propertyName}</p>
+                    <p className="text-gray-600"><span >Topology:</span> {property.topology}</p>
+                    <p className="text-gray-600"><span >Carpet Area:</span> {property.carpetArea}</p>
+                    <p className="text-gray-600"><span>City:</span> {property.city}</p>
                   </div>
-                  <div className="flex flex-col">
-                    <p className="text-gray-600"><span className="font-medium">Location:</span> {property.location}</p>
-                    <p className="text-gray-600"><span className="font-medium">Budget:</span> {property.tentativeBudget || 'Contact for details'}</p>
-                    <p className="text-gray-600"><span className="font-medium">Possession:</span> {property.possession || 'Contact for details'}</p>
-                    <p className="text-gray-600"><span className="font-medium">Listed:</span> {new Date(property.createdAt).toLocaleDateString()}</p>
+                 <div className="flex flex-col text-gray-700 max-w-3xl ml-2 leading-none"
+              style={{ fontFamily: 'Lato', letterSpacing: '0.5px',lineHeight: '1.6' }}>
+                     <p className="text-gray-600"><span >Location:</span> {property.location}</p>
+                    <p className="text-gray-600"><span >Budget:</span> {property.tentativeBudget || 'Contact for details'}</p>
+                    <p className="text-gray-600"><span >Possession:</span> {property.possession || 'Contact for details'}</p>
+                    <p className="text-gray-600"><span >Listed:</span> {new Date(property.createdAt).toLocaleDateString()}</p>
                   </div>
                 </div>
               </div>
@@ -400,9 +540,10 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
             {/* Contact Form */}
             <div className="lg:col-span-1">
               <div className="bg-[#172747] rounded-lg shadow-md p-6 mb-8 text-white">
-                <h2 className="text-xl font-semibold mb-4">Contact the listing owner</h2>
+                <h2 className="text-white mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode] mb-4">Contact the listing owner</h2>
                 <form onSubmit={handleSubmit}>
-                  <div className="mb-4">
+                  <div className="mb-4 ">
+                    
                     <label htmlFor="name" className="block text-sm mb-1">Name</label>
                     <input
                       type="text"
@@ -692,7 +833,7 @@ export async function getServerSideProps(context: { params: { id: string } }) {
   const { id } = context.params;
   
   try {
-    const res = await fetch(`http://localhost:5000/properties/${id}`);
+    const res = await fetch(`https://api.propertydronerealty.com/properties/${id}`);
     if (!res.ok) {
       throw new Error('Failed to fetch property');
     }

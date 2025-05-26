@@ -13,7 +13,7 @@ interface RealEstateBasic {
 }
 
 async function getRealEstateBasics() {
-  const res = await fetch(`http://localhost:5000/real-estate`, {
+  const res = await fetch(`https://api.propertydronerealty.com/real-estate`, {
     cache: 'no-store'
   });
   if (!res.ok) throw new Error('Failed to fetch real estate basics');

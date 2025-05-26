@@ -4,8 +4,9 @@ import { ArrowRight } from 'lucide-react';
 import developerimg from '../../../public/images/developerbgimg.png'
 import Image from 'next/image';
 import bgimage1 from '../../../public/images/bgimage2.png'
+import i from '../../../public/images/downloa.png'
 import { motion } from "framer-motion";
-import image from '../../../public/images/images-2.png'
+import { FiArrowRight } from 'react-icons/fi';
 import Link from 'next/link';
 export default function PropertyDeveloperShowcase() {
   // Sample data for the property
@@ -36,7 +37,7 @@ export default function PropertyDeveloperShowcase() {
 
   return (
     <>
-    <section className="relative min-h-screen">
+     <section className="relative min-h-screen">
   <div className="absolute inset-0 z-0">
     <Image
       src={bgimage1}
@@ -48,9 +49,9 @@ export default function PropertyDeveloperShowcase() {
     <div className="absolute inset-0 bg-black opacity-40"></div>
   </div>
 
-  <div className="relative z-10 flex items-center justify-center min-h-screen px-4 bg-gradient-to-br text-white">
+  <div className="relative z-10 flex items-center justify-center min-h-screen px-4  pt-20 bg-gradient-to-br text-white">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto items-center">
-
+      
       {/* Left: Text */}
       <motion.div
         initial={{ x: -80, opacity: 0 }}
@@ -72,33 +73,30 @@ export default function PropertyDeveloperShowcase() {
           }}
           className="text-white mb-0 text-[32px] sm:text-[50px]"
         >
-          Skyi Developers
+          ANP Corp
         </h2>
         <p
           className="text-gray-300 max-w-3xl text-base leading-none mb-4"
           style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
         >
-          A company with more than a decade of experience in real estate development, SKYi has defined the very essence of fine living in Pune. We have built over 4 million square feet of thoughtfully designed homes that house over 4000 happy families, and over 4 million square feet are currently under development.
+          We have been a part of the real estate industry since 1996. Initially known as Prakash Constructions, then very famously known as 5 Star Constructions, and now it comes with a new identity, ANP Corp.
         </p>
         <p
           className="text-gray-300 max-w-3xl text-base leading-none mb-4"
           style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
         >
-          Established in 2004, SKYi is one of the premier real estate developers in Pune. The group’s tremendous success has been marked by financial investments from top-tier institutions including TATA Capital, ICICI Ventures, HDFC, Motilal Oswal, and more.
+          Since our establishment, the goal has always been about giving an experience to the customers and not just spaces — retail, residential and commercial spaces of top-notch standards to match with the best across the world.
         </p>
         <p
-          className="text-gray-200 max-w-3xl text-base leading-none mt-4"
+          className="text-gray-300 max-w-3xl text-base leading-none mb-4"
           style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
         >
-          <strong>Address:</strong> 9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045<br />
-          <strong>Email:</strong> info@propertydronerealty.com<br />
-          <strong>Mobile:</strong> +91 9175992110<br />
-          <strong>Phone:</strong> +91 9175992110<br />
-          <strong>Location:</strong> Maharashtra, India – Pune City
+          ANP Corp, with its brand new identity, is particular about offering a life which is more pleasurable and delightful in the most magnificent way possible. Grandiosity not only comes from just a well-planned layout, but from every small detail that makes for a fine living.
         </p>
+       
 
         <div className="flex flex-col sm:flex-row mt-6 gap-4">
-          <Link href="/contactus">
+          <Link href="/contact-us-propertydrone-realty">
             <button className="border border-white rounded-[4px] bg-white text-[#172747] hover:bg-[#172747] px-6 py-3 hover:text-white transition-colors">
               Book Consultation
             </button>
@@ -113,13 +111,23 @@ export default function PropertyDeveloperShowcase() {
         transition={{ duration: 0.8 }}
       >
         <Image
-          src={image}
-          alt="Skyi Developers"
+          src={i}
+          alt="ANP Corp"
           className="rounded-2xl shadow-lg"
-          width={400}
-          height={450}
+          width={300}
+          height={350}
           priority
         />
+         <p
+          className="text-gray-200 max-w-3xl text-base leading-none pt-6"
+          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
+        >
+          <strong>Address:</strong> 9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045<br />
+          <strong>Email:</strong> info@propertydronerealty.com<br />
+          <strong>Mobile:</strong> +91 9175992110<br />
+          <strong>Phone:</strong> +91 9175992110<br />
+          <strong>Location:</strong> Maharashtra, India – Pune City
+        </p>
       </motion.div>
     </div>
   </div>

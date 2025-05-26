@@ -4,6 +4,7 @@ import Link from 'next/link';
 import bg1 from "@/public/images/contact.png";
 import logo from "@/app/images/PropertyDrone-Logo.png";  // Adjust the path to your logo file
 import { useState } from 'react';
+import { motion } from "framer-motion";
 import main33 from "@/public/images/Frame 145.png";
 import { ChevronDown, ChevronUp } from 'lucide-react';
 export default function ContactUs() {
@@ -78,14 +79,13 @@ export default function ContactUs() {
     setSuccess(false);
 
     try {
-      // Use the same API endpoint as in your example
-      const response = await fetch("http://localhost:5000/contacts", {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
-          mobile: formData.phone || formData.mobile, // Use phone as mobile if available
           email: formData.email,
+          mobile: formData.phone || formData.mobile,
           message: formData.message
         }),
       });
@@ -134,15 +134,16 @@ export default function ContactUs() {
         {/* Main Content with Contact Form Overlay */}
        
       </div>
-      <section className="flex flex-col md:flex-row justify-center items-center h-80 p-6 bg-white">
+      <section className="flex flex-col md:flex-row justify-center items-center h-auto md:h-80 p-4 md:p-6 bg-white">
       {/* Left Form Section */}
-      <div
-        className="w-full max-w-md bg-[#172747] text-white p-12 rounded-lg shadow-lg"
-        style={{
-          marginTop: typeof window !== "undefined" && window.innerWidth < 768 ? "0px" : "-300px",
-          zIndex: 99
-        }}
-      >
+       <motion.div
+    initial={{ opacity: 0, y: 100 }} // From bottom
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8, ease: "easeOut" }}
+    viewport={{ once: true }}
+    className="w-full max-w-md bg-[#172747] text-white p-6 md:p-12 rounded-lg shadow-lg md:-mt-[300px]"
+    style={{ zIndex: 99 }}
+  >
         <h1
           style={{
         fontFamily: "Ivy Mode",
@@ -150,10 +151,10 @@ export default function ContactUs() {
         lineHeight: '150%',
         letterSpacing: '0'
           }}
-          className="mb-4 text-white text-[42px] sm:text-[56px]"
+          className="mb-4 text-white text-[32px] md:text-[42px] sm:text-[56px]"
         >Let's Connect!</h1>
-        <p className="text-gray-300 text-[18px] sm:text-[28px] my-4 md:mb-0 leading-none"
-          style={{ fontWeight: '300', fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
+        <p className="text-gray-300 text-[16px] md:text-[18px] sm:text-[28px] my-4 md:mb-0 leading-tight md:leading-none"
+          style={{ fontWeight: '300', fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '120%' }}>
           Whether you have questions, need expert guidance, or
           want to schedule a visit - we're just a message away.
         </p>
@@ -163,7 +164,7 @@ export default function ContactUs() {
         {error && <p className="text-red-400 mb-4 text-center">{error}</p>}
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-6">
+          <div className="mb-6 hover:bg-indigo-50" >
         <p className="text-white text-[18px] md:mb-0 leading-none font-lato">Full Name</p>
         <input
           type="text"
@@ -172,11 +173,10 @@ export default function ContactUs() {
           value={formData.name}
           onChange={handleChange}
           className="w-full bg-transparent border-b border-gray-400 py-2 font-lato focus:outline-none focus:border-white"
-          required
         />
           </div>
 
-          <div className="mb-6">
+          <div className="mb-6 hover:bg-indigo-50">
         <label htmlFor="email" className="block text-sm font-lato mb-1">Email Address</label>
         <input
           type="email"
@@ -185,7 +185,6 @@ export default function ContactUs() {
           value={formData.email}
           onChange={handleChange}
           className="w-full bg-transparent border-b border-gray-400 py-2 focus:outline-none focus:border-white"
-          required
         />
           </div>
 
@@ -198,11 +197,10 @@ export default function ContactUs() {
           value={formData.phone}
           onChange={handleChange}
           className="w-full bg-transparent border-b border-gray-400 py-2 focus:outline-none focus:border-white"
-          required
         />
           </div>
 
-          <div className="mb-8">
+          <div className="mb-8 hover:bg-indigo-50">
         <label htmlFor="message" className="block font-lato text-sm mb-1">Message</label>
         <textarea
           id="message"
@@ -211,7 +209,6 @@ export default function ContactUs() {
           onChange={handleChange}
           rows={3}
           className="w-full bg-transparent font-lato border-b border-gray-400 py-2 focus:outline-none focus:border-white resize-none"
-          required
         />
           </div>
 
@@ -222,54 +219,60 @@ export default function ContactUs() {
         Send a Message
           </button>
         </form>
-      </div>
+      </motion.div>
       
       {/* Right Info Section */}
-      <div className="w-full max-w-lg mt-8 md:mt-0 md:ml-8">
+      <motion.div
+    initial={{ opacity: 0, x: 100 }} // From right
+    whileInView={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+    viewport={{ once: true }}
+    className="w-full max-w-lg mt-8 md:mt-0 md:ml-8"
+  >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Email info */}
-          <div className="bg-gray-100 p-6 rounded font-lato flex items-start">
-            <div className="mr-4">
-              <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <div className="bg-gray-100 p-4 md:p-6 rounded font-lato flex items-start">
+            <div className="mr-3 md:mr-4">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
               </svg>
             </div>
             <div>
-              <h3 className="font-medium text-lg">Write to Us</h3>
-              <p className="text-gray-600">contact@buildinfinity.in</p>
+              <h3 className="font-medium text-base md:text-lg">Write to Us</h3>
+              <p className="text-gray-600 text-sm md:text-base">contact@buildinfinity.in</p>
             </div>
           </div>
           
           {/* Phone info */}
-          <div className="bg-gray-100 p-6 rounded font-lato flex items-start">
-            <div className="mr-4">
-              <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <div className="bg-gray-100 p-4 md:p-6 rounded font-lato flex items-start">
+            <div className="mr-3 md:mr-4">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
               </svg>
             </div>
             <div>
-              <h3 className="font-medium text-lg">Phones</h3>
-              <p className="text-gray-600">+91 91456 88167 /</p>
-              <p className="text-gray-600">+91 91456 88167</p>
+              <h3 className="font-medium text-base md:text-lg">Phones</h3>
+              <p className="text-gray-600 text-sm md:text-base">+91 91456 88167 /</p>
+              <p className="text-gray-600 text-sm md:text-base">+91 91456 88167</p>
             </div>
           </div>
           
           {/* Address info - full width */}
-          <div className="bg-gray-100 p-6 rounded font-lato flex items-start md:col-span-2">
-            <div className="mr-4">
-              <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <div className="bg-gray-100 p-4 md:p-6 rounded font-lato flex items-start md:col-span-2">
+            <div className="mr-3 md:mr-4">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
               </svg>
             </div>
             <div>
-              <h3 className="font-medium text-lg">Head office</h3>
-              <p className="text-gray-600">Office No. 501, Marvel Edge, Viman Nagar, Pune, Maharashtra</p>
-              <p className="text-gray-600">411014</p>
+              <h3 className="font-medium text-base md:text-lg">Head office</h3>
+              <p className="text-gray-600 text-sm md:text-base">Office No. 501, Marvel Edge, Viman Nagar, Pune, Maharashtra</p>
+              <p className="text-gray-600 text-sm md:text-base">411014</p>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
      
 
@@ -286,23 +289,22 @@ export default function ContactUs() {
       </div>
     </section> */}
     
-       <section className="bg-gray-100 py-16">
-           <div className="container mx-auto px-6 max-w-6xl">
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+       <section className="bg-gray-100 py-8 md:py-16">
+           <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                {/* Left Column - Heading */}
                <div>
                <p
-                 className="uppercase text-[18px]  text-[#172747] leading-[100%] tracking-normal mb-2"
+                 className="uppercase text-[16px] md:text-[18px] text-[#172747] leading-[100%] tracking-normal mb-2"
                  style={{ fontFamily: 'Lato' }}
                >FAQ</p>
                   <h2  style={{
                        fontFamily: "'Ivy Mode'",
                        fontWeight: 300,
-                       // fontSize: '56px',
                        lineHeight: '140%',
                        letterSpacing: '0'
                      }}
-                     className="text-[#172747] mb-0 sm:mb-6 text-[32px] sm:text-[50px]"
+                     className="text-[#172747] mb-0 sm:mb-6 text-[28px] md:text-[32px] sm:text-[50px]"
                    >Have questions? <br/> We've got answers.</h2>
                </div>
                
@@ -350,7 +352,7 @@ export default function ContactUs() {
              </div>
            </div>
          </section>
-         <section className="relative w-full py-16 md:py-24">
+         <section className="relative w-full py-8 md:py-24">
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image 
@@ -364,33 +366,32 @@ export default function ContactUs() {
       
       <div className="relative z-10 container mx-auto max-w-4xl px-4">
         {/* Quote section */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 md:mb-12">
           <h2  
           style={{
             fontFamily: "'Ivy Mode'",
             fontWeight: 300,
-            fontSize: '46px',
             lineHeight: '140%',
             letterSpacing: '1px'
           }}
-          className="text-[#172747] mb-6 "
+          className="text-[#172747] mb-6 text-[32px] md:text-[46px]"
         >
             "Let the experts help you<br />
             make the right investment"
           </h2>
           
           <div className="mt-4">
-            <h2 className="text-2xl text-[#172747]  "  style={{
+            <h2 className="text-xl md:text-2xl text-[#172747]"  style={{
             letterSpacing: '1px'
           }} >Nikhil Mawale</h2>
-            <h2 className="text-2xl text-[#172747] font-bold mb-6 "  style={{
+            <h2 className="text-xl md:text-2xl text-[#172747] font-bold mb-6"  style={{
             letterSpacing: '1px'
           }} >Founder</h2>
           </div>
         </div>
         
         {/* Form section */}
-        <div className="bg-white rounded-md shadow-sm p-6 max-w-3xl mx-auto">
+        <div className="bg-white rounded-md shadow-sm p-4 md:p-6 max-w-3xl mx-auto">
           <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center gap-4">
             <div className="w-full md:flex-1">
               <input
@@ -399,7 +400,7 @@ export default function ContactUs() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Name"
-                className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
+                className="w-full px-3 md:px-4 py-2 md:py-3 border-b border-gray-300 focus:border-gray-800 outline-none text-sm md:text-base"
                 required
               />
             </div>
@@ -410,17 +411,17 @@ export default function ContactUs() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Phone"
-                className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
+                className="w-full px-3 md:px-4 py-2 md:py-3 border-b border-gray-300 focus:border-gray-800 outline-none text-sm md:text-base"
                 required
               />
             </div>
-            <Link href="/contactus">
+            <Link href="/contact-us-propertydrone-realty">
             <button
               type="submit"
-              className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center"
+              className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-4 md:px-6 py-2 md:py-3 bg-navy-800 text-white text-sm md:text-base font-medium rounded flex items-center justify-center"
             >
               Get a Consultation
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
             </button>
