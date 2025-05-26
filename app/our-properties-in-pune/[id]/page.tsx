@@ -42,7 +42,7 @@ function PropertyPageContent() {
           throw new Error('Property ID is required');
         }
 
-        const response = await fetch(`http://localhost:5000/properties/${id}`);
+        const response = await fetch(`https://api.propertydronerealty.com/properties/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch property details');
         }
