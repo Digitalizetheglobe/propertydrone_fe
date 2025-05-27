@@ -74,20 +74,25 @@ export default function PropertyForm() {
   };
   
   // Helper function to generate slug from property name
-  const generateSlug = () => {
-    if (formData.propertyName) {
-      const slug = formData.propertyName
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '') // Remove special characters
-        .replace(/\s+/g, '-') // Replace spaces with hyphens
-        .trim();
-        
-      setFormData(prev => ({
-        ...prev,
-        slug
-      }));
-    }
-  };
+const generateSlug = () => {
+  // Combine propertyName, topology, and location if available
+  const { propertyName, topology, location } = formData;
+  if (propertyName) {
+    // Only include fields that are not empty
+    const parts = [propertyName, topology, location].filter(Boolean);
+    const slug = parts
+      .join(' ')
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '') // Remove special characters
+      .replace(/\s+/g, '-')     // Replace spaces with hyphens
+      .trim();
+
+    setFormData(prev => ({
+      ...prev,
+      slug
+    }));
+  }
+};
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;

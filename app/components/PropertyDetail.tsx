@@ -9,7 +9,7 @@ import defaultImg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 import image from '@/public/images/bgimage2.png';
 import propertydetails from '@/public/images/bgimage1.png';
 import { ArrowRight } from 'lucide-react';
-
+import demoimage from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 interface PropertyImage {
   path: string;
   filename: string;
@@ -110,7 +110,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   const propertyDetails = {
     beds: property.topology?.includes('BHK') ? property.topology.charAt(0) : '4',
     baths: property.topology?.includes('BHK') ? Math.max(1, parseInt(property.topology.charAt(0)) - 1) : '3',
-    area: property.carpetArea || '2500 sq ft',
+    area: property.carpetArea || '',
     year: property.createdAt ? new Date(property.createdAt).getFullYear().toString() : '2022',
     heating: 'Central',
     cooling: 'Central AC',
@@ -179,9 +179,12 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                       onClick={() => openModal(mainImage)}
                     />
                   ) : (
-                    <div className="w-full h-full bg-gray-300 flex items-center justify-center">
-                      <span className="text-gray-500">No image available</span>
-                    </div>
+                    <Image
+                      src={demoimage}
+                      alt={property.propertyName}
+                      className="object-cover w-full h-full cursor-pointer"
+                      onClick={() => openModal(mainImage)}
+                    />
                   )}
                   
                   {/* Navigation arrows */}
@@ -277,7 +280,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
               </button>
             </div>
           </div>
-          <div className="max-w-6xl mx-auto pb-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="max-w-6xl mx-auto py-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Left Column */}
       <div className="space-y-6">
         {/* Location Section */}

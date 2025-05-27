@@ -1268,7 +1268,7 @@ onMouseLeave={() => setIsPaused(false)}
 
     {/* ------------------------ */}
  
- <div className="bg-white">
+ <div className="bg-[#EEF1F5]">
   <section className="max-w-6xl mx-auto px-4 py-12">
     <div className="mb-8 animate-fade-in text-justify">
      

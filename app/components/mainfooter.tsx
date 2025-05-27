@@ -1,12 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaFacebookF, FaYoutube, FaInstagram } from 'react-icons/fa';
+import { FaFacebookF, FaYoutube, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { BsTwitterX } from 'react-icons/bs';
 import bg2 from "@/public/images/7578550-uhd_3840_2160_30fps 1.png"; // Adjust the path as necessary
 import logo from "@/public/images/PropertyDrone-Logo-e1687615846810 2.png"; // Adjust the path as necessary
 import mob from "@/public/images/Icon.png"; // Phone icon
 import loc from "@/public/images/marker-pin-01.png"; // Location icon
 import mail from "@/public/images/mail-02.png"; // Mail icon
+
 
 const Mainfooter = () => {
   return (
@@ -35,7 +37,8 @@ const Mainfooter = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
               {/* Logo and Contact Info */}
               <div className="space-y-6 ">
-                <div className="mb-4">
+               <Link href="/">
+                 <div className="mb-4">
                   <Image
                     src={logo}
                     alt="Property Drone Logo"
@@ -43,8 +46,24 @@ const Mainfooter = () => {
                   />
                 </div>
 
+               </Link>
                 <div className="space-y-5 text-white" style={{ color: '#FFFFFF99' }}>
   {/* Phone */}
+  <a href="tel:+919561477575" className="flex  hover:underline">
+    <div className="flex justify-start items-start w-10">
+      <Image 
+        src={mob}
+        alt="Phone icon"
+        className="h-5 w-5"
+      />
+    </div>
+    <span
+      className=" text-base leading-none"
+      style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
+    >
+     +91 9561477575 
+    </span>
+  </a>
   <a href="tel:+919730145675" className="flex  hover:underline">
     <div className="flex justify-start items-start w-10">
       <Image 
@@ -57,7 +76,7 @@ const Mainfooter = () => {
       className=" text-base leading-none"
       style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
     >
-      +91 9730145675
+    +91 9730145675
     </span>
   </a>
   <a href="mailto:info@propertydronealty.com" className="flex hover:underline">
@@ -72,7 +91,7 @@ const Mainfooter = () => {
       className=" text-base leading-none"
       style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
     >
-     info@propertydronealty.com
+     info@propertydronrealty.com
     </span>
   </a>
 
@@ -96,9 +115,9 @@ const Mainfooter = () => {
       className=" text-base leading-relaxed"
       style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
     >
-      9th Floor, Shivam Regency,<br />
-      Baner Shivayog, Baner, Pune,<br />
-      Maharashtra 411045
+      9th Floor, Shivom Regency,<br />
+      Baner, Pune,<br />
+      Maharashtra, 411045
     </span>
   </a>
 </div>
@@ -176,6 +195,18 @@ const Mainfooter = () => {
         {/* Social Media Icons - Positioned outside the main container */}
         <div className="py-8 flex justify-center items-center">
           <div className="flex space-x-8">
+            <Link 
+              href="https://www.facebook.com/propertydrone.exp247" 
+              className="text-white hover:text-gray-300 transition-colors bg-[#172747] p-3 rounded-full hover:bg-[#1e335b] "
+            >
+              <FaLinkedin size={18} />
+            </Link>
+            <Link 
+              href="https://www.facebook.com/propertydrone.exp247" 
+              className="text-white hover:text-gray-300 transition-colors bg-[#172747] p-3 rounded-full hover:bg-[#1e335b] "
+            >
+              <BsTwitterX size={18} />
+            </Link>
             <Link 
               href="https://www.facebook.com/propertydrone.exp247" 
               className="text-white hover:text-gray-300 transition-colors bg-[#172747] p-3 rounded-full hover:bg-[#1e335b] "

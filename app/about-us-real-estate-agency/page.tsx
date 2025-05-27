@@ -242,7 +242,7 @@ useEffect(() => {
         </div>
         <div className="mt-8">
           <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-            4 <span>Year</span>
+            5 <span>Year</span>
           </h3>
           <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
             In the market
