@@ -686,13 +686,13 @@ const filteredProperties = properties.filter(property => {
                               {property.propertyName}
                             </h3>
                             
-                            <div className="flex flex-col sm:flex-row justify-between text-sm mb-5 gap-2">
+                            <div className=" sm:flex-row justify-between text-sm mb-5 gap-2">
                               <div className="flex mb-2 items-center bg-gray-50 px-3 py-1.5 rounded-[4px]">
                                 <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                 </svg>
-                                {String(property.topology).split(',').map((item: string, index: number) => (
-                                  <span key={index} className="font-medium text-gray-700 block">
+                                {String(property.topology).split("").map((item: string, index: number) => (
+                                  <span key={index} className="text-gray-700 block"  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>
                                     {item.trim()}
                                   </span>
                                 ))}
@@ -702,7 +702,17 @@ const filteredProperties = properties.filter(property => {
                                 <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
                                 </svg>
-                                <span className="font-medium text-gray-700">{property.carpetArea} </span>
+                              <span
+                                className="text-gray-700"
+                                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+                              >
+                                {(() => {
+                                  const words = String(property.carpetArea).split(' ');
+                                  return words.length > 5
+                                    ? words.slice(0, 5).join(' ') + '...'
+                                    : words.join(' ');
+                                })()}
+                              </span>
                               </div>
                             </div>
                             
@@ -721,7 +731,7 @@ const filteredProperties = properties.filter(property => {
                                 </div>
                               )}
                               
-                              <Link href={`/properties/${property.id}`} passHref className="w-full sm:w-auto">
+                              <Link href={`/our-properties-in-pune/${property.id}`} passHref className="w-full sm:w-auto">
                                 <motion.button
                                   whileHover={{ scale: 1.05 }}
                                   whileTap={{ scale: 0.95 }}

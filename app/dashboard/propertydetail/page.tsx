@@ -187,7 +187,14 @@ export default function PropertyDetail() {
   };
 
   const handleRemoveExistingImage = (index: number) => {
-    setPropertyImages(prevImages => prevImages.filter((_, i) => i !== index));
+    const imageToRemove = editProperty.multipleImages[index];
+    if (imageToRemove && imageToRemove.filename) {
+      setDeletedImages((prev: string[]) => [...prev, imageToRemove.filename]);
+    }
+    setEditProperty((prev: any) => ({
+      ...prev,
+      multipleImages: prev.multipleImages.filter((_: any, i: number) => i !== index)
+    }));
   };
 
   const handleRemoveNewImage = (index: number) => {
@@ -203,36 +210,35 @@ export default function PropertyDetail() {
     if (!editProperty || !editProperty.id) return;
     
     try {
-      // First update the property details
-      const propertyData = {
-        ...editProperty,
-        images: propertyImages // Include existing images that weren't deleted
-      };
+      // Create FormData to handle both property data and images
+      const formData = new FormData();
       
+      // Add property data directly without stringifying
+      Object.keys(editProperty).forEach(key => {
+        if (key !== 'multipleImages' && key !== 'id') {
+          formData.append(key, editProperty[key]);
+        }
+      });
+      
+      // Add new images if any
+      if (newImages.length > 0) {
+        newImages.forEach(image => {
+          formData.append('propertyImages', image);
+        });
+      }
+      
+      // Add deleted images if any
+      if (deletedImages.length > 0) {
+        formData.append('imagesToRemove', JSON.stringify(deletedImages));
+      }
+      
+      // Send request
       const response = await fetch(`https://api.propertydronerealty.com/properties/${editProperty.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(propertyData),
+        body: formData,
       });
       
       if (response.ok) {
-        // If there are new images, upload them
-        if (newImages.length > 0) {
-          const formData = new FormData();
-          newImages.forEach(image => {
-            formData.append('images', image);
-          });
-          
-          const uploadResponse = await fetch(`https://api.propertydronerealty.com/properties/${editProperty.id}/images`, {
-            method: "POST",
-            body: formData,
-          });
-          
-          if (!uploadResponse.ok) {
-            alert("Property updated but failed to upload some images");
-          }
-        }
-        
         // Refresh the properties list
         const updatedPropertiesResponse = await fetch("https://api.propertydronerealty.com/properties");
         const updatedProperties = await updatedPropertiesResponse.json();
@@ -243,14 +249,19 @@ export default function PropertyDetail() {
         imagesPreviews.forEach(preview => URL.revokeObjectURL(preview));
         
         setShowModal(false);
+        alert("Property updated successfully!");
       } else {
-        alert("Failed to update property");
+        const errorData = await response.json();
+        alert(errorData.message || "Failed to update property");
       }
     } catch (error) {
       console.error("Update failed", error);
       alert("Error updating property");
     }
   };
+
+  // Add state for tracking deleted images
+  const [deletedImages, setDeletedImages] = useState<string[]>([]);
 
   if (loading) {
     return (
@@ -431,16 +442,19 @@ export default function PropertyDetail() {
                 )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                  <p><strong>Unit No:</strong> {property.unitNo || 'N/A'}</p>
-                  <p><strong>Floor:</strong> {property.floor || 'N/A'}</p>
+                  <p><strong>Property Name:</strong> {property.propertyName || 'N/A'}</p>
+                  <p><strong>City:</strong> {property.city || 'N/A'}</p>
+                  <p><strong>Location:</strong> {property.location || 'N/A'}</p>
+                  <p><strong>bathrooms:</strong> {property.baths || 'N/A'}</p>
+                  <p><strong>beds:</strong> {property.beds|| 'N/A'}</p>
                   <p><strong>Property Type:</strong> {property.propertyType || 'N/A'}</p>
-                  <p><strong>Built-up Area:</strong> {property.buArea ? `${property.buArea} sq. ft.` : 'N/A'}</p>
-                  <p><strong>Carpet Area:</strong> {property.carpetArea ? `${property.carpetArea} sq. ft.` : 'N/A'}</p>
+                  <p><strong>price:</strong> {property.buArea ? `${property.tentativeBudget} ` : 'N/A'}</p>
+                  <p><strong>Carpet Area:</strong> {property.carpetArea ? `${property.carpetArea} ` : 'N/A'}</p>
                 </div>
 
-                <p className="mt-4"><strong>About Property:</strong> {property.aboutProperty || 'No description available.'}</p>
+                {/* <p className="mt-4"><strong>About Property:</strong> {property.aboutProperty || 'No description available.'}</p> */}
 
-                {property.slug && <p className="mt-4 text-sm text-gray-500"><strong>Slug:</strong> {property.slug}</p>}
+                {property.slug && <p className="mt-4 text-sm text-black-500"><strong>Slug:</strong> {property.slug}</p>}
 
                 <div className="flex justify-end gap-4 mt-6">
                   <button
@@ -559,7 +573,155 @@ export default function PropertyDetail() {
         </div>
       </div>
 
-      <div className="flex justify-end space-x-2 mt-6">
+    
+      {/* Property Details Section */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Property Name</label>
+    <input
+      type="text"
+      value={editProperty.propertyName}
+      onChange={(e) => setEditProperty({ ...editProperty, propertyName: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Property Type</label>
+    <input
+      type="text"
+      value={editProperty.propertyType}
+      onChange={(e) => setEditProperty({ ...editProperty, propertyType: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">YouTube URL</label>
+    <input
+      type="text"
+      value={editProperty.youtubeUrl}
+      onChange={(e) => setEditProperty({ ...editProperty, youtubeUrl: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Google Map URL</label>
+    <input
+      type="text"
+      value={editProperty.googleMapUrl}
+      onChange={(e) => setEditProperty({ ...editProperty, googleMapUrl: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Property Category</label>
+    <input
+      type="text"
+      value={editProperty.propertyCategory}
+      onChange={(e) => setEditProperty({ ...editProperty, propertyCategory: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Beds</label>
+    <input
+      type="number"
+      value={editProperty.beds}
+      onChange={(e) => setEditProperty({ ...editProperty, beds: parseInt(e.target.value) })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Baths</label>
+    <input
+      type="number"
+      value={editProperty.baths}
+      onChange={(e) => setEditProperty({ ...editProperty, baths: parseInt(e.target.value) })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Topology</label>
+    <input
+      type="text"
+      value={editProperty.topology}
+      onChange={(e) => setEditProperty({ ...editProperty, topology: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Carpet Area</label>
+    <input
+      type="text"
+      value={editProperty.carpetArea}
+      onChange={(e) => setEditProperty({ ...editProperty, carpetArea: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+    <input
+      type="text"
+      value={editProperty.city}
+      onChange={(e) => setEditProperty({ ...editProperty, city: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+    <input
+      type="text"
+      value={editProperty.location}
+      onChange={(e) => setEditProperty({ ...editProperty, location: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div className="md:col-span-2">
+    <label className="block text-sm font-medium text-gray-700 mb-1">Tentative Budget</label>
+    <input
+      type="text"
+      value={editProperty.tentativeBudget}
+      onChange={(e) => setEditProperty({ ...editProperty, tentativeBudget: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div className="md:col-span-2">
+    <label className="block text-sm font-medium text-gray-700 mb-1">Possession</label>
+    <input
+      type="text"
+      value={editProperty.possession}
+      onChange={(e) => setEditProperty({ ...editProperty, possession: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div className="md:col-span-2">
+    <label className="block text-sm font-medium text-gray-700 mb-1">SEO Title</label>
+    <input
+      type="text"
+      value={editProperty.seoTitle}
+      onChange={(e) => setEditProperty({ ...editProperty, seoTitle: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div className="md:col-span-2">
+    <label className="block text-sm font-medium text-gray-700 mb-1">SEO Description</label>
+    <textarea
+      value={editProperty.seoDescription}
+      onChange={(e) => setEditProperty({ ...editProperty, seoDescription: e.target.value })}
+      rows={2}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+  <div className="md:col-span-2">
+    <label className="block text-sm font-medium text-gray-700 mb-1">SEO Keywords</label>
+    <input
+      type="text"
+      value={editProperty.seoKeywords}
+      onChange={(e) => setEditProperty({ ...editProperty, seoKeywords: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+</div>
+  <div className="flex justify-end space-x-2 mt-6">
         <button 
           className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
           onClick={() => {
@@ -571,62 +733,15 @@ export default function PropertyDetail() {
         </button>
         <button 
           className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
-          onClick={async () => {
-            try {
-              // First update the property details with existing images
-              const propertyData = {
-                ...editProperty,
-                // Keep the multipleImages array unchanged for existing images
-              };
-              
-              const response = await fetch(`https://api.propertydronerealty.com/properties/${editProperty.id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(propertyData),
-              });
-              
-              if (response.ok) {
-                // If there are new images, upload them
-                if (newImages.length > 0) {
-                  const formData = new FormData();
-                  newImages.forEach(image => {
-                    formData.append('images', image);
-                  });
-                  
-                  const uploadResponse = await fetch(`https://api.propertydronerealty.com/properties/${editProperty.id}`, {
-                    method: "POST",
-                    body: formData,
-                  });
-                  
-                  if (!uploadResponse.ok) {
-                    alert("Property updated but failed to upload some images");
-                  }
-                }
-                
-                // Refresh the properties list
-                const updatedPropertiesResponse = await fetch("https://api.propertydronerealty.com/properties");
-                const updatedProperties = await updatedPropertiesResponse.json();
-                setProperties(updatedProperties);
-                setFilteredProperties(updatedProperties);
-                
-                // Clean up preview URLs
-                imagesPreviews.forEach(preview => URL.revokeObjectURL(preview));
-                
-                setShowModal(false);
-              } else {
-                alert("Failed to update property");
-              }
-            } catch (error) {
-              console.error("Update failed", error);
-              alert("Error updating property");
-            }
-          }}
+          onClick={handleUpdateProperty}
         >
           Save Changes
         </button>
       </div>
     </div>
+    
   </div>
+  
 )}
 
     </>

@@ -303,6 +303,8 @@ interface Property {
   updatedAt: string;
   featured?: boolean;
   type?: string;
+  bedroom?: string;
+  bathroom?: string;
 }
 
 export default function Home() {
@@ -695,9 +697,8 @@ const PropertyCard = ({
       <Image
         src={typeof imagePath === 'string' ? imagePath : main2}
         alt={property.propertyName || "Property Image"}
-        layout="fill"
-        objectFit="cover"
-        className={`z-0 transition-transform duration-700 ease-in-out ${
+        fill
+        className={`z-0 transition-transform duration-700 ease-in-out object-cover ${
           isHovered ? "scale-110" : "scale-100"
         }`}
       />
@@ -706,8 +707,33 @@ const PropertyCard = ({
 
   {/* Developer and Location */}
   <div className="flex border-b border-[#00000033]">
-  <div className="w-1/2 flex items-center justify-center border-r border-[#00000033] py-2">
-    <span className="text-black text-lg font-medium">By Developer</span>
+  <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
+    <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
+        fontSize: '16px',
+        fontFamily: 'Lato, sans-serif',
+        letterSpacing: '0.5px',
+        lineHeight: '1.3',
+      }}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+      {property.beds || ""}  Beds
+    </div>
+  </div>
+  <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
+     <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
+        fontSize: '16px',
+        fontFamily: 'Lato, sans-serif',
+        letterSpacing: '0.5px',
+        lineHeight: '1.3',
+      }}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+        <path d="M22 6l-10 7L2 6"></path>
+      </svg>
+      {property.baths || ""}  Baths
+    </div>
   </div>
   <div className="w-1/2 flex items-center justify-center py-2 space-x-1">
     <svg
@@ -730,7 +756,12 @@ const PropertyCard = ({
         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
       />
     </svg>
-    <span className="text-black text-lg font-medium">{property.location || "Location"}</span>
+    <span className="text-[#172747] text-lg "  style={{
+        fontSize: '16px',
+        fontFamily: 'Lato, sans-serif',
+        letterSpacing: '0.5px',
+        lineHeight: '1.3',
+      }}>{property.location || "Location"}</span>
   </div>
 </div>
 
@@ -753,23 +784,26 @@ const PropertyCard = ({
   </div>
 
   {/* Property Details */}
-  <div className="justify-between items-center px-4 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-    {/* <div className="bg-[#EEF1F5] text-xs text-gray-800 px-3 py-1 rounded-md">
-      {property.bedroom || "5"} Bedroom
+  <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
+    <div className="flex items-center space-x-2">
+   
+<span
+  className="text-gray-700 px-2"
+  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+>
+  Carpet Area : {(() => {
+    const words = String(property.carpetArea).split(' ');
+    return words.length > 5
+      ? words.slice(0, 5).join(' ') + '...'
+      : words.join(' ');
+  })()}
+</span>
+
     </div>
-    <div className="bg-[#EEF1F5] text-xs text-gray-800 px-3 py-1 rounded-md">
-      {property.bathroom || "4"} Bathroom
+    {/* <div className="flex items-center space-x-2">
+      <span className="text-gray-600">Carpet Area:</span>
+      <span className="text-[#172747]">{property.carpetArea || ""}</span>
     </div> */}
-    {/* <div className="bg-[#EEF1F5] text-xs text-gray-800 px-3 py-1 rounded-md">
-      {property.carpetArea || ""} sqft
-    </div> */}
-    {/* <span
-      className={`text-[18px] font-lato letter-spacing-2 line-height-1 ${
-        isHovered ? "text-blue-800" : "text-[#2B3C74]"
-      }`}
-    >
-       {property.tentativeBudget || ""}
-    </span> */}
   </div>
 
   {/* Price and Actions */}

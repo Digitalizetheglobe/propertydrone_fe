@@ -109,8 +109,9 @@ const MainHeader: React.FC = () => {
         { name: 'Services', href: '/our-services-real-estate-services', alwaysShow: true },
         { name: 'Properties', href: '/our-properties-in-pune', alwaysShow: true },
         { name: 'Developers', href: '/estate_developer', alwaysShow: true },
-        { name: 'Blog', href: 'blog', alwaysShow: false },
-        { name: 'Career', href: 'career', alwaysShow: false }
+        { name: 'Blog', href: '/blog', alwaysShow: false },
+        { name: 'Real Estate Basic', href: '/real_estate_basic', alwaysShow: false },
+        { name: 'Career', href: '/career', alwaysShow: false }
     ];
 
     // Dropdown menu items (items that are not always shown)
