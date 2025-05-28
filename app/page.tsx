@@ -306,7 +306,141 @@ interface Property {
   bedroom?: string;
   bathroom?: string;
 }
+const AnimatedStarButton = () => {
+  return (
+    <div className="relative">
+      <style jsx>{`
+        @keyframes border-glow-translate {
+          0% {
+            transform: translateX(-50%) scaleX(1);
+          }
+          100% {
+            transform: translateX(200%) scaleX(0.8);
+          }
+        }
 
+        @keyframes border-glow-scale {
+          0% {
+            transform: scaleX(1);
+          }
+          100% {
+            transform: scaleX(1.2);
+          }
+        }
+
+        @keyframes star-rotate {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes star-shine {
+          0% {
+            opacity: 0;
+            transform: scale(1);
+          }
+          100% {
+            opacity: 0.4;
+            transform: scale(1.5);
+          }
+        }
+      `}</style>
+
+      <button className="group relative overflow-hidden rounded-full p-px" style={{ backgroundColor: '#172747' }}>
+        {/* Main glow background */}
+        <span className="absolute inset-0 rounded-full overflow-hidden">
+          <span className="inset-0 absolute pointer-events-none select-none">
+            <span
+              className="block -translate-x-1/2 -translate-y-1/3 size-24 blur-xl"
+              style={{
+                background: 'linear-gradient(135deg, #FFD700, #FFA500, #DAA520)',
+              }}
+            ></span>
+          </span>
+        </span>
+
+        {/* Animated border glow */}
+        <span
+          className="inset-0 absolute pointer-events-none select-none"
+          style={{ animation: 'border-glow-translate 10s ease-in-out infinite alternate' }}
+        >
+          <span
+            className="block z-0 h-full w-12 blur-xl -translate-x-1/2 rounded-full"
+            style={{
+              animation: 'border-glow-scale 10s ease-in-out infinite alternate',
+              background: 'linear-gradient(135deg, #FFD700, #FFA500, #DAA520)',
+            }}
+          ></span>
+        </span>
+
+        {/* Button content */}
+        <span 
+          className="flex items-center justify-center gap-1 relative z-[1] rounded-full py-2 px-4 pl-2 w-full"
+          style={{ backgroundColor: 'rgba(23, 39, 71, 0.95)' }}
+        >
+          {/* Star icon with animations */}
+          <span className="relative group-hover:scale-105 transition-transform group-hover:rotate-[360deg] duration-500">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="opacity-90"
+              style={{
+                animation: 'star-rotate 14s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite alternate',
+              }}
+            >
+              <path
+                d="M11.5268 2.29489C11.5706 2.20635 11.6383 2.13183 11.7223 2.07972C11.8062 2.02761 11.903 2 12.0018 2C12.1006 2 12.1974 2.02761 12.2813 2.07972C12.3653 2.13183 12.433 2.20635 12.4768 2.29489L14.7868 6.97389C14.939 7.28186 15.1636 7.5483 15.4414 7.75035C15.7192 7.95239 16.0419 8.08401 16.3818 8.13389L21.5478 8.88989C21.6457 8.90408 21.7376 8.94537 21.8133 9.00909C21.8889 9.07282 21.9452 9.15644 21.9758 9.2505C22.0064 9.34456 22.0101 9.4453 21.9864 9.54133C21.9627 9.63736 21.9126 9.72485 21.8418 9.79389L18.1058 13.4319C17.8594 13.672 17.6751 13.9684 17.5686 14.2955C17.4622 14.6227 17.4369 14.9708 17.4948 15.3099L18.3768 20.4499C18.3941 20.5477 18.3835 20.6485 18.3463 20.7406C18.3091 20.8327 18.2467 20.9125 18.1663 20.9709C18.086 21.0293 17.9908 21.0639 17.8917 21.0708C17.7926 21.0777 17.6935 21.0566 17.6058 21.0099L12.9878 18.5819C12.6835 18.4221 12.345 18.3386 12.0013 18.3386C11.6576 18.3386 11.3191 18.4221 11.0148 18.5819L6.3978 21.0099C6.31013 21.0563 6.2112 21.0772 6.11225 21.0701C6.0133 21.0631 5.91832 21.0285 5.83809 20.9701C5.75787 20.9118 5.69563 20.8321 5.65846 20.7401C5.62128 20.6482 5.61066 20.5476 5.6278 20.4499L6.5088 15.3109C6.567 14.9716 6.54178 14.6233 6.43534 14.2959C6.32889 13.9686 6.14441 13.672 5.8978 13.4319L2.1618 9.79489C2.09039 9.72593 2.03979 9.63829 2.01576 9.54197C1.99173 9.44565 1.99524 9.34451 2.02588 9.25008C2.05652 9.15566 2.11307 9.07174 2.18908 9.00788C2.26509 8.94402 2.3575 8.90279 2.4558 8.88889L7.6208 8.13389C7.96106 8.08439 8.28419 7.95295 8.56238 7.75088C8.84058 7.54881 9.0655 7.28216 9.2178 6.97389L11.5268 2.29489Z"
+                fill="url(#paint0_linear)"
+                stroke="url(#paint1_linear)"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <defs>
+                <linearGradient id="paint0_linear" x1="-0.5" y1="9" x2="15.5" y2="-1.5" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#FFD700" />
+                  <stop offset="0.5" stopColor="#FFA500" />
+                  <stop offset="1" stopColor="#DAA520" />
+                </linearGradient>
+                <linearGradient id="paint1_linear" x1="-0.5" y1="9" x2="15.5" y2="-1.5" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#FFD700" />
+                  <stop offset="0.5" stopColor="#FFA500" />
+                  <stop offset="1" stopColor="#DAA520" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            {/* Star shine effect */}
+            <span
+              className="rounded-full size-11 absolute opacity-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-lg"
+              style={{
+                animation: 'star-shine 14s ease-in-out infinite alternate',
+                background: 'linear-gradient(135deg, #FFD700, #FFA500, #DAA520)',
+              }}
+            ></span>
+          </span>
+
+          {/* LUXE text */}
+          <span 
+            className="tracking-[2px] ml-1.5 bg-clip-text text-xs text-transparent group-hover:scale-105 transition transform-gpu font-bold"
+            style={{
+              backgroundImage: 'linear-gradient(to bottom, #FFD700, #DAA520)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text'
+            }}
+          >
+            LUXE
+          </span>
+        </span>
+      </button>
+    </div>
+  );
+};
 export default function Home() {
   // const localities = [
   //   { name: "Baner", properties: 72, image: "/api/placeholder/400/320" },
@@ -686,13 +820,14 @@ const PropertyCard = ({
        <Link href={`/our-properties-in-pune/${property.id}`} passHref>
     <div
   ref={cardRef}
-  className={`bg-white rounded-md  cursor-pointer overflow-hidden border border-gray-300 shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
+  className={`bg-white rounded-md  cursor-pointer overflow-hidden  shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
   }`}
   onMouseEnter={() => setIsHovered(true)}
   onMouseLeave={() => setIsHovered(false)}
 >
   <div className="relative h-52 w-full overflow-hidden">
+    
     {imagePath && (
       <Image
         src={typeof imagePath === 'string' ? imagePath : main2}
@@ -703,8 +838,18 @@ const PropertyCard = ({
         }`}
       />
     )}
+    {/* <div className="absolute top-4 left-4 z-10">
+      <div className="rounded-full flex items-center">
+        <AnimatedStarButton />
+      </div>
+    </div> */}
   </div>
-
+ {/* <div className="absolute top-4 left-4 z-10">
+                    <div className=" rounded-full  flex items-center">
+                      <AnimatedStarButton />
+                     
+                    </div>
+                  </div> */}
   {/* Developer and Location */}
   <div className="flex border-b border-[#00000033]">
   <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
@@ -833,6 +978,202 @@ const PropertyCard = ({
   </div>
 </div>
 </Link>
+  );
+};
+const PropertyCard1 = ({
+  property,
+  delay,
+}: {
+  property: Property;
+  delay: number;
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
+  const imagePath = property?.multipleImages?.[0]?.path
+    ? `${baseUrl}${property.multipleImages[0].path}`
+    : {main2};
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setIsVisible(true);
+            if (cardRef.current) observer.unobserve(cardRef.current);
+          }, delay);
+        }
+      },
+      { threshold: 0.05, rootMargin: "20px" }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) observer.unobserve(cardRef.current);
+    };
+  }, [delay]);
+
+  return (
+    <Link href={`/our-properties-in-pune/${property.id}`} passHref>
+      <div
+        ref={cardRef}
+        className={`bg-white rounded-[4px] cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="relative h-52 w-full overflow-hidden">
+          {imagePath && (
+            <Image
+              src={typeof imagePath === 'string' ? imagePath : main2}
+              alt={property.propertyName || "Property Image"}
+              fill
+              className={`z-0 transition-transform duration-700 ease-in-out object-cover ${
+                isHovered ? "scale-110" : "scale-100"
+              }`}
+            />
+          )}
+          <div className="absolute top-4 left-4 z-10">
+            <div className="rounded-full flex items-center">
+              <AnimatedStarButton />
+            </div>
+          </div>
+        </div>
+
+        {/* Developer and Location */}
+        <div className="flex border-b border-[#00000033]">
+          <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
+            <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
+                fontSize: '16px',
+                fontFamily: 'Lato, sans-serif',
+                letterSpacing: '0.5px',
+                lineHeight: '1.3',
+              }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              {property.beds || ""}  Beds
+            </div>
+          </div>
+          <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
+             <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
+                fontSize: '16px',
+                fontFamily: 'Lato, sans-serif',
+                letterSpacing: '0.5px',
+                lineHeight: '1.3',
+              }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <path d="M22 6l-10 7L2 6"></path>
+              </svg>
+              {property.baths || ""}  Baths
+            </div>
+          </div>
+          <div className="w-1/2 flex items-center justify-center py-2 space-x-1">
+            <svg
+              className="w-5 h-5 text-black"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+            <span className="text-[#172747] text-lg "  style={{
+                fontSize: '16px',
+                fontFamily: 'Lato, sans-serif',
+                letterSpacing: '0.5px',
+                lineHeight: '1.3',
+              }}>{property.location || "Location"}</span>
+          </div>
+        </div>
+
+
+        {/* Title */}
+        <div className="px-4 pt-1 pb-2">
+          <h3
+            className={` ${
+              isHovered ? "text-blue-800" : "text-[#172747]"
+            }`}
+            style={{
+              fontSize: '20px',
+              fontFamily: 'Lato, sans-serif',
+              letterSpacing: '0.5px',
+              lineHeight: '1.3',
+            }}
+          >
+            {property.propertyName || "Prime Business Hub"}
+          </h3>
+        </div>
+
+        {/* Property Details */}
+        <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
+          <div className="flex items-center space-x-2">
+         
+  <span
+    className="text-gray-700 px-2"
+    style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+  >
+    Carpet Area : {(() => {
+      const words = String(property.carpetArea).split(' ');
+      return words.length > 5
+        ? words.slice(0, 5).join(' ') + '...'
+        : words.join(' ');
+    })()}
+  </span>
+
+          </div>
+          {/* <div className="flex items-center space-x-2">
+            <span className="text-gray-600">Carpet Area:</span>
+            <span className="text-[#172747]">{property.carpetArea || ""}</span>
+          </div> */}
+        </div>
+
+        {/* Price and Actions */}
+        <div className="flex items-center justify-between px-4 py-3">
+         
+          <div className="flex space-x-2 items-center">
+            {/* <button className="p-2 border border-gray-300 rounded hover:bg-gray-100">
+              <svg
+                className="w-4 h-4 text-gray-600 hover:text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                />
+              </svg>
+            </button> */}
+            <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105">
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </Link>
   );
 };
  const [videos, setVideos] = useState<YoutubeVideo[]>([]);
@@ -1063,7 +1404,7 @@ onMouseLeave={() => setIsPaused(false)}
      
 {/* ------------------------------ */}
 {/* Filter Section */}
-<div className="bg-[#172747] justify-center p-4 md:p-6 shadow-md" >
+<div className="bg-white justify-center p-4 md:p-6 shadow-md" >
   <div className="flex flex-col md:flex-row md:items-end gap-4 my-6 mx-4 md:mx-20">
     
     {/* Search Input */}
@@ -1075,9 +1416,9 @@ onMouseLeave={() => setIsPaused(false)}
           value={filters.search || ''}
           onChange={handleFilterChange}
           placeholder="Search properties..."
-          className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
+          className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
         />
-        <div className="absolute left-3 top-2.5 text-[#172747]">
+        <div className="absolute left-3 top-2.5 text-white">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -1091,11 +1432,11 @@ onMouseLeave={() => setIsPaused(false)}
         name="location"
         value={filters.location || ''}
         onChange={handleFilterChange}
-        className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
+        className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
       >
-        <option value="" className="text-[#172747]">All Locations</option>
+        <option value="" className="text-white">All Locations</option>
         {Array.from(new Set(properties.map(p => p.location))).map(location => (
-          <option key={location} value={location} className="text-[#172747]">{location}</option>
+          <option key={location} value={location} className="text-white">{location}</option>
         ))}
       </select>
     </div>
@@ -1108,7 +1449,7 @@ onMouseLeave={() => setIsPaused(false)}
         value={filters.minPrice || ''}
         onChange={handleFilterChange}
         placeholder="Min Price"
-        className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
+        className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
       />
     </div>
 
@@ -1120,7 +1461,7 @@ onMouseLeave={() => setIsPaused(false)}
         value={filters.maxPrice || ''}
         onChange={handleFilterChange}
         placeholder="Max Price"
-        className="w-full px-4 py-2 pl-10 border bg-white rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#172747] text-[#172747]"
+        className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
       />
     </div>
 
@@ -1128,7 +1469,7 @@ onMouseLeave={() => setIsPaused(false)}
     <div className="w-full md:w-auto">
       <button
         onClick={resetFilters}
-        className="w-full px-4 py-2 bg-[#172747] border border-white text-white rounded-[4px] hover:bg-white hover:text-[#172747] transition-colors cursor-pointer duration-300"
+        className="w-full px-4 py-2 bg-white border border-[#172747] text-[#172747] rounded-[4px] hover:bg-[#172747] hover:text-white transition-colors cursor-pointer duration-300"
       >
         Reset Filters
       </button>
@@ -1137,6 +1478,59 @@ onMouseLeave={() => setIsPaused(false)}
   </div>
 </div>
 
+<div className=" mx-auto px-6 md:px-20 py-8 bg-[#172747]">
+  
+ 
+
+  {/* Loading and Error States */}
+  {loading ? (
+    <div className="flex justify-center items-center h-64">
+      <div className="animate-spin rounded-full h-12 w-12 text-white border-t-2 border-b-2 border-[#172747]"></div>
+    </div>
+  ) : error ? (
+    <div className="text-center text-red-500 p-4">
+      Error: {error}. Please try again later.
+    </div>
+  ) : filteredProperties.length === 0 ? (
+    <div className="text-center py-12">
+      <p className="text-gray-500">No luxury properties found matching your criteria.</p>
+      <button 
+        onClick={resetFilters}
+        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-[#172747] transition-colors duration-300 cursor-pointer"
+      >
+        Reset Filters
+      </button>
+    </div>
+  ) : (
+    <div className="space-y-10 max-w-6xl mx-auto px-4 ">
+      {/* Featured Properties Section */}
+      <div className="mb-8 ">
+    <AnimatedLetters
+      text="LUXURY PROPERTIES"
+      as="h2"
+        className="uppercase text-white text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+    />
+
+    <AnimatedLetters
+      text="Discover our exclusive collection of luxury properties in Pune."
+      as="h3"
+       className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+      />
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {featuredProperties
+          .filter(property => ['luxury', 'lux', 'luxary', 'Luxury'].includes(property.propertyType?.toLowerCase() || ''))
+          .map((property, index) => (
+          <PropertyCard1 
+            key={property.id} 
+            property={property} 
+            delay={index * 200}
+          />
+        ))}
+      </div>
+      </div>
+    </div>
+  )}
+</div>
    <div className=" mx-auto px-6 md:px-20 py-8 bg-[#EEF1F5]">
   
  
@@ -1161,33 +1555,65 @@ onMouseLeave={() => setIsPaused(false)}
       </button>
     </div>
   ) : (
-    <div className="space-y-10 max-w-6xl mx-auto px-4 ">
+    <div className="space-y-10 max-w-6xl mx-auto px-4">
       {/* Featured Properties Section */}
-      <div className="mb-8 ">
-    <AnimatedLetters
-      text="FEATURED PROPERTIES"
-      as="h2"
-        className="uppercase text-[#172747] text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-    />
+      <div className="mb-8">
+        <AnimatedLetters
+          text="FEATURED PROPERTIES"
+          as="h2"
+          className="uppercase text-[#172747] text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+        />
 
-    <AnimatedLetters
-      text="Explore top-performing properties with high ROI and verified builder credibility."
-      as="h3"
-       className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-      />
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {featuredProperties.map((property, index) => (
-          <PropertyCard 
-        key={property.id} 
-        property={property} 
-        delay={index * 200} // Stagger the animations by 200ms per card
-          />
-        ))}
+        <AnimatedLetters
+          text="Explore top-performing properties with high ROI and verified builder credibility."
+          as="h3"
+          className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+        />
+        
+        {/* Slider Container */}
+        <div className="relative">
+          {/* Navigation Buttons */}
+          <button 
+            onClick={() => {
+              const container = document.getElementById('property-slider');
+              if (container) {
+                container.scrollLeft -= container.offsetWidth;
+              }
+            }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-[#172747] p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          
+          <button 
+            onClick={() => {
+              const container = document.getElementById('property-slider');
+              if (container) {
+                container.scrollLeft += container.offsetWidth;
+              }
+            }}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-[#172747] p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+          >
+            <ChevronRight size={24} />
+          </button>
+
+          {/* Slider */}
+          <div 
+            id="property-slider"
+            className="flex overflow-x-auto gap-6 snap-x snap-mandatory scrollbar-hide"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {featuredProperties.map((property, index) => (
+              <div key={property.id} className="flex-none w-full md:w-1/2 lg:w-1/3 snap-start">
+                <PropertyCard
+                  property={property}
+                  delay={index * 200}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-      </div>
-      
-      {/* Remaining Properties Slider */}
-      {/* Your slider component here */}
     </div>
   )}
 </div>
