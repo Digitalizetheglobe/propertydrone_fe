@@ -1246,6 +1246,84 @@ const PropertyCard1 = ({
       priority
     />
     <div className="absolute inset-0 bg-black opacity-50"></div>
+     <main className="relative z-10 container mx-auto px-4 pt-30 max-w-6xl ">
+    <div className="flex flex-col md:flex-row gap-[20px] py-4">
+    <div>
+      <h1
+        style={{
+        fontFamily: "Ivy Mode",
+        fontWeight: 100,
+        lineHeight: '150%',
+        letterSpacing: '0'
+        }}
+        className="text-white text-[42px] sm:text-[80px]"
+      >
+        Find the best <br /> properties in Pune
+      </h1>
+
+      </div>  
+     
+
+
+      <div className="flex flex-col sm:mb-[20px]  md:flex-row md:items-end md:justify-between">
+        <p className="text-white text-[18px] sm:text-[28px] mb-4 md:mb-0 leading-none"
+          style={{ fontWeight:'300',fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
+          with Property <br /> Management <br />company  in Pune
+        </p>
+        <Link href="/contact-us-propertydrone-realty">
+        <button
+          className="flex  ml-0 md:ml-[20px] bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50 md:mt-auto cursor-pointer"
+        >
+          Get Consultation 
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+        </button>
+        </Link>
+      </div>
+
+      {/* Property Category Cards */}
+      
+    </div>
+    <div className="w-full overflow-hidden mt-6 " id="filter-section">
+
+<div 
+ref={scrollContainerRef}
+className="flex overflow-x-auto scrollbar-hide snap-x"
+style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+onMouseEnter={() => setIsPaused(true)}
+onMouseLeave={() => setIsPaused(false)}
+>
+{images.map((imgObj, index) => (
+  <div
+    key={index}
+    className="flex-shrink-0 h-32 mx-2 first:ml-0 mt-10 sm:mt-0 transition-all duration-300 ease-in-out"
+    style={{
+      transform: 'scale(1)',
+      transformOrigin: 'center center',
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.transform = 'scale(1.05)';
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.transform = 'scale(1)';
+    }}
+  >
+    <div className="shadow-md flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
+      <Link href={`/estate_developer/${imgObj.link}`}>
+        <Image
+          src={imgObj.img}
+          alt={`Card ${index + 1}`}
+          className="w-auto cursor-pointerh-22 object-cover transition-all duration-300 sm:h-30"
+        />
+      </Link>
+    </div>
+  </div>
+))}
+</div>
+
+</div>
+  </main>
   </div>
 
 
@@ -1292,84 +1370,7 @@ const PropertyCard1 = ({
   </header> */}
 
   {/* Main Hero Content */}
-  <main className="relative z-10 container mx-auto px-4 pt-50 max-w-6xl ">
-    <div className="flex flex-col md:flex-row gap-[20px] py-4">
-    <div>
-      <h1
-        style={{
-        fontFamily: "Ivy Mode",
-        fontWeight: 100,
-        lineHeight: '150%',
-        letterSpacing: '0'
-        }}
-        className="text-white text-[42px] sm:text-[80px]"
-      >
-        Find the best <br /> properties in Pune
-      </h1>
-
-      </div>  
-     
-
-
-      <div className="flex flex-col sm:mb-[20px]  md:flex-row md:items-end md:justify-between">
-        <p className="text-white text-[18px] sm:text-[28px] mb-4 md:mb-0 leading-none"
-          style={{ fontWeight:'300',fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
-          with Property <br /> Management <br />company  in Pune
-        </p>
-        <Link href="/contact-us-propertydrone-realty">
-        <button
-          className="flex  ml-0 md:ml-[20px] bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50 md:mt-auto cursor-pointer"
-        >
-          Get Consultation 
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-          </svg>
-        </button>
-        </Link>
-      </div>
-
-      {/* Property Category Cards */}
-      
-    </div>
-    <div className="w-full overflow-hidden " id="filter-section">
-
-<div 
-ref={scrollContainerRef}
-className="flex overflow-x-auto scrollbar-hide snap-x"
-style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-onMouseEnter={() => setIsPaused(true)}
-onMouseLeave={() => setIsPaused(false)}
->
-{images.map((imgObj, index) => (
-  <div
-    key={index}
-    className="flex-shrink-0 h-32 mx-2 first:ml-0 mt-10 sm:mt-0 transition-all duration-300 ease-in-out"
-    style={{
-      transform: 'scale(1)',
-      transformOrigin: 'center center',
-    }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.transform = 'scale(1.05)';
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.transform = 'scale(1)';
-    }}
-  >
-    <div className="shadow-md flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
-      <Link href={`/estate_developer/${imgObj.link}`}>
-        <Image
-          src={imgObj.img}
-          alt={`Card ${index + 1}`}
-          className="w-auto cursor-pointerh-22 object-cover transition-all duration-300 sm:h-30"
-        />
-      </Link>
-    </div>
-  </div>
-))}
-</div>
-
-</div>
-  </main>
+ 
 </div>
  <style>
         {`
@@ -1398,36 +1399,34 @@ onMouseLeave={() => setIsPaused(false)}
      
 {/* ------------------------------ */}
 {/* Filter Section */}
-<div className="bg-white justify-center p-4 md:p-6 shadow-md" >
-  <div className="flex flex-col md:flex-row md:items-end gap-4 my-6 mx-4 md:mx-20">
-    
+<div className="bg-white shadow-md p-4 md:p-6">
+  <div className="grid grid-row-1 md:grid-cols-5 gap-4 md:gap-6 mx-2 md:mx-20">
+
     {/* Search Input */}
-    <div className="w-full md:flex-1">
-      <div className="relative">
-        <input
-          type="text"
-          name="search"
-          value={filters.search || ''}
-          onChange={handleFilterChange}
-          placeholder="Search properties..."
-          className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
-          suppressHydrationWarning
-        />
-        <div className="absolute left-3 top-2.5 text-white">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
+    <div className="relative">
+      <input
+        type="text"
+        name="search"
+        value={filters.search || ''}
+        onChange={handleFilterChange}
+        placeholder="Search properties..."
+        className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
+        suppressHydrationWarning
+      />
+      <div className="absolute left-3 top-2.5 text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
       </div>
     </div>
 
     {/* Location Dropdown */}
-    <div className="w-full md:flex-1">
+    <div>
       <select
         name="location"
         value={filters.location || ''}
         onChange={handleFilterChange}
-        className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
+        className="w-full px-4 py-2 pl-4 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
         suppressHydrationWarning
       >
         <option value="" className="text-white">All Locations</option>
@@ -1438,33 +1437,33 @@ onMouseLeave={() => setIsPaused(false)}
     </div>
 
     {/* Min Price Input */}
-    <div className="w-full md:flex-1">
+    <div>
       <input
         type="number"
         name="minPrice"
         value={filters.minPrice || ''}
         onChange={handleFilterChange}
         placeholder="Min Price"
-        className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
+        className="w-full px-4 py-2 pl-4 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
         suppressHydrationWarning
       />
     </div>
 
     {/* Max Price Input */}
-    <div className="w-full md:flex-1">
+    <div>
       <input
         type="number"
         name="maxPrice"
         value={filters.maxPrice || ''}
         onChange={handleFilterChange}
         placeholder="Max Price"
-        className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
+        className="w-full px-4 py-2 pl-4 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
         suppressHydrationWarning
       />
     </div>
 
     {/* Reset Button */}
-    <div className="w-full md:w-auto">
+    <div>
       <button
         onClick={resetFilters}
         className="w-full px-4 py-2 bg-[#172747] border border-white text-white rounded-[4px] hover:bg-[#4b6096] transition-colors"
@@ -1476,6 +1475,7 @@ onMouseLeave={() => setIsPaused(false)}
 
   </div>
 </div>
+
 
 <div
   className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed"
