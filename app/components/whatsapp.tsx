@@ -5,7 +5,7 @@ import wp from "@/public/images/wha.png"; // ✅ Adjusted import path for WhatsA
 import snd from "@/public/images/send.png";
 const WhatsAppPopup = () => {
   const [showPopup, setShowPopup] = useState(false);
-  const [phoneNumber] = useState("+91 8459837763"); // ✅ Default WhatsApp number
+  const [phoneNumber] = useState("+91 9561477575"); // ✅ Default WhatsApp number
   const [message, setMessage] = useState("");
 
   const handleSendMessage = () => {
@@ -74,7 +74,7 @@ const WhatsAppPopup = () => {
               fontWeight: "bold",
             }}
           >
-            <span>Property Drone</span>
+            <span>Property Drone Realty</span>
             <span onClick={() => setShowPopup(false)} style={{ cursor: "pointer", fontSize: "18px" }}>✖</span>
           </div>
 
