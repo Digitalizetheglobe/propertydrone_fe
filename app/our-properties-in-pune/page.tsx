@@ -311,7 +311,7 @@ const filteredProperties = properties.filter(property => {
   return (
   <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       {/* Section title */}
-       <section className="relative min-h-screen">
+       <section className="relative min-h-[530px]">
       <div className="absolute inset-0 z-0">
   <video
     autoPlay
@@ -328,7 +328,7 @@ const filteredProperties = properties.filter(property => {
 
         
         {/* Hero Content */}
-        <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
+        <div className="relative z-10 flex items-center justify-center pt-26 px-4">
           <div className="text-center max-w-3xl mx-auto text-white">
              <p className=" uppercase  tracking-wider  mb-4"
              
@@ -365,12 +365,15 @@ const filteredProperties = properties.filter(property => {
           </div>
         </div>
       </section>
-      
       {/* Filter controls */}
-            <div className="container mx-auto px-4 pt-4 pb-8">
+            <div className="container mx-auto px-4  pb-8">
       <div className='flex flex-col lg:flex-row'>
 
           <div className="w-full lg:w-1/4 mb-6 lg:mb-0">
+           {/* <div className="container mx-auto px-4 pt-4 pb-8"> */}
+      {/* <div className='flex flex-col lg:flex-row'> */}
+
+          {/* <div className="w-full lg:w-1/4 mb-6 lg:mb-0"> */}
             <div className="bg-white shadow-md rounded-[4px] p-4 lg:p-6 sticky top-6 overflow-auto border border-gray-100">
               <div className="flex items-center justify-center mb-6">
                 <div className="flex bg-blue-50 p-2 border border-bg-gradient-to-br from-amber-100 to-blue-60 rounded-full w-full justify-center">
@@ -484,12 +487,23 @@ const filteredProperties = properties.filter(property => {
                 Reset Search
               </motion.button>
             </div>
-          </div>
+          </div> 
 
       
-              <div className="w-full lg:w-3/4 lg:pl-6 py-6">
-              <div className="flex flex-col sm:flex-row pb-4 gap-4">
-
+              <div className="w-full lg:w-3/4 lg:pl-6 ">
+                     
+              <div className="flex flex-col sm:flex-row pb-4 pt-4 gap-4">
+                  <h2
+        style={{
+        fontFamily: "Ivy Mode",
+        fontWeight: 100,
+        lineHeight: '150%',
+        
+        letterSpacing: '0'
+        }}
+        className=" text-[#172747] text-[32px]  sm:text-[42px]"
+      > Explore Our Properties in Pune
+            </h2>
 </div>
                   {(activeCategory !== 'all' || activeLocation !== 'all' || featuredOnly) && (
                         <motion.div 
@@ -543,7 +557,7 @@ const filteredProperties = properties.filter(property => {
                           </button>
                         </motion.div>
                       )}
-                    
+                  
                       {loading ? (
                         <div className="flex justify-center items-center h-64">
                           <motion.div 

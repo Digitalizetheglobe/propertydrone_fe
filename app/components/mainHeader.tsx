@@ -107,7 +107,7 @@ const MainHeader: React.FC = () => {
         { name: 'Home', href: '/', alwaysShow: true },
         { name: 'About', href: '/about-us-real-estate-agency', alwaysShow: true },
         { name: 'Services', href: '/our-services-real-estate-services', alwaysShow: true },
-        { name: 'Properties', href: '/our-properties-in-pune', alwaysShow: true },
+        { name: 'Properties', href: '/luxe-properties', alwaysShow: true },
         { name: 'Developers', href: '/estate_developer', alwaysShow: true },
         { name: 'Blog', href: '/blog', alwaysShow: false },
         { name: 'Real Estate Basic', href: '/real_estate_basic', alwaysShow: false },

@@ -297,12 +297,14 @@ export default function PropertyDetail() {
                 placeholder="Search properties..."
                 value={searchTerm}
                 onChange={handleSearchChange}
+                suppressHydrationWarning
               />
               {searchTerm && (
                 <button 
-                  className="absolute inset-y-0 right-12 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                  className={`absolute inset-y-0 right-12 flex items-center pr-3 text-gray-500 hover:text-gray-700`}
                   onClick={clearSearch}
                   aria-label="Clear search"
+                  suppressHydrationWarning
                 >
                   <XIcon className="w-5 h-5" />
                 </button>
@@ -311,6 +313,7 @@ export default function PropertyDetail() {
                 className={`absolute inset-y-0 right-0 flex items-center pr-3 ${isListening ? 'text-red-500' : 'text-gray-500 hover:text-gray-700'}`}
                 onClick={toggleVoiceSearch}
                 aria-label={isListening ? "Stop listening" : "Start voice search"}
+                suppressHydrationWarning
               >
                 <MicIcon className="w-5 h-5" />
               </button>
@@ -320,6 +323,7 @@ export default function PropertyDetail() {
             <button
               className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50"
               onClick={() => setShowFilters(!showFilters)}
+              suppressHydrationWarning
             >
               <FilterIcon className="w-5 h-5 mr-2" />
               <span>Filters</span>
@@ -622,23 +626,24 @@ export default function PropertyDetail() {
     />
   </div>
   <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">Beds</label>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Beds - USE 0 IF NOT AVAILABLE </label>
     <input
       type="number"
-      value={editProperty.beds}
-      onChange={(e) => setEditProperty({ ...editProperty, beds: parseInt(e.target.value) })}
+      value={editProperty.beds || ''}
+      onChange={(e) => setEditProperty({ ...editProperty, beds: e.target.value ? parseInt(e.target.value) : '' })}
       className="w-full border border-gray-300 rounded px-3 py-2"
     />
   </div>
   <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">Baths</label>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Baths - USE 0 IF NOT AVAILABLE </label>
     <input
       type="number"
-      value={editProperty.baths}
-      onChange={(e) => setEditProperty({ ...editProperty, baths: parseInt(e.target.value) })}
+      value={editProperty.baths || ''}
+      onChange={(e) => setEditProperty({ ...editProperty, baths: e.target.value ? parseInt(e.target.value) : '' })}
       className="w-full border border-gray-300 rounded px-3 py-2"
     />
   </div>
+
   <div>
     <label className="block text-sm font-medium text-gray-700 mb-1">Topology</label>
     <input

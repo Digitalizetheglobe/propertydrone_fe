@@ -3,24 +3,22 @@ import Link from "next/link";
 import Image from "next/image";
 import AnimatedLetters from '@/app/components/AnimatedLetters';
 // import logo from "@/app/images/PropertyDrone-Logo.png"; 
+import luxeImage from "@/public/images/luxe1.png";
+import luxeImage1 from "@/public/images/luxe2.png";
 import d1 from "@/public/images/Frame 104.png";
 import d2 from "@/public/images/Frame 105.png";
 import d3 from "@/public/images/Frame 106.png";
 import d4 from "@/public/images/Frame 107.png";
-import d5 from "@/public/images/Frame 108.png";
-import d6 from "@/public/images/Frame 109.png";
-import d7 from "@/public/images/Frame 104.png";
-import d8 from "@/public/images/Frame 105.png";
-import d9 from "@/public/images/Frame 106.png";
-import d10 from "@/public/images/Frame 107.png";
-import d11 from "@/public/images/Frame 108.png";
-import d12 from "@/public/images/Frame 109.png";
-import d13 from "@/public/images/Frame 104.png";
-import d14 from "@/public/images/Frame 105.png";
-import d15 from "@/public/images/Frame 106.png";
-import d16 from "@/public/images/Frame 107.png";
-import d17 from "@/public/images/Frame 108.png";
-import d18 from "@/public/images/Frame 109.png";
+import d5 from "@/public/images/Frame 109.png";
+import d6 from "@/public/images/Frame 110.png";
+import d7 from "@/public/images/Frame 111.png";
+import d8 from "@/public/images/Frame 112.png";
+import d9 from "@/public/images/Frame 113.png";
+import d10 from "@/public/images/Frame 114.png";
+import d11 from "@/public/images/Frame 115.png";
+import d12 from "@/public/images/Frame 116.png";
+import d13 from "@/public/images/Frame 117.png";
+import d14 from "@/public/images/Frame 104.png";
 import b1 from "@/public/images/service.png";
 import b2 from "@/public/images/buliding.png";
 import b3 from "@/public/images/service2.png";
@@ -426,16 +424,19 @@ const AnimatedStarButton = () => {
           </span>
 
           {/* LUXE text */}
-          <span 
-            className="tracking-[2px] ml-1.5 bg-clip-text text-xs text-transparent group-hover:scale-105 transition transform-gpu font-bold"
-            style={{
-              backgroundImage: 'linear-gradient(to bottom, #FFD700, #DAA520)',
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text'
-            }}
-          >
-            LUXE
-          </span>
+        <span 
+  className="tracking-[2px] ml-1.5 bg-clip-text text-xs text-transparent group-hover:scale-105 transition transform-gpu"
+  style={{
+    backgroundImage: 'linear-gradient(to bottom, #FFD700, #DAA520)',
+    WebkitBackgroundClip: 'text',
+    backgroundClip: 'text',
+    fontWeight: '400',
+    textShadow: '0 0 0.4px #FFD700, 0 0 0.4px #DAA520', // simulate bold
+  }}
+>
+  LUXE
+</span>
+
         </span>
       </button>
     </div>
@@ -582,10 +583,7 @@ const locationCounts = useMemo<LocationData[]>(() => {
   { img: d11, link: 'Solitaire' },
   { img: d13, link: 'anp-corp' },
   { img: d14, link: 'majestique-developer' },
-  { img: d15, link: 'krunal-groups' },
-  { img: d16, link: 'kasturi' },
-  { img: d18, link: 'skyi-developers' },
-  { img: d17, link: 'Solitaire' },
+ 
  
 ];
 
@@ -1240,19 +1238,15 @@ const PropertyCard1 = ({
 <div className="relative h-screen bg-gray-800">
   {/* Background Image with Overlay */}
   <div className="absolute inset-0 z-0">
-  <video
-    autoPlay
-    muted
-    loop
-    playsInline
-    className="w-full h-full object-cover"
-  >
-    <source src="/mainvideo.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-  <div className="absolute inset-0 bg-black opacity-50"></div>
-
-</div>
+    <Image 
+      src="/images/7578550-uhd_3840_2160_30fps 1.png"
+      alt="Luxury Property Background" 
+      fill
+      style={{ objectFit: "cover" }}
+      priority
+    />
+    <div className="absolute inset-0 bg-black opacity-50"></div>
+  </div>
 
 
   {/* Navigation Bar */}
@@ -1417,6 +1411,7 @@ onMouseLeave={() => setIsPaused(false)}
           onChange={handleFilterChange}
           placeholder="Search properties..."
           className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
+          suppressHydrationWarning
         />
         <div className="absolute left-3 top-2.5 text-white">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1433,6 +1428,7 @@ onMouseLeave={() => setIsPaused(false)}
         value={filters.location || ''}
         onChange={handleFilterChange}
         className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
+        suppressHydrationWarning
       >
         <option value="" className="text-white">All Locations</option>
         {Array.from(new Set(properties.map(p => p.location))).map(location => (
@@ -1450,6 +1446,7 @@ onMouseLeave={() => setIsPaused(false)}
         onChange={handleFilterChange}
         placeholder="Min Price"
         className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
+        suppressHydrationWarning
       />
     </div>
 
@@ -1462,6 +1459,7 @@ onMouseLeave={() => setIsPaused(false)}
         onChange={handleFilterChange}
         placeholder="Max Price"
         className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
+        suppressHydrationWarning
       />
     </div>
 
@@ -1469,7 +1467,8 @@ onMouseLeave={() => setIsPaused(false)}
     <div className="w-full md:w-auto">
       <button
         onClick={resetFilters}
-        className="w-full px-4 py-2 bg-white border border-[#172747] text-[#172747] rounded-[4px] hover:bg-[#172747] hover:text-white transition-colors cursor-pointer duration-300"
+        className="w-full px-4 py-2 bg-[#172747] border border-white text-white rounded-[4px] hover:bg-[#4b6096] transition-colors"
+        suppressHydrationWarning
       >
         Reset Filters
       </button>
@@ -1478,7 +1477,15 @@ onMouseLeave={() => setIsPaused(false)}
   </div>
 </div>
 
-<div className=" mx-auto px-6 md:px-20 py-8 bg-[#172747]">
+<div
+  className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed"
+  style={{ 
+    backgroundImage: `url(${luxeImage.src})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  }}
+>
   
  
 
@@ -1512,7 +1519,12 @@ onMouseLeave={() => setIsPaused(false)}
     />
 
     <AnimatedLetters
-      text="Discover our exclusive collection of luxury properties in Pune."
+      text="Discover our exclusive collection of luxury "
+      as="h3"
+       className="text-white font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+      />
+    <AnimatedLetters
+      text="properties in Pune."
       as="h3"
        className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
       />
@@ -1565,53 +1577,24 @@ onMouseLeave={() => setIsPaused(false)}
         />
 
         <AnimatedLetters
-          text="Explore top-performing properties with high ROI and verified builder credibility."
+          text="Explore top-performing properties with high "
+          as="h3"
+          className="text-[#172747] font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+        />
+        <AnimatedLetters
+          text="ROI and verified builder credibility."
           as="h3"
           className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
         />
         
-        {/* Slider Container */}
-        <div className="relative">
-          {/* Navigation Buttons */}
-          <button 
-            onClick={() => {
-              const container = document.getElementById('property-slider');
-              if (container) {
-                container.scrollLeft -= container.offsetWidth;
-              }
-            }}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-[#172747] p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-          >
-            <ChevronLeft size={24} />
-          </button>
-          
-          <button 
-            onClick={() => {
-              const container = document.getElementById('property-slider');
-              if (container) {
-                container.scrollLeft += container.offsetWidth;
-              }
-            }}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-[#172747] p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-          >
-            <ChevronRight size={24} />
-          </button>
-
-          {/* Slider */}
-          <div 
-            id="property-slider"
-            className="flex overflow-x-auto gap-6 snap-x snap-mandatory scrollbar-hide"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {featuredProperties.map((property, index) => (
-              <div key={property.id} className="flex-none w-full md:w-1/2 lg:w-1/3 snap-start">
-                <PropertyCard
-                  property={property}
-                  delay={index * 200}
-                />
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredProperties.map((property, index) => (
+            <PropertyCard
+              key={property.id}
+              property={property}
+              delay={index * 200}
+            />
+          ))}
         </div>
       </div>
     </div>
@@ -2027,7 +2010,7 @@ onMouseLeave={() => setIsPaused(false)}
     {/* ------------ */}
     <section className="relative w-full py-16 md:py-24">
       {/* Background image */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 ">
         <Image 
           src= {main33}
           alt="Background" 
@@ -2107,18 +2090,27 @@ onMouseLeave={() => setIsPaused(false)}
     </section>
 
     {/* ------------------ */}
+          <div
+  className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed"
+  style={{ 
+    backgroundImage: `url(${luxeImage1.src})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  }}
+>
      <section className="max-w-6xl mx-auto px-4 py-12">
       <div className="mb-10 flex justify-between items-center">
         <div>
           <AnimatedLetters
             text="TESTIMONIAL"
             as="h2"
-            className="uppercase text-[#172747] text-[18px] tracking-[1px] leading-[100%] mb-2"
+            className="uppercase text-white text-[18px] tracking-[1px] leading-[100%] mb-2"
           />
           <AnimatedLetters
             text="Your trust is our greatest award"
             as="h3"
-            className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+            className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
           />
         </div>
       </div>
@@ -2136,6 +2128,7 @@ onMouseLeave={() => setIsPaused(false)}
             border: '1px solid #ddd',
             borderRadius: '8px',
             padding: '20px',
+            color: '#fff',
             width: '320px',
             boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
             fontFamily: 'Poppins, sans-serif',
@@ -2148,8 +2141,8 @@ onMouseLeave={() => setIsPaused(false)}
             </div>
 
             {/* Content */}
-            <p style={{ color: '#444', fontSize: '15px', lineHeight: '1.6' }}>{item.text}</p>
-            <p style={{ marginTop: '10px', color: '#999', fontSize: '13px' }}>{item.date}</p>
+            <p style={{ color: '#fff', fontSize: '15px', lineHeight: '1.6' }}>{item.text}</p>
+            <p style={{ marginTop: '10px', color: '#fff', fontSize: '13px' }}>{item.date}</p>
           </div>
         ))}
       </motion.div>
@@ -2163,14 +2156,14 @@ onMouseLeave={() => setIsPaused(false)}
         fontFamily: 'Poppins, sans-serif',
       }}>
          <div style={{ margin: '0 10px', fontSize: '16px' }}>
-          <strong>{String(currentPage).padStart(2, '0')}</strong>
-          <span style={{ color: '#999' }}> / {String(totalPages).padStart(2, '0')}</span>
+          <strong style={{ color: '#fff' }}>{String(currentPage).padStart(2, '0')}</strong>
+          <span style={{ color: '#fff' }}> / {String(totalPages).padStart(2, '0')}</span>
         </div> 
           {/* Horizontal Line */}
-        <div className="flex-grow h-px bg-[#172747]"></div>
+        <div className="flex-grow h-px bg-white"></div>
         <button onClick={goToPreviousPage} disabled={currentPage === 1} className="cursor-pointer"
           style={{
-            border: '1px solid #16213E',
+            border: '1px solid white',
             borderRadius: '50%',
             width: '36px',
             height: '36px',
@@ -2183,7 +2176,7 @@ onMouseLeave={() => setIsPaused(false)}
 
         <button onClick={goToNextPage} disabled={currentPage === totalPages} className="cursor-pointer"
           style={{
-            border: '1px solid #16213E',
+            border: '1px solid white',
             borderRadius: '50%',
             width: '36px',
             height: '36px',
@@ -2194,7 +2187,7 @@ onMouseLeave={() => setIsPaused(false)}
       </div>
     </div>
     </section>
-
+          </div>
     {/* ---- */}
 
     {/* ----------------- */}

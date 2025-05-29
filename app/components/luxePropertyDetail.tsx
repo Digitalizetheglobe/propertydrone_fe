@@ -10,7 +10,7 @@ import defaultImg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 import image from '@/public/images/bgimage2.png';
 import propertydetails from '@/public/images/bgimage1.png';
 import { ArrowRight } from 'lucide-react';
-
+import demoimage from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 
 interface PropertyImage {
   path: string;
@@ -145,7 +145,8 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
           display: none;  /* Chrome, Safari and Opera */
         }
       `}</style>
-      <div className="min-h-screen bg-amber-50 ">
+      <div className="min-h-screen bg-amber-50 " >
+    
         <section className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
           {/* Background Image - Using standard img tag for external URLs */}
           <div className="absolute inset-0 h-full w-full">
@@ -191,14 +192,20 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
           </div>
         </section>
         <main className="max-w-6xl mx-auto px-4 py-8">
-          <div className="bg-amber-50 py-6">
+        <div
+  className="py-6 bg-amber-50"
+ 
+>
             <Head>
               <title>{property.seoTitle || `${property.propertyName} - ${property.city}`}</title>
               <meta name="description" content={property.seoDescription || `Luxury property listing for ${property.propertyName}`} />
               <meta name="keywords" content={property.seoKeywords} />
             </Head>
             
-            <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
+           
+          </div>
+
+          <div className="max-w-6xl pb-6 mx-auto flex flex-col md:flex-row gap-6">
               {/* Left side */}
               <div className="md:w-1/2 self-start bg-white rounded-lg overflow-hidden shadow-md">
                 <div className="relative">
@@ -220,10 +227,13 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                         onClick={() => openModal(mainImage)}
                       />
                     ) : (
-                      <div className="w-full h-full bg-gray-300 flex items-center justify-center">
-                        <span className="text-gray-500">No image available</span>
-                      </div>
-                    )}
+                                        <Image
+                                          src={demoimage}
+                                          alt={property.propertyName}
+                                          className="object-cover w-full h-full cursor-pointer"
+                                          onClick={() => openModal(mainImage)}
+                                        />
+                                      )}
                     
                     {/* Navigation arrows */}
                     {property.multipleImages?.length > 1 && (
@@ -346,8 +356,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                 </button>
               </div>
             </div>
-          </div>
-           <div className="max-w-6xl mx-auto pb-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="max-w-6xl mx-auto py-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Left Column */}
       <div className="space-y-6">
         {/* Location Section */}
@@ -358,7 +367,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
               Location
             </h2>
             <button className="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-green-700 transition-colors">
-              <a href={property.googleMapUrl || "https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045"} target="_blank" rel="noopener noreferrer">
+              <a href={property?.googleMapUrl ? property.googleMapUrl : "https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045"} target="_blank" rel="noopener noreferrer">
                 📍 View on Map
               </a>
             </button>
@@ -367,7 +376,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
           <div className="space-y-2 text-gray-700">
             <div className="flex items-start">
               <MapPin className="mr-2 mt-1 text-gray-400" size={16} />
-              {property.location}, {property.city} || Pune
+              {property.location && property.city ? `${property.location}, ${property.city}` : property.location ? property.location : property.city ? property.city : 'Location details not available'}
             </div>
            
           </div>
@@ -450,22 +459,37 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
           <h3 className="font-medium text-gray-700">Walkthrough</h3>
           
           {/* Video Thumbnail */}
-          <div className="relative bg-gray-900 rounded-lg overflow-hidden">
-            <a href={property.youtubeUrl || "https://youtu.be/DrIKLgR6STs"} target="_blank" rel="noopener noreferrer">
-              <img 
-                src={`https://img.youtube.com/vi/${property.youtubeUrl?.split('v=')[1]?.split('?')[0] || 'DrIKLgR6STs'}/maxresdefault.jpg`}
-                alt="Property walkthrough video thumbnail"
-                className="w-full h-auto"
-              />
-              
-              {/* Play Button Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-white bg-opacity-90 rounded-full p-4 hover:bg-opacity-100 transition-all cursor-pointer">
-                  <div className="w-0 h-0 border-l-[20px] border-l-gray-800 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1"></div>
-                </div>
+          {(() => {
+            // Extract YouTube video ID from URL
+            const url = property?.youtubeUrl || "https://youtu.be/DrIKLgR6STs";
+            let youtubeVideoId = "";
+            try {
+              const match = url.match(
+                /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+              );
+              youtubeVideoId = match ? match[1] : "";
+            } catch {
+              youtubeVideoId = "";
+            }
+            return (
+              <div className="relative bg-gray-900 rounded-lg overflow-hidden">
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  <img 
+                    src={youtubeVideoId ? `https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg` : "https://img.youtube.com/vi/DrIKLgR6STs/maxresdefault.jpg"}
+                    alt="Property walkthrough video thumbnail"
+                    className="w-full h-auto"
+                  />
+                  
+                  {/* Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-white bg-opacity-90 rounded-full p-4 hover:bg-opacity-100 transition-all cursor-pointer">
+                      <div className="w-0 h-0 border-l-[20px] border-l-gray-800 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1"></div>
+                    </div>
+                  </div>
+                </a>
               </div>
-            </a>
-          </div>
+            );
+          })()}
         </div>
       </div>
     </div>

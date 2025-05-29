@@ -36,6 +36,7 @@ interface Property {
   baths?: string | number;
   googleMapUrl?: string;
   youtubeUrl?: string;
+  youtubeTitle?: string;
 }
 
 interface PropertyDetailProps {
@@ -117,6 +118,23 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
     parking: '2 Garage',
     basement: 'Finished',
   };
+
+  // Helper function to extract YouTube video ID
+  const getYouTubeVideoId = (url: string | undefined) => {
+    if (!url) return 'DrIKLgR6STs'; // Default ID
+
+    const urlObj = new URL(url);
+    if (urlObj.hostname === 'www.youtube.com' || urlObj.hostname === 'youtube.com') {
+      const videoId = urlObj.searchParams.get('v');
+      return videoId || 'DrIKLgR6STs';
+    } else if (urlObj.hostname === 'youtu.be') {
+      const videoId = urlObj.pathname.split('/').pop();
+      return videoId || 'DrIKLgR6STs';
+    }
+    return 'DrIKLgR6STs'; // Default ID for unrecognized formats
+  };
+
+  const youtubeVideoId = getYouTubeVideoId(property?.youtubeUrl);
 
   return (
     <>
@@ -291,7 +309,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
               Location
             </h2>
             <button className="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-green-700 transition-colors">
-              <a href={property.googleMapUrl || "https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045"} target="_blank" rel="noopener noreferrer">
+              <a href={property?.googleMapUrl ? property.googleMapUrl : "https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045"} target="_blank" rel="noopener noreferrer">
                 📍 View on Map
               </a>
             </button>
@@ -300,7 +318,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
           <div className="space-y-2 text-gray-700">
             <div className="flex items-start">
               <MapPin className="mr-2 mt-1 text-gray-400" size={16} />
-              {property.location}, {property.city} || Pune
+              {property.location && property.city ? `${property.location}, ${property.city}` : property.location ? property.location : property.city ? property.city : 'Location details not available'}
             </div>
            
           </div>
@@ -380,13 +398,13 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
         </h2>
         
         <div className="space-y-4">
-          <h3 className="font-medium text-gray-700">Walkthrough</h3>
+          <h3 className="font-medium text-gray-700">Walkthrough{property.youtubeTitle && `: ${property.youtubeTitle}`}</h3>
           
           {/* Video Thumbnail */}
           <div className="relative bg-gray-900 rounded-lg overflow-hidden">
-            <a href={property.youtubeUrl || "https://youtu.be/DrIKLgR6STs"} target="_blank" rel="noopener noreferrer">
+            <a href={property?.youtubeUrl ? property.youtubeUrl : "https://youtu.be/DrIKLgR6STs"} target="_blank" rel="noopener noreferrer">
               <img 
-                src={`https://img.youtube.com/vi/${property.youtubeUrl?.split('v=')[1]?.split('?')[0] || 'DrIKLgR6STs'}/maxresdefault.jpg`}
+                src={`https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`}
                 alt="Property walkthrough video thumbnail"
                 className="w-full h-auto"
               />

@@ -450,7 +450,7 @@ const AnimatedStarButton = () => {
   return (
   <div className="min-h-screen bg-gradient-to-br from-amber-100 to-blue-60">
       {/* Section title */}
-       <section className="relative min-h-screen">
+       <section className="relative min-h-[530px]">
       <div className="absolute inset-0 z-0">
   <video
     autoPlay
@@ -467,7 +467,7 @@ const AnimatedStarButton = () => {
 
         
         {/* Hero Content */}
-        <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
+        <div className="relative z-10 flex items-center justify-center pt-26 px-4">
           <div className="text-center max-w-3xl mx-auto text-white">
              <p className=" uppercase  tracking-wider  mb-4"
              
@@ -553,6 +553,7 @@ const AnimatedStarButton = () => {
                   whileTap={{ scale: 0.95 }}
                   onClick={resetFilters}
                   className="text-[#172747]text-sm font-medium hover:underline"
+                  suppressHydrationWarning
                 >
                   Clear All
                 </motion.button>
@@ -563,6 +564,7 @@ const AnimatedStarButton = () => {
                   type="text"
                   placeholder="Search properties"
                   className="w-full border border-gray-300 rounded-[4px] py-3 px-4 pl-12 focus:ring-2 focus:ring-[#172747] focus:border-transparent transition-all duration-200"
+                  suppressHydrationWarning
                 />
                 <svg className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -626,28 +628,19 @@ const AnimatedStarButton = () => {
           </div>
 
       
-              <div className="w-full lg:w-3/4 lg:pl-6 py-6">
+              <div className="w-full lg:w-3/4 lg:pl-6 pb-6">
               <div className="flex flex-col sm:flex-row pb-4 gap-4">
-  <button
-    className="bg-[#172747] cursor-pointer text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors"
-    onClick={() => setActiveCategory('primary')}
-  >
-    Primary Properties
-    <ArrowRight size={18} />
-  </button>
-  <button
-    className="bg-[#172747] cursor-pointer text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors"
-    onClick={() => {
-      console.log('Luxe button clicked');
-      setActiveTab('luxe');
-      setActiveCategory('all');
-      setActiveLocation('all');
-      setFeaturedOnly(false);
-    }}
-  >
-    Luxury Properties
-    <ArrowRight size={18} />
-  </button>
+     <h2
+        style={{
+        fontFamily: "Ivy Mode",
+        fontWeight: 100,
+        lineHeight: '150%',
+        letterSpacing: '0'
+        }}
+        className=" text-[#172747] text-[32px] sm:text-[42px]"
+      > Explore Luxury Properties
+            </h2>
+            
 </div>
                   {(activeCategory !== 'all' || activeLocation !== 'all' || featuredOnly) && (
                         <motion.div 
@@ -831,13 +824,13 @@ const AnimatedStarButton = () => {
                               {property.propertyName}
                             </h3>
                             
-                            <div className="flex flex-col sm:flex-row justify-between text-sm mb-5 gap-2">
-                              <div className="flex mb-2 items-center bg-gray-50 px-3 py-1.5 rounded-[4px]">
+                            <div className=" sm:flex-row justify-between text-sm mb-5 gap-2">
+                              <div className="flex mb-2 items-center bg-gray-50 px-1 py-1.5 rounded-[4px]">
                                 <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                 </svg>
-                                {String(property.topology).split(',').map((item: string, index: number) => (
-                                  <span key={index} className="font-medium text-gray-700 block">
+                                {String(property.topology).split("").map((item: string, index: number) => (
+                                  <span key={index} className="text-gray-700 block"  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>
                                     {item.trim()}
                                   </span>
                                 ))}
@@ -847,7 +840,17 @@ const AnimatedStarButton = () => {
                                 <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
                                 </svg>
-                                <span className="font-medium text-gray-700">{property.carpetArea} </span>
+                              <span
+                                className="text-gray-700"
+                                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+                              >
+                                {(() => {
+                                  const words = String(property.carpetArea).split(' ');
+                                  return words.length > 5
+                                    ? words.slice(0, 5).join(' ') + '...'
+                                    : words.join(' ');
+                                })()}
+                              </span>
                               </div>
                             </div>
                             
@@ -866,7 +869,7 @@ const AnimatedStarButton = () => {
                                 </div>
                               )}
                               
-                              <Link href={`/luxe-properties/${property.id}`} passHref className="w-full sm:w-auto">
+                              <Link href={`/our-properties-in-pune/${property.id}`} passHref className="w-full sm:w-auto">
                                 <motion.button
                                   whileHover={{ scale: 1.05 }}
                                   whileTap={{ scale: 0.95 }}
