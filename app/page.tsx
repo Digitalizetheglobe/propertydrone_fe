@@ -2469,9 +2469,9 @@ onMouseLeave={() => setIsPaused(false)}
      <div className="w-full py-16 px-4  md:px-8 bg-[#172747]">
       <div className="max-w-6xl mx-auto gap-4  flex-col md:flex-row flex md:flex">
         {/* Stats box*/}
-        <div className="flex flex-row gap-4 pl-2 w-full">
+        <div className="flex flex-col md:flex-row gap-4 pl-2 w-full">
           {/* Years in Market */}
-          <div className="bg-gray-50 w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
+          <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
             <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full transition-transform duration-300 group-hover:animate-bounce">
               <Zap className="w-6 h-6 text-indigo-500 group-hover:text-indigo-600 transition-colors duration-300" />
             </div>
@@ -2491,7 +2491,7 @@ onMouseLeave={() => setIsPaused(false)}
           </div>
 
           {/* Properties Sold */}
-          <div className="bg-gray-50 w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
+          <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
             <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
               <div className="w-6 h-6 flex items-center justify-center text-indigo-500 transition-transform duration-300 group-hover:animate-bounce">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -2518,7 +2518,7 @@ onMouseLeave={() => setIsPaused(false)}
           </div>
 
           {/* Industry Awards */}
-          <div className="bg-gray-50 w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
+          <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
             <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
               <Book className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
             </div>
@@ -2538,7 +2538,7 @@ onMouseLeave={() => setIsPaused(false)}
           </div>
 
           {/* Support */}
-          <div className="bg-gray-50 w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
+          <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
             <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
               <Globe className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
             </div>
@@ -2558,7 +2558,7 @@ onMouseLeave={() => setIsPaused(false)}
           </div>
 
           {/* Cities */}
-          <div className="bg-gray-50 w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
+          <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
             <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
               <Wallet className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
             </div>
