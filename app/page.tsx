@@ -2081,7 +2081,7 @@ onMouseLeave={() => setIsPaused(false)}
     </section>
   {/* ---------------------------------- */}
    <div
-  className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed h-[500px]"
+  className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed "
   style={{ 
     backgroundImage: `url(${luxeImage2.src})`,
     backgroundSize: 'cover',
@@ -2112,28 +2112,29 @@ onMouseLeave={() => setIsPaused(false)}
             </div>
                
           {/* Right side - Services grid */}
-          <div className="w-full lg:w-2/3">
-            
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                {services.map((service, index) => (
-               
-                  <div key={index} className="flex flex-col bg-[#172747] hover:border hover:border-[#172747] group shadow-sm items-center justify-center p-8 text-center hover:bg-white rounded-lg transition-all duration-300">
-                      <Link href="/nri-corner">
-                    <div className="flex items-center justify-center mb-2">
-                      <span className="w-20 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                        {service.icon}
-                      </span>
-                    </div>
-                    <h4 className="text-white text-[26px] group-hover:text-[#172747] font-medium text-sm leading-tight transition-colors duration-300">
-                      {service.title}
-                    </h4>
-                    </Link>
-                  </div>
-                  
-                ))}
-              </div>
-            
+         
+<div className="w-full lg:w-2/3">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {services.map((service, index) => (
+      <div
+        key={index}
+        className="flex flex-col bg-[#172747] hover:border hover:border-[#172747] group shadow-sm items-center justify-center p-6 sm:p-8 text-center hover:bg-white rounded-lg transition-all duration-300"
+      >
+        <Link href="/nri-corner">
+          <div className="flex items-center justify-center mb-2">
+            <span className="w-16 sm:w-20 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+              {service.icon}
+            </span>
           </div>
+          <h4 className="text-white text-[20px] sm:text-[26px] group-hover:text-[#172747] font-medium text-sm leading-tight transition-colors duration-300">
+            {service.title}
+          </h4>
+        </Link>
+      </div>
+    ))}
+  </div>
+</div>
+
         </div>
       </div>
     </div>

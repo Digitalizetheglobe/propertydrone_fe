@@ -121,9 +121,19 @@ export default function BlogHeroSection() {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 mb-4">
               <span className="text-3xl">💼</span>
-              <h2 className="text-4xl md:text-5xl font-serif text-gray-900">
-                What We Offer
-              </h2>
+                <h2
+                className="text-3xl md:text-4xl"
+                style={{
+                  fontFamily: "'Ivy Mode'",
+                  fontWeight: 200,
+                  fontSize: '38px',
+                  lineHeight: '140%',
+                  letterSpacing: '1px'
+                }}
+                >
+                <span className="md:hidden" style={{ fontSize: '38px' }}>What We Offer</span>
+                <span className="hidden md:inline" style={{ fontSize: '50px' }}>What We Offer</span>
+                </h2>
             </div>
             <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
           </div>
@@ -155,12 +165,19 @@ export default function BlogHeroSection() {
 
                 {/* Content */}
                 <div className="relative">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-blue-700 transition-colors duration-300">
-                    {offering.title}
+                  <h3 className="text-3xl md:text-4xl" 
+                    style={{
+                      fontFamily: "'Ivy Mode'",
+                      fontWeight: 200,
+                      fontSize: '38px',
+                      lineHeight: '140%',
+                      letterSpacing: '1px'
+                    }}>{offering.title}
                   </h3>
                   
-                  <p className="text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                    {offering.description}
+                  <p className="text-base font-normal leading-none"
+                  style={{ fontFamily: 'Lato', letterSpacing: '0.5px', lineHeight: '150%' }}>
+                 {offering.description}
                   </p>
                 </div>
 

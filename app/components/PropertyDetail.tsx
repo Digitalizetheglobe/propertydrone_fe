@@ -375,15 +375,17 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                 Unlock Content
               </button> */}
               {/* </Link> */}
-                
+                <Link href="/contact-us-propertydrone-realty">
             <button className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
-             <Link href="/contact-us-propertydrone-realty">
-              <Lock className="text-gray-600 cursor-pointer " size={24} />
-            </Link>
-               </button>
-
-            {/* <p className="text-gray-600 mb-4 font-medium">Content is locked</p> */}
+             
+              <Lock className="text-gray-600 mb-4 cursor-pointer " size={24} />
+              
             
+               </button>
+                <p className="text-gray-600  font-medium">Click to unlocked</p>
+            
+</Link>
+           
           </div>
         </div>
       )}
