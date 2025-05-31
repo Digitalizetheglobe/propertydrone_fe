@@ -108,7 +108,8 @@ const MainHeader: React.FC = () => {
         { name: 'About', href: '/about-us-real-estate-agency', alwaysShow: true },
         { name: 'Services', href: '/our-services-real-estate-services', alwaysShow: true },
         { name: 'Properties', href: '/luxe-properties', alwaysShow: true },
-        { name: 'Developers', href: '/estate_developer', alwaysShow: true },
+        { name: 'NRI Corner', href: '/nri-corner', alwaysShow: true },
+        { name: 'Developers', href: '/estate_developer', alwaysShow: false },
         { name: 'Blog', href: '/blog', alwaysShow: false },
         { name: 'Real Estate Basic', href: '/real_estate_basic', alwaysShow: false },
         { name: 'Career', href: '/career', alwaysShow: false }

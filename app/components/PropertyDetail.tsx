@@ -294,7 +294,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
               {/* Call to action button */}
               <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center">
                 <Phone className="w-5 h-5 mr-2" />
-                Contact Agent
+                Call Now 
               </button>
             </div>
           </div>

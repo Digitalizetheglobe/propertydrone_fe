@@ -591,7 +591,24 @@ const AnimatedStarButton = () => {
 
               <div className="mb-8">
                 <h3 className="font-semibold text-[#172747] uppercase text-xs tracking-wider mb-4">Location</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Mobile Dropdown */}
+                <div className="sm:hidden">
+                  <select
+                    value={activeLocation}
+                    onChange={(e) => setActiveLocation(e.target.value)}
+                    className="w-full py-2.5 px-4 border border-gray-200 rounded-[4px] text-[#172747] focus:outline-none focus:ring-2 focus:ring-[#172747] focus:border-[#172747] transition-all duration-200"
+                  >
+                    <option value="all">All Locations</option>
+                    {availableLocations.map((location, index) => (
+                      <option key={index} value={location}>
+                        {location}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                {/* Desktop Grid */}
+                <div className="hidden sm:grid grid-cols-2 gap-3">
                   <motion.button
                     whileHover={{ scale: 1.02, backgroundColor: "#f9fafb" }}
                     whileTap={{ scale: 0.98 }}

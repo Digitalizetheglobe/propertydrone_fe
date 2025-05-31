@@ -39,6 +39,7 @@ interface Property {
   baths?: string | number;
   googleMapUrl?: string;
   youtubeUrl?: string;
+  youtubeTitle?: string;
 }
 
 interface PropertyDetailProps {
@@ -133,6 +134,21 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
 
   // Process the image paths
   const propertyImages = property?.multipleImages?.map(img => `${baseUrl}${img.path}`) || [];
+  const getYouTubeVideoId = (url: string | undefined) => {
+    if (!url) return 'DrIKLgR6STs'; // Default ID
+
+    const urlObj = new URL(url);
+    if (urlObj.hostname === 'www.youtube.com' || urlObj.hostname === 'youtube.com') {
+      const videoId = urlObj.searchParams.get('v');
+      return videoId || 'DrIKLgR6STs';
+    } else if (urlObj.hostname === 'youtu.be') {
+      const videoId = urlObj.pathname.split('/').pop();
+      return videoId || 'DrIKLgR6STs';
+    }
+    return 'DrIKLgR6STs'; // Default ID for unrecognized formats
+  };
+
+  const youtubeVideoId = getYouTubeVideoId(property?.youtubeUrl);
 
   return (
     <>
@@ -352,7 +368,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
-                  Contact Agent
+                  Contact Now
                 </button>
               </div>
             </div>
@@ -456,40 +472,25 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
         </h2>
         
         <div className="space-y-4">
-          <h3 className="font-medium text-gray-700">Walkthrough</h3>
+          <h3 className="font-medium text-gray-700">Walkthrough{property.youtubeTitle && `: ${property.youtubeTitle}`}</h3>
           
           {/* Video Thumbnail */}
-          {(() => {
-            // Extract YouTube video ID from URL
-            const url = property?.youtubeUrl || "https://youtu.be/DrIKLgR6STs";
-            let youtubeVideoId = "";
-            try {
-              const match = url.match(
-                /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
-              );
-              youtubeVideoId = match ? match[1] : "";
-            } catch {
-              youtubeVideoId = "";
-            }
-            return (
-              <div className="relative bg-gray-900 rounded-lg overflow-hidden">
-                <a href={url} target="_blank" rel="noopener noreferrer">
-                  <img 
-                    src={youtubeVideoId ? `https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg` : "https://img.youtube.com/vi/DrIKLgR6STs/maxresdefault.jpg"}
-                    alt="Property walkthrough video thumbnail"
-                    className="w-full h-auto"
-                  />
-                  
-                  {/* Play Button Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="bg-white bg-opacity-90 rounded-full p-4 hover:bg-opacity-100 transition-all cursor-pointer">
-                      <div className="w-0 h-0 border-l-[20px] border-l-gray-800 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1"></div>
-                    </div>
-                  </div>
-                </a>
+          <div className="relative bg-gray-900 rounded-lg overflow-hidden">
+            <a href={property?.youtubeUrl ? property.youtubeUrl : "https://youtu.be/DrIKLgR6STs"} target="_blank" rel="noopener noreferrer">
+              <img 
+                src={`https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`}
+                alt="Property walkthrough video thumbnail"
+                className="w-full h-auto"
+              />
+              
+              {/* Play Button Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="bg-white bg-opacity-90 rounded-full p-4 hover:bg-opacity-100 transition-all cursor-pointer">
+                  <div className="w-0 h-0 border-l-[20px] border-l-gray-800 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1"></div>
+                </div>
               </div>
-            );
-          })()}
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { ArrowRight } from "lucide-react";
 import AOS from 'aos'; // Importing AOS library
 import 'aos/dist/aos.css';
-
+import Link from 'next/link';
 import propertydetails1 from "@/public/images/bgimage1.png"; // Adjust the path as necessary
 import service from "@/public/images/service.png"; 
 import service1 from "@/public/images/buliding.png";
@@ -112,13 +112,18 @@ export default function Home() {
               real estate experience effortless and rewarding.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link href="/luxe-properties">
               <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
                 Explore Properties
                 {/* <FiArrowRight size={18} /> */}
               </button>
+              </Link>
+              <Link href="/contact-us-propertydrone-realty">
               <button className="border border-gray-300 bg-white text-gray-800 px-6 py-3 hover:bg-gray-50 transition-colors">
                 Book Consultation
               </button>
+              </Link>
+             
             </div>
           </div>
         </div>

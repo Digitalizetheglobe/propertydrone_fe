@@ -131,6 +131,7 @@ const Mainfooter = () => {
                   <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
                   <li><Link href="/about-us-real-estate-agency" className="hover:text-white transition-colors">About Us</Link></li>
                   <li><Link href="/our-services-real-estate-services" className="hover:text-white transition-colors">Services</Link></li>
+                  <li><Link href="/nri-corner" className="hover:text-white transition-colors">NRI Corner</Link></li>
                   <li><Link href="/estate_developer" className="hover:text-white transition-colors">Developers</Link></li>
                   <li><Link href="/our-properties-in-pune" className="hover:text-white transition-colors">Developers</Link></li>
                   <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
