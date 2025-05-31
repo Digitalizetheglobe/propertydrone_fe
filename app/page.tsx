@@ -1707,38 +1707,35 @@ onMouseLeave={() => setIsPaused(false)}
       <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-8">
     <h2 className="text-2xl text-[#172747] font-bold mb-6">Popular Locations</h2>
     
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-     {locationCounts.map((locationData: { location: string; count: number; image: string }, index: number) => (
-        <Link
-          key={index}
-          href={`/our-properties-in-pune?location=${locationData.location}`}
-          className={`
-            ${index < 3 ? 'block' : 'hidden'}  // Show first 3 on all screens
-            lg:${'block'}                 // Show all up to the limit on lg
-            ${index >= 10 ? 'lg:hidden' : ''}  // Hide from 10 onwards on lg
-          `.trim()}
-        >
-          <div className="relative grid h-52 w-full cursor-pointer place-content-center overflow-hidden rounded-[4px] bg-[#172747] shadow-md transition-transform duration-300 hover:scale-105 group">
-            <div className="absolute right-6 top-6 p-1 z-50 rounded-full">
-              <Building2 className="w-8 h-8 text-[#EEF1F5] transition-colors duration-300" />
-            </div>
-            <span className="absolute top-[20px] left-1/2 -translate-x-1/2 bg-[#172747] pr-9 pt-2 text-xl font-semibold uppercase text-[#EEF1F5] opacity-0 tracking-[6px] transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:tracking-[3px]">
-              explore now
-            </span>
-            {/* Animated border */}
-            <div className="absolute inset-0 border-2 border-[#EEF1F5] opacity-0 rotate-[10deg] transition-all duration-500 ease-in-out group-hover:inset-[10px] group-hover:opacity-100 group-hover:rotate-0 rounded-[4px] pointer-events-none"></div>
-            {/* Overlay Text */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-[#EEF1F5]">
-              <h3 className="text-2xl font-semibold">{locationData.location}</h3>
-              <p className="text-xl">
-                {locationData.count} {locationData.count === 1 ? 'Property' : 'Properties'}
-              </p>
-            </div>
-          </div>
-        </Link>
-         ))}
-     
-    </div>
+   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+  {locationCounts.map((locationData: { location: string; count: number; image: string }, index: number) => (
+    <Link
+      key={index}
+      href={`/our-properties-in-pune?location=${locationData.location}`}
+      className={`
+      ${index < 3 ? 'block' : 'hidden'}           // Show only first 3 by default (mobile)
+      lg:${index < 10 ? 'block' : 'hidden'}                               // Show all on lg and above
+      `.trim()}
+    >
+      <div className="relative grid h-52 w-full cursor-pointer place-content-center overflow-hidden rounded-[4px] bg-[#172747] shadow-md transition-transform duration-300 hover:scale-105 group">
+      <div className="absolute right-6 top-6 p-1 z-50 rounded-full">
+        <Building2 className="w-8 h-8 text-[#EEF1F5] transition-colors duration-300" />
+      </div>
+      <span className="absolute top-[20px] left-1/2 -translate-x-1/2 bg-[#172747] pr-9 pt-2 text-xl font-semibold uppercase text-[#EEF1F5] opacity-0 tracking-[6px] transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:tracking-[3px]">
+        explore now
+      </span>
+      <div className="absolute inset-0 border-2 border-[#EEF1F5] opacity-0 rotate-[10deg] transition-all duration-500 ease-in-out group-hover:inset-[10px] group-hover:opacity-100 group-hover:rotate-0 rounded-[4px] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-[#EEF1F5]">
+        <h3 className="text-2xl font-semibold">{locationData.location}</h3>
+        <p className="text-xl">
+        {locationData.count} {locationData.count === 1 ? 'Property' : 'Properties'}
+        </p>
+      </div>
+      </div>
+    </Link>
+  ))}
+</div>
+
   </div>
 
       
