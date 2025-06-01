@@ -223,85 +223,88 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
 
           <div className="max-w-6xl pb-6 mx-auto flex flex-col md:flex-row gap-6">
               {/* Left side */}
-              <div className="md:w-1/2 self-start bg-white rounded-lg overflow-hidden shadow-md">
-                <div className="relative">
-                  {/* Luxe badge */}
-                  <div className="absolute top-4 left-4 z-10">
-                    <div className=" rounded-full  flex items-center">
-                      <AnimatedStarButton />
-                     
-                    </div>
-                  </div>
+            
+<div className="md:w-1/2 w-full self-start bg-white rounded-lg overflow-hidden shadow-md">
+  <div className="relative">
+    {/* Luxe badge */}
+    <div className="absolute top-2 left-2 md:top-4 md:left-4 z-10">
+      <div className="rounded-full flex items-center">
+        <AnimatedStarButton />
+      </div>
+    </div>
 
-                  {/* Main property image */}
-                  <div className="relative h-64 md:h-96 bg-gray-200">
-                    {property.multipleImages?.length > 0 ? (
-                      <img
-                        src={`${baseUrl}${property.multipleImages[mainImage].path}`}
-                        alt={property.propertyName}
-                        className="object-cover w-full h-full cursor-pointer"
-                        onClick={() => openModal(mainImage)}
-                      />
-                    ) : (
-                                        <Image
-                                          src={demoimage}
-                                          alt={property.propertyName}
-                                          className="object-cover w-full h-full cursor-pointer"
-                                          onClick={() => openModal(mainImage)}
-                                        />
-                                      )}
-                    
-                    {/* Navigation arrows */}
-                    {property.multipleImages?.length > 1 && (
-                      <>
-                        <button 
-                          onClick={handlePrevImage}
-                          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-100 transition-colors"
-                        >
-                          <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                          </svg>
-                        </button>
+    {/* Main property image */}
+    <div className="relative h-56 xs:h-64 sm:h-72 md:h-96 bg-gray-200">
+      {property.multipleImages?.length > 0 ? (
+        <img
+          src={`${baseUrl}${property.multipleImages[mainImage].path}`}
+          alt={property.propertyName}
+          className="object-cover w-full h-full cursor-pointer"
+          onClick={() => openModal(mainImage)}
+        />
+      ) : (
+        <Image
+          src={demoimage}
+          alt={property.propertyName}
+          className="object-cover w-full h-full cursor-pointer"
+          onClick={() => openModal(mainImage)}
+        />
+      )}
 
-                        <button 
-                          onClick={handleNextImage}
-                          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-100 transition-colors"
-                        >
-                          <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </button>
-                      </>
-                    )}
-                  </div>
-                  
-                  {/* Thumbnail gallery */}
-                  <div className="flex space-x-2 overflow-x-auto py-2 px-2 scrollbar-hide">
-                    {property.multipleImages?.map((img, index) => (
-                      <div
-                        key={index}
-                        className={`relative h-20 w-32 flex-shrink-0 cursor-pointer rounded-md overflow-hidden
-                          ${mainImage === index ? 'ring-4 ring-[#172747]' : 'opacity-80'}`}
-                        onClick={() => {
-                          setMainImage(index);
-                          openModal(index);
-                        }}
-                      >
-                        <img   
-                          src={`${baseUrl}${img.path}`}
-                          alt={`Thumbnail ${index + 1}`}
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {/* Watermark overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
-                    <div className="text-4xl font-bold text-gray-700">{property.propertyName}</div>
-                  </div>
-                </div>
-              </div>
+      {/* Navigation arrows */}
+      {property.multipleImages?.length > 1 && (
+        <>
+          <button
+            onClick={handlePrevImage}
+            className="absolute left-1 md:left-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center shadow-md hover:bg-gray-100 transition-colors"
+            aria-label="Previous image"
+          >
+            <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          <button
+            onClick={handleNextImage}
+            className="absolute right-1 md:right-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center shadow-md hover:bg-gray-100 transition-colors"
+            aria-label="Next image"
+          >
+            <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </>
+      )}
+    </div>
+
+    {/* Thumbnail gallery */}
+    <div className="flex space-x-1 md:space-x-2 overflow-x-auto py-2 px-1 md:px-2 scrollbar-hide">
+      {property.multipleImages?.map((img, index) => (
+        <div
+          key={index}
+          className={`relative h-14 w-24 md:h-20 md:w-32 flex-shrink-0 cursor-pointer rounded-md overflow-hidden
+            ${mainImage === index ? 'ring-2 md:ring-4 ring-[#172747]' : 'opacity-80'}`}
+          onClick={() => {
+            setMainImage(index);
+            openModal(index);
+          }}
+        >
+          <img
+            src={`${baseUrl}${img.path}`}
+            alt={`Thumbnail ${index + 1}`}
+            className="object-cover w-full h-full"
+          />
+        </div>
+      ))}
+    </div>
+
+    {/* Watermark overlay - hide on mobile */}
+    <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-10 pointer-events-none">
+      <div className="text-4xl font-bold text-gray-700">{property.propertyName}</div>
+    </div>
+  </div>
+</div>
+
 
               {/* Right side - Property details */}
               <div className="md:w-1/2 bg-white rounded-lg p-6 shadow-md">

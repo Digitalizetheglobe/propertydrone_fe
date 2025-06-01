@@ -450,47 +450,50 @@ const AnimatedStarButton = () => {
   return (
   <div className="min-h-screen bg-gradient-to-br from-amber-100 to-blue-60">
       {/* Section title */}
-       <section className="relative min-h-[530px]">
-      <div className="absolute inset-0 z-0">
-  <video
-    autoPlay
-    muted
-    loop
-    playsInline
-    className="w-full h-full object-cover"
-  >
-    <source src="/video4.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-  <div className="absolute inset-0 bg-black opacity-50"></div>
-</div>
+      <section className="relative min-h-[530px] sm:min-h-[530px] min-[320px]:min-h-[660px]">
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/video4.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+        </div>
 
-        
         {/* Hero Content */}
         <div className="relative z-10 flex items-center justify-center pt-26 px-4">
           <div className="text-center max-w-3xl mx-auto text-white">
-             <p className=" uppercase  tracking-wider  mb-4"
-             
-                      style={{ fontSize:'18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>OUR PROPERTIES</p>
-            
-            <h2
-        style={{
-        fontFamily: "Ivy Mode",
-        fontWeight: 100,
-        lineHeight: '150%',
-        letterSpacing: '0'
-        }}
-        className="mb-4 text-white text-[42px] sm:text-[56px]"
-      > Explore Verified Properties Across Prime Locations
-            </h2>
-            
-             <p className=" tracking-wider text-gray-300 mb-4"
-             
-                      style={{ fontSize:'20px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
-            
-            > Browse a curated selection of residential and commercial spaces with detailed insights, drone views, and zero-brokerage listings—making your search smarter and faster.
+            <p
+              className=" uppercase  tracking-wider  mb-4"
+              style={{ fontSize: '18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+            >
+              OUR PROPERTIES
             </p>
-            
+
+            <h2
+              style={{
+                fontFamily: "Ivy Mode",
+                fontWeight: 100,
+                lineHeight: '150%',
+                letterSpacing: '0'
+              }}
+              className="mb-4 text-white text-[42px] sm:text-[56px]"
+            >
+              Explore Verified Properties Across Prime Locations
+            </h2>
+
+            <p
+              className=" tracking-wider text-gray-300 mb-4"
+              style={{ fontSize: '20px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+            >
+              Browse a curated selection of residential and commercial spaces with detailed insights, drone views, and zero-brokerage listings—making your search smarter and faster.
+            </p>
+
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <button className="bg-[#172747] text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
@@ -886,7 +889,7 @@ const AnimatedStarButton = () => {
                                 </div>
                               )}
                               
-                              <Link href={`/our-properties-in-pune/${property.id}`} passHref className="w-full sm:w-auto">
+                              <Link href={`/luxe-properties/${property.id}`} passHref className="w-full sm:w-auto">
                                 <motion.button
                                   whileHover={{ scale: 1.05 }}
                                   whileTap={{ scale: 0.95 }}

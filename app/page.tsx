@@ -493,6 +493,42 @@ const AnimatedStarButton = () => {
     </div>
   );
 };
+
+// Add CookieBanner component before the Home component
+const CookieBanner = ({ onAccept, onReject }: { onAccept: () => void; onReject: () => void }) => {
+  return (
+    <div className="fixed bottom-0 left-0 right-0 bg-[#172747] text-white px-4 py-6 shadow-lg z-50">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex-1">
+          <p className="text-sm md:text-base"  style={{
+              fontSize: '16px',
+              fontFamily: 'Lato, sans-serif',
+              letterSpacing: '0.5px',
+              lineHeight: '1.3',
+            }}>
+            We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. 
+            By clicking "Accept", you consent to our use of cookies.
+          </p>
+        </div>
+        <div className="flex gap-4">
+          <button
+            onClick={onAccept}
+            className="px-6 py-2 bg-white text-[#172747] rounded hover:bg-gray-100 transition-colors"
+          >
+            Accept
+          </button>
+          <button
+            onClick={onReject}
+            className="px-6 py-2 border border-white text-white rounded hover:bg-white/10 transition-colors"
+          >
+            Reject
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function Home() {
   // Add displayCount state
   const [displayCount, setDisplayCount] = useState(3);
@@ -1370,8 +1406,37 @@ const PropertyCard1 = ({
     return videos.slice(startIndex, startIndex + 3);
   };
 
+  // Add cookie consent state
+  const [showCookieBanner, setShowCookieBanner] = useState(true);
+  
+  // Check if user has already made a choice
+  useEffect(() => {
+    const cookieChoice = localStorage.getItem('cookieChoice');
+    if (cookieChoice) {
+      setShowCookieBanner(false);
+    }
+  }, []);
+
+  // Handle cookie acceptance
+  const handleAcceptCookies = () => {
+    localStorage.setItem('cookieChoice', 'accepted');
+    setShowCookieBanner(false);
+  };
+
+  // Handle cookie rejection
+  const handleRejectCookies = () => {
+    localStorage.setItem('cookieChoice', 'rejected');
+    setShowCookieBanner(false);
+  };
+
   return (
     <div className="min-h-screen">
+      {showCookieBanner && (
+        <CookieBanner
+          onAccept={handleAcceptCookies}
+          onReject={handleRejectCookies}
+        />
+      )}
       
 <div className="relative h-screen bg-gray-800">
   {/* Background Image with Overlay */}
@@ -2580,13 +2645,8 @@ onMouseLeave={() => setIsPaused(false)}
         </div>
       </div>
     </div>
-
-    {/* -------------------- */}
-
-   
-
-    </div>
-  );
+  </div>
+);
 }
 function useMemo<T>(factory: () => T, dependencies: any[]): T {
   return reactUseMemo(factory, dependencies);

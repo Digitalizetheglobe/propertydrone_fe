@@ -311,8 +311,8 @@ const filteredProperties = properties.filter(property => {
   return (
   <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       {/* Section title */}
-       <section className="relative min-h-[530px]">
-      <div className="absolute inset-0 z-0">
+       <section className="relative min-h-[530px] sm:min-h-[530px] min-[320px]:min-h-[660px]">
+         <div className="absolute inset-0 z-0">
   <video
     autoPlay
     muted
