@@ -398,7 +398,7 @@ const AnimatedStarButton = () => {
         }
       `}</style>
 
-      <button className="group relative overflow-hidden rounded-full p-px" style={{ backgroundColor: '#172747' }}>
+      <button className="group relative overflow-hidden rounded-full p-px cursor-pointer" style={{ backgroundColor: '#172747' }}>
         {/* Main glow background */}
         <span className="absolute inset-0 rounded-full overflow-hidden">
           <span className="inset-0 absolute pointer-events-none select-none">
@@ -476,7 +476,7 @@ const AnimatedStarButton = () => {
 
           {/* LUXE text */}
         <span 
-  className="tracking-[2px] ml-1.5 bg-clip-text text-xs text-transparent group-hover:scale-105 transition transform-gpu"
+  className="tracking-[2px] ml-1.5 bg-clip-text text-xs text-transparent group-hover:scale-105 transition transform-gpu cursor-pointer"
   style={{
     backgroundImage: 'linear-gradient(to bottom, #FFD700, #DAA520)',
     WebkitBackgroundClip: 'text',
@@ -513,13 +513,13 @@ const CookieBanner = ({ onAccept, onReject }: { onAccept: () => void; onReject: 
         <div className="flex gap-4">
           <button
             onClick={onAccept}
-            className="px-6 py-2 bg-white text-[#172747] rounded hover:bg-gray-100 transition-colors"
+            className="px-6 py-2 bg-white text-[#172747] rounded hover:bg-gray-100 transition-colors cursor-pointer"
           >
             Accept
           </button>
           <button
             onClick={onReject}
-            className="px-6 py-2 border border-white text-white rounded hover:bg-white/10 transition-colors"
+            className="px-6 py-2 border border-white text-white rounded hover:bg-white/10 transition-colors cursor-pointer"
           >
             Reject
           </button>
@@ -1130,7 +1130,7 @@ const PropertyCard = ({
          
           <div className="flex space-x-2 items-center">
            
-            <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105">
+            <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105 cursor-pointer">
               View Details
             </button>
           </div>
@@ -1342,7 +1342,7 @@ const PropertyCard1 = ({
          
           <div className="flex space-x-2 items-center">
        
-            <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105">
+            <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105 cursor-pointer">
               View Details
             </button>
           </div>
@@ -1627,7 +1627,7 @@ onMouseLeave={() => setIsPaused(false)}
     <div>
       <button
         onClick={resetFilters}
-        className="w-full px-4 py-2 bg-[#172747] border border-white text-white rounded-[4px] hover:bg-[#4b6096] transition-colors"
+        className="w-full cursor-pointer px-4 py-2 bg-[#172747] border border-white text-white rounded-[4px] hover:bg-[#4b6096] transition-colors"
         suppressHydrationWarning
       >
         Reset Filters
@@ -1714,7 +1714,7 @@ onMouseLeave={() => setIsPaused(false)}
       <p className="text-gray-500">No properties found matching your criteria.</p>
       <button 
         onClick={resetFilters}
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-[#172747] transition-colors duration-300 cursor-pointer"
+        className="mt-4  bg-blue-500 text-white px-4 py-2 rounded hover:bg-[#172747] transition-colors duration-300 cursor-pointer"
       >
         Reset Filters
       </button>

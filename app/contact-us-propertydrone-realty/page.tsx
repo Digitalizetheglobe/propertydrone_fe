@@ -252,7 +252,25 @@ export default function ContactUs() {
             </div>
             <div>
               <h3 className="font-medium text-base md:text-lg">Phones</h3>
-              <p className="text-gray-600 text-sm md:text-base">+91 91456 88167 /</p>
+              <a href="tel:+919561477575" className="flex  hover:underline">
+                  
+                  <span
+                    className=" text-base leading-none"
+                    style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
+                  >
+                   +91 9561477575 
+                  </span> 
+                </a> 
+                 <a href="tel:+919730156575" className="flex  hover:underline">
+   
+    <span
+      className=" text-base leading-none"
+      style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
+    >
+    +91 9730156575
+    </span>
+  </a>
+
               <p className="text-gray-600 text-sm md:text-base">+91 91456 88167</p>
             </div>
           </div>

@@ -64,7 +64,7 @@ const Mainfooter = () => {
      +91 9561477575 
     </span>
   </a>
-  <a href="tel:+919750156575" className="flex  hover:underline">
+  <a href="tel:+919730156575" className="flex  hover:underline">
     <div className="flex justify-start items-start w-10">
       <Image 
         src={mob}
@@ -76,7 +76,7 @@ const Mainfooter = () => {
       className=" text-base leading-none"
       style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
     >
-    +91 9750156575
+    +91 9730156575
     </span>
   </a>
   <a href="mailto:info@propertydronealty.com" className="flex hover:underline">
