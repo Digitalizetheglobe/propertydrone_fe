@@ -23,6 +23,12 @@ interface FormData {
   propertyCategory: string;
   beds: string;   // Use string for input compatibility
   baths: string;
+  landParcel: string;      // New
+  carParking: string;      // New
+  reraNo: string;          // New
+  towerName: string;       // New
+  storeys: string;         // New (use string for input compatibility)
+  amenities: string[];
 }
 
 interface Errors {
@@ -48,7 +54,13 @@ export default function PropertyForm() {
     googleMapUrl: '',
     propertyCategory: '',
     beds: '',
-    baths: '',
+      baths: '',
+  landParcel: '',      // New
+  carParking: '',      // New
+  reraNo: '',          // New
+  towerName: '',       // New
+  storeys: '',         // New
+  amenities: [],  
   });
   const [errors, setErrors] = useState<Errors>({});
   const [images, setImages] = useState<File[]>([]);
@@ -355,7 +367,33 @@ const generateSlug = () => {
     placeholder="https://maps.google.com/example"
   />
 </div>
-
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Amenities
+  </label>
+  <select
+    name="amenities"
+    multiple
+    value={formData.amenities}
+    onChange={e => {
+      const options = Array.from(e.target.selectedOptions, option => option.value);
+      setFormData(prev => ({
+        ...prev,
+        amenities: options
+      }));
+    }}
+    className="w-full p-2 border border-gray-300 rounded-md"
+  >
+    <option value="Swimming Pool">Swimming Pool</option>
+    <option value="Gym">Gym</option>
+    <option value="Garden">Garden</option>
+    <option value="Security">Security</option>
+    <option value="Power Backup">Power Backup</option>
+    <option value="Lift">Lift</option>
+    <option value="Parking">Parking</option>
+  </select>
+  <p className="text-xs text-gray-500 mt-1">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</p>
+</div>
 {/* Beds */}
 <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -371,7 +409,72 @@ const generateSlug = () => {
     placeholder="e.g., 3"
   />
 </div>
-
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Storeys
+  </label>
+  <input
+    type="number"
+    name="storeys"
+    value={formData.storeys}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-md"
+    min={1}
+    placeholder="e.g., 3"
+  />
+</div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Tower Name
+  </label>
+  <input
+    type="text"
+    name="towerName"
+    value={formData.towerName}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-md"
+    placeholder="e.g., Tower A"
+  />
+</div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    RERA No
+  </label>
+  <input
+    type="text"
+    name="reraNo"
+    value={formData.reraNo}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-md"
+    placeholder="e.g., A123456789"
+  />
+</div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Car Parking
+  </label>
+  <input
+    type="text"
+    name="carParking"
+    value={formData.carParking}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-md"
+    placeholder="e.g., 2 Covered + 2 Open"
+  />
+</div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Land Parcel
+  </label>
+  <input
+    type="text"
+    name="landParcel"
+    value={formData.landParcel}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-md"
+    placeholder="e.g., 5000 sq ft"
+  />
+</div>
 {/* Baths */}
 <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
