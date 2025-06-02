@@ -201,7 +201,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                 <button className="bg-transparent text-white hover:text-red-700 rounded">
                   Properties
                 </button>
-              </Link> / <Link href={`/properties/${property.id}`}>
+              </Link> / <Link href={`/properties/${property.slug}`}>
                 <button className='text-[#FEEB8F]'>{property.propertyName}</button>
               </Link>
             </p>
@@ -380,7 +380,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   {/* WhatsApp Button */}
  <a
   href={`https://wa.me/919561477575?text=${encodeURIComponent(
-    `Check out this property: ${property.propertyName} in ${property.city} - https://propertydronerealty.com/properties/${property.id}`
+    `Check out this property: ${property.propertyName} in ${property.city} - https://propertydronerealty.com/properties/${property.slug}`
   )}`}
   target="_blank"
   rel="noopener noreferrer"
@@ -402,7 +402,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
         navigator.share({
           title: property.propertyName,
           text: `Check out this property: ${property.propertyName} in ${property.city}`,
-          url: `https://propertydronerealty.com/properties/${property.id}`,
+          url: `https://propertydronerealty.com/properties/${property.slug}`,
         });
       } else {
         alert('Share not supported on this browser.');
@@ -909,11 +909,11 @@ const AnimatedStarButton = () => {
   );
 };
 
-export async function getServerSideProps(context: { params: { id: string } }) {
-  const { id } = context.params;
+export async function getServerSideProps(context: { params: { slug: string } }) {
+  const { slug } = context.params;
   
   try {
-    const res = await fetch(`https://api.propertydronerealty.com/properties/${id}`);
+    const res = await fetch(`https://api.propertydronerealty.com/properties/${slug}`);
     if (!res.ok) {
       throw new Error('Failed to fetch property');
     }

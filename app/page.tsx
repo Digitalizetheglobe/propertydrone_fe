@@ -965,7 +965,7 @@ const PropertyCard = ({
   }, [delay]);
 
   return (
-    <Link href={`/our-properties-in-pune/${property.id}`} passHref>
+    <Link href={`/our-properties-in-pune/${property.slug}`} passHref>
       <div
         ref={cardRef}
         className={`bg-white rounded-md cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
@@ -1178,7 +1178,7 @@ const PropertyCard1 = ({
   }, [delay]);
 
   return (
-    <Link href={`/our-properties-in-pune/${property.id}`} passHref>
+    <Link href={`/luxe-properties/${property.slug}`} passHref>
       <div
         ref={cardRef}
         className={`bg-white rounded-[4px] cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
@@ -1325,7 +1325,7 @@ const PropertyCard1 = ({
   className="text-gray-700 px-2"
   style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
 >
- Topology  : {(() => {
+ Typology : {(() => {
     const words = String(property.topology).split(' ');
     return words.length > 5
       ? words.slice(0, 5).join(' ') + '...'
@@ -1778,8 +1778,8 @@ onMouseLeave={() => setIsPaused(false)}
       key={index}
       href={`/our-properties-in-pune?location=${locationData.location}`}
       className={`
-      ${index < 3 ? 'block' : 'hidden'}           // Show only first 3 by default (mobile)
-      lg:${index < 10 ? 'block' : 'hidden'}                               // Show all on lg and above
+      ${index < 5? 'block' : 'hidden'}           // Show only first 3 by default (mobile)
+      lg:${index < 5 ? 'block' : 'hidden'}                               // Show all on lg and above
       `.trim()}
     >
       <div className="relative grid h-52 w-full cursor-pointer place-content-center overflow-hidden rounded-[4px] bg-[#172747] shadow-md transition-transform duration-300 hover:scale-105 group">

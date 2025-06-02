@@ -2,9 +2,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from 'react';
 import { useParams } from 'next/navigation';
-import LuxePropertyDetail from "@/app/components/luxePropertyDetail";
-
-
+import PropertyDetail from '@/app/components/PropertyDetail';
 
 interface PropertyImage {
   path: string;
@@ -31,7 +29,6 @@ interface Property {
 }
 
 function PropertyPageContent() {
-  const [activeTab, setActiveTab] = useState('Overview');
   const params = useParams();
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
@@ -40,12 +37,12 @@ function PropertyPageContent() {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const id = params.id;
-        if (!id) {
-          throw new Error('Property ID is required');
+        const slug = params.slug;
+        if (!slug) {
+          throw new Error('Property slug is required');
         }
 
-        const response = await fetch(`https://api.propertydronerealty.com/properties/${id}`);
+        const response = await fetch(`https://api.propertydronerealty.com/properties/${slug}`);
         if (!response.ok) {
           throw new Error('Failed to fetch property details');
         }
@@ -86,7 +83,7 @@ function PropertyPageContent() {
     };
 
     fetchProperty();
-  }, [params.id]);
+  }, [params.slug]);
 
   if (loading) {
     return (
@@ -117,7 +114,7 @@ function PropertyPageContent() {
     );
   }
 
-  return <LuxePropertyDetail property={property} />;
+  return <PropertyDetail property={property} />;
 }
 
 export default function PropertyPage() {

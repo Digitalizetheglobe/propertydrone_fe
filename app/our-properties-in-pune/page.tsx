@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, Suspense } from 'react';
@@ -31,6 +32,7 @@ interface Property {
   multipleImages?: ImageItem[];
   createdAt: string;
   propertyType: string;
+  slug?: string; // Optional slug for SEO-friendly URLs
 }
 
 export default function LuxeProperties() {
@@ -158,7 +160,8 @@ function LuxePropertiesContent() {
             featured: Boolean(property.featured),
             multipleImages: property.multipleImages || [],
             createdAt: property.createdAt || new Date().toISOString(),
-            propertyType: property.propertyType || '', // Ensure propertyType is mapped
+            propertyType: property.propertyType || '',
+            slug: property.slug // Ensure propertyType is mapped
           };
         });
         
@@ -745,7 +748,7 @@ const filteredProperties = properties.filter(property => {
                                 </div>
                               )}
                               
-                              <Link href={`/our-properties-in-pune/${property.id}`} passHref className="w-full sm:w-auto">
+                              <Link href={`/our-properties-in-pune/${property.slug}`} passHref className="w-full sm:w-auto">
                                 <motion.button
                                   whileHover={{ scale: 1.05 }}
                                   whileTap={{ scale: 0.95 }}

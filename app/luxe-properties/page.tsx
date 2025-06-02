@@ -31,6 +31,7 @@ interface Property {
   multipleImages?: ImageItem[];
   createdAt: string;
   propertyType: string;
+  slug: string; // Optional slug for SEO-friendly URLs
 }
 
 export default function Properties() {
@@ -889,7 +890,7 @@ const AnimatedStarButton = () => {
                                 </div>
                               )}
                               
-                              <Link href={`/luxe-properties/${property.id}`} passHref className="w-full sm:w-auto">
+                              <Link href={`/luxe-properties/${property.slug}`} passHref className="w-full sm:w-auto">
                                 <motion.button
                                   whileHover={{ scale: 1.05 }}
                                   whileTap={{ scale: 0.95 }}

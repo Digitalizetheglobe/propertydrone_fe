@@ -26,18 +26,26 @@ export default function PropertyDetail() {
     ? `${baseUrl}${propertyImages[0]}`
     : null;
 
-  useEffect(() => {
+  // Fetch properties function
+  const fetchProperties = () => {
+    setLoading(true);
     fetch("https://api.propertydronerealty.com/properties")
       .then((res) => res.json())
       .then((data) => {
-        setProperties(data);
-        setFilteredProperties(data);
+        // Sort properties by ID in descending order
+        const sortedData = data.sort((a: any, b: any) => b.id - a.id);
+        setProperties(sortedData);
+        setFilteredProperties(sortedData);
         setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching properties:", error);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchProperties();
   }, []);
 
   // Set up speech recognition
@@ -134,26 +142,18 @@ export default function PropertyDetail() {
     setFilteredProperties(properties);
   };
 
-  const deleteProperty = async (id: number) => {
-    if (!window.confirm("Are you sure you want to delete this property?")) {
-      return;
-    }
-
+  const deleteProperty = async (id: string) => {
     try {
       const response = await fetch(`https://api.propertydronerealty.com/properties/${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
-
-      if (response.ok) {
-        const updatedProperties = properties.filter((property) => property.id !== id);
-        setProperties(updatedProperties);
-        setFilteredProperties(updatedProperties);
-      } else {
-        alert("Failed to delete the property");
+      if (!response.ok) {
+        throw new Error('Failed to delete property');
       }
+      // Refresh the properties list
+      fetchProperties();
     } catch (error) {
-      alert("Error deleting the property");
-      console.error("Delete error:", error);
+      console.error('Error deleting property:', error);
     }
   };
 
@@ -207,7 +207,7 @@ export default function PropertyDetail() {
   };
 
   const handleUpdateProperty = async () => {
-    if (!editProperty || !editProperty.id) return;
+    if (!editProperty || !editProperty.slug) return;
     
     try {
       // Create FormData to handle both property data and images
@@ -215,7 +215,7 @@ export default function PropertyDetail() {
       
       // Add property data directly without stringifying
       Object.keys(editProperty).forEach(key => {
-        if (key !== 'multipleImages' && key !== 'id') {
+        if (key !== 'multipleImages' && key !== 'slug') {
           formData.append(key, editProperty[key]);
         }
       });
@@ -240,10 +240,7 @@ export default function PropertyDetail() {
       
       if (response.ok) {
         // Refresh the properties list
-        const updatedPropertiesResponse = await fetch("https://api.propertydronerealty.com/properties");
-        const updatedProperties = await updatedPropertiesResponse.json();
-        setProperties(updatedProperties);
-        setFilteredProperties(updatedProperties);
+        fetchProperties();
         
         // Clean up preview URLs
         imagesPreviews.forEach(preview => URL.revokeObjectURL(preview));
@@ -462,8 +459,8 @@ export default function PropertyDetail() {
 
                 <div className="flex justify-end gap-4 mt-6">
                   <button
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
                     onClick={() => deleteProperty(property.id)}
+                    className="text-red-600 hover:text-red-800"
                   >
                     Delete
                   </button>

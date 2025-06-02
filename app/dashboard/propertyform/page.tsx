@@ -222,7 +222,7 @@ const generateSlug = () => {
           {/* Topology */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Topology
+              Typology
             </label>
             <input
               type="text"
@@ -367,7 +367,7 @@ const generateSlug = () => {
     placeholder="https://maps.google.com/example"
   />
 </div>
-<div>
+{/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Amenities
   </label>
@@ -393,14 +393,14 @@ const generateSlug = () => {
     <option value="Parking">Parking</option>
   </select>
   <p className="text-xs text-gray-500 mt-1">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</p>
-</div>
+</div> */}
 {/* Beds */}
 <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Beds
   </label>
   <input
-    type="number"
+    type="string"
     name="beds"
     value={formData.beds}
     onChange={handleChange}
@@ -409,7 +409,7 @@ const generateSlug = () => {
     placeholder="e.g., 3"
   />
 </div>
-<div>
+{/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Storeys
   </label>
@@ -422,8 +422,8 @@ const generateSlug = () => {
     min={1}
     placeholder="e.g., 3"
   />
-</div>
-<div>
+</div> */}
+{/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Tower Name
   </label>
@@ -435,8 +435,8 @@ const generateSlug = () => {
     className="w-full p-2 border border-gray-300 rounded-md"
     placeholder="e.g., Tower A"
   />
-</div>
-<div>
+</div> */}
+{/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     RERA No
   </label>
@@ -448,8 +448,8 @@ const generateSlug = () => {
     className="w-full p-2 border border-gray-300 rounded-md"
     placeholder="e.g., A123456789"
   />
-</div>
-<div>
+</div> */}
+{/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Car Parking
   </label>
@@ -461,8 +461,8 @@ const generateSlug = () => {
     className="w-full p-2 border border-gray-300 rounded-md"
     placeholder="e.g., 2 Covered + 2 Open"
   />
-</div>
-<div>
+</div> */}
+{/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Land Parcel
   </label>
@@ -474,14 +474,14 @@ const generateSlug = () => {
     className="w-full p-2 border border-gray-300 rounded-md"
     placeholder="e.g., 5000 sq ft"
   />
-</div>
+</div> */}
 {/* Baths */}
 <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Baths
   </label>
   <input
-    type="number"
+    type="string"
     name="baths"
     value={formData.baths}
     onChange={handleChange}
@@ -528,7 +528,7 @@ const generateSlug = () => {
                 SEO Title
               </label>
               <input
-                type="text"
+                type="string"
                 name="seoTitle"
                 value={formData.seoTitle}
                 onChange={handleChange}
@@ -541,7 +541,7 @@ const generateSlug = () => {
                 SEO Keywords
               </label>
               <input
-                type="text"
+                type="string"
                 name="seoKeywords"
                 value={formData.seoKeywords}
                 onChange={handleChange}
