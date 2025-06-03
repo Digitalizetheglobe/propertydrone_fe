@@ -36,7 +36,7 @@ export default function AddBlog() {
     blogImage: [] as File[],
     writer: "",
     category: "",
-    tags: [] as string[],
+    tags: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -77,28 +77,28 @@ export default function AddBlog() {
     FontFamily.configure({
       types: ['textStyle'],
     }),
-    Image.configure({
-      upload: async (file: File) => {
-        try {
-          const formData = new FormData();
-          formData.append('file', file);
-          formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!); 
+    // Image.configure({
+    //   upload: async (file: File) => {
+    //     try {
+    //       const formData = new FormData();
+    //       formData.append('file', file);
+    //       formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!); 
     
-          const cloudinaryResponse = await axios.post(
-            `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`, 
-            formData,
-            {
-              headers: { 'Content-Type': 'multipart/form-data' }
-            }
-          );
+    //       const cloudinaryResponse = await axios.post(
+    //         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`, 
+    //         formData,
+    //         {
+    //           headers: { 'Content-Type': 'multipart/form-data' }
+    //         }
+    //       );
     
-          return cloudinaryResponse.data.secure_url;
-        } catch (error) {
-          console.error('Image upload failed', error);
-          return URL.createObjectURL(file);
-        }
-      },
-    }),
+    //       return cloudinaryResponse.data.secure_url;
+    //     } catch (error) {
+    //       console.error('Image upload failed', error);
+    //       return URL.createObjectURL(file);
+    //     }
+    //   },
+    // }),
   ];
   
   const handleSubmit = async (e: React.FormEvent) => {
@@ -213,7 +213,7 @@ export default function AddBlog() {
           <div>
             <label className="block text-sm font-medium mb-1">Writer*</label>
             <input
-              type="text"
+              type="string"
               className="border p-2 w-full rounded"
               placeholder="Writer name"
               value={blog.writer}
@@ -224,25 +224,26 @@ export default function AddBlog() {
           <div>
             <label className="block text-sm font-medium mb-1">Category*</label>
             <input
-              type="text"
+              type="string"
               className="border p-2 w-full rounded"
               placeholder="Blog category"
               value={blog.category}
               onChange={(e) => setBlog({ ...blog, category: e.target.value })}
-              required
+             
             />
           </div>
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Tags</label>
-          <input
-            type="text"
-            className="border p-2 w-full rounded"
-            placeholder="Tags (comma separated)"
-            value={blog.tags.join(",")}
-            onChange={(e) => setBlog({ ...blog, tags: e.target.value.split(",").map(tag => tag.trim()).filter(tag => tag) })}
-          />
+         <label className="block text-sm font-medium mb-1">tags*</label>
+            <input
+              type="string"
+              className="border p-2 w-full rounded"
+              placeholder="Blog tags"
+              value={blog.tags}
+              onChange={(e) => setBlog({ ...blog, tags: e.target.value })}
+             
+            />
         </div>
 
         <div className="mb-4">
