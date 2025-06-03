@@ -113,11 +113,10 @@ export default function AddBlog() {
       formData.append('blogContent', blog.blogContent || "<p></p>");
       formData.append('writer', blog.writer);
       formData.append('category', blog.category);
+      formData.append('tags', blog.tags);
       
       // Add tags
-      if (blog.tags.length > 0) {
-        formData.append('tags', blog.tags.join(','));
-      }
+    
 
       // Add image if present
       if (blog.blogImage) {
@@ -142,7 +141,7 @@ export default function AddBlog() {
         blogImage: [],
         writer: "",
         category: "",
-        tags: [],
+        tags: "",
       });
     } catch (error) {
       console.error("Error adding blog:", error);
