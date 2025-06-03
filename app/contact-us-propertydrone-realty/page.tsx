@@ -271,7 +271,7 @@ export default function ContactUs() {
     </span>
   </a>
 
-              <p className="text-gray-600 text-sm md:text-base">+91 91456 88167</p>
+              {/* <p className="text-gray-600 text-sm md:text-base">+91 91456 88167</p> */}
             </div>
           </div>
           
