@@ -1438,101 +1438,93 @@ const PropertyCard1 = ({
         />
       )}
       
-<div className="relative h-screen bg-gray-800">
-  {/* Background Image with Overlay */}
+
+<div className="relative h-screen bg-gray-800 overflow-hidden">
+  {/* Background Video with Overlay */}
   <div className="absolute inset-0 z-0">
-    <Image 
-      src="/images/7578550-uhd_3840_2160_30fps 1.png"
-      alt="Luxury Property Background" 
-      fill
-      style={{ objectFit: "cover" }}
-      priority
-    />
+    <video
+      autoPlay
+      muted
+      loop
+      playsInline
+      className="w-full h-full object-cover"
+    >
+      <source src="/mainvideo.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
     <div className="absolute inset-0 bg-black opacity-50"></div>
-     <main className="relative z-10 container mx-auto px-4 pt-30 max-w-6xl ">
+  </div>
+
+  {/* Main Content */}
+  <main className="relative z-10 container mx-auto px-4 pt-30 max-w-6xl">
     <div className="flex flex-col md:flex-row gap-[20px] py-4">
-    <div>
-      <h1
-        style={{
-        fontFamily: "Ivy Mode",
-        fontWeight: 100,
-        lineHeight: '150%',
-        letterSpacing: '0'
-        }}
-        className="text-white text-[42px] sm:text-[80px]"
-      >
-        Find the best <br /> properties in Pune
-      </h1>
-
-      </div>  
-     
-
-
-      <div className="flex flex-col sm:mb-[20px]  md:flex-row md:items-end md:justify-between">
+      <div>
+        <h1
+          style={{
+            fontFamily: "Ivy Mode",
+            fontWeight: 100,
+            lineHeight: '150%',
+            letterSpacing: '0'
+          }}
+          className="text-white text-[42px] sm:text-[80px]"
+        >
+          Find the best <br /> properties in Pune
+        </h1>
+      </div>
+      <div className="flex flex-col sm:mb-[20px] md:flex-row md:items-end md:justify-between">
         <p className="text-white text-[18px] sm:text-[28px] mb-4 md:mb-0 leading-none"
-          style={{ fontWeight:'300',fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
+          style={{ fontWeight: '300', fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
           with Property <br /> Management <br />company  in Pune
         </p>
         <Link href="/contact-us-propertydrone-realty">
-        <button
-          className="flex  ml-0 md:ml-[20px] bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50 md:mt-auto cursor-pointer"
-        >
-          Get Consultation 
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-          </svg>
-        </button>
+          <button
+            className="flex ml-0 md:ml-[20px] bg-white text-[#172747] px-4 py-2 rounded hover:bg-blue-50 md:mt-auto cursor-pointer"
+          >
+            Get Consultation
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </button>
         </Link>
       </div>
-
-    
-      
     </div>
-    <div className="w-full overflow-hidden mt-6 " id="filter-section">
-
-<div 
-ref={scrollContainerRef}
-className="flex overflow-x-auto scrollbar-hide snap-x"
-style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-onMouseEnter={() => setIsPaused(true)}
-onMouseLeave={() => setIsPaused(false)}
->
-{images.map((imgObj, index) => (
-  <div
-    key={index}
-    className="flex-shrink-0 h-32 mx-2 first:ml-0 mt-10 sm:mt-0 transition-all duration-300 ease-in-out"
-    style={{
-      transform: 'scale(1)',
-      transformOrigin: 'center center',
-    }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.transform = 'scale(1.05)';
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.transform = 'scale(1)';
-    }}
-  >
-    <div className="shadow-md flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
-     
-        <Image
-          src={imgObj.img}
-          alt={`Card ${index + 1}`}
-          className="w-auto cursor-pointerh-22 object-cover transition-all duration-300 sm:h-30"
-        />
-    
+    <div className="w-full overflow-hidden mt-6" id="filter-section">
+      <div
+        ref={scrollContainerRef}
+        className="flex overflow-x-auto scrollbar-hide snap-x"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        {images.map((imgObj, index) => (
+          <div
+            key={index}
+            className="flex-shrink-0 h-32 mx-2 first:ml-0 mt-10 sm:mt-0 transition-all duration-300 ease-in-out"
+            style={{
+              transform: 'scale(1)',
+              transformOrigin: 'center center',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            <div className="shadow-md flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
+              <Image
+                src={imgObj.img}
+                alt={`Card ${index + 1}`}
+                className="w-auto cursor-pointerh-22 object-cover transition-all duration-300 sm:h-30"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-))}
-</div>
-
-</div>
   </main>
-  </div>
-
-
- 
- 
 </div>
+
  <style>
         {`
           @keyframes opacityEffect {
