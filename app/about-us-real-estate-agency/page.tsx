@@ -8,10 +8,10 @@ import Image from 'next/image';
 import { FiArrowRight } from 'react-icons/fi'; // Corrected import from 'react-icons/fi'
 import nikhil from '@/public/images/nikhilabout.png';
 import ayush from '@/public/images/Ayushabout.png';
-import emp from '@/public/images/Ayushabout.png';
+import emp from '@/public/images/pic (37).jpeg';
 import emp2 from '@/public/images/nikhilabout.png';
 import emp3 from '@/public/images/Ayushabout.png';
-import award1 from '@/public/images/award.png';
+import award1 from '@/public/images/pic (2).jpeg';
 import award2 from '@/public/images/award2.png';
 import award3 from '@/public/images/award1.png';
 import quote from '@/public/images/right-quote 1.png';
@@ -23,10 +23,23 @@ import e4 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Imag
 import e5 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/IMG_3251.jpg';
 import e6 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/IMG_3739.jpg';
 import e7 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/IMG_8119.jpg';
-// import e8 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/;
-// import e9 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/;
-// import e10 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/;
-// import e11 from '@/public/images//PDR All Images-20250508T072635Z-001/PDR All Images/;
+import e8 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (10).jpeg';
+import e9 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (1).jpeg';
+import e10 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (12).jpeg';
+import e11 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (3).jpeg';
+import e12 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (14).jpeg';
+import e13 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (25).jpeg';
+import e14 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (26).jpeg';
+import e15 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (17).jpeg';
+import e16 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (8).jpeg';
+import e17 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (9).jpeg';
+import e18 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (27).jpeg';
+import e19 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (28).jpeg';
+import e20 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (29).jpeg';
+import e21 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (30).jpeg';
+import e22 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (31).jpeg';
+import e23 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (32).jpeg';
+import e24 from '@/public/images/PDR All Images-20250508T072635Z-001/PDR All Images/pic (33).jpeg';
 import main3 from '@/public/images/Frame 145.png';
 import ico1 from '@/public/images/ico1.png';
 import ico2 from '@/public/images/ico2.png';
@@ -55,10 +68,25 @@ const images: ImageType[] = [
   { id: 6, src: e1, alt: 'Image 4', size: 'small' },
   { id: 7, src:e6, alt: 'Image 1', size: 'large' },
   { id: 8, src:e7, alt: 'Image 2', size: 'small' },
-  // { id: 9, src: e8, alt: 'Image 3', size: 'large' },
-  // { id: 10, src: e9, alt: 'Image 4', size: 'small' },
-  // { id: 11, src: e10, alt: 'Image 5', size: 'large' },
-  // { id: 12, src: e11, alt: 'Image 4', size: 'small' },
+  { id: 9, src: e8, alt: 'Image 3', size: 'large' },
+  { id: 10, src: e9, alt: 'Image 4', size: 'small' },
+  { id: 11, src: e10, alt: 'Image 5', size: 'large' },
+  { id: 12, src: e11, alt: 'Image 4', size: 'small' },
+  { id: 13, src: e12, alt: 'Image 5', size: 'large' },
+  { id: 14, src: e13, alt: 'Image 4', size: 'small' },
+  { id: 15, src: e14, alt: 'Image 5', size: 'large' },
+  { id: 16, src: e15, alt: 'Image 4', size: 'small' },
+  { id: 17, src: e16, alt: 'Image 5', size: 'large' },
+  { id: 18, src: e17, alt: 'Image 4', size: 'small' },
+  { id: 19, src: e18, alt: 'Image 5', size: 'large' },
+  { id: 20, src: e19, alt: 'Image 4', size: 'small' },
+  { id: 21, src: e20, alt: 'Image 5', size: 'large' },
+  { id: 22, src: e21, alt: 'Image 4', size: 'small' },
+  { id: 23, src: e22, alt: 'Image 5', size: 'large' },
+  { id: 24, src: e23, alt: 'Image 4', size: 'small' },
+  { id: 25, src: e24, alt: 'Image 5', size: 'large' },
+
+
 ];
 
 // Add useCounter hook
@@ -135,6 +163,25 @@ useEffect(() => {
       src: award3,
       alt: 'Award presentation with two men',
     },
+  ];
+  const emps = [
+    {
+      id: 1,
+      src: emp,
+      image: emp,
+      name: 'Mr. Vishal Pandey',
+      dec: 'Senior Manager'
+    }
+    // {
+    //   id: 2,
+    //   src: award2,
+    //   alt: 'Celebration award ceremony with four people',
+    // },
+    // {
+    //   id: 3,
+    //   src: award3,
+    //   alt: 'Award presentation with two men',
+    // },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -579,7 +626,7 @@ useEffect(() => {
       <div className="w-full bg-gray-100 py-4">
       <div className="container mx-auto px-4 max-w-6xl py-6">
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  {[emp, emp2, emp3].map((image, index) => (
+  {emps.map((image, index) => (
     <div
       key={index}
       className="bg-white rounded-[4px] shadow-md hover:shadow-xl transform transition duration-500 hover:scale-105 overflow-hidden"
@@ -588,14 +635,14 @@ useEffect(() => {
     >
       <div className=" overflow-hidden"> {/* Increased height */}
         <Image
-          src={image}
+          src= {image.src}
           alt={`Team Member ${index + 1}`}
           className="w-full h-full object-cover object-center"
         />
       </div>
       <div className="p-4">
-        <p className="font-medium text-base">Name</p>
-        <p className="text-gray-600 text-sm">—Designation</p>
+        <p className="font-medium text-base">{image.name}</p>
+        <p className="text-gray-600 text-sm">{image.dec}</p>
       </div>
     </div>
   ))}

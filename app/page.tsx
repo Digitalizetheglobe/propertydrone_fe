@@ -1668,14 +1668,16 @@ const PropertyCard1 = ({
     <AnimatedLetters
       text="LUXURY PROPERTIES"
       as="h2"
-        className="uppercase text-white text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+      className="uppercase text-white text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
     />
 
-       <h2  className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-                   > Discover our exclusive collection of luxury properties in Pune.</h2>
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <h2 className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
+      Discover our exclusive collection of luxury properties in Pune
+    </h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {featuredProperties
           .filter(property => ['luxury', 'lux', 'luxary', 'Luxury'].includes(property.propertyType?.toLowerCase() || ''))
+          .slice(0, 3)
           .map((property, index) => (
           <PropertyCard1 
             key={property.id} 
@@ -1761,7 +1763,7 @@ const PropertyCard1 = ({
       </div>
 
      
-      <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-8">
+      <div className="max-w-6xl mx-auto  py-8">
     <h2 className="text-2xl text-[#172747] font-bold mb-6">Popular Locations</h2>
     
    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
@@ -1810,7 +1812,7 @@ const PropertyCard1 = ({
  
  <div className="bg-[#EEF1F5]">
   <section className="max-w-6xl mx-auto px-4 py-12">
-    <div className="mb-8 animate-fade-in text-justify">
+    <div className="mb-2 animate-fade-in text-justify">
      
       <AnimatedLetters
       text="UPCOMING & LATEST LAUNCHES"
@@ -1819,9 +1821,11 @@ const PropertyCard1 = ({
       />
  
      
-        <h2  className="text-[#172747]  font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
- >Be the first to discover the hottest launches in Pune. </h2>
+       
     </div>
+    <h2  className="text-[#172747] mb-4 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+ > Be the first to discover the hottest launches in Pune.</h2>
+      
 
     {/* Latest Properties Slider */}
     <div>
@@ -2017,8 +2021,8 @@ const PropertyCard1 = ({
       )}
     </div>
   {/* -------------------- */}
-    <section className="bg-[#172747] text-white py-16 px-4 md:px-8 ">
-      <div className="container ">
+    <section className="bg-[#172747] text-white py-16   ">
+      <div className="container  max-w-6xl mx-auto ">
         <div className="mb-8 px-4 mx-auto max-w-6xl">
         
 
@@ -2229,7 +2233,7 @@ const PropertyCard1 = ({
           <div className="mt-4">
             <h2 
           className="text-[24px] leading-[100%] text-[#172747] tracking-normal"
-        style={{ fontFamily: 'Lato',letterSpacing: '1px' }} >Nikhil Mawale</h2>
+        style={{ fontFamily: 'Lato',letterSpacing: '1px' }} >Mr.Nikhil Mawale</h2>
             <h2 
             className="text-[20px] leading-[100%] text-[#172747] f mb-6 tracking-normal "
         style={{ fontFamily: 'Lato',letterSpacing: '1px' }}
@@ -2279,102 +2283,85 @@ const PropertyCard1 = ({
     </section>
 
     {/* ------------------ */}
-          <div
-  className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed"
-  style={{ 
+    <div
+  className="relative bg-fixed bg-center bg-cover bg-no-repeat"
+  style={{
     backgroundImage: `url(${luxeImage1.src})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat'
+    backgroundRepeat: 'no-repeat',
   }}
 >
-     <section className="max-w-6xl mx-auto px-4 py-12">
-      <div className="mb-10 flex justify-between items-center">
-        <div>
-          <AnimatedLetters
-            text="TESTIMONIAL"
-            as="h2"
-            className="uppercase text-white text-[18px] tracking-[1px] leading-[100%] mb-2"
-          />
-         
-           <h2  className="text-white  font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-                  >Your trust is our greatest award</h2>
-        </div>
-      </div>
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none"></div>
 
-       <div style={{ padding: '20px' }}>
-      {/* Cards */}
-      <motion.div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-        gap: '20px',
-      }}>
-        {visibleTestimonials.map((item, index) => (
-          <div key={index} style={{
+  {/* Content */}
+  <section className="relative z-10 max-w-6xl mx-auto px-4 py-12">
+    <div className="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+      <div>
+        <AnimatedLetters
+          text="TESTIMONIAL"
+          as="h2"
+          className="uppercase text-white text-[18px] tracking-[1px] leading-[100%] mb-2"
+        />
+        <h2 className="text-white font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
+          Your trust is our greatest award
+        </h2>
+      </div>
+    </div>
+
+    {/* Cards */}
+    <motion.div
+      className="flex flex-wrap justify-center gap-6"
+      style={{ padding: '20px' }}
+    >
+      {visibleTestimonials.map((item, index) => (
+        <div
+          key={index}
+          style={{
             border: '1px solid #ddd',
             borderRadius: '8px',
             padding: '20px',
             color: '#fff',
             width: '320px',
+            background: 'rgba(255,255,255,0.05)',
             boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
             fontFamily: 'Poppins, sans-serif',
-          }}>
-            <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>{item.name}</h3>
+          }}
+        >
+          <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>{item.name}</h3>
+          <div style={{ marginBottom: '15px', color: '#f9b31e' }}>{'★'.repeat(5)}</div>
+          <p style={{ color: '#fff', fontSize: '15px', lineHeight: '1.6' }}>{item.text}</p>
+          <p style={{ marginTop: '10px', color: '#fff', fontSize: '13px' }}>{item.date}</p>
+        </div>
+      ))}
+    </motion.div>
 
-            {/* Stars */}
-            <div style={{ marginBottom: '15px', color: '#f9b31e' }}>
-              {'★'.repeat(5)}
-            </div>
-
-            {/* Content */}
-            <p style={{ color: '#fff', fontSize: '15px', lineHeight: '1.6' }}>{item.text}</p>
-            <p style={{ marginTop: '10px', color: '#fff', fontSize: '13px' }}>{item.date}</p>
-          </div>
-        ))}
-      </motion.div>
-
-      {/* Pagination */}
-      <div style={{
-        marginTop: '30px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'Poppins, sans-serif',
-      }}>
-         <div style={{ margin: '0 10px', fontSize: '16px' }}>
-          <strong style={{ color: '#fff' }}>{String(currentPage).padStart(2, '0')}</strong>
-          <span style={{ color: '#fff' }}> / {String(totalPages).padStart(2, '0')}</span>
-        </div> 
-          {/* Horizontal Line */}
-        <div className="flex-grow h-px bg-white"></div>
-        <button onClick={goToPreviousPage} disabled={currentPage === 1} className="cursor-pointer"
-          style={{
-            border: '1px solid white',
-            borderRadius: '50%',
-            width: '36px',
-            height: '36px',
-            marginRight: '5px',
-            background: '#fff',
-            cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-          }}>‹</button>
-
-       
-
-        <button onClick={goToNextPage} disabled={currentPage === totalPages} className="cursor-pointer"
-          style={{
-            border: '1px solid white',
-            borderRadius: '50%',
-            width: '36px',
-            height: '36px',
-            marginLeft: '5px',
-            background: '#fff',
-            cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-          }}>›</button>
+    {/* Pagination */}
+    <div className="flex justify-center items-center gap-4 mt-10 font-[Poppins,sans-serif]">
+      <div className="text-white text-[16px]">
+        <strong>{String(currentPage).padStart(2, '0')}</strong>
+        <span> / {String(totalPages).padStart(2, '0')}</span>
       </div>
+      <div className="flex-grow h-px bg-white"></div>
+      <button
+        onClick={goToPreviousPage}
+        disabled={currentPage === 1}
+        className="w-9 h-9 flex items-center justify-center rounded-full border border-white bg-white text-black disabled:opacity-50"
+      >
+        ‹
+      </button>
+      <button
+        onClick={goToNextPage}
+        disabled={currentPage === totalPages}
+        className="w-9 h-9 flex items-center justify-center rounded-full border border-white bg-white text-black disabled:opacity-50"
+      >
+        ›
+      </button>
     </div>
-    </section>
-          </div>
+  </section>
+</div>
+
     {/* ---- */}
 
     {/* ----------------- */}
