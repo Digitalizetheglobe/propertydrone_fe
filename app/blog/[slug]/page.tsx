@@ -41,7 +41,7 @@ const BlogDetail = ({ params }: PageProps) => {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [blogId, setBlogId] = useState<string | null>(null);
+  const [slug, setSlug] = useState<string | null>(null);
   
   useEffect(() => {
     // Initialize AOS animation library
@@ -54,7 +54,7 @@ const BlogDetail = ({ params }: PageProps) => {
     const resolveParams = async () => {
       try {
         const resolvedParams = await params;
-        setBlogId(resolvedParams.id);
+        setSlug(resolvedParams.id);
       } catch (err) {
         console.error('Error resolving params:', err);
         setError('Invalid blog ID');
@@ -66,12 +66,12 @@ const BlogDetail = ({ params }: PageProps) => {
   }, [params]);
   
   useEffect(() => {
-    if (!blogId) return;
+    if (!slug) return;
     
     // Fetch the blog data when blogId is available
     const fetchBlog = async () => {
       try {
-        const response = await fetch(`https://api.propertydronerealty.com/blogs/${blogId}`);
+        const response = await fetch(`https://api.propertydronerealty.com/blogs/${slug}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch blog data');
@@ -88,7 +88,7 @@ const BlogDetail = ({ params }: PageProps) => {
     };
     
     fetchBlog();
-  }, [blogId]);
+  }, [slug]);
 
   // Function to format date
   const formatDate = (dateString: string) => {
@@ -132,32 +132,29 @@ const BlogDetail = ({ params }: PageProps) => {
       {/* Hero Section */}
       <section id="top" className="relative min-h-screen">
         <div className="absolute inset-0 z-0">
-          {blog.blogImage && blog.blogImage.length > 0 ? (
+         
             <Image 
-              src={`http://localhost:5000${blog.blogImage[0].path}`}
-              alt={blog.blogTitle} 
-              fill
-              style={{ objectFit: "cover" }}
-              priority
-            />
-          ) : (
-            <Image 
-              src="/images/bgimage1.png"
+              src="/images/bgimage2.png"
               alt="Default blog image" 
               fill
               style={{ objectFit: "cover" }}
+             
               priority
             />
-          )}
+          
           <div className="absolute inset-0 bg-black opacity-40"></div>
         </div>
         
         {/* Hero Content */}
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
+          
           <div className="text-center max-w-3xl mx-auto text-white">
             <p className="text-sm uppercase font-medium tracking-wider mb-4">
               {blog.category}
             </p>
+              <h2 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+                            Blogs
+                        </h2>
             
             <h2 className="text-4xl md:text-5xl font-serif leading-tight mb-6" data-aos="fade-up">
               {blog.blogTitle}
@@ -167,7 +164,7 @@ const BlogDetail = ({ params }: PageProps) => {
               {blog.blogDescription}
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+            {/* <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8" data-aos="fade-up" data-aos-delay="200">
               <p className="text-sm">Written by <span className="font-medium">{blog.writer}</span></p>
               <span className="hidden sm:inline">•</span>
               <p className="text-sm">{formatDate(blog.createdAt)}</p>
@@ -184,9 +181,9 @@ const BlogDetail = ({ params }: PageProps) => {
                 </>
               )}
             </div>
-            
+             */}
             {/* CTA Button */}
-            <div className="flex justify-center">
+            {/* <div className="flex justify-center">
               <a
                 href="#blog-content"
                 className="bg-white text-[#172747] hover:bg-[#172747] hover:text-white border border-white px-6 py-3 rounded-[4px] flex items-center justify-center gap-2 transition-colors"
@@ -194,7 +191,7 @@ const BlogDetail = ({ params }: PageProps) => {
                 Read Article
                 <ArrowRight size={16} />
               </a>
-            </div>
+            </div> */}
 
           </div>
         </div>
@@ -203,6 +200,23 @@ const BlogDetail = ({ params }: PageProps) => {
       {/* Blog Content Section */}
       <section id="blog-content" className="py-16 px-4">
         <div className="max-w-3xl mx-auto">
+          {blog.blogImage && blog.blogImage.length > 0 ? (
+            <Image 
+              src={`http://localhost:5000${blog.blogImage[0].path}`}
+              alt={blog.blogTitle} 
+              fill
+              style={{ objectFit: "cover" }}
+              priority
+            />
+          ) : (
+           ""
+          )}
+            <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+                         {blog.blogTitle} 
+                        </h1>
+                        
+                        <p className="text-black mb-8 ">
+                            {blog.blogDescription}</p>
           <div 
             className="prose prose-lg max-w-none"
             dangerouslySetInnerHTML={createMarkup(blog.blogContent)}
@@ -210,18 +224,7 @@ const BlogDetail = ({ params }: PageProps) => {
           />
           
           {/* Tags */}
-          {blog.tags && blog.tags.length > 0 && (
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <h4 className="text-lg font-medium mb-4">Tags:</h4>
-              <div className="flex flex-wrap gap-2">
-                {blog.tags.map((tag, index) => (
-                  <span key={index} className="bg-gray-100 px-4 py-2 rounded-full text-sm">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+        
           
           {/* Back to blogs button */}
           <div className="mt-12 flex justify-center">

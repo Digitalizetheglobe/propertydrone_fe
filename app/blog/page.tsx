@@ -178,13 +178,13 @@ const item = {
     </h3>
 
     {/* Tags */}
-    <div className="flex flex-wrap gap-2 mb-2">
+    {/* <div className="flex flex-wrap gap-2 mb-2">
       {post.tags?.map((tag, idx) => (
         <span key={idx} className="text-xs bg-gray-100 px-2 py-1 rounded">
           {tag}
         </span>
       ))}
-    </div>
+    </div> */}
 
     {/* Description */}
     <p className="text-sm text-gray-600 mb-2 line-clamp-2">
@@ -192,7 +192,7 @@ const item = {
     </p>
 
     {/* Read More Button */}
-    <Link href={`/blog/${post.id}`}>
+    <Link href={`/blog/${post.slug}`}>
       <div className="mt-auto">
         <button className="bg-[#172747] hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] text-white p-1 px-3 rounded-md flex items-center justify-center">
           <span>→</span>
