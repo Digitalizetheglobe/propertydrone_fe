@@ -29,19 +29,20 @@ interface Blog {
   updatedAt: string;
 }
 
-// Updated PageProps interface for Next.js 15 compatibility
 interface PageProps {
   params: Promise<{
-    id: string;
+    slug: string;
   }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 const BlogDetail = ({ params }: PageProps) => {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [slug, setSlug] = useState<string | null>(null);
+  
+  // Unwrap the params Promise using React.use()
+  const resolvedParams = React.use(params);
   
   useEffect(() => {
     // Initialize AOS animation library
@@ -49,35 +50,20 @@ const BlogDetail = ({ params }: PageProps) => {
       duration: 800,
       easing: 'ease-in-out',
     });
-    
-    // Resolve params Promise and extract ID
-    const resolveParams = async () => {
-      try {
-        const resolvedParams = await params;
-        setSlug(resolvedParams.id);
-      } catch (err) {
-        console.error('Error resolving params:', err);
-        setError('Invalid blog ID');
-        setLoading(false);
-      }
-    };
-    
-    resolveParams();
-  }, [params]);
+  }, []);
   
   useEffect(() => {
-    if (!slug) return;
-    
-    // Fetch the blog data when blogId is available
     const fetchBlog = async () => {
       try {
-        const response = await fetch(`https://api.propertydronerealty.com/blogs/${slug}`);
+        console.log('Fetching blog for slug:', resolvedParams.slug);
+        const response = await fetch(`https://api.propertydronerealty.com/blogs/${resolvedParams.slug}`);
         
         if (!response.ok) {
-          throw new Error('Failed to fetch blog data');
+          throw new Error(`Failed to fetch blog data: ${response.status}`);
         }
         
         const data = await response.json();
+        console.log('Received blog data:', data);
         setBlog(data);
       } catch (err) {
         console.error('Error fetching blog:', err);
@@ -87,8 +73,10 @@ const BlogDetail = ({ params }: PageProps) => {
       }
     };
     
-    fetchBlog();
-  }, [slug]);
+    if (resolvedParams.slug) {
+      fetchBlog();
+    }
+  }, [resolvedParams.slug]);
 
   // Function to format date
   const formatDate = (dateString: string) => {
