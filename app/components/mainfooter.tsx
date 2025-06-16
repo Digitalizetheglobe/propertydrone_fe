@@ -133,7 +133,7 @@ const Mainfooter = () => {
                   <li><Link href="/our-services-real-estate-services" className="hover:text-white transition-colors">Services</Link></li>
                   <li><Link href="/nri-corner" className="hover:text-white transition-colors">NRI Corner</Link></li>
                   <li><Link href="/estate_developer" className="hover:text-white transition-colors">Developers</Link></li>
-                  <li><Link href="/our-properties-in-pune" className="hover:text-white transition-colors">Developers</Link></li>
+                  <li><Link href="/our-properties-in-pune" className="hover:text-white transition-colors">Properties</Link></li>
                   <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
                   <li><Link href="/career" className="hover:text-white transition-colors">Career</Link></li>
                   <li><Link href="/contact-us-propertydrone-realty" className="hover:text-white transition-colors">Contact Us</Link></li>
@@ -197,13 +197,13 @@ const Mainfooter = () => {
         <div className="py-8 flex justify-center items-center">
           <div className="flex space-x-8">
             <Link 
-              href="https://www.facebook.com/propertydrone.exp247" 
+              href="https://www.linkedin.com/company/propertydronerealty/" 
               className="text-white hover:text-gray-300 transition-colors bg-[#172747] p-3 rounded-full hover:bg-[#1e335b] "
             >
               <FaLinkedin size={18} />
             </Link>
             <Link 
-              href="https://www.facebook.com/propertydrone.exp247" 
+              href="https://x.com/propertydronerealty" 
               className="text-white hover:text-gray-300 transition-colors bg-[#172747] p-3 rounded-full hover:bg-[#1e335b] "
             >
               <BsTwitterX size={18} />

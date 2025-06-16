@@ -128,9 +128,9 @@ const item = {
             </section>  
             <section className="py-6  bg-gray-100">
                 <div className="container mx-auto max-w-6xl px-4 py-8">
-                <h2 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+                {/* <h2 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
                     {totalArticles} Articles
-                </h2>
+                </h2> */}
                  <motion.div
       className="grid grid-cols-1 mx-4 md:grid-cols-2 lg:grid-cols-3 gap-6"
       variants={container}
@@ -144,6 +144,7 @@ const item = {
   className="flex flex-col bg-white rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
   variants={item}
 >
+   <Link href={`/blog/${post.slug}`}>
   {/* Blog Image Section */}
   <div className="relative h-48 w-full mb-2">
     {post.blogImage?.[0]?.url ? (
@@ -192,14 +193,15 @@ const item = {
     </p>
 
     {/* Read More Button */}
-    <Link href={`/blog/${post.slug}`}>
+   
       <div className="mt-auto">
-        <button className="bg-[#172747] hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] text-white p-1 px-3 rounded-md flex items-center justify-center">
+        <button className="bg-[#172747] hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] text-white p-1 px-3 cursor-pointer rounded-md flex items-center justify-center">
           <span>→</span>
         </button>
       </div>
-    </Link>
+   
   </div>
+   </Link>
 </motion.div>
 
       ))}

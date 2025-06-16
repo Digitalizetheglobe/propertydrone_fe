@@ -84,9 +84,9 @@ export default function ContactUs() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
-          email: formData.email,
-          mobile: formData.phone || formData.mobile,
-          message: formData.message
+          email: formData.email || "dummy@example.com", // Added dummy email if not provided
+          mobile: formData.phone,
+          message: formData.message || "Interested in property consultation" // Added dummy message if not provided
         }),
       });
 
@@ -94,6 +94,7 @@ export default function ContactUs() {
 
       console.log('Form submitted successfully');
       setSuccess(true);
+      window.location.href = "/thank-you";
       
       // Reset form after successful submission
       setFormData({
@@ -109,6 +110,7 @@ export default function ContactUs() {
       setError("Something went wrong. Please try again.");
     }
   };
+  
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggleAccordion = (index: number): void => {
@@ -164,7 +166,7 @@ export default function ContactUs() {
         {error && <p className="text-red-400 mb-4 text-center">{error}</p>}
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-6 hover:bg-indigo-50" >
+          <div className="mb-6 " >
         <p className="text-white text-[18px] md:mb-0 leading-none font-lato">Full Name</p>
         <input
           type="text"
@@ -176,7 +178,7 @@ export default function ContactUs() {
         />
           </div>
 
-          <div className="mb-6 hover:bg-indigo-50">
+          <div className="mb-6 ">
         <label htmlFor="email" className="block text-sm font-lato mb-1">Email Address</label>
         <input
           type="email"
@@ -189,18 +191,28 @@ export default function ContactUs() {
           </div>
 
           <div className="mb-6">
-        <label htmlFor="phone" className="block font-lato text-sm mb-1">Phone No</label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className="w-full bg-transparent border-b border-gray-400 py-2 focus:outline-none focus:border-white"
-        />
+            <label htmlFor="phone" className="block font-lato text-sm mb-1">Phone No</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+               onInput={e => {
+                const input = e.target as HTMLInputElement;
+                input.value = input.value.replace(/\D/g, '');
+              }}
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full bg-transparent border-b border-gray-400 py-2 focus:outline-none focus:border-white"
+              pattern="[0-9]{10}"
+              maxLength={10}
+              minLength={10}
+              required
+              title="Please enter a valid 10-digit phone number"
+              inputMode="numeric"
+            />
           </div>
 
-          <div className="mb-8 hover:bg-indigo-50">
+          <div className="mb-8">
         <label htmlFor="message" className="block font-lato text-sm mb-1">Message</label>
         <textarea
           id="message"
@@ -214,7 +226,7 @@ export default function ContactUs() {
 
           <button
         type="submit"
-        className="bg-white text-[#172747] px-4 py-2 rounded font-lato hover:bg-gray-100 transition"
+        className="bg-white text-[#172747] px-4 py-2 cursor-pointer rounded font-lato hover:bg-gray-100 transition"
           >
         Send a Message
           </button>
@@ -239,7 +251,7 @@ export default function ContactUs() {
             </div>
             <div>
               <h3 className="font-medium text-base md:text-lg">Write to Us</h3>
-              <p className="text-gray-600 text-sm md:text-base">contact@buildinfinity.in</p>
+              <a href="mailto:info@propertydronealty.com" className="flex hover:underline text-gray-600 text-sm md:text-base">info@buildinfinity.in</a>
             </div>
           </div>
           
@@ -285,8 +297,15 @@ export default function ContactUs() {
             </div>
             <div>
               <h3 className="font-medium text-base md:text-lg">Head office</h3>
-              <p className="text-gray-600 text-sm md:text-base">Office No. 501, Marvel Edge, Viman Nagar, Pune, Maharashtra</p>
-              <p className="text-gray-600 text-sm md:text-base">411014</p>
+               <a
+    href="https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-start hover:underline text-gray-600 text-sm md:text-bas"
+ > 9th Floor, Shivom Regency,
+      Baner, Pune,
+      Maharashtra, 411045</a>
+             
             </div>
           </div>
         </div>
@@ -370,9 +389,9 @@ export default function ContactUs() {
              </div>
            </div>
          </section>
-         <section className="relative w-full py-8 md:py-24">
+         <section className="relative w-full py-16 md:py-24">
       {/* Background image */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 ">
         <Image 
           src= {main33}
           alt="Background" 
@@ -384,32 +403,34 @@ export default function ContactUs() {
       
       <div className="relative z-10 container mx-auto max-w-4xl px-4">
         {/* Quote section */}
-        <div className="text-center mb-8 md:mb-12">
+        <div className="text-center mb-12">
           <h2  
           style={{
             fontFamily: "'Ivy Mode'",
             fontWeight: 300,
+            fontSize: '46px',
             lineHeight: '140%',
             letterSpacing: '1px'
           }}
-          className="text-[#172747] mb-6 text-[32px] md:text-[46px]"
+          className="text-[#172747] mb-6 "
         >
             "Let the experts help you<br />
             make the right investment"
           </h2>
           
           <div className="mt-4">
-            <h2 className="text-xl md:text-2xl text-[#172747]"  style={{
-            letterSpacing: '1px'
-          }} >Nikhil Mawale</h2>
-            <h2 className="text-xl md:text-2xl text-[#172747] font-bold mb-6"  style={{
-            letterSpacing: '1px'
-          }} >Founder</h2>
+            <h2 
+          className="text-[24px] leading-[100%] text-[#172747] tracking-normal"
+        style={{ fontFamily: 'Lato',letterSpacing: '1px' }} >Mr.Nikhil Mawale</h2>
+            <h2 
+            className="text-[20px] leading-[100%] text-[#172747] f mb-6 tracking-normal "
+        style={{ fontFamily: 'Lato',letterSpacing: '1px' }}
+          >Founder</h2>
           </div>
         </div>
         
         {/* Form section */}
-        <div className="bg-white rounded-md shadow-sm p-4 md:p-6 max-w-3xl mx-auto">
+        <div className="bg-white rounded-md shadow-sm p-6 max-w-3xl mx-auto">
           <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center gap-4">
             <div className="w-full md:flex-1">
               <input
@@ -418,32 +439,41 @@ export default function ContactUs() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Name"
-                className="w-full px-3 md:px-4 py-2 md:py-3 border-b border-gray-300 focus:border-gray-800 outline-none text-sm md:text-base"
+                className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
                 required
               />
             </div>
             <div className="w-full md:flex-1">
               <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Phone"
-                className="w-full px-3 md:px-4 py-2 md:py-3 border-b border-gray-300 focus:border-gray-800 outline-none text-sm md:text-base"
-                required
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              onInput={e => {
+                const input = e.target as HTMLInputElement;
+                input.value = input.value.replace(/\D/g, '');
+              }}
+              placeholder="Phone"
+              className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
+              required
+              pattern="[0-9]{10}"
+              maxLength={10}
+              minLength={10}
+              title="Please enter a valid 10-digit phone number"
+              inputMode="numeric"
               />
             </div>
-            <Link href="/contact-us-propertydrone-realty">
+            
             <button
               type="submit"
-              className="w-full md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-4 md:px-6 py-2 md:py-3 bg-navy-800 text-white text-sm md:text-base font-medium rounded flex items-center justify-center"
+              className="w-full cursor-pointer md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center "
             >
               Get a Consultation
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
             </button>
-            </Link>
+           
           </form>
         </div>
       </div>

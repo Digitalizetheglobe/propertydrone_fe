@@ -619,7 +619,8 @@ const locationCounts = useMemo<LocationData[]>(() => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    message: ''
   });
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
@@ -687,9 +688,9 @@ const locationCounts = useMemo<LocationData[]>(() => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
-          email: formData.email,
+          email: formData.email || "dummy@example.com", // Added dummy email if not provided
           mobile: formData.phone,
-          message: ""
+          message: formData.message || "Interested in property consultation" // Added dummy message if not provided
         }),
       });
 
@@ -701,7 +702,8 @@ const locationCounts = useMemo<LocationData[]>(() => {
       setFormData({
         name: '',
         email: '',
-        phone: ''
+        phone: '',
+        message: ''
       });
     } catch (err) {
       console.error('Error submitting form:', err);
@@ -2044,7 +2046,7 @@ const PropertyCard1 = ({
     {features.map((feature, index) => (
       <div
   key={feature.id}
-  className="relative group flex max-w-[300px] h-[300px] cursor-pointer text-[#172747] transition duration-300 ease-in-out"
+  className="relative group flex max-w-[300px] h-[300px]  text-[#172747] transition duration-300 ease-in-out"
   data-aos="fade-up"
   data-aos-delay={index * 100}
 >
@@ -2257,16 +2259,25 @@ const PropertyCard1 = ({
             </div>
             <div className="w-full md:flex-1">
               <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Phone"
-                className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
-                required
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              onInput={e => {
+                const input = e.target as HTMLInputElement;
+                input.value = input.value.replace(/\D/g, '');
+              }}
+              placeholder="Phone"
+              className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
+              required
+              pattern="[0-9]{10}"
+              maxLength={10}
+              minLength={10}
+              title="Please enter a valid 10-digit phone number"
+              inputMode="numeric"
               />
             </div>
-            <Link href="/contact-us-propertydrone-realty">
+            
             <button
               type="submit"
               className="w-full cursor-pointer md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center "
@@ -2276,7 +2287,7 @@ const PropertyCard1 = ({
                 <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
             </button>
-            </Link>
+           
           </form>
         </div>
       </div>

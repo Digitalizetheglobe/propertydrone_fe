@@ -145,6 +145,7 @@ function PropertiesContent() {
           console.log('Mapping property:', property.id, 'propertyType:', property.propertyType);
           return {
             id: property.id || Math.random(),
+            slug: property.slug || `property-${property.id}`,
             propertyName: property.propertyName || 'Unnamed Property',
             location: property.location || 'Unknown Location',
             city: property.city || 'Unknown City',
