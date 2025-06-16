@@ -1836,6 +1836,7 @@ const PropertyCard1 = ({
         {remainingProperties
           .slice(currentSlide * 2, currentSlide * 2 + 2)
           .map((property) => (
+            <Link href={`/luxe-properties/${property.slug}`} passHref key={`property-${property.id}`}>
             <div
               key={property.id}
               className="flex flex-col hover:bg-[#EEF1F5] rounded-[4px] shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out transform hover:-translate-y-1"
@@ -1867,6 +1868,7 @@ const PropertyCard1 = ({
                 </div>
               </div>
             </div>
+            </Link>
           ))}
       </div>
 

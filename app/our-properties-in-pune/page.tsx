@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, Suspense } from 'react';
@@ -57,7 +56,18 @@ function LuxePropertiesContent() {
   const [error, setError] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [activeImageIndexes, setActiveImageIndexes] = useState<Record<number, number>>({});
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState('luxe');
+  
+  // New filter states
+  const [propertyNameFilter, setPropertyNameFilter] = useState('');
+  const [cityFilter, setCityFilter] = useState('all');
+  const [budgetFilter, setBudgetFilter] = useState('all');
+  const [badgeFilter, setBadgeFilter] = useState('all');
+  const [topologyFilter, setTopologyFilter] = useState<number | 'all'>('all');
+  const [availableCities, setAvailableCities] = useState<string[]>([]);
+  const [availableBadges, setAvailableBadges] = useState<string[]>([]);
+  const [availableTopologies, setAvailableTopologies] = useState<number[]>([]);
+  const [availableBudgets, setAvailableBudgets] = useState<string[]>([]);
 
   // API base URL - ideally from environment variables
   const baseUrl = "https://api.propertydronerealty.com";
@@ -141,9 +151,7 @@ function LuxePropertiesContent() {
         
         const data = await response.json();
         
-        // Map API data to our expected format and ensure all required fields have values
         const formattedProperties = data.map((property: any) => {
-          console.log('Mapping property:', property.id, 'propertyType:', property.propertyType);
           return {
             id: property.id || Math.random(),
             propertyName: property.propertyName || 'Unnamed Property',
@@ -161,20 +169,27 @@ function LuxePropertiesContent() {
             multipleImages: property.multipleImages || [],
             createdAt: property.createdAt || new Date().toISOString(),
             propertyType: property.propertyType || '',
-            slug: property.slug // Ensure propertyType is mapped
+            slug: property.slug
           };
         });
         
-        // Extract unique locations from properties
+        // Extract unique values for filters
         const locations = [...new Set(formattedProperties.map((p: Property) => p.location))];
-        setAvailableLocations(locations as string[]);
+        const cities = [...new Set(formattedProperties.map((p: Property) => p.city))];
+        const badges = [...new Set(formattedProperties.map((p: Property) => p.badge))];
+        const topologies = [...new Set(formattedProperties.map((p: Property) => p.topology))];
+        const budgets = [...new Set(formattedProperties.map((p: Property) => p.tentativeBudget))];
         
-        // Sort properties to show latest first
+        setAvailableLocations(locations as string[]);
+        setAvailableCities(cities as string[]);
+        setAvailableBadges(badges as string[]);
+        setAvailableTopologies(topologies as number[]);
+        setAvailableBudgets(budgets as string[]);
+        
         const sortedProperties = formattedProperties.sort((a: { createdAt: string }, b: { createdAt: string }) => {
           return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         });
         
-        console.log('Formatted properties:', sortedProperties.map((p: Property) => ({ id: p.id, propertyType: p.propertyType })));
         setProperties(sortedProperties);
         setError(null);
       } catch (err) {
@@ -204,6 +219,11 @@ function LuxePropertiesContent() {
     setActiveCategory('all');
     setActiveLocation('all');
     setFeaturedOnly(false);
+    setPropertyNameFilter('');
+    setCityFilter('all');
+    setBudgetFilter('all');
+    setBadgeFilter('all');
+    setTopologyFilter('all');
   };
 
 const getBudgetValue = (budget: any) => {
@@ -223,25 +243,19 @@ const getBudgetValue = (budget: any) => {
 };
 
 const filteredProperties = properties.filter(property => {
-  console.log('Filtering property:', {
-    id: property.id,
-    propertyType: property.propertyType,
-    activeTab,
-    isLuxury: ['luxury', 'lux', 'luxary', 'Luxury'].includes((property.propertyType || '').trim())
-  });
+  const matchesCategory = activeCategory === 'all' || property.propertyType === activeCategory;
+  const matchesLocation = activeLocation === 'all' || property.location === activeLocation;
+  const matchesFeatured = !featuredOnly || property.featured;
+  const matchesPropertyName = !propertyNameFilter || 
+    property.propertyName.toLowerCase().includes(propertyNameFilter.toLowerCase());
+  const matchesCity = cityFilter === 'all' || property.city === cityFilter;
+  const matchesBadge = badgeFilter === 'all' || property.badge === badgeFilter;
+  const matchesTopology = topologyFilter === 'all' || property.topology === topologyFilter;
+  const matchesBudget = budgetFilter === 'all' || getBudgetValue(property.tentativeBudget) === getBudgetValue(budgetFilter);
 
-  // Featured filter
-  if (featuredOnly && !property.featured) return false;
-
-  // Category filter (robust budget extraction)
-  const budget = getBudgetValue(property.tentativeBudget);
-  // Location filter from query param
-  if (lastWord && property.location.toLowerCase() !== lastWord.toLowerCase()) return false;
-
-  // UI location filter
-  if (activeLocation !== 'all' && property.location !== activeLocation) return false;
-
-  return true;
+  return matchesCategory && matchesLocation && matchesFeatured && 
+         matchesPropertyName && matchesCity && matchesBadge && 
+         matchesTopology && matchesBudget;
 });
 // Removed duplicate declaration of filteredProperties
   // Framer Motion variants
@@ -436,7 +450,7 @@ const filteredProperties = properties.filter(property => {
                 </svg>
               </div>
 
-              <div className="mb-8">
+              {/* <div className="mb-8">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="font-semibold text-gray-800">Featured Property</h3>
                   <motion.label 
@@ -452,7 +466,7 @@ const filteredProperties = properties.filter(property => {
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#172747] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#172747]"></div>
                   </motion.label>
                 </div>
-              </div>
+              </div> */}
 
               <div className="mb-8">
                 <h3 className="font-semibold text-[#172747] uppercase text-xs tracking-wider mb-4">Location</h3>
@@ -480,6 +494,20 @@ const filteredProperties = properties.filter(property => {
                 </div>
               </div>
               
+              {/* Topology Filter */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Topology</label>
+                <select
+                  value={topologyFilter}
+                  onChange={(e) => setTopologyFilter(e.target.value === 'all' ? 'all' : Number(e.target.value))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="all">All Topologies</option>
+                  {availableTopologies.map((topology) => (
+                    <option key={topology} value={topology}>{topology}</option>
+                  ))}
+                </select>
+              </div>
 
               <motion.button 
                 whileHover={{ scale: 1.02 }}
@@ -592,174 +620,176 @@ const filteredProperties = properties.filter(property => {
                   >
                     {filteredProperties.length > 0 ? (
                       filteredProperties.map((property) => (
-                        <motion.div 
-                          key={property.id} 
-                          variants={cardVariants}
-                          whileHover="hover"
-                          onHoverStart={() => setHoveredCard(property.id)}
-                          onHoverEnd={() => setHoveredCard(null)}
-                          className="bg-white rounded-[4px] overflow-hidden shadow-md border border-gray-100 transform transition-all duration-300"
-                        >
-                          <div className="relative overflow-hidden">
-                            <motion.div 
-                              variants={imageVariants}
-                              className="h-56 bg-gray-200 relative"
-                            >
-                              {/* Image with proper URL handling */}
-                              <Image 
-                                src={getImageSource(property, activeImageIndexes[property.id] || 0)}
-                                alt={property.propertyName}
-                                fill
-                                className="object-cover"
-                                priority={hoveredCard === property.id}
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                onError={(e) => {
-                                  // Fallback to default image if loading fails
-                                  const target = e.target as HTMLImageElement;
-                                  target.src = '/images/property-placeholder.jpg'; // Make sure to have this fallback image
-                                }}
-                              />
-                              
-                              {/* Only show navigation arrows if property has multiple images */}
-                              {hasMultipleImages(property) && (
-                                <>
-                                  {/* Left arrow for previous image */}
-                                  <button 
-                                    onClick={(e) => prevImage(property.id, property.multipleImages?.length || 0, e)}
-                                    className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 p-1 rounded-full  bg-opacity-70 hover:bg-opacity-100 transition-all"
-                                  >
-                                    <ChevronLeft className="h-6 w-6 text-gray-700" />
-                                  </button>
-                                  
-                                  {/* Right arrow for next image */}
-                                  <button 
-                                    onClick={(e) => nextImage(property.id, property.multipleImages?.length || 0, e)}
-                                    className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 p-1 rounded-full bg-opacity-70 hover:bg-opacity-100 transition-all"
-                                  >
-                                    <ChevronRight className="h-6 w-6 text-gray-700" />
-                                  </button>
-                                  
-                                  {/* Image counter indicator */}
-                                  <div className="absolute bottom-3 right-3 bg-black bg-opacity-60 text-white px-2 py-1 rounded-full text-xs font-medium">
-                                    {(activeImageIndexes[property.id] || 0) + 1}/{property.multipleImages?.length || 0}
-                                  </div>
-                                  
-                                  {/* Image dots indicator */}
-                                  <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
-                                    {property.multipleImages?.map((_, i) => (
-                                      <button 
-                                        key={i}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setActiveImageIndexes(prev => ({
-                                            ...prev,
-                                            [property.id]: i
-                                          }));
-                                        }}
-                                        className={`h-2 w-2 rounded-full ${i === (activeImageIndexes[property.id] || 0) ? 'bg-white' : 'bg-white/50'} transition-all`}
-                                      />
-                                    ))}
-                                  </div>
-                                </>
-                              )}
-                              
-                              {/* Semi-transparent gradient overlay */}
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
-                            </motion.div>
-                            
-                            {/* <div className="absolute top-4 left-4 flex space-x-2">
-                              <motion.span 
-                                variants={badgeVariants}
-                                initial="initial"
-                                animate="animate"
-                                className="px-3 py-1 bg-white text-xs font-medium rounded-full shadow-sm text-[#172747]"
+                        <Link href={`/our-properties-in-pune/${property.slug}`} passHref key={property.id} className="w-full sm:w-auto">
+                          <motion.div 
+                            key={`motion-${property.id}`}
+                            variants={cardVariants}
+                            whileHover="hover"
+                            onHoverStart={() => setHoveredCard(property.id)}
+                            onHoverEnd={() => setHoveredCard(null)}
+                            className="bg-white rounded-[4px] overflow-hidden shadow-md border border-gray-100 transform transition-all duration-300"
+                          >
+                            <div className="relative overflow-hidden">
+                              <motion.div 
+                                variants={imageVariants}
+                                className="h-56 bg-gray-200 relative"
                               >
-                                {property.badge}
-                              </motion.span>
-                              <motion.span 
-                                variants={badgeVariants}
-                                initial="initial"
-                                animate="animate"
-                                className="px-3 py-1 bg-[#172747] text-xs font-medium rounded-full shadow-sm text-white"
-                              >
-                                {property.secondaryBadge}
-                              </motion.span>
-                            </div> */}
-                            
-                            {/* Property location on image */}
-                            <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-white">
-                              <div className="flex items-center text-xs text-gray-100 mt-1">
-                                <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                {property.location}, {property.city}
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="p-4 lg:p-5">
-                            <h3 className="text-lg lg:text-xl mb-2 font-bold leading-tight">
-                              {property.propertyName}
-                            </h3>
-                            
-                            <div className=" sm:flex-row justify-between text-sm mb-5 gap-2">
-                              <div className="flex mb-2 items-center bg-gray-50 px-3 py-1.5 rounded-[4px]">
-                                <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                </svg>
-                                {String(property.topology).split("").map((item: string, index: number) => (
-                                  <span key={index} className="text-gray-700 block"  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>
-                                    {item.trim()}
-                                  </span>
-                                ))}
-                              </div>
+                                {/* Image with proper URL handling */}
+                                <Image 
+                                  src={getImageSource(property, activeImageIndexes[property.id] || 0)}
+                                  alt={property.propertyName}
+                                  fill
+                                  className="object-cover"
+                                  priority={hoveredCard === property.id}
+                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                  onError={(e) => {
+                                    // Fallback to default image if loading fails
+                                    const target = e.target as HTMLImageElement;
+                                    target.src = '/images/property-placeholder.jpg'; // Make sure to have this fallback image
+                                  }}
+                                />
+                                
+                                {/* Only show navigation arrows if property has multiple images */}
+                                {hasMultipleImages(property) && (
+                                  <>
+                                    {/* Left arrow for previous image */}
+                                    <button 
+                                      onClick={(e) => prevImage(property.id, property.multipleImages?.length || 0, e)}
+                                      className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 p-1 rounded-full  bg-opacity-70 hover:bg-opacity-100 transition-all"
+                                    >
+                                      <ChevronLeft className="h-6 w-6 text-gray-700" />
+                                    </button>
+                                    
+                                    {/* Right arrow for next image */}
+                                    <button 
+                                      onClick={(e) => nextImage(property.id, property.multipleImages?.length || 0, e)}
+                                      className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 p-1 rounded-full bg-opacity-70 hover:bg-opacity-100 transition-all"
+                                    >
+                                      <ChevronRight className="h-6 w-6 text-gray-700" />
+                                    </button>
+                                    
+                                    {/* Image counter indicator */}
+                                    <div className="absolute bottom-3 right-3 bg-black bg-opacity-60 text-white px-2 py-1 rounded-full text-xs font-medium">
+                                      {(activeImageIndexes[property.id] || 0) + 1}/{property.multipleImages?.length || 0}
+                                    </div>
+                                    
+                                    {/* Image dots indicator */}
+                                    <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
+                                      {property.multipleImages?.map((_, i) => (
+                                        <button 
+                                          key={i}
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setActiveImageIndexes(prev => ({
+                                              ...prev,
+                                              [property.id]: i
+                                            }));
+                                          }}
+                                          className={`h-2 w-2 rounded-full ${i === (activeImageIndexes[property.id] || 0) ? 'bg-white' : 'bg-white/50'} transition-all`}
+                                        />
+                                      ))}
+                                    </div>
+                                  </>
+                                )}
+                                
+                                {/* Semi-transparent gradient overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
+                              </motion.div>
                               
-                              <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-[4px]">
-                                <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
-                                </svg>
-                              <span
-                                className="text-gray-700"
-                                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
-                              >
-                                {(() => {
-                                  const words = String(property.carpetArea).split(' ');
-                                  return words.length > 5
-                                    ? words.slice(0, 5).join(' ') + '...'
-                                    : words.join(' ');
-                                })()}
-                              </span>
-                              </div>
-                            </div>
-                            
-                            <motion.div 
-                              initial={{ scale: 0.95, opacity: 0 }}
-                              animate={{ 
-                                scale: hoveredCard === property.id ? 1.05 : 1, 
-                                opacity: 1 
-                              }}
-                              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                              className="flex flex-col sm:flex-row justify-between items-center gap-3"
-                            >
-                              {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
-                                <div className="font-bold text-lg lg:text-xl text-[#172747]">
-                                  ₹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
-                                </div>
-                              )}
-                              
-                              <Link href={`/our-properties-in-pune/${property.slug}`} passHref className="w-full sm:w-auto">
-                                <motion.button
-                                  whileHover={{ scale: 1.05 }}
-                                  whileTap={{ scale: 0.95 }}
-                                  className="w-full bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
+                              {/* <div className="absolute top-4 left-4 flex space-x-2">
+                                <motion.span 
+                                  variants={badgeVariants}
+                                  initial="initial"
+                                  animate="animate"
+                                  className="px-3 py-1 bg-white text-xs font-medium rounded-full shadow-sm text-[#172747]"
                                 >
-                                  View Details
-                                </motion.button>
-                              </Link>
-                            </motion.div>
-                          </div>
-                        </motion.div>
+                                  {property.badge}
+                                </motion.span>
+                                <motion.span 
+                                  variants={badgeVariants}
+                                  initial="initial"
+                                  animate="animate"
+                                  className="px-3 py-1 bg-[#172747] text-xs font-medium rounded-full shadow-sm text-white"
+                                >
+                                  {property.secondaryBadge}
+                                </motion.span>
+                              </div> */}
+                              
+                              {/* Property location on image */}
+                              <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-white">
+                                <div className="flex items-center text-xs text-gray-100 mt-1">
+                                  <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                  </svg>
+                                  {property.location}, {property.city}
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="p-4 lg:p-5">
+                              <h3 className="text-lg lg:text-xl mb-2 font-bold leading-tight">
+                                {property.propertyName}
+                              </h3>
+                              
+                              <div className=" sm:flex-row justify-between text-sm mb-5 gap-2">
+                                <div className="flex mb-2 items-center bg-gray-50 px-3 py-1.5 rounded-[4px]">
+                                  <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                  </svg>
+                                  {String(property.topology).split("").map((item: string, index: number) => (
+                                    <span key={`${property.id}-topology-${index}`} className="text-gray-700 block"  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>
+                                      {item.trim()}
+                                    </span>
+                                  ))}
+                                </div>
+                                
+                                <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-[4px]">
+                                  <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+                                  </svg>
+                                <span
+                                  className="text-gray-700"
+                                  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+                                >
+                                  {(() => {
+                                    const words = String(property.carpetArea).split(' ');
+                                    return words.length > 5
+                                      ? words.slice(0, 5).join(' ') + '...'
+                                      : words.join(' ');
+                                  })()}
+                                </span>
+                                </div>
+                              </div>
+                              
+                              <motion.div 
+                                initial={{ scale: 0.95, opacity: 0 }}
+                                animate={{ 
+                                  scale: hoveredCard === property.id ? 1.05 : 1, 
+                                  opacity: 1 
+                                }}
+                                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                                className="flex flex-col sm:flex-row justify-between items-center gap-3"
+                              >
+                                {/* {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
+                                  <div className="font-bold text-lg lg:text-xl text-[#172747]">
+                                    ₹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
+                                  </div>
+                                )} */}
+                                
+                              
+                                  <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="w-full bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
+                                  >
+                                    View Details
+                                  </motion.button>
+                                
+                              </motion.div>
+                            </div>
+                          </motion.div>
+                        </Link>
                       ))
                     ) : (
                       <div className="col-span-full text-center py-12">

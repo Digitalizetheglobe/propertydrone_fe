@@ -748,8 +748,9 @@ const AnimatedStarButton = () => {
                   >
                     {filteredProperties.length > 0 ? (
                       filteredProperties.map((property) => (
+                             <Link href={`/luxe-properties/${property.slug}`} passHref key={property.id} className="w-full sm:w-auto">
                         <motion.div 
-                          key={property.id} 
+                          key={`motion-${property.id}`}
                           variants={cardVariants}
                           whileHover="hover"
                           onHoverStart={() => setHoveredCard(property.id)}
@@ -852,7 +853,7 @@ const AnimatedStarButton = () => {
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                 </svg>
                                 {String(property.topology).split("").map((item: string, index: number) => (
-                                  <span key={index} className="text-gray-700 block"  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>
+                                  <span key={`${property.id}-topology-${index}`} className="text-gray-700 block"  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>
                                     {item.trim()}
                                   </span>
                                 ))}
@@ -875,6 +876,11 @@ const AnimatedStarButton = () => {
                               </span>
                               </div>
                             </div>
+                             {/* {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
+                                <div className="font-bold text-lg lg:text-xl text-[#172747]">
+                                  ₹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
+                                </div>
+                              )} */}
                             
                             <motion.div 
                               initial={{ scale: 0.95, opacity: 0 }}
@@ -885,24 +891,21 @@ const AnimatedStarButton = () => {
                               transition={{ type: "spring", stiffness: 400, damping: 10 }}
                               className="flex flex-col sm:flex-row justify-between items-center gap-3"
                             >
-                              {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
-                                <div className="font-bold text-lg lg:text-xl text-[#172747]">
-                                  ₹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
-                                </div>
-                              )}
+                             
                               
-                              <Link href={`/luxe-properties/${property.slug}`} passHref className="w-full sm:w-auto">
+                        
                                 <motion.button
                                   whileHover={{ scale: 1.05 }}
                                   whileTap={{ scale: 0.95 }}
-                                  className="w-full bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
+                                  className="w-full bg-[#172747] cursor-pointer hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
                                 >
                                   View Details
                                 </motion.button>
-                              </Link>
+                              
                             </motion.div>
                           </div>
                         </motion.div>
+                        </Link>
                       ))
                     ) : (
                       <div className="col-span-full text-center py-12">
