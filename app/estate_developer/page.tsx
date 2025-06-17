@@ -130,9 +130,7 @@ const Developer = () => {
 
       {/* Developers Count Section */}
       <div className="container mx-auto px-4 py-8">
-        <h2 className="text-4xl max-w-6xl mx-auto px-4  md:text-5xl font-serif leading-tight mb-6">
-          {companyData.length} developers
-        </h2>
+       
         
         {/* Partners Grid Section */}
         <div className="py-6">
