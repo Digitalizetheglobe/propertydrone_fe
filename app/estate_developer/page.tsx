@@ -55,7 +55,7 @@ const companyData = [
   {
     id: 5,
     name: 'Solitaire',
-    slug: 'Solitaire',
+    slug: 'solitaire',
     logo: d5,
     logo1: img5, // Added default background
   },

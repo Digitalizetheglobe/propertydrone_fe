@@ -161,7 +161,7 @@ const Mainfooter = () => {
                   <li><Link href="/estate_developer/krunal-group" className="hover:text-white transition-colors">Top Projects by Krunal Group</Link></li>
                   <li><Link href="/estate_developer/kasturi" className="hover:text-white transition-colors">Top Projects by Kasturi</Link></li>
                   <li><Link href="/estate_developer/skyi-developers" className="hover:text-white transition-colors">Top Projects by Skyi Developers</Link></li>
-                  <li><Link href="/estate_developer/Solitaire" className="hover:text-white transition-colors">Top Projects by Solitaire</Link></li>
+                  <li><Link href="/estate_developer/solitaire" className="hover:text-white transition-colors">Top Projects by Solitaire</Link></li>
                 </ul>
               </div>
             </div>
