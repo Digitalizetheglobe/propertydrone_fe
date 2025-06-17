@@ -137,13 +137,13 @@ export default function PropertyDeveloperShowcase() {
       <p className="text-gray-700 mb-6">{propertyData.location}</p>
 
       {/* Property Image */}
-      <div className="mb-6 relative">
+      {/* <div className="mb-6 relative">
         <Image 
           src={developerimg}
           alt="Majestique The Ornate - Aerial View" 
           className="w-full h-auto rounded-md shadow-md"
         />
-      </div>
+      </div> */}
 
       {/* Apartment Types */}
       <div className="flex flex-wrap mb-6 gap-8">
