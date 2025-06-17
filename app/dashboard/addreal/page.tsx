@@ -3,6 +3,59 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
+// Make sure to adjust the import path according to your project structure
+import RichTextEditor from 'reactjs-tiptap-editor';
+import { 
+  BaseKit, 
+  Bold, 
+  BulletList, 
+  Heading, 
+  Italic, 
+  Blockquote, 
+  Code, 
+  Color, 
+  FontSize, 
+  History, 
+  HorizontalRule, 
+  Iframe, 
+  Indent, 
+  Link,
+  OrderedList,
+  SlashCommand,
+  Strike,
+  Table,
+  Katex,
+  Underline,
+  Image,
+  FontFamily
+} from 'reactjs-tiptap-editor/extension-bundle'
+import 'reactjs-tiptap-editor/style.css';
+
+// Define the extensions array for RichTextEditor
+const extensions = [
+  BaseKit,
+  Bold,
+  BulletList,
+  Heading,
+  Italic,
+  Blockquote,
+  Code,
+  Color,
+  FontSize,
+  History,
+  HorizontalRule,
+  Iframe,
+  Indent,
+  Link,
+  OrderedList,
+  SlashCommand,
+  Strike,
+  Table,
+  Katex,
+  Underline,
+  Image,
+  FontFamily,
+];
 
 export default function AddRealEstateBasic() {
   const router = useRouter();
@@ -17,7 +70,8 @@ export default function AddRealEstateBasic() {
     bathrooms: '',
     area: '',
     status: 'available',
-    images: [] as File[]
+    images: [] as File[],
+    author: ''
   });
   const [loading, setLoading] = useState(false);
 
@@ -33,6 +87,7 @@ export default function AddRealEstateBasic() {
 
     try {
       const formDataToSend = new FormData();
+      
       // Append all form fields to FormData
       Object.entries(formData).forEach(([key, value]) => {
         if (key === 'images') {
@@ -44,28 +99,46 @@ export default function AddRealEstateBasic() {
         }
       });
 
-      // Using the correct API endpoint
+      // POST API call to create real estate listing
       const response = await fetch('https://api.propertydronerealty.com/real-estate', {
         method: 'POST',
         body: formDataToSend,
+        // Note: Don't set Content-Type header when using FormData - browser sets it automatically with boundary
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create real estate listing');
+        // Handle different error status codes
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
 
-      const responseData = await response.json();
+      const result = await response.json();
+      console.log('Real estate listing created:', result);
       
-      // Log the response data for debugging
-      console.log('Response from server:', responseData);
+      toast.success('Real estate listing created successfully!');
       
-      toast.success('Real estate listing created successfully');
-      router.push('/dashboard/allreal');
-      router.refresh();
+      // Reset form after successful submission
+      setFormData({
+        title: '',
+        description: '',
+        keywords: '',
+        price: '',
+        location: '',
+        propertyType: '',
+        bedrooms: '',
+        bathrooms: '',
+        area: '',
+        status: 'available',
+        images: [],
+        author: ''
+      });
+      
+      // Navigate to dashboard or listing page
+      router.push('/dashboard');
+      
     } catch (error) {
-      console.error('Error details:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to create real estate listing');
+      console.error('Error creating real estate listing:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to create listing. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -73,8 +146,8 @@ export default function AddRealEstateBasic() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Add Real Estate Basic</h1>
-      <form onSubmit={handleSubmit} className="max-w-2xl">
+      <h1 className="text-6xl mx-auto font-bold mb-8">Add Real Estate Basic</h1>
+      <form onSubmit={handleSubmit} className="max-w-5xl mx-auto">
         <div className="mb-4">
           <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
             Title
@@ -102,118 +175,24 @@ export default function AddRealEstateBasic() {
             required
           />
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-              Price
-            </label>
-            <input
-              type="number"
-              id="price"
-              value={formData.price}
-              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
-              Location
-            </label>
-            <input
-              type="text"
-              id="location"
-              value={formData.location}
-              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label htmlFor="propertyType" className="block text-sm font-medium text-gray-700 mb-1">
-              Property Type
-            </label>
-            <select
-              id="propertyType"
-              value={formData.propertyType}
-              onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            >
-              <option value="">Select Type</option>
-              <option value="house">House</option>
-              <option value="apartment">Apartment</option>
-              <option value="condo">Condo</option>
-              <option value="villa">Villa</option>
-              <option value="land">Land</option>
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
-              Status
-            </label>
-            <select
-              id="status"
-              value={formData.status}
-              onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            >
-              <option value="available">Available</option>
-              <option value="sold">Sold</option>
-              <option value="pending">Pending</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          <div>
-            <label htmlFor="bedrooms" className="block text-sm font-medium text-gray-700 mb-1">
-              Bedrooms
-            </label>
-            <input
-              type="number"
-              id="bedrooms"
-              value={formData.bedrooms}
-              onChange={(e) => setFormData({ ...formData, bedrooms: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="bathrooms" className="block text-sm font-medium text-gray-700 mb-1">
-              Bathrooms
-            </label>
-            <input
-              type="number"
-              id="bathrooms"
-              value={formData.bathrooms}
-              onChange={(e) => setFormData({ ...formData, bathrooms: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="area" className="block text-sm font-medium text-gray-700 mb-1">
-              Area (sq ft)
-            </label>
-            <input
-              type="number"
-              id="area"
-              value={formData.area}
-              onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
+        
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Content*</label>
+          <RichTextEditor
+            output="html"
+            content={formData.author}
+            onChangeContent={(author) => setFormData({ ...formData, author })}
+            extensions={extensions}
+            minHeight="300px"
+            useEditorOptions={{
+              editorProps: {
+                attributes: {
+                  class: 'prose dark:prose-invert max-w-none',
+                },
+              },
+            }}
+            bubbleMenu={{}}
+          />
         </div>
 
         <div className="mb-4">
@@ -255,4 +234,4 @@ export default function AddRealEstateBasic() {
       </form>
     </div>
   );
-} 
+}

@@ -97,18 +97,25 @@ export default function PropertyDetail() {
 
     if (searchFilter === "all") {
       filtered = properties.filter((property) => (
-        property.buildingName?.toLowerCase().includes(lowerTerm) ||
-        property.location?.toLowerCase().includes(lowerTerm) ||
-        property.city?.toLowerCase().includes(lowerTerm) ||
-        property.unitNo?.toString().toLowerCase().includes(lowerTerm) ||
-        property.propertyType?.toLowerCase().includes(lowerTerm) ||
-        property.carpetArea?.toString().includes(lowerTerm) ||
-        property.buArea?.toString().includes(lowerTerm)
+        (property.propertyName ? property.propertyName.toString().toLowerCase() : "").includes(lowerTerm) ||
+        (property.name ? property.name.toString().toLowerCase() : "").includes(lowerTerm) ||
+        (property.location ? property.location.toString().toLowerCase() : "").includes(lowerTerm) ||
+        (property.city ? property.city.toString().toLowerCase() : "").includes(lowerTerm) ||
+        (property.unitNo ? property.unitNo.toString().toLowerCase() : "").includes(lowerTerm) ||
+        (property.propertyType ? property.propertyType.toString().toLowerCase() : "").includes(lowerTerm) ||
+        (property.carpetArea ? property.carpetArea.toString().toLowerCase() : "").includes(lowerTerm) ||
+        (property.buArea ? property.buArea.toString().toLowerCase() : "").includes(lowerTerm)
       ));
+    } else if (searchFilter === "propertyName") {
+      filtered = properties.filter((property) => {
+        // Try both propertyName and name for compatibility
+        const value = property.propertyName || property.name;
+        return (value ? value.toString().toLowerCase() : "").includes(lowerTerm);
+      });
     } else {
       filtered = properties.filter((property) => {
         const value = property[searchFilter];
-        return value && value.toString().toLowerCase().includes(lowerTerm);
+        return (value ? value.toString().toLowerCase() : "").includes(lowerTerm);
       });
     }
     
@@ -336,23 +343,12 @@ export default function PropertyDetail() {
                   <input
                     type="radio"
                     name="searchFilter"
-                    value="all"
-                    checked={searchFilter === "all"}
-                    onChange={() => setSearchFilter("all")}
+                    value="propertyName"
+                    checked={searchFilter === "propertyName"}
+                    onChange={() => setSearchFilter("propertyName")}
                     className="form-radio text-blue-500"
                   />
-                  <span>All Fields</span>
-                </label>
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="radio"
-                    name="searchFilter"
-                    value="buildingName"
-                    checked={searchFilter === "buildingName"}
-                    onChange={() => setSearchFilter("buildingName")}
-                    className="form-radio text-blue-500"
-                  />
-                  <span>Building Name</span>
+                  <span>Property Name</span>
                 </label>
                 <label className="flex items-center space-x-2">
                   <input
@@ -421,7 +417,7 @@ export default function PropertyDetail() {
           <div className="grid grid-cols-1 gap-6">
             {filteredProperties.map((property, index) => (
               <div key={index} className="bg-white shadow-lg rounded-lg p-6 transition-all hover:shadow-xl">
-                <h3 className="text-2xl font-bold">{property.buildingName}</h3>
+                <h3 className="text-2xl font-bold">{property.propertyName}</h3>
                 <p className="text-gray-600">{property.location}, {property.city}</p>
 
                 {/* Display property images if available */}
@@ -433,7 +429,7 @@ export default function PropertyDetail() {
                         <div key={imgIndex} className="relative">
                           <img 
                             src={image}
-                            alt={`${property.buildingName} - Image ${imgIndex + 1}`}
+                            alt={`${property.propertyName} - Image ${imgIndex + 1}`}
                             className="w-full h-32 object-cover rounded"
                           />
                         </div>
