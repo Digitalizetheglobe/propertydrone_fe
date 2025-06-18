@@ -727,6 +727,8 @@ const locationCounts = useMemo<LocationData[]>(() => {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
   const [remainingProperties, setRemainingProperties] = useState<Property[]>([]);
 
+  const [luxuryProperties, setLuxuryProperties] = useState<Property[]>([]);
+
   // Fetch data from API
   useEffect(() => {
     const fetchProperties = async () => {
@@ -749,6 +751,16 @@ const locationCounts = useMemo<LocationData[]>(() => {
         
         setProperties(sortedData);
         setFilteredProperties(sortedData);
+        
+        // Filter luxury properties
+        const luxuryFiltered = sortedData.filter(property => {
+          const propertyType = property.propertyType?.toLowerCase() || '';
+          return ['luxury', 'lux', 'luxary', 'luxury'].includes(propertyType);
+        });
+        
+        console.log('Luxury properties found:', luxuryFiltered.length, luxuryFiltered.map(p => ({ name: p.propertyName, type: p.propertyType })));
+        
+        setLuxuryProperties(luxuryFiltered);
         
         // Separate featured and remaining properties
         const featured = sortedData.slice(0, 3); // Get first 3 properties as featured
@@ -858,11 +870,19 @@ useEffect(() => {
   // Update filtered properties and separate featured/remaining
   setFilteredProperties(filtered);
   
-  const featured = filtered.slice(0, 3); // Get first 3 filtered properties as featured
-  const remaining = filtered.slice(3);   // Get the rest for the slider
+  // Filter luxury properties from the filtered results
+  const luxuryFiltered = filtered.filter(property => {
+    const propertyType = property.propertyType?.toLowerCase() || '';
+    return ['luxury', 'lux', 'luxary', 'luxury'].includes(propertyType);
+  });
   
-  setFeaturedProperties(featured);
-  setRemainingProperties(remaining);
+  console.log('Filtered luxury properties:', luxuryFiltered.length, luxuryFiltered.map(p => ({ name: p.propertyName, type: p.propertyType })));
+  
+  setLuxuryProperties(luxuryFiltered);
+  
+  // Update featured and remaining properties from filtered results
+  setFeaturedProperties(filtered.slice(0, 3)); // Get first 3 filtered properties as featured
+  setRemainingProperties(filtered.slice(3));   // Get the rest for the slider
   
 }, [filters, properties]);
 
@@ -1141,7 +1161,7 @@ const PropertyCard = ({
     </Link>
   );
 };
-const PropertyCard1 = ({
+const PropertyCardLuxe = ({
   property,
   delay,
 }: {
@@ -1653,7 +1673,7 @@ const PropertyCard1 = ({
     <div className="text-center text-red-500 p-4">
       Error: {error}. Please try again later.
     </div>
-  ) : filteredProperties.length === 0 ? (
+  ) : luxuryProperties.length === 0 ? (
     <div className="text-center py-12">
       <p className="text-gray-500">No luxury properties found matching your criteria.</p>
       <button 
@@ -1677,21 +1697,33 @@ const PropertyCard1 = ({
       Discover our exclusive collection of luxury properties in Pune
     </h2>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {featuredProperties
-          .filter(property => ['luxury', 'lux', 'luxary', 'Luxury'].includes(property.propertyType?.toLowerCase() || ''))
-          .slice(0, 3)
-          .map((property, index) => (
-          <PropertyCard1 
+        {luxuryProperties.slice(0, 3).map((property, index) => (
+          <PropertyCardLuxe 
             key={property.id} 
             property={property} 
             delay={index * 200}
           />
         ))}
       </div>
+      
+      {/* View All Luxury Properties Button */}
+      {luxuryProperties.length > 3 && (
+        <div className="flex justify-center mt-8">
+          <Link href="/luxe-properties">
+            <button className="bg-white text-[#172747] px-6 py-3 rounded hover:bg-gray-100 transition-colors duration-300 cursor-pointer flex items-center gap-2">
+              View All Luxury Properties
+              <ArrowRight size={16} />
+            </button>
+          </Link>
+        </div>
+      )}
       </div>
     </div>
   )}
 </div>
+
+
+{/* ------------------------------------------------------------------------------------------------------ */}
    <div className=" mx-auto px-6 md:px-20 py-8 bg-[#EEF1F5]">
   
  
@@ -1737,6 +1769,14 @@ const PropertyCard1 = ({
               delay={index * 200}
             />
           ))}
+        </div>
+        <div className="flex justify-center mt-8">
+          <Link href="/our-properties-in-pune">
+            <button className="bg-white text-[#172747] px-6 py-3 rounded hover:bg-gray-100 transition-colors duration-300 cursor-pointer flex items-center gap-2">
+              View All Properties
+              <ArrowRight size={16} />
+            </button>
+          </Link>
         </div>
       </div>
     </div>

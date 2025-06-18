@@ -71,7 +71,7 @@ export default function AddRealEstateBasic() {
     area: '',
     status: 'available',
     images: [] as File[],
-    author: ''
+    author: '' // This will store the rich text content
   });
   const [loading, setLoading] = useState(false);
 
@@ -83,20 +83,58 @@ export default function AddRealEstateBasic() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Client-side validation
+    if (!formData.title.trim()) {
+      toast.error('Title is required');
+      return;
+    }
+    if (!formData.description.trim()) {
+      toast.error('Description is required');
+      return;
+    }
+    if (!formData.keywords.trim()) {
+      toast.error('Keywords are required');
+      return;
+    }
+    if (!formData.author.trim()) {
+      toast.error('Content is required');
+      return;
+    }
+    if (formData.images.length === 0) {
+      toast.error('At least one image is required');
+      return;
+    }
+
     setLoading(true);
 
     try {
       const formDataToSend = new FormData();
       
-      // Append all form fields to FormData
-      Object.entries(formData).forEach(([key, value]) => {
-        if (key === 'images') {
-          formData.images.forEach((image) => {
-            formDataToSend.append('images', image);
-          });
-        } else if (value !== null && value !== undefined) {
-          formDataToSend.append(key, String(value));
-        }
+      // Append all form fields to FormData with proper validation
+      formDataToSend.append('title', formData.title.trim());
+      formDataToSend.append('description', formData.description.trim());
+      formDataToSend.append('keywords', formData.keywords.trim());
+      formDataToSend.append('author', formData.author.trim()); // Rich text content
+      formDataToSend.append('price', formData.price);
+      formDataToSend.append('location', formData.location);
+      formDataToSend.append('propertyType', formData.propertyType);
+      formDataToSend.append('bedrooms', formData.bedrooms);
+      formDataToSend.append('bathrooms', formData.bathrooms);
+      formDataToSend.append('area', formData.area);
+      formDataToSend.append('status', formData.status);
+
+      // Append images
+      formData.images.forEach((image, index) => {
+        formDataToSend.append('images', image);
+      });
+
+      console.log('Sending form data:', {
+        title: formData.title,
+        description: formData.description,
+        keywords: formData.keywords,
+        author: formData.author,
+        imagesCount: formData.images.length
       });
 
       // POST API call to create real estate listing
@@ -132,10 +170,11 @@ export default function AddRealEstateBasic() {
         images: [],
         author: ''
       });
-      
-      // Navigate to dashboard or listing page
-      router.push('/dashboard');
-      
+
+      // Reset file input
+      const fileInput = document.getElementById('images') as HTMLInputElement;
+      if (fileInput) fileInput.value = '';
+
     } catch (error) {
       console.error('Error creating real estate listing:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to create listing. Please try again.');
@@ -150,7 +189,7 @@ export default function AddRealEstateBasic() {
       <form onSubmit={handleSubmit} className="max-w-5xl mx-auto">
         <div className="mb-4">
           <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-            Title
+            Title *
           </label>
           <input
             type="text"
@@ -159,12 +198,13 @@ export default function AddRealEstateBasic() {
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            placeholder="Enter property title"
           />
         </div>
 
         <div className="mb-4">
           <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-            Description
+            Description *
           </label>
           <textarea
             id="description"
@@ -173,31 +213,40 @@ export default function AddRealEstateBasic() {
             rows={4}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            placeholder="Enter property description"
           />
         </div>
         
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Content*</label>
-          <RichTextEditor
-            output="html"
-            content={formData.author}
-            onChangeContent={(author) => setFormData({ ...formData, author })}
-            extensions={extensions}
-            minHeight="300px"
-            useEditorOptions={{
-              editorProps: {
-                attributes: {
-                  class: 'prose dark:prose-invert max-w-none',
+          <label className="block text-sm font-medium text-gray-700 mb-1">Content *</label>
+          <div className="border border-gray-300 rounded-md">
+            <RichTextEditor
+              output="html"
+              content={formData.author}
+              onChangeContent={(content) => {
+                console.log('Rich text content changed:', content);
+                setFormData({ ...formData, author: content || '' });
+              }}
+              extensions={extensions}
+              minHeight="300px"
+              useEditorOptions={{
+                editorProps: {
+                  attributes: {
+                    class: 'prose dark:prose-invert max-w-none p-4',
+                  },
                 },
-              },
-            }}
-            bubbleMenu={{}}
-          />
+              }}
+              bubbleMenu={{}}
+            />
+          </div>
+          {!formData.author.trim() && (
+            <p className="text-red-500 text-sm mt-1">Content is required</p>
+          )}
         </div>
 
         <div className="mb-4">
           <label htmlFor="keywords" className="block text-sm font-medium text-gray-700 mb-1">
-            Keywords (comma-separated)
+            Keywords (comma-separated) *
           </label>
           <input
             type="text"
@@ -206,12 +255,124 @@ export default function AddRealEstateBasic() {
             onChange={(e) => setFormData({ ...formData, keywords: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            placeholder="e.g. apartment, luxury, downtown, spacious"
           />
         </div>
 
         <div className="mb-4">
+          <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
+            Price
+          </label>
+          <input
+            type="number"
+            id="price"
+            value={formData.price}
+            onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter price"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+            Location
+          </label>
+          <input
+            type="text"
+            id="location"
+            value={formData.location}
+            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter location"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="propertyType" className="block text-sm font-medium text-gray-700 mb-1">
+            Property Type
+          </label>
+          <select
+            id="propertyType"
+            value={formData.propertyType}
+            onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Select property type</option>
+            <option value="apartment">Apartment</option>
+            <option value="house">House</option>
+            <option value="villa">Villa</option>
+            <option value="office">Office</option>
+            <option value="commercial">Commercial</option>
+          </select>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div>
+            <label htmlFor="bedrooms" className="block text-sm font-medium text-gray-700 mb-1">
+              Bedrooms
+            </label>
+            <input
+              type="number"
+              id="bedrooms"
+              value={formData.bedrooms}
+              onChange={(e) => setFormData({ ...formData, bedrooms: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              min="0"
+              placeholder="0"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="bathrooms" className="block text-sm font-medium text-gray-700 mb-1">
+              Bathrooms
+            </label>
+            <input
+              type="number"
+              id="bathrooms"
+              value={formData.bathrooms}
+              onChange={(e) => setFormData({ ...formData, bathrooms: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              min="0"
+              placeholder="0"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="area" className="block text-sm font-medium text-gray-700 mb-1">
+              Area (sq ft)
+            </label>
+            <input
+              type="number"
+              id="area"
+              value={formData.area}
+              onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              min="0"
+              placeholder="0"
+            />
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+            Status
+          </label>
+          <select
+            id="status"
+            value={formData.status}
+            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="available">Available</option>
+            <option value="sold">Sold</option>
+            <option value="rented">Rented</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
+
+        <div className="mb-6">
           <label htmlFor="images" className="block text-sm font-medium text-gray-700 mb-1">
-            Images
+            Images *
           </label>
           <input
             type="file"
@@ -222,12 +383,15 @@ export default function AddRealEstateBasic() {
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
+          <p className="text-sm text-gray-500 mt-1">
+            Select multiple images. {formData.images.length} image(s) selected.
+          </p>
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+          className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? 'Creating...' : 'Create Real Estate Listing'}
         </button>
