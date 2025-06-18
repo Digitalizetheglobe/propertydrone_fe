@@ -158,7 +158,7 @@ const MainHeader: React.FC = () => {
                         <div className="relative">
                             <button
                                 ref={dropdownButtonRef}
-                                className=" hidden sm:flex dropdown-button pl-[16px] pr-[16px] py-5 bg-[#FFFFFF80] backdrop-blur-[18px] z-50 hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white text-black rounded-[4px]"
+                                className=" hidden sm:flex dropdown-button cursor-pointer pl-[16px] pr-[16px] py-5 bg-[#FFFFFF80] backdrop-blur-[18px] z-50 hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white text-black rounded-[4px]"
                                 onClick={toggleDropdown}
                                 onMouseEnter={() => setIsDropdownOpen(true)}
                             >
@@ -168,7 +168,7 @@ const MainHeader: React.FC = () => {
                             {/* Dropdown Menu */}
                             <div 
                                 ref={dropdownRef}
-                                className={`dropdown-menu absolute right-0 mt-1 w-48 ${isDropdownOpen ? 'block' : 'hidden'} bg-[#FFFFFF80] backdrop-blur-[28px] bg-opacity-40 rounded-[4px] shadow-lg z-50`}
+                                className={`dropdown-menu cursor-pointer absolute right-0 mt-1 w-48 ${isDropdownOpen ? 'block' : 'hidden'} bg-[#FFFFFF80] backdrop-blur-[28px] bg-opacity-40 rounded-[4px] shadow-lg z-50`}
                                 onMouseLeave={() => setIsDropdownOpen(false)}
                             >
                                 {dropdownItems.map((item) => (
