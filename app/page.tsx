@@ -1496,7 +1496,7 @@ const PropertyCardLuxe = ({
       <div className="flex flex-col sm:mb-[20px] md:flex-row md:items-end md:justify-between">
         <p className="text-white text-[18px] sm:text-[28px] mb-4 md:mb-0 leading-none"
           style={{ fontWeight: '300', fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
-          with Property <br /> Management <br />company  in Pune
+          with Property <br /> Management <br />company in Pune
         </p>
         <Link href="/contact-us-propertydrone-realty">
          <button

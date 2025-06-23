@@ -62,6 +62,19 @@ export default function AllRealEstateBasics() {
     }
   };
 
+  const isValidImageUrl = (url: string) => {
+    try {
+      const urlObj = new URL(url);
+      return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+    } catch {
+      return false;
+    }
+  };
+
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.style.display = 'none';
+  };
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -87,14 +100,25 @@ export default function AllRealEstateBasics() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {basics.map((basic) => (
           <div key={basic.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-            {basic.images && basic.images[0] && (
-              <div className="relative h-48 w-full">
+            {basic.images && basic.images[0] && isValidImageUrl(basic.images[0]) ? (
+              <div className="relative h-48 w-full bg-gray-200">
                 <Image
                   src={basic.images[0]}
                   alt={basic.title}
                   fill
                   className="object-cover"
+                  unoptimized
+                  onError={handleImageError}
                 />
+              </div>
+            ) : (
+              <div className="h-48 w-full bg-gray-200 flex items-center justify-center">
+                <div className="text-gray-400 text-center">
+                  <svg className="mx-auto h-12 w-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <p className="text-sm">No Image Available</p>
+                </div>
               </div>
             )}
             <div className="p-4">
@@ -156,4 +180,4 @@ export default function AllRealEstateBasics() {
       </div>
     </div>
   );
-} 
+}

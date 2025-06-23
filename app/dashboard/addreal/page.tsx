@@ -75,6 +75,8 @@ export default function AddRealEstateBasic() {
   });
   const [loading, setLoading] = useState(false);
 
+  // Function to upload images and get URLs
+  
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFormData({ ...formData, images: Array.from(e.target.files) });
@@ -109,39 +111,35 @@ export default function AddRealEstateBasic() {
     setLoading(true);
 
     try {
-      const formDataToSend = new FormData();
+      // For now, use placeholder URLs for images
+      // You can implement image upload later if needed
+      const imageUrls = formData.images.map(file => `/${file.name}`);
       
-      // Append all form fields to FormData with proper validation
-      formDataToSend.append('title', formData.title.trim());
-      formDataToSend.append('description', formData.description.trim());
-      formDataToSend.append('keywords', formData.keywords.trim());
-      formDataToSend.append('author', formData.author.trim()); // Rich text content
-      formDataToSend.append('price', formData.price);
-      formDataToSend.append('location', formData.location);
-      formDataToSend.append('propertyType', formData.propertyType);
-      formDataToSend.append('bedrooms', formData.bedrooms);
-      formDataToSend.append('bathrooms', formData.bathrooms);
-      formDataToSend.append('area', formData.area);
-      formDataToSend.append('status', formData.status);
+      // Prepare JSON data for the API
+      const jsonData = {
+        title: formData.title.trim(),
+        description: formData.description.trim(),
+        keywords: formData.keywords.trim(),
+        author: formData.author.trim(),
+        price: formData.price || null,
+        location: formData.location || null,
+        propertyType: formData.propertyType || null,
+        bedrooms: formData.bedrooms ? parseInt(formData.bedrooms) : null,
+        bathrooms: formData.bathrooms ? parseInt(formData.bathrooms) : null,
+        area: formData.area ? parseInt(formData.area) : null,
+        status: formData.status || 'available',
+        images: imageUrls // Use placeholder URLs for now
+      };
 
-      // Append images
-      formData.images.forEach((image, index) => {
-        formDataToSend.append('images', image);
-      });
-
-      console.log('Sending form data:', {
-        title: formData.title,
-        description: formData.description,
-        keywords: formData.keywords,
-        author: formData.author,
-        imagesCount: formData.images.length
-      });
+      console.log('Sending JSON data:', jsonData);
 
       // POST API call to create real estate listing
       const response = await fetch('https://api.propertydronerealty.com/real-estate', {
         method: 'POST',
-        body: formDataToSend,
-        // Note: Don't set Content-Type header when using FormData - browser sets it automatically with boundary
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jsonData),
       });
 
       if (!response.ok) {
@@ -153,7 +151,11 @@ export default function AddRealEstateBasic() {
       const result = await response.json();
       console.log('Real estate listing created:', result);
       
-      toast.success('Real estate listing created successfully!');
+      // Log what we sent vs what we received
+      console.log('Data sent:', jsonData);
+      console.log('Data received:', result);
+      
+      toast.success(`Real estate listing "${formData.title}" created successfully!`);
       
       // Reset form after successful submission
       setFormData({

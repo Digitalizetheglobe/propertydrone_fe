@@ -20,7 +20,7 @@ const nextConfig = {
 
   // Image configuration
   images: {
-    domains: ['localhost', 'api.propertydronerealty.com'],
+    domains: ['localhost', 'api.propertydronerealty.com', 'example.com'],
     remotePatterns: [
       {
         protocol: 'http',
@@ -32,6 +32,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'api.propertydronerealty.com',
         pathname: '/uploads/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+        pathname: '/**',
       },
     ],
   },
