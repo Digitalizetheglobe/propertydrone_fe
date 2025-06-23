@@ -128,7 +128,7 @@ export default function AddRealEstateBasic() {
         bathrooms: formData.bathrooms ? parseInt(formData.bathrooms) : null,
         area: formData.area ? parseInt(formData.area) : null,
         status: formData.status || 'available',
-        images: imageUrls // Use placeholder URLs for now
+        images: ['/dummy-image.jpg']
       };
 
       console.log('Sending JSON data:', jsonData);
@@ -261,116 +261,9 @@ export default function AddRealEstateBasic() {
           />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-            Price
-          </label>
-          <input
-            type="number"
-            id="price"
-            value={formData.price}
-            onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter price"
-          />
-        </div>
+       
 
-        <div className="mb-4">
-          <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
-            Location
-          </label>
-          <input
-            type="text"
-            id="location"
-            value={formData.location}
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter location"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="propertyType" className="block text-sm font-medium text-gray-700 mb-1">
-            Property Type
-          </label>
-          <select
-            id="propertyType"
-            value={formData.propertyType}
-            onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Select property type</option>
-            <option value="apartment">Apartment</option>
-            <option value="house">House</option>
-            <option value="villa">Villa</option>
-            <option value="office">Office</option>
-            <option value="commercial">Commercial</option>
-          </select>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          <div>
-            <label htmlFor="bedrooms" className="block text-sm font-medium text-gray-700 mb-1">
-              Bedrooms
-            </label>
-            <input
-              type="number"
-              id="bedrooms"
-              value={formData.bedrooms}
-              onChange={(e) => setFormData({ ...formData, bedrooms: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              min="0"
-              placeholder="0"
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="bathrooms" className="block text-sm font-medium text-gray-700 mb-1">
-              Bathrooms
-            </label>
-            <input
-              type="number"
-              id="bathrooms"
-              value={formData.bathrooms}
-              onChange={(e) => setFormData({ ...formData, bathrooms: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              min="0"
-              placeholder="0"
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="area" className="block text-sm font-medium text-gray-700 mb-1">
-              Area (sq ft)
-            </label>
-            <input
-              type="number"
-              id="area"
-              value={formData.area}
-              onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              min="0"
-              placeholder="0"
-            />
-          </div>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
-            Status
-          </label>
-          <select
-            id="status"
-            value={formData.status}
-            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="available">Available</option>
-            <option value="sold">Sold</option>
-            <option value="rented">Rented</option>
-            <option value="pending">Pending</option>
-          </select>
-        </div>
+       
 
         <div className="mb-6">
           <label htmlFor="images" className="block text-sm font-medium text-gray-700 mb-1">
