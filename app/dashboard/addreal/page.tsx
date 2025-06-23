@@ -128,7 +128,7 @@ export default function AddRealEstateBasic() {
         bathrooms: formData.bathrooms ? parseInt(formData.bathrooms) : null,
         area: formData.area ? parseInt(formData.area) : null,
         status: formData.status || 'available',
-        images: ['/dummy-image.jpg']
+        images: imageUrls // Use placeholder URLs for now
       };
 
       console.log('Sending JSON data:', jsonData);
@@ -260,8 +260,6 @@ export default function AddRealEstateBasic() {
             placeholder="e.g. apartment, luxury, downtown, spacious"
           />
         </div>
-
-       
 
        
 

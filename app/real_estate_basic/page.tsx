@@ -95,16 +95,7 @@ export default function RealEstateBasicsPage() {
             {realEstateBasics.map((basic) => (
               <Link href={`real_estate_basic/${basic.id}`} key={basic.id}>
                 <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                  {basic.images && basic.images[0] && basic.images[0].startsWith('http') && (
-                    <div className="relative h-48 w-full">
-                      <Image
-                        src={basic.images[0]}
-                        alt={basic.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
+                  
                   {(!basic.images || !basic.images[0] || !basic.images[0].startsWith('http')) && (
                     <div className="relative h-48 w-full bg-gray-200 flex items-center justify-center">
                       <span className="text-gray-500 text-sm">No image available</span>
