@@ -146,7 +146,7 @@ const Mainfooter = () => {
                 <ul className="space-y-3 text-sm" style={{ fontFamily: 'Lato', letterSpacing: '0.5px', color: '#FFFFFF99' }}>
                   {/* <li><Link  href={`/properties?location=`} className="hover:text-white transition-colors">Top Projects in Ulhasnagar</Link></li> */}
                   <li><Link href="/our-properties-in-pune?location=baner" className="hover:text-white transition-colors">Top Projects in Baner</Link></li>
-                  <li><Link  href="/our-properties-in-pune?location=Hinjewadi" className="hover:text-white transition-colors">Top Projects in Hinjewadi</Link></li>
+                  <li><Link  href="/our-properties-in-pune?location=Hinjewadi" className="hover:text-white transition-colors">Top Projects in Hinjawadi</Link></li>
                   <li><Link  href={`/our-properties-in-pune?location= Wakad`} className="hover:text-white transition-colors">Top Projects in Wakad</Link></li>
                   <li><Link  href={`/our-properties-in-pune?location=Ravet`} className="hover:text-white transition-colors">Top Projects in Ravet</Link></li>
                 </ul>
@@ -158,7 +158,7 @@ const Mainfooter = () => {
                 <ul className="space-y-3 text-sm" style={{ fontFamily: 'Lato', letterSpacing: '0.5px', color: '#FFFFFF99' }}>
                   <li><Link href="/estate_developer/anp-corp" className="hover:text-white transition-colors">Top Projects by ANP Corp</Link></li>
                   <li><Link href="/estate_developer/majestique-developer" className="hover:text-white transition-colors">Top Projects by Majestique Developer</Link></li>
-                  <li><Link href="/estate_developer/krunal-group" className="hover:text-white transition-colors">Top Projects by Krunal Group</Link></li>
+                  <li><Link href="/estate_developer/krunal-group" className="hover:text-white transition-colors">Top Projects by Kunal Group</Link></li>
                   <li><Link href="/estate_developer/kasturi" className="hover:text-white transition-colors">Top Projects by Kasturi</Link></li>
                   <li><Link href="/estate_developer/skyi-developers" className="hover:text-white transition-colors">Top Projects by Skyi Developers</Link></li>
                   <li><Link href="/estate_developer/solitaire" className="hover:text-white transition-colors">Top Projects by Solitaire</Link></li>
