@@ -498,13 +498,18 @@ const AnimatedStarButton = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link href="/our-properties-in-pune">
               <button className="bg-[#172747] text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
                 Explore Properties
                 <ArrowRight size={18} />
               </button>
+              </Link>
+              <Link href="/contact-us-propertydrone-realty">
               <button className="border border-white bg-white text-[#172747] px-6 py-3 hover:bg-[#172747] hover:text-white transition-colors">
                 Book Consultation
               </button>
+              </Link>
+             
             </div>
           </div>
         </div>

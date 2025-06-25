@@ -55,7 +55,7 @@ const YoutubeVideoList: React.FC = () => {
   const fetchVideos = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('https://api.propertydronerealty.com/youtube-videos');
+      const response = await axios.get('/api/youtube-videos');
       setVideos(response.data);
       setError('');
     } catch (err) {
