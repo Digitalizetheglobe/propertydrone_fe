@@ -23,6 +23,9 @@ import d14 from "@/public/images/Frame 104.png";
 import b1 from "@/public/images/service.png";
 import b2 from "@/public/images/buliding.png";
 import b3 from "@/public/images/service2.png";
+import imagedefault1 from "@/public/images/OIP (1).jpg";
+import imagedefault2 from "@/public/images/OIP (8).jpg";
+import imagedefault3 from "@/public/images/today8.jpg";
 // import d10 from "@/public/images/Frame 113.png";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp, Building2 , Globe, Book, Wallet, Zap, Home as HomeIcon, ClipboardList,Clock,Banknote,Eye,
   Users } from 'lucide-react';
@@ -152,29 +155,7 @@ const faqData = [
 ];
 
 
-const blogPosts = [
-  {
-    id: 1,
-    title: 'Top 5 Areas to Invest in Pune',
-    date: '16th April, 2025',
-    image: b1,
-    slug: 'top-5-areas-to-invest-in-pune'
-  },
-  {
-    id: 2,
-    title: 'What to Know Before Buying a New Flat',
-    date: '16th April, 2025',
-    image: b2,
-    slug: 'what-to-know-before-buying-a-new-flat'
-  },
-  {
-    id: 3,
-    title: 'What to Know Before Buying a New Flat',
-    date: '16th April, 2025',
-    image: b3,
-    slug: 'what-to-know-before-buying-a-new-flat-2'
-  }
-];
+
 const features = [
   {
     id: '01',
@@ -1460,6 +1441,63 @@ const PropertyCardLuxe = ({
     setShowCookieBanner(false);
   };
 
+  interface BlogPost {
+    id: number;
+    slug: string;
+    image: string;
+    title: string;
+    date: string;
+  }
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+
+  const defaultImages = [
+    imagedefault1.src,
+    imagedefault2.src,
+    imagedefault3.src
+  ];
+
+  useEffect(() => {
+    fetch('https://api.propertydronerealty.com/blogs')
+      .then(res => res.json())
+      .then(data => {
+        console.log('API data:', data); // Debug: log API response
+        interface BlogApiImage {
+          url: string;
+          [key: string]: any;
+        }
+
+        interface BlogApiPost {
+          id: number;
+          slug: string;
+          blogImage?: BlogApiImage[];
+          blogTitle: string;
+          createdAt: string;
+          [key: string]: any;
+        }
+
+        interface BlogPostMapped {
+          id: number;
+          slug: string;
+          image: string;
+          title: string;
+          date: string;
+        }
+
+        const mapped: BlogPostMapped[] = (data as BlogApiPost[]).map((post: BlogApiPost, idx: number): BlogPostMapped => ({
+          id: post.id,
+          slug: post.slug,
+          // Always use only the default images, cycling through them
+          image: defaultImages[idx % 3],
+          title: post.blogTitle,
+          date: new Date(post.createdAt).toLocaleDateString(),
+        }));
+        setBlogPosts(mapped);
+      });
+  }, []);
+
+  // In your render, update the blog grid to only show the last 3 posts:
+  const lastThreePosts = blogPosts.slice(-3);
+
   return (
     <div className="min-h-screen">
       {showCookieBanner && (
@@ -2479,7 +2517,7 @@ const PropertyCardLuxe = ({
         {/* Blog Posts Grid */}
             {/* <div className="flex-grow h-px bg-gray-400"></div> */}
        <div className="grid grid-cols-1 md:grid-cols-3 mx-auto max-w-6xl px-4 gap-6">
-      {blogPosts.map((post, i) => (
+      {lastThreePosts.map((post, i) => (
         <motion.div
           key={post.id}
           className="border border-gray-300 hover:bg-white hover:text-[#172747] hover:border-0 rounded-[4px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 "
@@ -2489,7 +2527,7 @@ const PropertyCardLuxe = ({
           viewport={{ once: true, amount: 0.2 }}
           custom={i}
         >
-          <Link href={`/blog/${post.id}`} className="block group">
+          <Link href={`/blog/${post.slug}`} className="block group">
             <div className="relative cursor-pointer h-48 overflow-hidden ">
               <Image
                 src={post.image}
