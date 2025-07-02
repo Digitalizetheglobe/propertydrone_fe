@@ -244,11 +244,11 @@ const Mainfooter = () => {
               &copy; {new Date().getFullYear()} NIYUSH PROPERTYDRONE REALTY LLP.<br/> All Rights Reserved | Crafted with care by  <a href="https://digitalizetheglobe.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-300">Digitalize The Globe</a>.
             </div>
            <div className="flex space-x-8">
-             <div className="flex space-x-8">
+             <div className="flex space-x-2">
               {/* <Link href="/terms" className="hover:text-gray-300 transition-colors">Terms of Usage</Link> */}
               <Link href="/terms-and-condition" className="hover:text-gray-300 transition-colors"> Terms and Condition</Link>
             </div>
-            <div className="flex space-x-8">
+            <div className="flex space-x-2">
               {/* <Link href="/terms" className="hover:text-gray-300 transition-colors">Terms of Usage</Link> */}
               <Link href="/privacy-policy" className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
             </div>
