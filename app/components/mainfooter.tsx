@@ -117,16 +117,7 @@ const Mainfooter = () => {
       style={{ fontFamily: 'Lato', letterSpacing: '0.5px', marginLeft: '0.5rem' }}
     >
       
-      Floor No.: 8 Floor<br />
-Building No./Flat No.: 801<br />
-Name Of Premises/Building: Shivom Regency<br />
-Road/Street: Baner Road<br />
-Nearby Landmark: Near Primrose The Mall<br />
-Locality/Sub Locality: Baner Gaon<br />
-City/Town/Village: Pune<br />
-District: Pune<br />
-State: Maharashtra<br />
-PIN Code: 411045<br />
+    Shivom Regency, 8th Floor, Flat No.: 801, Near Primrose The Mall, Baner Road, Baner Gaon, Pune - 411045
     </span>
     {/* <span
       className=" text-base leading-relaxed"
