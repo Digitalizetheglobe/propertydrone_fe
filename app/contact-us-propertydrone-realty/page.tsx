@@ -146,7 +146,7 @@ export default function ContactUs() {
     className="w-full max-w-md bg-[#172747] text-white p-6 md:p-12 rounded-lg shadow-lg md:-mt-[300px]"
     style={{ zIndex: 99 }}
   >
-        <h1
+        <h2
           style={{
         fontFamily: "Ivy Mode",
         fontWeight: 100,
@@ -154,7 +154,7 @@ export default function ContactUs() {
         letterSpacing: '0'
           }}
           className="mb-4 text-white text-[32px] md:text-[42px] sm:text-[56px]"
-        >Let's Connect!</h1>
+        >Let's Connect!</h2>
         <p className="text-gray-300 text-[16px] md:text-[18px] sm:text-[28px] my-4 md:mb-0 leading-tight md:leading-none"
           style={{ fontWeight: '300', fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '120%' }}>
           Whether you have questions, need expert guidance, or

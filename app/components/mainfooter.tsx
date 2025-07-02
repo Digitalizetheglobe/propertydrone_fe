@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -113,12 +114,28 @@ const Mainfooter = () => {
     </div>
     <span
       className=" text-base leading-relaxed"
+      style={{ fontFamily: 'Lato', letterSpacing: '0.5px', marginLeft: '0.5rem' }}
+    >
+      
+      Floor No.: 8 Floor<br />
+Building No./Flat No.: 801<br />
+Name Of Premises/Building: Shivom Regency<br />
+Road/Street: Baner Road<br />
+Nearby Landmark: Near Primrose The Mall<br />
+Locality/Sub Locality: Baner Gaon<br />
+City/Town/Village: Pune<br />
+District: Pune<br />
+State: Maharashtra<br />
+PIN Code: 411045<br />
+    </span>
+    {/* <span
+      className=" text-base leading-relaxed"
       style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
     >
       9th Floor, Shivom Regency,<br />
       Baner, Pune,<br />
       Maharashtra, 411045
-    </span>
+    </span> */}
   </a>
 </div>
 
@@ -232,13 +249,19 @@ const Mainfooter = () => {
         {/* Copyright */}
         <div className="pb-6 border-t border-white border-opacity-20">
          <div className="container mx-auto px-8 flex flex-col md:flex-row justify-between items-center text-base font-medium leading-none tracking-normal text-white mt-8 gap-4 font-lato">
-            <div className="text-center md:text-left">
-              © 2025 Property Drone Realty. All Rights Reserved. Developed & Designed by Digitalize The Globe.
+            <div className="text-center md:text-left"  style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>
+              &copy; {new Date().getFullYear()} NIYUSH PROPERTYDRONE REALTY LLP.<br/> All Rights Reserved | Crafted with care by  <a href="https://digitalizetheglobe.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-300">Digitalize The Globe</a>.
+            </div>
+           <div className="flex space-x-8">
+             <div className="flex space-x-8">
+              {/* <Link href="/terms" className="hover:text-gray-300 transition-colors">Terms of Usage</Link> */}
+              <Link href="/terms-and-condition" className="hover:text-gray-300 transition-colors"> Terms and Condition</Link>
             </div>
             <div className="flex space-x-8">
               {/* <Link href="/terms" className="hover:text-gray-300 transition-colors">Terms of Usage</Link> */}
               <Link href="/privacy-policy" className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
             </div>
+           </div>
           </div>
 
         </div>

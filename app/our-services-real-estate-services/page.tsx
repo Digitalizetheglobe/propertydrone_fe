@@ -299,61 +299,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="py-4 bg-white">
-          <div className="container mx-auto px-4 md:px-8 lg:px-12 overflow-hidden">
-            <div className="py-8 relative flex flex-col md:flex-row items-center justify-center mobile-adjusted" data-aos="fade-right">
-              <div className="w-[550px] h-[430px] relative z-0 mobile-img-box">
-                <Image
-                  src={service6}
-                  alt="Residential property"
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <div className="md:-ml-20 z-10 bg-[#172747] text-white p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box">
-                <h2 className="text-3xl md:text-4xl" 
-                    style={{
-                      fontFamily: "'Ivy Mode'",
-                      fontWeight: 200,
-                      fontSize: '38px',
-                      lineHeight: '140%',
-                      letterSpacing: '1px'
-                    }}>
-                  Projects on Mandate
-                </h2>
-                <p className="text-base font-normal leading-none"
-                  style={{ fontFamily: 'Lato', letterSpacing: '0.5px', color: '#FFFFFF99', lineHeight: '150%' }}>
-                 Even when we take on projects on mandate, we leave no stone unturned to provide our client with best services. Like projects under contract, it also includes feasibility studies for projects, site analyses, design and planning, construction management, and post-construction services. Our team of experts can supervise your project, assuring it is concluded to the highest standards, on schedule, and within the allocated budget.
-        </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Commercial Property Section */}
-        <section className="py-4 bg-white">
-          <div className="container mx-auto px-4 md:px-8 lg:px-12 overflow-hidden">
-            <div className="py-8 relative flex flex-col md:flex-row items-center justify-center mobile-column-reverse" data-aos="fade-left">
-              <div className="md:-mr-20 z-10 bg-[#EEF1F5] text-[#172747] p-6 md:w-[500px] w-[600px] h-[350px] shadow-lg mobile-text-box-2">
-                <h2 className="text-3xl md:text-4xl font-serif mb-6">
-                   Property Management
-                </h2>
-                <p className="text-base font-normal leading-none"
-                  style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '150%', color: '#2a4073' }}>
-               Being a real estate company, we very well know how time consuming and stress-intensive real estate management can be. For this exact reason, we provide full property management as one of our services. It consists of tenant vetting and placement, rent collecting, maintenance and repair, and financial reporting. Your rental revenue is increased while your properties are maintained in excellent shape.
-                </p>
-              </div>
-              <div className="w-[550px] h-[430px] relative z-0 mobile-img-box-2">
-                <Image
-                  src={service6}
-                  alt="Commercial property"
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+       
 
       
 

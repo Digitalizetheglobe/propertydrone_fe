@@ -1,5 +1,6 @@
 "use client"
 import Link from "next/link";
+import Head from "next/head";
 import Image from "next/image";
 import AnimatedLetters from '@/app/components/AnimatedLetters';
 // import logo from "@/app/images/PropertyDrone-Logo.png"; 
@@ -45,7 +46,7 @@ import 'aos/dist/aos.css';
 
 
 import axios from 'axios';
-import Head from 'next/head';
+
 
 interface YoutubeVideo {
   id: number;
@@ -1152,6 +1153,8 @@ const PropertyCardLuxe = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const animationTimeout = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const baseUrl = "https://api.propertydronerealty.com";
   const imagePath = property?.multipleImages?.[0]?.path
@@ -1159,6 +1162,7 @@ const PropertyCardLuxe = ({
     : main2;
 
   useEffect(() => {
+    // Initial intersection observer for first animation
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -1179,6 +1183,23 @@ const PropertyCardLuxe = ({
       if (cardRef.current) observer.unobserve(cardRef.current);
     };
   }, [delay]);
+
+  useEffect(() => {
+    // After the card is visible, set up interval to repeat animation every 20s
+    if (isVisible) {
+      intervalRef.current = setInterval(() => {
+        setIsVisible(false);
+        // Wait for the animation to "reset" (e.g., 100ms), then show again
+        animationTimeout.current = setTimeout(() => {
+          setIsVisible(true);
+        }, 100);
+      }, 20000); // 20 seconds
+    }
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (animationTimeout.current) clearTimeout(animationTimeout.current);
+    };
+  }, [isVisible]);
 
   return (
     <Link href={`/luxe-properties/${property.slug}`} passHref>
@@ -1500,6 +1521,33 @@ const PropertyCardLuxe = ({
 
   return (
     <div className="min-h-screen">
+      <Head>
+        <title>Top Real Estate Agency Pune</title>
+        <meta name="description" content="Top real estate agency in Pune offering luxury homes, premium flats & exclusive properties. Buy your dream home with expert advice and trusted service." />
+        <meta name="keywords" content="real estate agency Pune, luxury homes Pune, premium flats Pune, buy property Pune" />
+        <link rel="canonical" href="https://propertydronerealty.com/" />
+        <meta name="robots" content="index, follow" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "RealEstateAgent",
+              "name": "Property Drone Realty",
+              "url": "https://propertydronerealty.com/",
+              "description": "Top real estate agency in Pune offering luxury homes, premium flats & exclusive properties.",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Pune",
+                "addressRegion": "MH",
+                "addressCountry": "IN"
+              },
+              "telephone": "+91 9561477575 ",
+              "email": "info@propertydronerealty.com"
+            })
+          }}
+        />
+      </Head>
       {showCookieBanner && (
         <CookieBanner
           onAccept={handleAcceptCookies}

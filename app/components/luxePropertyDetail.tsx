@@ -527,7 +527,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
         </h2>
         
         <div className="space-y-4">
-          <h3 className="font-medium text-gray-700">Walkthrough{property.youtubeTitle && `: ${property.youtubeTitle}`}</h3>
+          {/* <h3 className="font-medium text-gray-700">Walkthrough{property.youtubeTitle && `: ${property.youtubeTitle}`}</h3> */}
           
           {/* Video Thumbnail */}
           <div className="relative bg-gray-900 rounded-lg overflow-hidden">

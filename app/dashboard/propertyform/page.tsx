@@ -558,12 +558,13 @@ const generateSlug = () => {
                 name="seoDescription"
                 value={formData.seoDescription}
                 onChange={handleChange}
-                rows={3}
+                rows={10}
                 className="w-full p-2 border border-gray-300 rounded-md"
               ></textarea>
             </div>
           </div>
         </div>
+        
         
         {/* Image Upload */}
         <div className="border-t pt-6 mt-6">

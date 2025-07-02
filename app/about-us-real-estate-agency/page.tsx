@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { ArrowRight } from 'lucide-react';
 import React from 'react';
+import Head from 'next/head';
 
 import Image from 'next/image';
 // import heroBackground from '@/public/images/7578550-uhd_3840_2160_30fps 1.png'; // Replace with the correct path to your image
@@ -241,6 +242,25 @@ useEffect(() => {
 
   return (
     <div className="w-full bg-white">
+      <Head>
+        <title>We are a top real estate agency in Pune</title>
+        <meta name="description" content="Property Drone Realty is a trusted real estate agency in Pune offering expert guidance on residential and commercial property buying, selling & investments." />
+        <meta name="keywords" content=" real estate agency Pune, luxury homes Pune, premium flats Pune, buy property Pune, residential commercial property Pune" />
+        <link rel="canonical" href="https://propertydronerealty.com/about-us-real-estate-agency" />
+        <meta name="robots" content="index, follow" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Property Drone Realty",
+              "url": "https://propertydronerealty.com/about-us-real-estate-agency",
+              "description": "We are a top real estate agency in Pune helping buyers & investors with residential and commercial properties."
+            })
+          }}
+        />
+      </Head>
       {/* Who We Are Section */}
       <section className="relative min-h-screen">
          <div className="absolute inset-0 z-0">

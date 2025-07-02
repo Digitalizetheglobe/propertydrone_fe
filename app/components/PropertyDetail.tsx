@@ -447,7 +447,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
         </h2>
         
         <div className="space-y-4">
-          <h3 className="font-medium text-gray-700">Walkthrough{property.youtubeTitle && `: ${property.youtubeTitle}`}</h3>
+          {/* <h3 className="font-medium text-gray-700">Walkthrough{property.youtubeTitle && `: ${property.youtubeTitle}`}</h3> */}
           
           {/* Video Thumbnail */}
           <div className="relative bg-gray-900 rounded-lg overflow-hidden">
@@ -464,7 +464,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                   <div className="w-0 h-0 border-l-[20px] border-l-gray-800 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1"></div>
                 </div>
               </div>
-            </a>
+            </a> 
           </div>
         </div>
       </div>
