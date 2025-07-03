@@ -189,6 +189,7 @@ useEffect(() => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState<ImageType | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isCarouselHovered, setIsCarouselHovered] = useState(false);
   
   const resetTimeout = () => {
     if (timeoutRef.current) {
@@ -644,89 +645,131 @@ useEffect(() => {
    
       {/* Other Team Members Section */}
       <div className="w-full bg-gray-100 py-4">
-      <div className="container mx-auto px-4 max-w-6xl py-6">
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  {emps.map((image, index) => (
-    <div
-      key={index}
-      className="bg-white rounded-[4px] shadow-md hover:shadow-xl transform transition duration-500 hover:scale-105 overflow-hidden"
-      data-aos="fade-up"
-      data-aos-delay={index * 200}
-    >
-      <div className=" overflow-hidden"> {/* Increased height */}
-        <Image
-          src= {image.src}
-          alt={`Team Member ${index + 1}`}
-          className="w-full h-full object-cover object-center"
-        />
-      </div>
-      <div className="p-4">
-        <p className="font-medium text-base">{image.name}</p>
-        <p className="text-gray-600 text-sm">{image.dec}</p>
-      </div>
-    </div>
-  ))}
-</div>
-      <div className="relative w-full max-w-6xl mx-auto px-4 py-8">
-            {/* Main Slider */}
-            <div className="flex items-center justify-center gap-4 overflow-hidden relative">
-              {visibleImages.map((image, index) => (
-                <div 
-                  key={`${image.id}-${index}`}
-                 className={`relative cursor-pointer transition-all duration-300 flex-shrink-0 bg-gray-200
-  ${image.size === 'large' ? 'w-64 h-48' : 'w-[160px] h-48'}`}
-
-                  onClick={() => openModal(image)}
-                >
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    className="object-cover"
-                    placeholder="blur"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Navigation buttons */}
-            <button 
-              className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full text-white z-10"
-              onClick={prevSlide}
-              aria-label="Previous slide"
+      <div className="container mx-auto px-4 max-w-6xl py-6 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {emps.map((image, index) => (
+            <div
+              key={index}
+              className="bg-white  rounded-[4px] shadow-md hover:shadow-xl transform transition duration-500 hover:scale-105 overflow-hidden"
+              data-aos="fade-up"
+              data-aos-delay={index * 200}
             >
-              <ChevronLeft size={20} />
-            </button>
-            <button 
-              className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full text-white z-10"
-              onClick={nextSlide}
-              aria-label="Next slide"
-            >
-              <ChevronRight size={30} />
-            </button>
-
-            {/* Modal for enlarged view */}
-            {isModalOpen && modalImage && (
-              <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-                <div className="relative w-full max-w-4xl h-3/4">
-                  <Image
-                    src={modalImage.src}
-                    alt={modalImage.alt}
-                    fill
-                    className="object-contain"
-                  />
-                  <button 
-                    className="absolute top-4 right-4 p-2 bg-black/50 rounded-full text-white"
-                    onClick={closeModal}
-                    aria-label="Close modal"
-                  >
-                    <X size={24} />
-                  </button>
-                </div>
+              <div className=" overflow-hidden">
+                <Image
+                  src={image.src}
+                  alt={`Team Member ${index + 1}`}
+                  className="w-full h-full object-cover object-center"
+                />
               </div>
-            )}
+              <div className="p-4">
+                <p className="font-medium text-base">{image.name}</p>
+                <p className="text-gray-600 text-sm">{image.dec}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Smooth, slow, continuous carousel with pause on hover, manual scroll, modal on click */}
+        <div className="relative w-full max-w-6xl mx-auto px-4 py-8 overflow-x-auto">
+          {/* Scroll Buttons */}
+          <button
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/70 text-white p-2 rounded-full"
+            style={{ pointerEvents: 'auto' }}
+            onClick={() => {
+              const container = document.getElementById('carousel-scroll');
+              if (container) container.scrollBy({ left: -350, behavior: 'smooth' });
+            }}
+            aria-label="Scroll left"
+            type="button"
+          >
+            <ChevronLeft size={28} />
+          </button>
+          <button
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/70 text-white p-2 rounded-full"
+            style={{ pointerEvents: 'auto' }}
+            onClick={() => {
+              const container = document.getElementById('carousel-scroll');
+              if (container) container.scrollBy({ left: 350, behavior: 'smooth' });
+            }}
+            aria-label="Scroll right"
+            type="button"
+          >
+            <ChevronRight size={28} />
+          </button>
+          <div
+            id="carousel-scroll"
+            className="flex items-center gap-4 animate-carousel overflow-x-auto scrollbar-hide"
+            style={{ width: `${images.length * 2 * 180}px`, animationPlayState: isCarouselHovered ? 'paused' : 'running', cursor: 'grab' }}
+            onMouseEnter={() => setIsCarouselHovered(true)}
+            onMouseLeave={() => setIsCarouselHovered(false)}
+          >
+            {/* Duplicate images for infinite effect */}
+            {[...images, ...images].map((image, index) => (
+              <div
+                key={`${image.id}-${index}`}
+                className={`relative flex-shrink-0 bg-gray-200 rounded-md overflow-hidden ${image.size === 'large' ? 'w-64 h-48' : 'w-[160px] h-48'}`}
+                style={{ marginRight: '16px' }}
+                onClick={() => setModalImage(image)}
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover cursor-pointer"
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
+                />
+              </div>
+            ))}
           </div>
+          <style jsx>{`
+            @keyframes carousel {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+            .animate-carousel {
+              animation: carousel 60s linear infinite;
+            }
+            /* Hide scrollbar for all browsers */
+            .scrollbar-hide {
+              -ms-overflow-style: none; /* IE and Edge */
+              scrollbar-width: none; /* Firefox */
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+              display: none; /* Chrome, Safari, Opera */
+            }
+          `}</style>
+        </div>
+        {/* Modal for image preview */}
+        {modalImage && (
+          <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-80"
+            onClick={() => setModalImage(null)}
+          >
+            <div
+              className="relative bg-white rounded-lg p-4 max-w-3xl w-full flex flex-col items-center"
+              onClick={e => e.stopPropagation()}
+            >
+              <button
+                className="absolute top-2 right-2 text-gray-700 hover:text-black text-2xl"
+                onClick={() => setModalImage(null)}
+                aria-label="Close"
+                type="button"
+              >
+                &times;
+              </button>
+              <div className="w-full h-[400px] relative">
+                <Image
+                  src={modalImage.src}
+                  alt={modalImage.alt}
+                  fill
+                  className="object-contain rounded"
+                />
+              </div>
+              {/* <p className="mt-4 text-lg">{modalImage.alt}</p> */}
+            </div>
+          </div>
+        )}
+      </div>
       </div>
 
         <section className="bg-[#0F1E3D] py-16 px-4">
@@ -735,26 +778,61 @@ useEffect(() => {
         <h2 className="text-white text-4xl md:text-5xl font-light text-center mb-12 tracking-wider">
           Awards & Achievements
         </h2>
-        
-        {/* Awards Gallery */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {awards.map((award) => (
-            <div 
-              key={award.id} 
-              className="relative aspect-[4/3] border-2 border-white/20 p-1"
+        {/* Awards Slider */}
+        <div className="relative">
+          {/* Left Arrow */}
+          <button
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/70 text-white p-2 rounded-full"
+            onClick={() => {
+              const container = document.getElementById('awards-slider');
+              if (container) container.scrollBy({ left: -350, behavior: 'smooth' });
+            }}
+            aria-label="Scroll left"
+          >
+            <ChevronLeft size={28} />
+          </button>
+          {/* Right Arrow */}
+          <button
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/70 text-white p-2 rounded-full"
+            onClick={() => {
+              const container = document.getElementById('awards-slider');
+              if (container) container.scrollBy({ left: 350, behavior: 'smooth' });
+            }}
+            aria-label="Scroll right"
+          >
+            <ChevronRight size={28} />
+          </button>
+          {/* Slider */}
+        <div className="mx-auto">
+            <motion.div
+              id="awards-slider"
+              className="flex gap-6 scrollbar-hide py-2 px-8 ml-0 md:ml-16 max-w-screen-xl"
+              style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
+              drag="x"
+              dragConstraints={{ left: -((awards.length - 1) * 350), right: 0 }}
+              whileTap={{ cursor: 'grabbing' }}
             >
-              <div className="relative w-full h-full">
-                <Image
-                  src={award.src}
-                  alt={award.alt}
-                  fill
-                  className="object-cover"
-                  placeholder="blur"
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
-                />
-              </div>
-            </div>
-          ))}
+              {awards.map((award) => (
+                <motion.div
+                  key={award.id}
+                  className="relative min-w-[300px] max-w-[350px] aspect-[4/3] border-2 border-white/20 p-1 bg-[#172747] rounded-lg flex-shrink-0"
+                  style={{ scrollSnapAlign: 'center' }}
+                  whileHover={{ scale: 1.04 }}
+                >
+                  <div className="relative w-full h-0 pb-[75%]">
+                    <Image
+                      src={award.src}
+                      alt={award.alt}
+                      fill
+                      className="object-cover rounded-md"
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+        </div>
         </div>
       </div>
     </section>
@@ -835,7 +913,18 @@ useEffect(() => {
         </div>
       </div>
     </section>
-      </div>
     </div>
   );
 }
+
+{/* Hide all scrollbars globally */}
+<style jsx global>{`
+  /* Hide scrollbar for all browsers globally */
+  ::-webkit-scrollbar {
+    display: none !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important; /* IE and Edge */
+    scrollbar-width: none !important; /* Firefox */
+  }
+`}</style>

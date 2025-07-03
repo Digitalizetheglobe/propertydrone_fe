@@ -57,6 +57,7 @@ function PropertiesContent() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [activeImageIndexes, setActiveImageIndexes] = useState<Record<number, number>>({});
   const [activeTab, setActiveTab] = useState('luxe');
+  const [searchLocation, setSearchLocation] = useState('');
 
   // API base URL - ideally from environment variables
   const baseUrl = "https://api.propertydronerealty.com";
@@ -256,6 +257,9 @@ const filteredProperties = properties.filter(property => {
 
   // UI location filter
   if (activeLocation !== 'all' && property.location !== activeLocation) return false;
+
+  // Location search filter (case-insensitive, partial match)
+  if (searchLocation && !property.location.toLowerCase().includes(searchLocation.toLowerCase())) return false;
 
   return true;
 });
@@ -572,9 +576,11 @@ const AnimatedStarButton = () => {
               <div className="relative mb-6">
                 <input
                   type="text"
-                  placeholder="Search properties"
+                  placeholder="Search by location (e.g., Sangamwadi)"
                   className="w-full border border-gray-300 rounded-[4px] py-3 px-4 pl-12 focus:ring-2 focus:ring-[#172747] focus:border-transparent transition-all duration-200"
                   suppressHydrationWarning
+                  value={searchLocation}
+                  onChange={e => setSearchLocation(e.target.value)}
                 />
                 <svg className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
