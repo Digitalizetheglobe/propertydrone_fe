@@ -1556,7 +1556,7 @@ const PropertyCardLuxe = ({
         />
       )}
       
-{/* <PropertyPopup/> */}
+<PropertyPopup/>
 <div className="relative h-screen bg-gray-800 overflow-hidden">
   {/* Background Video with Overlay */}
   <div className="absolute inset-0 z-0">

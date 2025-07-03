@@ -1,55 +1,70 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import logo from "@/app/images/PropertyDrone-Logo.png"; 
 
 const PropertyPopup = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
-    email: ''
+    email: '',
+    phone: ''
   });
-
-  interface FormData {
-    fullName: string;
-    email: string;
-  }
-
-  interface InputChangeEvent {
-    target: {
-      name: keyof FormData;
-      value: string;
-    };
-  }
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev: FormData) => ({
+    setFormData((prev: typeof formData) => ({
       ...prev,
       [name]: value
     }));
   };
 
-  interface HandleSubmitEvent extends React.FormEvent<HTMLFormElement> {}
-
-  const handleSubmit = (e: HandleSubmitEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    
-    // You can add your form submission logic here
-    // For example, send data to your API or email service
-    
-    // Close popup after submission
-    setIsVisible(false);
-    
-    // Optional: Show success message
-    alert('Thank you! We will contact you soon.');
+    setLoading(true);
+    setError('');
+    setSuccess('');
+    try {
+      const response = await fetch('https://api.propertydronerealty.com/contacts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.fullName,
+          email: formData.email,
+          mobile: formData.phone,
+          message: 'Popup contact form submission'
+        })
+      });
+      if (!response.ok) throw new Error('Failed to submit form');
+      setSuccess('Thank you! We will contact you soon.');
+      setFormData({ fullName: '', email: '', phone: '' });
+      setTimeout(() => setIsVisible(false), 2000);
+    } catch (err) {
+      setError('Submission failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const closePopup = () => {
     setIsVisible(false);
   };
+
+  // Show popup on first scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsVisible(true);
+      window.removeEventListener('scroll', handleScroll);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   if (!isVisible) return null;
 
@@ -62,13 +77,14 @@ const PropertyPopup = () => {
       >
         {/* Popup Container */}
         <div 
-          className="bg-white rounded-lg shadow-2xl max-w-md w-full relative animate-scale-up transform transition-all duration-300 hover:scale-105"
+          className="bg-white rounded-2xl shadow-2xl max-w-md w-full relative animate-scale-up transform transition-all duration-300 hover:scale-105 border border-gray-200"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close Button */}
           <button
             onClick={closePopup}
             className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors duration-200 hover:rotate-90 transform"
+            aria-label="Close popup"
           >
             <X size={24} />
           </button>
@@ -77,20 +93,31 @@ const PropertyPopup = () => {
           <div className="p-8">
             {/* Logo Section */}
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full mb-4 transform hover:rotate-12 transition-transform duration-300">
-                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                  <div className="w-4 h-4 bg-blue-600 rounded-full"></div>
-                </div>
-              </div>
-              <div className="text-blue-800 font-bold text-lg">
-                PROPERTY<span className="text-blue-600">DRONE</span> REALTY
-              </div>
+              <Link href="/">
+                <Image 
+                  src={logo} 
+                  alt="Logo" 
+                  className="max-h-12 sm:max-h-none mx-auto" 
+                />
+              </Link>
             </div>
 
             {/* Heading */}
             <h2 className="text-2xl font-bold text-gray-800 text-center mb-6 hover:text-blue-600 transition-colors duration-300">
               Fill The Form, We Care You!
             </h2>
+
+            {/* Success/Error Messages */}
+            {success && (
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4 text-center">
+                {success}
+              </div>
+            )}
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4 text-center">
+                {error}
+              </div>
+            )}
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -105,7 +132,6 @@ const PropertyPopup = () => {
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 placeholder-gray-500"
                 />
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 opacity-0 hover:opacity-5 transition-opacity duration-300 pointer-events-none"></div>
               </div>
 
               {/* Email Input */}
@@ -119,20 +145,43 @@ const PropertyPopup = () => {
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 placeholder-gray-500"
                 />
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 opacity-0 hover:opacity-5 transition-opacity duration-300 pointer-events-none"></div>
+              </div>
+
+              {/* Phone Input */}
+              <div className="mb-2">
+                <label htmlFor="phone" className="block font-lato text-sm mb-1">Phone No</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  onInput={e => {
+                    const input = e.target as HTMLInputElement;
+                    input.value = input.value.replace(/\D/g, '');
+                  }}
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 placeholder-gray-500"
+                  pattern="[0-9]{10}"
+                  maxLength={10}
+                  minLength={10}
+                  required
+                  title="Please enter a valid 10-digit phone number"
+                  inputMode="numeric"
+                />
               </div>
 
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-green-600 hover:to-green-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                className="w-full bg-[#172747] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#0f1a33] transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-60"
+                disabled={loading}
               >
-                GET INSTANT CALL BACK
+                {loading ? 'Submitting...' : 'GET INSTANT CALL BACK'}
               </button>
             </form>
 
             {/* Additional Info */}
-            <p className="text-center text-gray-600 text-sm mt-4 opacity-0 animate-fade-in-delayed">
+            <p className="text-center text-gray-600 text-sm mt-4 animate-fade-in-delayed">
               We respect your privacy and will never spam you.
             </p>
           </div>
@@ -180,23 +229,6 @@ const PropertyPopup = () => {
 
         .animate-fade-in-delayed {
           animation: fade-in-delayed 2s ease-out;
-        }
-
-        /* Pulse effect for the button */
-        button[type="submit"]:hover {
-          animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-          0% {
-            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
-          }
-          70% {
-            box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
-          }
-          100% {
-            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
-          }
         }
       `}</style>
     </>
