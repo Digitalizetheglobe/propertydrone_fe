@@ -447,7 +447,38 @@ export default function PropertyDetail() {
                   <p><strong>Property Type:</strong> {property.propertyType || 'N/A'}</p>
                   <p><strong>price:</strong> {property.buArea ? `${property.tentativeBudget} ` : 'N/A'}</p>
                   <p><strong>Carpet Area:</strong> {property.carpetArea ? `${property.carpetArea} ` : 'N/A'}</p>
+                  <p><strong>Event:</strong> {property.event || 'N/A'}</p>
+                  <p><strong>RERA Number:</strong> {property.reraNumber || 'N/A'}</p>
                 </div>
+
+                {/* Configuration Typology Table */}
+                {property.configurationTypology && Array.isArray(property.configurationTypology) && property.configurationTypology.length > 0 && (
+                  <div className="mt-4">
+                    <h4 className="text-lg font-semibold mb-2">Configuration Typology</h4>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full border text-sm">
+                        <thead>
+                          <tr className="bg-gray-100">
+                            <th className="border px-2 py-1">Flat</th>
+                            <th className="border px-2 py-1">Area (sqft)</th>
+                            <th className="border px-2 py-1">Price</th>
+                            <th className="border px-2 py-1">Note</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {property.configurationTypology.map((conf: any, idx: number) => (
+                            <tr key={idx}>
+                              <td className="border px-2 py-1">{conf.flat_available}</td>
+                              <td className="border px-2 py-1">{conf.area_sqft}</td>
+                              <td className="border px-2 py-1">{conf.price}</td>
+                              <td className="border px-2 py-1">{conf.note}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
 
                 {/* <p className="mt-4"><strong>About Property:</strong> {property.aboutProperty || 'No description available.'}</p> */}
 
@@ -717,6 +748,122 @@ export default function PropertyDetail() {
       onChange={(e) => setEditProperty({ ...editProperty, seoKeywords: e.target.value })}
       className="w-full border border-gray-300 rounded px-3 py-2"
     />
+  </div>
+  <div className="md:col-span-2">
+    <label className="block text-sm font-medium text-gray-700 mb-1">Event</label>
+    <input
+      type="text"
+      value={editProperty.event || ''}
+      onChange={e => setEditProperty({ ...editProperty, event: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+      placeholder="e.g., Pre-launch offer"
+    />
+  </div>
+  <div className="md:col-span-2">
+    <label className="block text-sm font-medium text-gray-700 mb-1">RERA Number</label>
+    <input
+      type="text"
+      value={editProperty.reraNumber || ''}
+      onChange={e => setEditProperty({ ...editProperty, reraNumber: e.target.value })}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+      placeholder="e.g., P51800012345"
+    />
+  </div>
+  {/* Configuration Typology Edit Table */}
+  <div className="md:col-span-2">
+    <label className="block text-sm font-medium text-gray-700 mb-1">Configuration Typology</label>
+    <div className="overflow-x-auto">
+      <table className="min-w-full border text-sm">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="border px-2 py-1">Flat</th>
+            <th className="border px-2 py-1">Area (sqft)</th>
+            <th className="border px-2 py-1">Price</th>
+            <th className="border px-2 py-1">Note</th>
+            <th className="border px-2 py-1">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {(editProperty.configurationTypology || []).map((conf: any, idx: number) => (
+            <tr key={idx}>
+              <td className="border px-2 py-1">
+                <input
+                  type="text"
+                  value={conf.flat_available}
+                  onChange={e => {
+                    const updated = [...editProperty.configurationTypology];
+                    updated[idx] = { ...updated[idx], flat_available: e.target.value };
+                    setEditProperty({ ...editProperty, configurationTypology: updated });
+                  }}
+                  className="w-full border border-gray-300 rounded px-2 py-1"
+                />
+              </td>
+              <td className="border px-2 py-1">
+                <input
+                  type="text"
+                  value={conf.area_sqft}
+                  onChange={e => {
+                    const updated = [...editProperty.configurationTypology];
+                    updated[idx] = { ...updated[idx], area_sqft: e.target.value };
+                    setEditProperty({ ...editProperty, configurationTypology: updated });
+                  }}
+                  className="w-full border border-gray-300 rounded px-2 py-1"
+                />
+              </td>
+              <td className="border px-2 py-1">
+                <input
+                  type="text"
+                  value={conf.price}
+                  onChange={e => {
+                    const updated = [...editProperty.configurationTypology];
+                    updated[idx] = { ...updated[idx], price: e.target.value };
+                    setEditProperty({ ...editProperty, configurationTypology: updated });
+                  }}
+                  className="w-full border border-gray-300 rounded px-2 py-1"
+                />
+              </td>
+              <td className="border px-2 py-1">
+                <input
+                  type="text"
+                  value={conf.note}
+                  onChange={e => {
+                    const updated = [...editProperty.configurationTypology];
+                    updated[idx] = { ...updated[idx], note: e.target.value };
+                    setEditProperty({ ...editProperty, configurationTypology: updated });
+                  }}
+                  className="w-full border border-gray-300 rounded px-2 py-1"
+                />
+              </td>
+              <td className="border px-2 py-1 text-center">
+                <button
+                  type="button"
+                  className="bg-red-500 text-white px-2 py-1 rounded"
+                  onClick={() => {
+                    const updated = [...editProperty.configurationTypology];
+                    updated.splice(idx, 1);
+                    setEditProperty({ ...editProperty, configurationTypology: updated });
+                  }}
+                  disabled={editProperty.configurationTypology.length === 1}
+                >
+                  Remove
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button
+        type="button"
+        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
+        onClick={() => {
+          const updated = [...(editProperty.configurationTypology || [])];
+          updated.push({ flat_available: '', area_sqft: '', price: '', note: '' });
+          setEditProperty({ ...editProperty, configurationTypology: updated });
+        }}
+      >
+        Add Configuration
+      </button>
+    </div>
   </div>
 </div>
   <div className="flex justify-end space-x-2 mt-6">

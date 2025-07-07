@@ -5,17 +5,25 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Head from 'next/head';
-import { Phone, Mail,  Home, Bath, Bed, Square, Calendar, MapPin, Video, ChevronUp, ChevronDown, Lock  } from 'lucide-react';
+import { Phone, Mail,  Home, Bath, Bed, Square, Calendar, MapPin, Video, ChevronUp, ChevronDown, Lock ,Copy, ExternalLink, Download    } from 'lucide-react';
 import defaultImg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 import image from '@/public/images/bgimage2.png';
 import propertydetails from '@/public/images/bgimage1.png';
 import { ArrowRight } from 'lucide-react';
 import demoimage from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
+import QRCodeGenerator from './qrcodegenerator';
 
 interface PropertyImage {
   path: string;
   filename: string;
   originalName: string;
+}
+
+interface ConfigurationTypology {
+  note?: string;
+  price: string;
+  area_sqft: string;
+  flat_available: string;
 }
 
 interface Property {
@@ -40,6 +48,9 @@ interface Property {
   googleMapUrl?: string;
   youtubeUrl?: string;
   youtubeTitle?: string;
+  reraNumber?: string;
+  configurationTypology?: ConfigurationTypology[];
+  event?: string;
 }
 
 interface PropertyDetailProps {
@@ -47,6 +58,54 @@ interface PropertyDetailProps {
 }
 
 export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
+   const [qrText, setQrText] = useState(property.event || 'https://maharerait.maharashtra.gov.in/public/project/view/54260');
+    const [qrCodeUrl, setQrCodeUrl] = useState('');
+    const [projectId, setProjectId] = useState('P52100079313');
+    const [copied, setCopied] = useState(false);
+  
+    // Generate QR code using QR Server API (free service)
+  interface GenerateQRCodeFn {
+      (text: string): void;
+  }
+  
+  const generateQRCode: GenerateQRCodeFn = (text) => {
+      const size = '200x200';
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}&data=${encodeURIComponent(text)}`;
+      setQrCodeUrl(qrUrl);
+  };
+  
+    useEffect(() => {
+      generateQRCode(qrText);
+    }, [qrText]);
+  
+    // Update QR text if property.event changes
+    useEffect(() => {
+      setQrText(property.event || 'https://maharerait.maharashtra.gov.in/public/project/view/54260');
+    }, [property.event]);
+  
+    const handleQRClick = () => {
+      window.open(qrText, '_blank');
+    };
+  
+    const handleCopy = async () => {
+      try {
+        await navigator.clipboard.writeText(qrText);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error('Failed to copy: ', err);
+      }
+    };
+  
+    const handleDownload = () => {
+      const link = document.createElement('a');
+      link.href = qrCodeUrl;
+      link.download = `${projectId}-qr-code.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -235,7 +294,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
 
     {/* Main property image */}
     <div className="relative h-56 xs:h-64 sm:h-72 md:h-96 bg-gray-200">
-      {property.multipleImages?.length > 0 ? (
+      {property.multipleImages?.length > 0 && property.multipleImages[mainImage]?.path && property.multipleImages[mainImage].path.trim() !== "" ? (
         <img
           src={`${baseUrl}${property.multipleImages[mainImage].path}`}
           alt={property.propertyName}
@@ -289,11 +348,19 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
             openModal(index);
           }}
         >
-          <img
-            src={`${baseUrl}${img.path}`}
-            alt={`Thumbnail ${index + 1}`}
-            className="object-cover w-full h-full"
-          />
+          {img.path && img.path.trim() !== "" ? (
+            <img
+              src={`${baseUrl}${img.path}`}
+              alt={`Thumbnail ${index + 1}`}
+              className="object-cover w-full h-full"
+            />
+          ) : (
+            <Image
+              src={demoimage}
+              alt={`Thumbnail ${index + 1}`}
+              className="object-cover w-full h-full"
+            />
+          )}
         </div>
       ))}
     </div>
@@ -308,119 +375,118 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
 
               {/* Right side - Property details */}
               <div className="md:w-1/2 bg-white rounded-lg p-6 shadow-md">
-                <div className="flex justify-between items-start">
-                  <h1 className="text-2xl font-bold text-gray-900">{property.propertyName}</h1>
-                 <div className="flex items-center text-sm text-orange-500 mb-6">
-                  <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                  </svg>
-                  {property.location}, {property.city}
-                </div>
-                </div>
-                
-                <h2 className="text-xl font-bold mb-4">{property.topology || 'LUXURY RESIDENCE'}</h2>
-                
-                {/* Location */}
-                
-                
-                {/* Verified dealer */}
-                {/* <div className="flex items-center bg-gray-100 text-gray-800 p-3 rounded-md mb-6">
-                  <svg className="w-5 h-5 mr-2 text-green-700" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                  </svg>
-                  <span>Verified Property Listing</span>
-                  <svg className="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div> */}
-                
-                {/* Property details */}
-                <div className="border border-gray-200 rounded-lg mb-6 p-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <div className="text-sm text-gray-600">Bedrooms</div>
-                      <div className="text-lg font-bold">{property.beds || '-'}</div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-600">Bathrooms</div>
-                      <div className="text-lg font-bold">{property.baths || '-'}</div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-600">Carpet Area</div>
-                      <div className="text-lg font-bold">{property.carpetArea ? `${property.carpetArea} sq.ft` : '-'}</div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-600">Possession</div>
-                      <div className="text-lg font-bold">{property.possession || 'Contact for details'}</div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Price */}
-                <div className="bg-gray-100 p-4 rounded-lg mb-6">
-                  <div className="text-xl font-bold">{property.tentativeBudget || 'Price on request'}</div>
-                </div>
-                
-                {/* Contact section */}
-                {/* <div className="bg-blue-50 p-4 rounded-lg mb-6 text-center text-blue-600">
-                  Interested in this property? Contact us for more details
-                </div> */}
-                
-                {/* Call to action button */}
-               
-<div className="flex flex-col gap-3 sm:flex-row sm:gap-4 w-full">
-  {/* Call Now Button */}
-  <button className="w-full cursor-pointer sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center">
-    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-    </svg>
-    Call Now
-  </button>
+  <div className="flex justify-between items-start">
+    <h1 className="text-2xl font-bold text-gray-900">{property.propertyName}</h1>
+    <div className="flex items-center text-sm text-orange-500 mb-6">
+      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+      </svg>
+      {property.location}, {property.city}
+    </div>
+  </div>
 
-  {/* WhatsApp Button */}
- <a
-  href={`https://wa.me/919561477575?text=${encodeURIComponent(
-    `Check out this property: ${property.propertyName} in ${property.city} - https://propertydronerealty.com/properties/${property.slug}`
-  )}`}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="w-full sm:w-auto cursor-pointer bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center"
-  title="Chat on WhatsApp"
->
-  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.6 5.97L0 24l6.22-1.63A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.19-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.22-1.44l-.37-.22-3.69.97.99-3.59-.24-.38A9.94 9.94 0 012 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.2-7.8c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.61.14-.18.28-.7.9-.86 1.08-.16.18-.32.2-.6.07-.28-.14-1.18-.44-2.25-1.41-.83-.74-1.39-1.65-1.55-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.34.42-.51.14-.17.18-.29.28-.48.09-.19.05-.36-.02-.5-.07-.14-.61-1.47-.84-2.01-.22-.54-.45-.47-.61-.48-.16-.01-.35-.01-.54-.01-.19 0-.5.07-.76.34-.26.27-1 1-.98 2.43.02 1.43 1.03 2.81 1.18 3.01.15.2 2.03 3.1 4.93 4.23.69.3 1.23.48 1.65.61.69.22 1.32.19 1.81.12.55-.08 1.65-.67 1.89-1.32.23-.65.23-1.21.16-1.32-.07-.11-.25-.18-.53-.32z"/>
-  </svg>
-  WhatsApp
-</a>
+  <h2 className="text-xl font-bold mb-4">{property.topology || 'LUXURY RESIDENCE'}</h2>
 
-  {/* Share Button */}
-  <button
-    type="button"
-    className="w-full sm:w-auto cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center"
-    onClick={() => {
-      if (navigator.share) {
-        navigator.share({
-          title: property.propertyName,
-          text: `Check out this property: ${property.propertyName} in ${property.city}`,
-          url: `https://propertydronerealty.com/properties/${property.slug}`,
-        });
-      } else {
-        alert('Share not supported on this browser.');
-      }
-    }}
-    title="Share"
-  >
-    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-      <circle cx="18" cy="5" r="3" />
-      <circle cx="6" cy="12" r="3" />
-      <circle cx="18" cy="19" r="3" />
-      <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" />
-    </svg>
-    Share
-  </button>
+  {/* Configurations */}
+  <div className="mb-6">
+    <h3 className="text-lg font-semibold mb-3">Configurations</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {property.configurationTypology && property.configurationTypology.length > 0 ? (
+        property.configurationTypology.map((config, idx) => (
+          <div key={idx} className="border border-gray-200 rounded-lg p-4 text-center shadow-sm">
+            <h4 className="text-md font-bold mb-2">{config.flat_available}</h4>
+            <p className="text-sm text-gray-600 mb-1">{config.area_sqft} ft²</p>
+            <p className="text-green-600 font-bold">₹{config.price}</p>
+            {config.note && (
+              <p className="text-xs text-gray-500 mt-1">{config.note}</p>
+            )}
+          </div>
+        ))
+      ) : (
+        <div className="col-span-3 text-center text-gray-500">No configurations available.</div>
+      )}
+    </div>
+  </div>
+
+  {/* Property details */}
+  <div className="border border-gray-200 rounded-lg mb-6 p-4">
+    <div className="grid grid-cols-2 gap-4">
+      {/* <div>
+        <div className="text-sm text-gray-600">Bedrooms</div>
+        <div className="text-lg font-bold">{property.beds || '-'}</div>
+      </div>
+      <div>
+        <div className="text-sm text-gray-600">Bathrooms</div>
+        <div className="text-lg font-bold">{property.baths || '-'}</div>
+      </div> */}
+      <div>
+        <div className="text-sm text-gray-600">Carpet Area</div>
+        <div className="text-lg font-bold">{property.carpetArea ? `${property.carpetArea} sq.ft` : '-'}</div>
+      </div>
+      <div>
+        <div className="text-sm text-gray-600">Possession</div>
+        <div className="text-lg font-bold">{property.possession || 'Contact for details'}</div>
+      </div>
+    </div>
+  </div>
+
+  {/* Price */}
+  
+
+  {/* Contact Section */}
+  <div className="flex flex-col gap-3 sm:flex-row sm:gap-4 w-full">
+    {/* Call Now Button */}
+    <button className="w-full cursor-pointer sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center">
+      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+      </svg>
+      Call Now
+    </button>
+
+    {/* WhatsApp Button */}
+    <a
+      href={`https://wa.me/919561477575?text=${encodeURIComponent(
+        `Check out this property: ${property.propertyName} in ${property.city} - https://propertydronerealty.com/properties/${property.slug}`
+      )}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-full sm:w-auto cursor-pointer bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center"
+      title="Chat on WhatsApp"
+    >
+      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.6 5.97L0 24l6.22-1.63A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.19-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.22-1.44l-.37-.22-3.69.97.99-3.59-.24-.38A9.94 9.94 0 012 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.2-7.8c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.61.14-.18.28-.7.9-.86 1.08-.16.18-.32.2-.6.07-.28-.14-1.18-.44-2.25-1.41-.83-.74-1.39-1.65-1.55-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.34.42-.51.14-.17.18-.29.28-.48.09-.19.05-.36-.02-.5-.07-.14-.61-1.47-.84-2.01-.22-.54-.45-.47-.61-.48-.16-.01-.35-.01-.54-.01-.19 0-.5.07-.76.34-.26.27-1 1-.98 2.43.02 1.43 1.03 2.81 1.18 3.01.15.2 2.03 3.1 4.93 4.23.69.3 1.23.48 1.65.61.69.22 1.32.19 1.81.12.55-.08 1.65-.67 1.89-1.32.23-.65.23-1.21.16-1.32-.07-.11-.25-.18-.53-.32z" />
+      </svg>
+      WhatsApp
+    </a>
+
+    {/* Share Button */}
+    <button
+      type="button"
+      className="w-full sm:w-auto cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center"
+      onClick={() => {
+        if (navigator.share) {
+          navigator.share({
+            title: property.propertyName,
+            text: `Check out this property: ${property.propertyName} in ${property.city}`,
+            url: `https://propertydronerealty.com/properties/${property.slug}`,
+          });
+        } else {
+          alert('Share not supported on this browser.');
+        }
+      }}
+      title="Share"
+    >
+      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <circle cx="18" cy="5" r="3" />
+        <circle cx="6" cy="12" r="3" />
+        <circle cx="18" cy="19" r="3" />
+        <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" />
+      </svg>
+      Share
+    </button>
+  </div>
 </div>
 
-              </div>
             </div>
           <div className="max-w-6xl mx-auto py-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Left Column */}
@@ -680,7 +746,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
               </div>
 
               {/* Agent Info */}
-              <div className="bg-white rounded-lg shadow-md p-6">
+              {/* <div className="bg-white rounded-lg shadow-md p-6">
                 <h2 className="text-xl font-semibold text-gray-700 mb-4">Realtor Info</h2>
                 <div className="flex items-center mb-4">
                   <div className="relative w-16 h-16 rounded-full overflow-hidden mr-4">
@@ -721,20 +787,102 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                       <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
                     </svg>
                   </a>
-                  <a href="#" className="bg-gray-200 p-2 rounded-full">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" />
-                    </svg>
-                  </a>
-                  <a href="#" className="bg-gray-200 p-2 rounded-full">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                    </svg>
-                  </a>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
+           <div className="max-w-6xl mx-auto py-10">
+        
+        {/* Main Card */}
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+          
+          {/* Header */}
+          <div className="bg-[#172747] text-white p-6 text-center">
+            <h1 className="text-2xl font-bold"> {property.propertyName} QR Codes</h1>
+          </div>
+
+          {/* Content */}
+          <div className="p-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              
+              {/* Left Side - QR Code */}
+              <div className="text-center">
+                {qrCodeUrl && qrCodeUrl.trim() !== "" ? (
+                  <div className="inline-block border-2 border-gray-300 p-4 rounded-lg mb-4">
+                    <img 
+                      src={qrCodeUrl} 
+                      alt="QR Code" 
+                      className="w-48 h-48 cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={handleQRClick}
+                    />
+                  </div>
+                ) : null}
+                <div className="text-xl font-mono font-bold text-gray-800 mb-4">
+                 {property.reraNumber}
+                </div>
+                <div className="flex justify-center space-x-2">
+                  <button
+                    onClick={handleCopy}
+                    className="flex items-center space-x-1 px-3 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
+                  >
+                    <Copy className="w-4 h-4" />
+                    <span>{copied ? 'Copied!' : 'Copy'}</span>
+                  </button>
+                  <button
+                    onClick={handleQRClick}
+                    className="flex items-center space-x-1 px-3 py-2 bg-green-600 text-white rounded text-sm hover:bg-green-700 transition-colors"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    <span>Open</span>
+                  </button>
+                  <button
+                    onClick={handleDownload}
+                    className="flex items-center space-x-1 px-3 py-2 bg-purple-600 text-white rounded text-sm hover:bg-purple-700 transition-colors"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Right Side - Details */}
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-800 mb-4">Property Details</h2>
+                  <p className="text-gray-600 leading-relaxed">
+                    {property.propertyName} Details are available at{' '}
+                    <a 
+                      href="https://maharera.mahaonline.gov.in" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 underline"
+                    >
+                      https://maharera.mahaonline.gov.in
+                    </a>
+                    {' '}under registered projects.
+                  </p>
+                </div>
+
+                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 className="font-medium text-[#172747] mb-2">How to Use:</h4>
+                  <ul className="text-sm text-[#172747] space-y-1">
+                    <li>• Scan QR code with your phone</li>
+                    <li>• Click QR code to open link</li>
+                    <li>• Use buttons to copy/download</li>
+                  </ul>
+                </div>
+
+               
+              </div>
+              
+            </div>
+           
+          </div>
+          
+        </div>
+        
+      </div>
+          {/* <QRCodeGenerator/> */}
         </main>
 
         {/* Image Modal */}
@@ -749,7 +897,6 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              
               {property.multipleImages?.length > 1 && (
                 <>
                   <button
@@ -760,7 +907,6 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
-                  
                   <button
                     onClick={handleNextImage}
                     className="absolute right-4 text-white hover:text-gray-300"
@@ -771,12 +917,23 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                   </button>
                 </>
               )}
-              
-              <img
-                src={`${baseUrl}${property.multipleImages[currentImageIndex].path}`}
-                alt={property.propertyName}
-                className="max-h-[90vh] max-w-[90vw] object-contain"
-              />
+              {property.multipleImages?.[currentImageIndex]?.path && property.multipleImages[currentImageIndex].path.trim() !== "" ? (
+                <Image
+                  src={`${baseUrl}${property.multipleImages[currentImageIndex].path}`}
+                  alt={property.propertyName}
+                  className="max-h-[90vh] max-w-[90vw] object-contain"
+                  width={1200}
+                  height={900}
+                />
+              ) : (
+                <Image
+                  src={demoimage}
+                  alt={property.propertyName}
+                  className="max-h-[90vh] max-w-[90vw] object-contain"
+                  width={1200}
+                  height={900}
+                />
+              )}
             </div>
           </div>
         )}

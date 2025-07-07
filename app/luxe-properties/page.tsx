@@ -84,21 +84,15 @@ function PropertiesContent() {
   // Function to get the image source from multipleImages or fallback
   const getImageSource = (property: Property, index: number = 0) => {
     if (property.multipleImages && property.multipleImages.length > 0) {
-      // If there are valid images in multipleImages array
-      if (property.multipleImages[index]?.path) {
-        // Ensure the path is properly prefixed with baseUrl if it doesn't already include it
-        const path = property.multipleImages[index].path;
+      const path = property.multipleImages[index]?.path;
+      if (path && path.trim() !== "") {
         return path.startsWith('http') ? path : `${baseUrl}${path}`;
       }
     }
-    
-    // Fallback to single image or default bg
-    // Also ensure the single image is properly prefixed
-    if (typeof property.image === 'string') {
+    if (typeof property.image === 'string' && property.image.trim() !== "") {
       return property.image.startsWith('http') ? property.image : `${baseUrl}${property.image}`;
     }
-    
-    // Final fallback to default background
+    // Fallback to default background image
     return bg;
   };
 
@@ -774,18 +768,23 @@ const AnimatedStarButton = () => {
                               className="h-56 bg-gray-200 relative"
                             >
                               {/* Image with proper URL handling */}
-                              <Image 
-                                src={getImageSource(property, activeImageIndexes[property.id] || 0)}
-                                alt={property.propertyName}
-                                fill
-                                className="object-cover"
-                                priority={hoveredCard === property.id}
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  target.src = '/images/property-placeholder.jpg';
-                                }}
-                              />
+                              {(() => {
+                                const imageSrc = getImageSource(property, activeImageIndexes[property.id] || 0);
+                                return imageSrc && imageSrc !== "" ? (
+                                  <Image 
+                                    src={imageSrc}
+                                    alt={property.propertyName}
+                                    fill
+                                    className="object-cover"
+                                    priority={hoveredCard === property.id}
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.src = '/images/property-placeholder.jpg';
+                                    }}
+                                  />
+                                ) : null;
+                              })()}
                               
                               {/* Luxe Badge */}
                               <div className="absolute top-4 left-4 z-10">
