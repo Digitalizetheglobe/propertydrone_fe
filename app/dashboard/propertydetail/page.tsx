@@ -447,7 +447,7 @@ export default function PropertyDetail() {
                   <p><strong>Property Type:</strong> {property.propertyType || 'N/A'}</p>
                   <p><strong>price:</strong> {property.buArea ? `${property.tentativeBudget} ` : 'N/A'}</p>
                   <p><strong>Carpet Area:</strong> {property.carpetArea ? `${property.carpetArea} ` : 'N/A'}</p>
-                  <p><strong>Event:</strong> {property.event || 'N/A'}</p>
+                  <p><strong>Rera-Link:</strong> {property.event || 'N/A'}</p>
                   <p><strong>RERA Number:</strong> {property.reraNumber || 'N/A'}</p>
                 </div>
 
