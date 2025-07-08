@@ -4,6 +4,7 @@ import heroBackground from '../../public/images/bgimage2.png';
 import Link from 'next/link';
 import { useState } from 'react';
 import service6 from "@/public/images/service6.png";
+import Head from 'next/head';
 
 export default function BlogHeroSection() {
   const [formData, setFormData] = useState({
@@ -83,7 +84,26 @@ export default function BlogHeroSection() {
   ];
 
   return (
-    <> 
+    <>
+      <Head>
+        <title>Complete NRI Property Services in India | Property Drone Realty</title>
+        <meta name="description" content="From exclusive listings to POA, loans & virtual tours — we offer complete NRI property services in India with 24/7 support & expert legal guidance." />
+        <meta name="keywords" content="NRI property services, NRI real estate India, power of attorney NRI, virtual tour property India, invest in India NRI" />
+        <link rel="canonical" href="https://propertydronerealty.com/nri-corner" />
+        <meta name="robots" content="index, follow" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              "name": "NRI Property Services India",
+              "url": "https://propertydronerealty.com/nri-corner",
+              "description": "Full-service NRI property management — POA, loans, documentation, and virtual tours by Property Drone Realty."
+            })
+          }}
+        />
+      </Head>
       <section className="relative min-h-screen">
         <div className="absolute inset-0 z-0">
           <Image 

@@ -20,8 +20,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PROPERTY DRONE",
-  description: "property drone",
+  title: "Top Real Estate Agency Pune",
+  description: "Top real estate agency in Pune offering luxury homes, premium flats & exclusive properties. Buy your dream home with expert advice and trusted service.",
+  
 };
 
 export default function RootLayout({
