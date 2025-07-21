@@ -5,7 +5,7 @@ import wp from "@/public/images/wha.png"; // ✅ Adjusted import path for WhatsA
 import snd from "@/public/images/send.png";
 const WhatsAppPopup = () => {
   const [showPopup, setShowPopup] = useState(false);
-  const [phoneNumber] = useState("+91 9561477575"); // ✅ Default WhatsApp number
+  const [phoneNumber] = useState("+91 9156123575"); // ✅ Default WhatsApp number
   const [message, setMessage] = useState("");
 
   const handleSendMessage = () => {
@@ -24,6 +24,7 @@ const WhatsAppPopup = () => {
       {/* WhatsApp Floating Button */}
       <button
         onClick={() => setShowPopup(!showPopup)}
+        className="whatsapp-float-btn"
         style={{
           position: "fixed",
           bottom: "40px",
@@ -31,8 +32,8 @@ const WhatsAppPopup = () => {
           backgroundColor: "rgb(33, 202, 95)",
           border: "none",
           borderRadius: "50%",
-          width: "60px",
-          height: "60px",
+          width: "40px",
+          height: "40px",
           cursor: "pointer",
           boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
           padding: 0,

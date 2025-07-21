@@ -380,7 +380,7 @@ const generateQRCode: GenerateQRCodeFn = (text) => {
 
     {/* WhatsApp Button */}
     <a
-      href={`https://wa.me/919561477575?text=${encodeURIComponent(
+      href={`https://wa.me/919156123575?text=${encodeURIComponent(
         `Check out this property: ${property.propertyName} in ${property.city} - https://propertydronerealty.com/properties/${property.slug}`
       )}`}
       target="_blank"
