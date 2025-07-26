@@ -339,7 +339,7 @@ useEffect(() => {
         </h2>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center ">
-          <Link href="/careers">
+          <Link href="/career">
             <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
           Career
           <FiArrowRight size={18} />
