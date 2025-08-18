@@ -33,7 +33,7 @@ interface PageProps {
   params: Promise<{
     slug: string;
   }>;
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
 const BlogDetail = ({ params }: PageProps) => {
@@ -161,7 +161,7 @@ const BlogDetail = ({ params }: PageProps) => {
                   <span className="hidden sm:inline">•</span>
                   <div className="flex flex-wrap justify-center gap-2">
                     {blog.tags.map((tag, index) => (
-                      <span key={index} className="text-xs bg-white/20 px-3 py-1 rounded-full">
+                      <span key={index} className="text-xs bg:white/20 px-3 py-1 rounded-full">
                         {tag}
                       </span>
                     ))}
@@ -169,7 +169,7 @@ const BlogDetail = ({ params }: PageProps) => {
                 </>
               )}
             </div>
-             */}
+            */}
             {/* CTA Button */}
             {/* <div className="flex justify-center">
               <a
@@ -212,7 +212,7 @@ const BlogDetail = ({ params }: PageProps) => {
           />
           
           {/* Tags */}
-        
+         
           
           {/* Back to blogs button */}
           <div className="mt-12 flex justify-center">

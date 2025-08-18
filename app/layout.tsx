@@ -20,9 +20,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Top Real Estate Agency Pune",
-  description: "Top real estate agency in Pune offering luxury homes, premium flats & exclusive properties. Buy your dream home with expert advice and trusted service.",
-  
+  title: {
+    template: "%s | Top Real Estate Agency Pune ",
+    default: "Top Real Estate Agency Pune",
+  },
+  description:
+    "Top real estate agency in Pune offering luxury homes, premium flats & exclusive properties. Buy your dream home with expert advice and trusted service.",
+  keywords: [
+    "real estate agency Pune",
+    "luxury homes Pune",
+    "premium flats Pune",
+    "buy property Pune",
+  ],
+  alternates: {
+    canonical: "https://propertydronerealty.com/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -40,13 +56,45 @@ export default function RootLayout({
         />
 
         {/* Fonts */}
-        <link href="https://fonts.googleapis.com/css2?family=Ivy+Mode:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Ivy+Mode:ital,wght@0,300;0,400;1,400&display=swap"
+          rel="stylesheet"
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+          rel="stylesheet"
+        />
+        <Script
+          id="ld-json-realestate"
+          type="application/ld+json"
+          strategy="afterInteractive"
+        >{`{
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  "name": "Property Drone Realty",
+  "url": "https://propertydronerealty.com/",
+  "description": "Top real estate agency in Pune offering luxury homes, premium flats & exclusive properties.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Pune",
+    "addressRegion": "MH",
+    "addressCountry": "IN"
+  },
+  "telephone": "+91 9561477575 ",
+  "email": "info@propertydronerealty.com"
+}`}</Script>
       </head>
 
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
+      >
         {/* ✅ Google Analytics Script */}
         <Script
           strategy="afterInteractive"
@@ -62,9 +110,7 @@ export default function RootLayout({
         </Script>
 
         <AuthProvider>
-          <LayoutWithConditionalHeader>
-            {children}
-          </LayoutWithConditionalHeader>
+          <LayoutWithConditionalHeader>{children}</LayoutWithConditionalHeader>
           <WhatsAppPopup />
           <ScrollButton />
         </AuthProvider>
