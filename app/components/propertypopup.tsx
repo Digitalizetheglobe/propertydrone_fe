@@ -6,7 +6,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import logo from "@/app/images/PropertyDrone-Logo.png"; 
 
-const PropertyPopup = () => {
+interface PropertyPopupProps {
+  onClose?: () => void;
+  onSubmitSuccess?: () => void;
+}
+
+const PropertyPopup = ({ onClose, onSubmitSuccess }: PropertyPopupProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -44,7 +49,11 @@ const PropertyPopup = () => {
       if (!response.ok) throw new Error('Failed to submit form');
       setSuccess('Thank you! We will contact you soon.');
       setFormData({ fullName: '', email: '', phone: '' });
-      setTimeout(() => setIsVisible(false), 2000);
+      if (onSubmitSuccess) {
+        onSubmitSuccess();
+      } else {
+        setTimeout(() => setIsVisible(false), 2000);
+      }
     } catch (err) {
       setError('Submission failed. Please try again.');
     } finally {
@@ -53,7 +62,11 @@ const PropertyPopup = () => {
   };
 
   const closePopup = () => {
-    setIsVisible(false);
+    if (onClose) {
+      onClose();
+    } else {
+      setIsVisible(false);
+    }
   };
 
   // Show popup on first scroll
@@ -104,7 +117,7 @@ const PropertyPopup = () => {
 
             {/* Heading */}
             <h2 className="text-2xl font-bold text-gray-800 text-center mb-6 hover:text-blue-600 transition-colors duration-300">
-              Fill The Form, We Care You!
+              Fill The Form, We Care For You!
             </h2>
 
             {/* Success/Error Messages */}

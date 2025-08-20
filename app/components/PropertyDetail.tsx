@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import PropertyPopup from './propertypopup';
 import Link from 'next/link';
 import { Phone, Mail, MapPin, Home, Bath, Bed, Square, Calendar, Video, ChevronUp, ChevronDown, Lock ,Copy, ExternalLink, Download   } from 'lucide-react';
 import defaultImg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
@@ -54,6 +55,8 @@ interface PropertyDetailProps {
 
 export default function PropertyDetail({ property }: PropertyDetailProps) {
   // State declarations
+  const [showMapPopup, setShowMapPopup] = useState(false);
+  const [mapUrl, setMapUrl] = useState('');
   const [qrText, setQrText] = useState(property.event || 'https://maharerait.maharashtra.gov.in/public/project/view/54260');
   const [qrCodeUrl, setQrCodeUrl] = useState('');
   const [projectId, setProjectId] = useState('P52100079313');
@@ -194,6 +197,14 @@ const generateQRCode: GenerateQRCodeFn = (text) => {
 
   return (
     <>
+      {showMapPopup && (
+        <div className="fixed inset-0 z-[9999]">
+          <PropertyPopup onClose={() => setShowMapPopup(false)} onSubmitSuccess={() => {
+            setShowMapPopup(false);
+            window.open(mapUrl, '_blank', 'noopener,noreferrer');
+          }} />
+        </div>
+      )}
       <div className="min-h-screen bg-[#F1EEFF]">
         <section className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
           {/* Background Image */}
@@ -433,10 +444,14 @@ const generateQRCode: GenerateQRCodeFn = (text) => {
               <MapPin className="mr-2 text-gray-600" size={20} />
               Location
             </h2>
-            <button className="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-green-700 transition-colors">
-              <a href={property?.googleMapUrl ? property.googleMapUrl : "https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045"} target="_blank" rel="noopener noreferrer">
-                📍 View on Map
-              </a>
+            <button 
+              onClick={() => {
+                setMapUrl(property?.googleMapUrl || "https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045");
+                setShowMapPopup(true);
+              }}
+              className="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-green-700 transition-colors"
+            >
+              📍 View on Map
             </button>
           </div>
           
@@ -525,24 +540,15 @@ const generateQRCode: GenerateQRCodeFn = (text) => {
         </h2>
         
         <div className="space-y-4">
-          {/* <h3 className="font-medium text-gray-700">Walkthrough{property.youtubeTitle && `: ${property.youtubeTitle}`}</h3> */}
-          
-          {/* Video Thumbnail */}
-          <div className="relative bg-gray-900 rounded-lg overflow-hidden">
-            <a href={property?.youtubeUrl ? property.youtubeUrl : "https://youtu.be/DrIKLgR6STs"} target="_blank" rel="noopener noreferrer">
-              <img 
-                src={`https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`}
-                alt="Property walkthrough video thumbnail"
-                className="w-full h-auto"
-              />
-              
-              {/* Play Button Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-white bg-opacity-90 rounded-full p-4 hover:bg-opacity-100 transition-all cursor-pointer">
-                  <div className="w-0 h-0 border-l-[20px] border-l-gray-800 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1"></div>
-                </div>
-              </div>
-            </a> 
+          <div className="relative bg-gray-900 rounded-lg overflow-hidden" style={{ paddingBottom: '56.25%' }}>
+            <iframe
+              src={`https://www.youtube.com/embed/${youtubeVideoId}?rel=0`}
+              title="Property walkthrough video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute top-0 left-0 w-full h-full"
+            />
           </div>
         </div>
       </div>
