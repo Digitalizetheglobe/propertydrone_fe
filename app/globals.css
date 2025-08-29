@@ -291,3 +291,11 @@ html, body {
   height: 45px !important;
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.25);
 }
+
+#vercel-toolbar,
+#vercel-toolbar-container,
+button[aria-label="Vercel Toolbar"],
+[data-vercel-toolbar],
+#__vercel {
+  display: none !important;
+}
