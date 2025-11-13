@@ -143,13 +143,11 @@ const item = {
       )}
       {blogPosts.map((post, index) => (
        <motion.div
-  key={post.id}
+  key={post.id || index}
   className="flex flex-col bg-white rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 overflow-hidden h-full"
-  variants={item}
-  initial="hidden"
-  animate="show"
-  whileInView="show"
-  viewport={{ once: true, amount: 0 }}
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.3, delay: index * 0.05 }}
 >
    <Link href={`/blog/${post.slug}`} className="flex flex-col h-full">
   {/* Blog Image Section */}
