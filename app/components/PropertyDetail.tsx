@@ -414,7 +414,7 @@ const generateQRCode: GenerateQRCodeFn = (text) => {
           navigator.share({
             title: property.propertyName,
             text: `Check out this property: ${property.propertyName} in ${property.city}`,
-            url: `https://propertydronerealty.com/properties/${property.slug}`,
+            url: `https://propertydronerealty.com/our-properties-in-pune/${property.slug}`,
           });
         } else {
           alert('Share not supported on this browser.');

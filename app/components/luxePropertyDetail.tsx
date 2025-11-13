@@ -608,7 +608,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                       navigator.share({
                         title: property.propertyName,
                         text: `Check out this property: ${property.propertyName} in ${property.city}`,
-                        url: `https://propertydronerealty.com/properties/${property.slug}`,
+                        url: `https://propertydronerealty.com/luxe-properties/${property.slug}`,
                       });
                     } else {
                       alert("Share not supported on this browser.");

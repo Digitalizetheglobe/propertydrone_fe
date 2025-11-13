@@ -33,6 +33,7 @@ const BlogPage = () => {
                     throw new Error('Failed to fetch blog data');
                 }
                 const data = await response.json();
+                console.log('Blog posts fetched:', data.length, data);
                 setBlogPosts(data);
                 setTotalArticles(data.length);
                 setLoading(false);
@@ -50,14 +51,15 @@ const BlogPage = () => {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
     },
   },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } },
 };
 
     // Function to format date
@@ -126,48 +128,53 @@ const item = {
                     </div>
                 </div>
             </section>  
-            <section className="py-6  bg-gray-100">
-                <div className="container mx-auto max-w-6xl px-4 py-8">
-                {/* <h2 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
+            <section className="py-12 bg-gray-100 min-h-screen">
+                <div className="container mx-auto max-w-6xl px-4 py-12">
+                {blogPosts.length > 0 && (
+                  <h2 className="text-4xl md:text-5xl font-serif leading-tight mb-8 text-center">
                     {totalArticles} Articles
-                </h2> */}
-                 <motion.div
-      className="grid grid-cols-1 mx-4 md:grid-cols-2 lg:grid-cols-3 gap-6"
-      variants={container}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
-    >
+                  </h2>
+                )}
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {blogPosts.length === 0 && !loading && (
+        <div className="col-span-full text-center py-12">
+          <p className="text-xl text-gray-600">No blog posts available at the moment.</p>
+        </div>
+      )}
       {blogPosts.map((post, index) => (
        <motion.div
   key={post.id}
-  className="flex flex-col bg-white rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+  className="flex flex-col bg-white rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 overflow-hidden h-full"
   variants={item}
+  initial="hidden"
+  animate="show"
+  whileInView="show"
+  viewport={{ once: true, amount: 0 }}
 >
-   <Link href={`/blog/${post.slug}`}>
+   <Link href={`/blog/${post.slug}`} className="flex flex-col h-full">
   {/* Blog Image Section */}
-  <div className="relative h-48 w-full mb-2">
+  <div className="relative h-48 w-full">
     {post.blogImage?.[0]?.url ? (
       <Image
         src={post.blogImage[0].url}
         alt={post.blogTitle}
-        layout="fill"
-        objectFit="cover"
-        className="rounded-md"
+        fill
+        style={{ objectFit: "cover" }}
+        className="rounded-t-lg"
       />
     ) : (
       <Image
         src={heroBackground2}
         alt={post.blogTitle}
-        layout="fill"
-        objectFit="cover"
-        className="rounded-md"
+        fill
+        style={{ objectFit: "cover" }}
+        className="rounded-t-lg"
       />
     )}
   </div>
 
   {/* Blog Content Section */}
-  <div className="mt-2 flex flex-col p-3 pl-6">
+  <div className="flex flex-col flex-1 p-4">
     {/* Date */}
     <span className="text-sm text-gray-500">
       {formatDate(post.createdAt)}
@@ -188,24 +195,22 @@ const item = {
     </div> */}
 
     {/* Description */}
-    <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+    <p className="text-sm text-gray-600 mb-4 line-clamp-2 flex-1">
       {post.blogDescription}
     </p>
 
     {/* Read More Button */}
-   
-      <div className="mt-auto">
-        <button className="bg-[#172747] hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] text-white p-1 px-3 cursor-pointer rounded-md flex items-center justify-center">
-          <span>→</span>
-        </button>
-      </div>
-   
+    <div className="mt-auto">
+      <button className="bg-[#172747] hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] text-white p-1 px-3 cursor-pointer rounded-md flex items-center justify-center">
+        <span>→</span>
+      </button>
+    </div>
   </div>
    </Link>
 </motion.div>
 
       ))}
-    </motion.div>
+    </div>
             </div>
             </section>
         </>
