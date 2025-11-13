@@ -33,9 +33,11 @@ const BlogPage = () => {
                     throw new Error('Failed to fetch blog data');
                 }
                 const data = await response.json();
-                console.log('Blog posts fetched:', data.length, data);
-                setBlogPosts(data);
-                setTotalArticles(data.length);
+                console.log('Blog posts fetched:', Array.isArray(data) ? data.length : 'Not an array', data);
+                // Ensure data is an array
+                const postsArray = Array.isArray(data) ? data : [];
+                setBlogPosts(postsArray);
+                setTotalArticles(postsArray.length);
                 setLoading(false);
             } catch (err) {
                 console.error('Error fetching blog data:', err);
@@ -128,7 +130,7 @@ const item = {
                     </div>
                 </div>
             </section>  
-            <section className="py-12 bg-gray-100 min-h-screen">
+            <section className="relative py-12 bg-gray-100 min-h-screen z-10">
                 <div className="container mx-auto max-w-6xl px-4 py-12">
                 {blogPosts.length > 0 && (
                   <h2 className="text-4xl md:text-5xl font-serif leading-tight mb-8 text-center">
@@ -147,7 +149,8 @@ const item = {
   className="flex flex-col bg-white rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 overflow-hidden h-full"
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.3, delay: index * 0.05 }}
+  transition={{ duration: 0.2, delay: index * 0.03 }}
+  style={{ willChange: 'opacity, transform' }}
 >
    <Link href={`/blog/${post.slug}`} className="flex flex-col h-full">
   {/* Blog Image Section */}
