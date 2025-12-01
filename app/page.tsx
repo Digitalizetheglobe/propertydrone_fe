@@ -1681,7 +1681,7 @@ const PropertyCardLuxe = ({
 {/* ------------------------------ */}
 {/* ------------------------------ */}
 {/* Hero Search Bar Section (Image style) */}
-{/* <div className="flex items-center justify-center w-full min-h-[250px] md:min-h-[330px] bg-transparent">
+<div className="flex items-center justify-center w-full min-h-[250px] md:min-h-[330px] bg-transparent">
   <div className="w-full max-w-4xl mx-auto px-4 md:px-0">
     <div className="backdrop-blur-md bg-white/60 rounded-2xl py-10 md:py-12 px-3 md:px-8 shadow-lg border border-white/40 flex flex-col items-center">
       <h1 className="text-3xl md:text-5xl font-bold text-center mb-4 text-[#212121]">
@@ -1706,7 +1706,7 @@ const PropertyCardLuxe = ({
       </form>
     </div>
   </div>
-</div> */}
+</div>
 {/* Filter Section */}
 <div className="bg-white shadow-md p-4 md:p-6">
   <div className="grid grid-row-1 md:grid-cols-5 gap-4 md:gap-6 mx-2 md:mx-20">

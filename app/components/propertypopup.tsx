@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -21,6 +21,7 @@ const PropertyPopup = ({ onClose, onSubmitSuccess }: PropertyPopupProps) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const canShowPopupRef = useRef(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -69,14 +70,26 @@ const PropertyPopup = ({ onClose, onSubmitSuccess }: PropertyPopupProps) => {
     }
   };
 
-  // Show popup on first scroll
+  // Show popup on first scroll after 15 seconds
   useEffect(() => {
+    // Wait 15 seconds before allowing popup to show
+    const timer = setTimeout(() => {
+      canShowPopupRef.current = true;
+    }, 180000);
+
     const handleScroll = () => {
-      setIsVisible(true);
+      if (canShowPopupRef.current) {
+        setIsVisible(true);
+        window.removeEventListener('scroll', handleScroll);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   if (!isVisible) return null;
