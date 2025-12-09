@@ -1557,8 +1557,10 @@ const PropertyCardLuxe = ({
       )}
       
 <PropertyPopup/>
-<div className="relative h-screen bg-gray-800 overflow-hidden">
+<div className="relative h-[500px] bg-gray-800 overflow-hidden">
   {/* Background Video with Overlay */}
+
+  {/* Bhavik new */}
   <div className="absolute inset-0 z-0">
     <video
       autoPlay
@@ -1568,14 +1570,14 @@ const PropertyCardLuxe = ({
       className="w-full h-full object-cover"
     >
       <source src="/mainvideo.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
+  
     </video>
     <div className="absolute inset-0 bg-black opacity-50"></div>
   </div>
 
   {/* Main Content */}
   <main className="relative z-10 container mx-auto px-4 pt-30 max-w-6xl">
-    <div className="flex flex-col md:flex-row gap-[20px] py-4">
+    {/* <div className="flex flex-col md:flex-row gap-[20px] py-4">
       <div>
         <h1
           style={{
@@ -1615,41 +1617,54 @@ const PropertyCardLuxe = ({
 
         </Link>
       </div>
-    </div>
-    <div className="w-full overflow-hidden mt-6" id="filter-section">
-      <div
-        ref={scrollContainerRef}
-        className="flex overflow-x-auto scrollbar-hide snap-x"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-      >
-        {images.map((imgObj, index) => (
-          <div
-            key={index}
-            className="flex-shrink-0 h-32 mx-2 first:ml-0 mt-10 sm:mt-0 transition-all duration-300 ease-in-out"
-            style={{
-              transform: 'scale(1)',
-              transformOrigin: 'center center',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-          >
-            <div className="shadow-md flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
-              <Image
-                src={imgObj.img}
-                alt={`Card ${index + 1}`}
-                className="w-auto cursor-pointerh-22 object-cover transition-all duration-300 sm:h-30"
-              />
-            </div>
-          </div>
-        ))}
+    </div> */}
+    <div className="flex items-center justify-center w-full  bg-transparent">
+  <div className="w-full max-w-4xl mx-auto px-4 md:px-0">
+    <div className="backdrop-blur-md bg-black/20 rounded-2xl py-10  px-3 md:px-8 shadow-lg  flex flex-col items-center">
+      <h1 className="text-3xl md:text-5xl font-bold text-center mb-4 text-white">
+        Find Your Dream Property
+      </h1>
+      <div className="text-md md:text-lg text-center text-white mb-7 font-medium">
+        Search properties for sale across top locations.
       </div>
+      <form 
+        className="w-full flex flex-col  gap-2 items-center justify-center"
+        onSubmit={(e) => {
+          e.preventDefault();
+          // Filtering happens automatically via useEffect when filters.search changes
+        }}
+      >
+        <input
+          type="text"
+          name="search"
+          value={filters.search || ''}
+          onChange={handleFilterChange}
+          placeholder="City, Location, Property Name, Price Range"
+          className="flex-1 px-6 py-3 rounded-full w-[600px] border-none text-center shadow-sm text-lg bg-white focus:bg-white focus:outline-none placeholder-gray-600 text-gray-900 font-semibold"
+        />
+        <div className="flex items-center justify-center gap-2">
+        {filters.search && (
+          <button
+            type="button"
+            onClick={() => setFilters({ ...filters, search: '' })}
+            className="px-8 py-2 rounded-full font-bold text-white bg-[#172747] hover:border hover:bg-white hover:text-[#172747] text-lg shadow transition-colors duration-200"
+          >
+            Clear
+          </button>
+        )}
+        <button
+          type="submit"
+          className="px-8 py-2 rounded-full font-bold text-white bg-[#172747] hover:bg-white hover:text-[#172747] text-lg shadow transition-colors duration-200"
+        >
+          Search
+        </button>
+      
+        </div>
+      </form>
     </div>
+  </div>
+</div>
+    
   </main>
 </div>
 
@@ -1681,37 +1696,12 @@ const PropertyCardLuxe = ({
 {/* ------------------------------ */}
 {/* ------------------------------ */}
 {/* Hero Search Bar Section (Image style) */}
-<div className="flex items-center justify-center w-full min-h-[250px] md:min-h-[330px] bg-transparent">
-  <div className="w-full max-w-4xl mx-auto px-4 md:px-0">
-    <div className="backdrop-blur-md bg-white/60 rounded-2xl py-10 md:py-12 px-3 md:px-8 shadow-lg border border-white/40 flex flex-col items-center">
-      <h1 className="text-3xl md:text-5xl font-bold text-center mb-4 text-[#212121]">
-        Find Your Dream Property
-      </h1>
-      <div className="text-md md:text-lg text-center text-[#444] mb-7 font-medium">
-        Search properties for sale across top locations.
-      </div>
-      <form className="w-full flex flex-col md:flex-row gap-4 items-center justify-center">
-        <input
-          type="text"
-          name="searchQuery"
-          placeholder="Enter City, Location, or Project Name"
-          className="flex-1 px-6 py-3 rounded-full border-none shadow-sm text-lg bg-white/70 focus:bg-white focus:outline-none placeholder-gray-600 text-gray-900 font-semibold"
-        />
-        <button
-          type="submit"
-          className="px-8 py-3 rounded-full font-bold text-white bg-[#00745A] hover:bg-[#02674a] text-lg shadow transition-colors duration-200"
-        >
-          Search
-        </button>
-      </form>
-    </div>
-  </div>
-</div>
+
 {/* Filter Section */}
-<div className="bg-white shadow-md p-4 md:p-6">
+{/* <div className="bg-white shadow-md p-4 md:p-6">
   <div className="grid grid-row-1 md:grid-cols-5 gap-4 md:gap-6 mx-2 md:mx-20">
 
-    {/* Search Input */}
+  
     <div className="relative">
       <input
         type="text"
@@ -1729,7 +1719,7 @@ const PropertyCardLuxe = ({
       </div>
     </div>
 
-    {/* Location Dropdown */}
+   
     <div>
       <select
         name="location"
@@ -1745,7 +1735,7 @@ const PropertyCardLuxe = ({
       </select>
     </div>
 
-    {/* Min Price Input */}
+   
     <div className="hidden md:block">
       <input
       type="number"
@@ -1758,7 +1748,7 @@ const PropertyCardLuxe = ({
       />
     </div>
 
-    {/* Max Price Input */}
+    
       <div className="hidden md:block">
       <input
         type="number"
@@ -1771,7 +1761,7 @@ const PropertyCardLuxe = ({
       />
     </div>
 
-    {/* Reset Button */}
+   
     <div>
       <button
         onClick={resetFilters}
@@ -1783,7 +1773,7 @@ const PropertyCardLuxe = ({
     </div>
 
   </div>
-</div>
+</div> */}
 
 
 <div
@@ -1855,6 +1845,40 @@ const PropertyCardLuxe = ({
     </div>
   )}
 </div>
+<div className="w-full overflow-hidden mt-6" id="filter-section">
+      <div
+        ref={scrollContainerRef}
+        className="flex overflow-x-auto scrollbar-hide snap-x"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        {images.map((imgObj, index) => (
+          <div
+            key={index}
+            className="flex-shrink-0 h-32 mx-2 first:ml-0 mt-10 sm:mt-0 transition-all duration-300 ease-in-out"
+            style={{
+              transform: 'scale(1)',
+              transformOrigin: 'center center',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            <div className="shadow-md flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
+              <Image
+                src={imgObj.img}
+                alt={`Card ${index + 1}`}
+                className="w-auto cursor-pointerh-22 object-cover transition-all duration-300 sm:h-30"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
 
 
 {/* ------------------------------------------------------------------------------------------------------ */}

@@ -46,7 +46,7 @@ import ico1 from '@/public/images/ico1.png';
 import ico2 from '@/public/images/ico2.png';
 import ico3 from '@/public/images/ico3.png';  
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { ChevronLeft, ChevronRight, X, Globe, Book, Wallet, Zap  } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Globe, Book, Wallet, Zap, Trophy, Users, Headphones, Lightbulb, TrendingUp  } from 'lucide-react';
 import AOS from 'aos';
 import { motion } from 'framer-motion';
 import 'aos/dist/aos.css';
@@ -325,51 +325,89 @@ useEffect(() => {
           </div>
         </div>
       </section>
-       <div className="w-full  py-16 px-4 md:px-8 bg-[#172747] ">
-      <div className="max-w-6xl mx-auto gap-4 flex-col md:flex-row flex md:flex">
-        {/* Heading and CTA Section */}
-        <div className="flex items-center justify-center bg-gray-50 shadow-lg ">
-          <div className=" p-10">
-        <h2
-          className="text-3xl md:text-4xl rounded-[4px] text-[#172747] mb-6 font-[200] leading-[140%] tracking-[1px]"
-          style={{ fontSize: '44px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}
-        >
-          We mean it <br></br>when we <br className="hidden sm:block" />
-          say <span className="text-indigo-500">the best</span>
-        </h2>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center ">
-          <Link href="/career">
-            <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
-          Career
-          <FiArrowRight size={18} />
-            </button>
-          </Link>
-          <Link href="/contact-us-propertydrone-realty">
-            <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
-          Connect
-          <FiArrowRight size={18} />
-            </button>
-          </Link>
-        </div>
-          </div>
-        </div>
-
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pl-2 w-full">
-          {/* Years in Market */}
-          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full transition-transform duration-300 group-hover:animate-bounce">
-              <Zap className="w-6 h-6 text-indigo-500 group-hover:text-indigo-600 transition-colors duration-300" />
+       <div className="w-full py-16 px-4 md:px-8 bg-gray-100">
+      <div className="max-w-6xl mx-auto">
+        {/* 2x3 Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Top-Left: Award-Winning Expertise - Teal Green Background */}
+          <div className="group bg-white hover:bg-[#172747] transition-all duration-300 p-8 rounded-lg shadow-lg flex flex-col min-h-[300px]">
+          <div className="mb-6">
+              <Trophy className="w-10 h-10 text-[#172747] group-hover:text-white transition-colors duration-300" strokeWidth={1.5} />
             </div>
+            <h3 className="text-gray-800 group-hover:text-white transition-colors duration-300 font-bold text-xl mb-4" style={{ fontFamily: 'Ivy Mode' }}>
+            Award-Winning Expertise
+            </h3>
+            <p className="text-gray-700 group-hover:text-white transition-colors duration-300 text-sm leading-relaxed mb-4" style={{ fontFamily: 'Lato' }}>
+               Recognized by industry leaders, our award-winning team has a proven record of delivering excellence across projects.
+            </p>
+            {(() => {
+              const { count, ref } = useCounter(25);
+              return (
+                <div ref={ref} className="mt-auto">
+                  <h3 className="text-[#172747] group-hover:text-white transition-colors duration-300 font-[200] tracking-[1px] mb-2" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+                  {count} <span>+</span>
+                  </h3>
+                  <p className="text-gray-700 group-hover:text-white transition-colors duration-300 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+                  Industry awards
+                  </p>
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* Top-Middle: Main Heading and CTA Section */}
+          <div className=" p-8 flex flex-col justify-center items-center text-center min-h-[300px]">
+            <div className="border-2 border-dashed border-[#172747] rounded px-4 py-2 mb-6 inline-block w-fit">
+              <span className="text-[#172747] text-xs font-semibold uppercase tracking-wider" style={{ fontFamily: 'Lato' }}>
+                CHOOSE THE BEST
+              </span>
+            </div>
+            <h2
+              className="text-3xl md:text-4xl font-[200] text-gray-800 mb-6"
+              style={{ fontFamily: 'Ivy Mode', letterSpacing: '1px', lineHeight: '1.2', fontSize: '44px' }}
+            >
+              We mean it <br />when we <br className="hidden sm:block" />
+              say <span className="text-[#172747]">the best</span>
+            </h2>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/career">
+                <button className="bg-[#172747] hover:bg-teal-600 text-white px-6 py-3 rounded-full flex items-center gap-2 transition-colors w-fit group">
+                  <span>Career</span>
+                  <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center group-hover:bg-white transition-colors">
+                    <FiArrowRight size={12} className="text-white group-hover:text-black transition-colors" />
+                  </div>
+                </button>
+              </Link>
+              <Link href="/contact-us-propertydrone-realty">
+                <button className="bg-[#172747] hover:bg-teal-600 text-white px-6 py-3 rounded-full flex items-center gap-2 transition-colors w-fit group">
+                  <span>Connect</span>
+                  <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center group-hover:bg-white transition-colors">
+                    <FiArrowRight size={12} className="text-white group-hover:text-black transition-colors" />
+                  </div>
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Top-Right: Expert Team - White Background */}
+          <div className="group bg-white hover:bg-[#172747] transition-all duration-300 p-8 rounded-lg shadow-lg flex flex-col min-h-[300px]">
+            <div className="mb-6">
+              <Users className="w-10 h-10 text-[#172747] group-hover:text-white transition-colors duration-300" strokeWidth={1.5} />
+            </div>
+            <h3 className="text-gray-800 group-hover:text-white transition-colors duration-300 font-bold text-xl mb-4" style={{ fontFamily: 'Ivy Mode' }}>
+              Expert Team
+            </h3>
+            <p className="text-gray-700 group-hover:text-white transition-colors duration-300 text-sm leading-relaxed mb-4" style={{ fontFamily: 'Lato' }}>
+              Our team is always available to address your concerns, providing quick and solution. to keep you competitive in marketplace.
+            </p>
             {(() => {
               const { count, ref } = useCounter(5);
               return (
-                <div className="mt-8" ref={ref}>
-                  <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+                <div ref={ref} className="mt-auto">
+                  <h3 className="text-[#172747] group-hover:text-white transition-colors duration-300 font-[200] tracking-[1px] mb-2" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
                     {count} <span>Years</span>
                   </h3>
-                  <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+                  <p className="text-gray-700 group-hover:text-white transition-colors duration-300 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
                     In the market
                   </p>
                 </div>
@@ -377,66 +415,25 @@ useEffect(() => {
             })()}
           </div>
 
-          {/* Properties Sold */}
-          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <div className="w-6 h-6 flex items-center justify-center text-indigo-500 transition-transform duration-300 group-hover:animate-bounce">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-              </div>
+          {/* Bottom-Left: Dedicated Support - White Background */}
+          <div className="group bg-white hover:bg-[#172747] transition-all duration-300 p-8 rounded-lg shadow-lg flex flex-col min-h-[300px]">
+            <div className="mb-6">
+              <Headphones className="w-10 h-10 text-[#172747] group-hover:text-white transition-colors duration-300" strokeWidth={1.5} />
             </div>
-            {(() => {
-              const { count, ref } = useCounter(500);
-              return (
-                <div className="mt-8" ref={ref}>
-                  <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-                    {count} <span>+</span>
-                  </h3>
-                  <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-                    Properties Sold
-                  </p>
-                </div>
-              );
-            })()}
-          </div>
-
-          {/* Industry Awards */}
-          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <Book className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
-            </div>
-            {(() => {
-              const { count, ref } = useCounter(25);
-              return (
-                <div className="mt-8" ref={ref}>
-                  <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-                    {count} <span>+</span>
-                  </h3>
-                  <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-                    Industry awards
-                  </p>
-                </div>
-              );
-            })()}
-          </div>
-
-          {/* Support */}
-          <div className="bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <Globe className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
-            </div>
+            <h3 className="text-gray-800 group-hover:text-white transition-colors duration-300 font-bold text-xl mb-4" style={{ fontFamily: 'Ivy Mode' }}>
+              Dedicated Support
+            </h3>
+            <p className="text-gray-700 group-hover:text-white transition-colors duration-300 text-sm leading-relaxed mb-4" style={{ fontFamily: 'Lato' }}>
+              Our team is always available to address your concerns, providing quick and effective solution to keep your business.
+            </p>
             {(() => {
               const { count, ref } = useCounter(24);
               return (
-                <div className="mt-8" ref={ref}>
-                  <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
+                <div ref={ref} className="mt-auto">
+                  <h3 className="text-[#172747] group-hover:text-white transition-colors duration-300 font-[200] mb-2" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
                     {count} / 7
                   </h3>
-                  <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
+                  <p className="text-gray-700 group-hover:text-white transition-colors duration-300 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
                     Support
                   </p>
                 </div>
@@ -444,24 +441,82 @@ useEffect(() => {
             })()}
           </div>
 
-          {/* Cities */}
-          <div className="md:col-span-2 lg:col-span-1 bg-gray-50 shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <Wallet className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+          {/* Bottom-Middle: Innovative Solutions - White Background */}
+          <div className="group bg-white hover:bg-[#172747] transition-all duration-300 p-8 rounded-lg shadow-lg flex flex-col min-h-[300px]">
+            <div className="mb-6">
+              <Lightbulb className="w-10 h-10 text-[#172747] group-hover:text-white transition-colors duration-300" strokeWidth={1.5} />
             </div>
+            <h3 className="text-gray-800 group-hover:text-white transition-colors duration-300 font-bold text-xl mb-4" style={{ fontFamily: 'Ivy Mode' }}>
+              Innovative Solutions
+            </h3>
+            <p className="text-gray-700 group-hover:text-white transition-colors duration-300 text-sm leading-relaxed mb-4" style={{ fontFamily: 'Lato' }}>
+              We stay ahead of the curve, leveraging cutting-edge technologies and strategies to keep you competitive in a marketplace.
+            </p>
             {(() => {
-              const { count, ref } = useCounter(9);
+              const { count, ref } = useCounter(500);
               return (
-                <div className="mt-8" ref={ref}>
-                  <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-                    {count}
+                <div ref={ref} className="mt-auto">
+                  <h3 className="text-[#172747] group-hover:text-white transition-colors duration-300 font-[200] tracking-[1px] mb-2" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+                    {count} <span>+</span>
                   </h3>
-                  <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-                    Cities
+                  <p className="text-gray-700 group-hover:text-white transition-colors duration-300 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+                    Properties Sold
                   </p>
                 </div>
               );
             })()}
+          </div>
+
+          {/* Bottom-Right: Faster Growth - Image Background */}
+          <div className="group bg-white rounded-lg shadow-lg relative overflow-hidden min-h-[300px] hover:shadow-xl transition-all duration-300">
+            {/* Background Image */}
+            <div className="absolute inset-0">
+              <Image
+                src={e}
+                alt="Faster Growth"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-300"
+                priority
+              />
+            </div>
+            <div className="absolute inset-0 bg-black opacity-50 group-hover:opacity-60 transition-opacity duration-300"></div>
+            
+            {/* Content Container */}
+            <div className="relative z-10 p-8 flex flex-col h-full">
+              {/* Icon in white circle - positioned top */}
+              <div className="mb-6">
+                <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-md group-hover:bg-[#172747] transition-colors duration-300">
+                  <TrendingUp className="w-7 h-7 text-[#172747] group-hover:text-white transition-colors duration-300" strokeWidth={1.5} />
+                </div>
+              </div>
+              
+              {/* Title */}
+              <h3 className="text-white font-bold text-xl mb-4 group-hover:text-white transition-colors duration-300" style={{ fontFamily: 'Ivy Mode' }}>
+                Faster Growth
+              </h3>
+              
+              {/* Description */}
+              <p className="text-white text-sm leading-relaxed mb-4 opacity-90 group-hover:opacity-100 transition-opacity duration-300" style={{ fontFamily: 'Lato' }}>
+                Expanding rapidly across multiple cities, delivering exceptional growth and market presence.
+              </p>
+              
+              {/* Stats - positioned at bottom */}
+              <div className="mt-auto">
+                {(() => {
+                  const { count, ref } = useCounter(9);
+                  return (
+                    <div ref={ref}>
+                      <div className="text-white font-bold mb-2 group-hover:text-white transition-colors duration-300" style={{ fontSize: '72px', fontFamily: 'Ivy Mode', lineHeight: '1' }}>
+                        {count}X
+                      </div>
+                      <p className="text-white mt-2 group-hover:text-white transition-colors duration-300" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+                        Cities
+                      </p>
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
           </div>
         </div>
       </div>

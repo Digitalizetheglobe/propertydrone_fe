@@ -119,13 +119,13 @@ const MainHeader: React.FC = () => {
     const dropdownItems = navigationItems.filter(item => !item.alwaysShow);
 
     return (
-        <header className="fixed top-0 left-0  right-0 w-full bg-[#FFFFFF33] backdrop-blur-[28px] "
+        <header className="fixed top-0 left-0  right-0 w-full  backdrop-blur-[28px] "
             style={{ zIndex: 1000 }}>
             <div className="max-w-6xl mx-auto lg:px-16">
                <nav className="flex items-center justify-between px-4 sm:px-0 py-3 sm:py-4 z-50 bg-opacity-140">
 
                     {/* Logo container - made smaller on mobile */}
-                    <div className="flex items-center space-x-2 sm:space-x-8 px-2 sm:px-4 py-2 cursor-pointer sm:py-4 bg-[#FFFFFF80] backdrop-blur-[28px] bg-opacity-40 rounded-[4px]">
+                    <div className="flex items-center space-x-2 sm:space-x-8 px-2 sm:px-4 py-2 cursor-pointer sm:py-4 bg-white backdrop-blur-[28px] bg-opacity-40 rounded-[4px]">
                         <Link href="/">
                             <Image 
                                 src={logo} 
@@ -158,7 +158,7 @@ const MainHeader: React.FC = () => {
                         <div className="relative">
                             <button
                                 ref={dropdownButtonRef}
-                                className=" hidden sm:flex dropdown-button cursor-pointer pl-[16px] pr-[16px] py-5 bg-[#FFFFFF80] backdrop-blur-[18px] z-50 hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white text-black rounded-[4px]"
+                                className=" hidden sm:flex dropdown-button cursor-pointer pl-[16px] pr-[16px] py-5 bg-white backdrop-blur-[18px] z-50 hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white text-black rounded-[4px]"
                                 onClick={toggleDropdown}
                                 onMouseEnter={() => setIsDropdownOpen(true)}
                             >
@@ -168,7 +168,7 @@ const MainHeader: React.FC = () => {
                             {/* Dropdown Menu */}
                             <div 
                                 ref={dropdownRef}
-                                className={`dropdown-menu cursor-pointer absolute right-0 mt-1 w-48 ${isDropdownOpen ? 'block' : 'hidden'} bg-[#FFFFFF80] backdrop-blur-[28px] bg-opacity-40 rounded-[4px] shadow-lg z-50`}
+                                className={`dropdown-menu cursor-pointer absolute right-0 mt-1 w-48 ${isDropdownOpen ? 'block' : 'hidden'} bg-white backdrop-blur-[28px] bg-opacity-40 rounded-[4px] shadow-lg z-50`}
                                 onMouseLeave={() => setIsDropdownOpen(false)}
                             >
                                 {dropdownItems.map((item) => (
@@ -183,7 +183,7 @@ const MainHeader: React.FC = () => {
                             </div>
                         </div>
                                 <Link href={`/#filter-section`}>
-                       <button className="hidden  cursor-pointer sm:flex p-3 sm:px-6 sm:py-5 bg-[#FFFFFF80] hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white backdrop-blur-[18px] z-50 text-black rounded-[4px]">
+                       <button className="hidden  cursor-pointer sm:flex p-3 sm:px-6 sm:py-5 bg-white hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white backdrop-blur-[18px] z-50 text-black rounded-[4px]">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className="h-5 w-5 sm:h-6 sm:w-6"
@@ -202,12 +202,12 @@ const MainHeader: React.FC = () => {
 
                         </Link>
                         <Link href="/contact-us-propertydrone-realty">
-                            <button className="px-3 cursor-pointer py-2 sm:px-4 sm:py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white hover:text-black rounded-[4px] hover:bg-[#FFFFFF80] text-sm sm:text-base transition-all duration-300">
+                            <button className="px-3 cursor-pointer py-2 sm:px-4 sm:py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white  rounded-[4px] hover:bg-white hover:text-[#172747] text-sm sm:text-base transition-all duration-300">
                                 CONTACT US
                             </button>
                         </Link>
                         <button
-                            className="md:hidden hamburger-button p-1 bg-[#FFFFFF80] border backdrop-blur-[18px] rounded-[4px] transition-all duration-300"
+                            className="md:hidden hamburger-button p-1 bg-white border backdrop-blur-[18px] rounded-[4px] transition-all duration-300"
                             onClick={toggleMenu}
                             aria-label="Toggle menu"
                         >
