@@ -222,10 +222,15 @@ export default function PropertyDetail() {
       
       // Add property data directly without stringifying
       Object.keys(editProperty).forEach(key => {
-        if (key !== 'multipleImages' && key !== 'slug') {
+        if (key !== 'multipleImages' && key !== 'slug' && key !== 'configurationTypology') {
           formData.append(key, editProperty[key]);
         }
       });
+      
+      // Handle configurationTypology separately - stringify it like in the form submission
+      if (editProperty.configurationTypology && Array.isArray(editProperty.configurationTypology)) {
+        formData.append('configurationTypology', JSON.stringify(editProperty.configurationTypology));
+      }
       
       // Add new images if any
       if (newImages.length > 0) {

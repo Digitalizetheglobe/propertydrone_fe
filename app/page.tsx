@@ -930,8 +930,6 @@ const PropertyCard = ({
   delay: number;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
 
   // Add console logging to debug image path
   console.log('Property Image Data:', {
@@ -947,35 +945,10 @@ const PropertyCard = ({
     ? `https://api.propertydronerealty.com${property.multipleImages[0].path}`
     : main4;
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            setIsVisible(true);
-            if (cardRef.current) observer.unobserve(cardRef.current);
-          }, delay);
-        }
-      },
-      { threshold: 0.05, rootMargin: "20px" }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) observer.unobserve(cardRef.current);
-    };
-  }, [delay]);
-
   return (
     <Link href={`/our-properties-in-pune/${property.slug}`} passHref>
       <div
-        ref={cardRef}
-        className={`bg-white rounded-md cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
+        className="bg-white rounded-md cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -1152,63 +1125,16 @@ const PropertyCardLuxe = ({
   delay: number;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const animationTimeout = useRef<NodeJS.Timeout | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const baseUrl = "https://api.propertydronerealty.com";
   const imagePath = property?.multipleImages?.[0]?.path
     ? `${baseUrl}${property.multipleImages[0].path}`
     : main2;
 
-  useEffect(() => {
-    // Initial intersection observer for first animation
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            setIsVisible(true);
-            if (cardRef.current) observer.unobserve(cardRef.current);
-          }, delay);
-        }
-      },
-      { threshold: 0.05, rootMargin: "20px" }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) observer.unobserve(cardRef.current);
-    };
-  }, [delay]);
-
-  useEffect(() => {
-    // After the card is visible, set up interval to repeat animation every 20s
-    if (isVisible) {
-      intervalRef.current = setInterval(() => {
-        setIsVisible(false);
-        // Wait for the animation to "reset" (e.g., 100ms), then show again
-        animationTimeout.current = setTimeout(() => {
-          setIsVisible(true);
-        }, 100);
-      }, 20000); // 20 seconds
-    }
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      if (animationTimeout.current) clearTimeout(animationTimeout.current);
-    };
-  }, [isVisible]);
-
   return (
     <Link href={`/luxe-properties/${property.slug}`} passHref>
       <div
-        ref={cardRef}
-        className={`bg-white rounded-[4px] cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
+        className="bg-white rounded-[4px] cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -1557,7 +1483,7 @@ const PropertyCardLuxe = ({
       )}
       
 <PropertyPopup/>
-<div className="relative h-[500px] bg-gray-800 overflow-hidden">
+<div className="relative h-[600px] bg-gray-800 overflow-hidden">
   {/* Background Video with Overlay */}
 
   {/* Bhavik new */}
@@ -1576,7 +1502,7 @@ const PropertyCardLuxe = ({
   </div>
 
   {/* Main Content */}
-  <main className="relative z-10 container mx-auto px-4 pt-30 max-w-6xl">
+  <main className="relative z-10 container mx-auto px-4 pt-40 max-w-6xl">
     {/* <div className="flex flex-col md:flex-row gap-[20px] py-4">
       <div>
         <h1
