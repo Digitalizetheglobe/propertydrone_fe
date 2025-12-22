@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import {
   FiPlus,
   FiChevronDown,
@@ -15,9 +15,8 @@ import {
   FiX,
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
-import contactimg from "../../../public/assets/images/contactimg.png";
+import contactimg from "@/public/images/contact.png";
 import main4 from "@/public/images/buliding.png";
-import PageWithSeo from "../../components/PageWithSeo";
 
 const ATTRIBUTES = [
   "Carpet Area",
@@ -202,7 +201,6 @@ const CompareProperties = () => {
 
   return (
     <>
-    <PageWithSeo page="compareproperties">
       <section className="relative h-[50vh] w-full overflow-hidden">
         <Image
           src={contactimg}
@@ -479,7 +477,6 @@ const CompareProperties = () => {
           )}
         </div>
       </section>
-      </PageWithSeo>
     </>
   );
 };
