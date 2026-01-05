@@ -615,86 +615,146 @@ useEffect(() => {
         {/* <div className="flex-grow h-px bg-[#172747] "></div> */}
       </div>
 
-      {/* Our Team Section */}
-      <div className="w-full bg-gray-100 py-12">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-          {/* First Row - Nikhil Image (from left) */}
+      {/* Our Team Section - Compact & Sweet Design */}
+      <div className="w-full bg-white py-12 relative">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Section Header - Compact */}
           <motion.div
-            initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="relative rounded-[4px] h-[520px] overflow-hidden hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
+            className="text-center mb-12"
           >
-            <Image
-              src={nikhil}
-              alt="Nikhil Manocha - Founder and CEO"
-              className="w-full h-full object-cover object-center"
-            />
-          </motion.div>
-
-          {/* Quote 1 (from right) */}
-          <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-             className="rounded-[4px] bg-[#EEF1F5] p-8 flex flex-col justify-center h-full lg:h-[520px] border border-[#172747] hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
+            <span className="text-[#172747]/60 text-sm uppercase tracking-wider mb-3 block" style={{ fontFamily: 'Lato' }}>
+              Leadership Team
+            </span>
+            <h2 
+              className="text-3xl md:text-4xl font-light text-[#172747] mb-3"
+              style={{ fontFamily: 'Ivy Mode', letterSpacing: '0.5px' }}
             >
-            <Image
-              src={quote}
-              alt="Decorative quote"
-              className="h-10 w-10 inline-block ml-2 md:ml-10"
-            />
-            <p className="text-[#172747] text-[32px] leading-[140%] tracking-normal font-['Ivy Mode'] mb-4 mx-2 md:mx-10" style={{ letterSpacing: '0.5px' }}>
-              At Property Drone Realty, we're not just listing properties—we're elevating how people experience real estate.
-            </p>
-            <div className="mx-2 md:mx-10">
-              <p className="text-[#00000099]" style={{ fontSize: '18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>Nikhil Mawale</p>
-              <p className="text-[#00000099]" style={{ fontSize: '18px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>— Founder and CEO</p>
-            </div>
+              Meet Our Founders
+            </h2>
+            <div className="w-16 h-0.5 bg-[#172747]/30 mx-auto"></div>
           </motion.div>
 
-          {/* Second Row - Quote 2 (from left) */}
-            <motion.div
-            initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="rounded-[4px] bg-[#EEF1F5] p-8 flex flex-col justify-center h-full lg:h-[520px] border border-[#172747] hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
-            >
-            <Image
-              src={quote}
-              alt="Decorative quote"
-              className="h-10 w-10 inline-block ml-2 md:ml-10"
-            />
-            <p className="text-[#172747] text-[32px] leading-[140%] tracking-normal font-['Ivy Mode'] mb-4 mx-2 md:mx-10"  style={{ letterSpacing: '0.5px' }}>
-              We're building more than a platform—we're creating a trusted space where property seekers and developers connect with confidence and clarity.
-            </p>
-            <div className="mx-2 md:mx-10">
-              <p className="text-gray-700 text-lg font-medium">Ayush Thakur</p>
-              <p className="text-gray-600 text-lg">— Co-Founder</p>
+          <div className="space-y-8">
+
+            {/* First Row - Nikhil */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Nikhil Image - Compact */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                viewport={{ once: true }}
+                className="relative group rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <Image
+                    src={nikhil}
+                    alt="Nikhil Mawale - Founder and CEO"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {/* Subtle overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* Name badge - always visible, bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-sm">
+                    <p className="text-[#172747] text-lg font-light mb-0.5" style={{ fontFamily: 'Ivy Mode' }}>Nikhil Mawale</p>
+                    <p className="text-[#172747]/60 text-sm" style={{ fontFamily: 'Lato' }}>Founder and CEO</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Quote 1 - Compact & Sweet */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                viewport={{ once: true }}
+                className="relative rounded-xl bg-[#EEF1F5] p-6 lg:p-8 flex flex-col justify-center border border-[#172747]/10 shadow-sm hover:shadow-md transition-all duration-300 group"
+              >
+                {/* Quote icon - smaller */}
+                <div className="mb-4">
+                  <Image
+                    src={quote}
+                    alt="Quote"
+                    className="h-8 w-8 opacity-60"
+                  />
+                </div>
+                
+                {/* Quote text - smaller, refined */}
+                <p className="text-[#172747] text-xl lg:text-2xl leading-relaxed font-light mb-6" style={{ fontFamily: 'Ivy Mode', letterSpacing: '0.3px' }}>
+                  At Property Drone Realty, we're not just listing properties—we're elevating how people experience real estate.
+                </p>
+                
+                {/* Signature - compact */}
+                <div className="pt-4 border-t border-[#172747]/10">
+                  <p className="text-[#172747] text-sm font-medium mb-0.5" style={{ fontFamily: 'Lato' }}>Nikhil Mawale</p>
+                  <p className="text-[#172747]/50 text-xs" style={{ fontFamily: 'Lato' }}>Founder and CEO</p>
+                </div>
+              </motion.div>
             </div>
-            </motion.div>
 
-          {/* Ayush Image (from right) */}
-          <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="relative border border-[#172747] rounded-[4px] h-[520px] overflow-hidden hover:scale-105 hover:shadow-xl transition-transform duration-500 ease-in-out"
-          >
-            <Image
-              src={ayush}
-              alt="Ayush Thakur - Co-Founder"
-              className="w-full h-full object-cover object-center"
-            />
-          </motion.div>
+            {/* Second Row - Ayush */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Quote 2 - Compact & Sweet */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                viewport={{ once: true }}
+                className="relative rounded-xl bg-[#EEF1F5] p-6 lg:p-8 flex flex-col justify-center border border-[#172747]/10 shadow-sm hover:shadow-md transition-all duration-300 group order-2 lg:order-1"
+              >
+                {/* Quote icon - smaller */}
+                <div className="mb-4">
+                  <Image
+                    src={quote}
+                    alt="Quote"
+                    className="h-8 w-8 opacity-60"
+                  />
+                </div>
+                
+                {/* Quote text - smaller, refined */}
+                <p className="text-[#172747] text-xl lg:text-2xl leading-relaxed font-light mb-6" style={{ fontFamily: 'Ivy Mode', letterSpacing: '0.3px' }}>
+                  We're building more than a platform—we're creating a trusted space where property seekers and developers connect with confidence and clarity.
+                </p>
+                
+                {/* Signature - compact */}
+                <div className="pt-4 border-t border-[#172747]/10">
+                  <p className="text-[#172747] text-sm font-medium mb-0.5" style={{ fontFamily: 'Lato' }}>Ayush Thakur</p>
+                  <p className="text-[#172747]/50 text-xs" style={{ fontFamily: 'Lato' }}>Co-Founder</p>
+                </div>
+              </motion.div>
 
-        </div>
+              {/* Ayush Image - Compact */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                viewport={{ once: true }}
+                className="relative group rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 order-1 lg:order-2"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <Image
+                    src={ayush}
+                    alt="Ayush Thakur - Co-Founder"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {/* Subtle overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* Name badge - always visible, bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-sm">
+                    <p className="text-[#172747] text-lg font-light mb-0.5" style={{ fontFamily: 'Ivy Mode' }}>Ayush Thakur</p>
+                    <p className="text-[#172747]/60 text-sm" style={{ fontFamily: 'Lato' }}>Co-Founder</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+          </div>
         </div>
       </div>
    
@@ -724,7 +784,7 @@ useEffect(() => {
           ))}
         </div>
         {/* Smooth, slow, continuous carousel with pause on hover, manual scroll, modal on click */}
-        <div className="relative w-full max-w-6xl mx-auto px-4 py-8 overflow-x-auto">
+        <div className="relative w-full max-w-6xl mx-auto px-4 py-8 overflow-x-auto scrollbar-hide">
           {/* Scroll Buttons */}
           <button
             className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/70 text-white p-2 rounded-full"

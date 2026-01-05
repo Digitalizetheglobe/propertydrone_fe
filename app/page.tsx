@@ -1615,6 +1615,17 @@ const PropertyCardLuxe = ({
               opacity: 0;
             }
           }
+          .why-choose-section,
+          .why-choose-section * {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+          }
+          .why-choose-section::-webkit-scrollbar,
+          .why-choose-section *::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+          }
         `}
       </style>
 
@@ -2149,9 +2160,34 @@ const PropertyCardLuxe = ({
       )}
     </div>
   {/* -------------------- */}
-    <section className="bg-[#172747] text-white py-16   ">
-      <div className="container  max-w-6xl mx-auto ">
-        <div className="mb-8 px-4 mx-auto max-w-6xl">
+    <section className="bg-[#172747] text-white py-16 why-choose-section" style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
+      <style>{`
+        .why-choose-section {
+          overflow-x: hidden !important;
+          overflow-y: hidden !important;
+          position: relative;
+        }
+        .why-choose-section::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+        .why-choose-section * {
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
+        }
+        .why-choose-section *::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+        .why-choose-section .container {
+          overflow-x: hidden !important;
+          overflow-y: hidden !important;
+        }
+      `}</style>
+      <div className="container  max-w-6xl mx-auto " style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
+        <div className="mb-8 px-4 mx-auto max-w-6xl" style={{ overflowX: 'hidden' }}>
         
 
                <AnimatedLetters
@@ -2167,12 +2203,13 @@ const PropertyCardLuxe = ({
         </div>
         
     
-       <div>
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto max-w-6xl gap-4">
+       <div style={{ overflowX: 'hidden', width: '100%' }}>
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto max-w-6xl gap-4" style={{ overflowX: 'hidden', width: '100%', maxWidth: '100%' }}>
     {features.map((feature, index) => (
       <div
   key={feature.id}
-  className="relative group flex max-w-[300px] h-[300px]  text-[#172747] transition duration-300 ease-in-out"
+  className="relative group flex w-full max-w-[300px] h-[300px] mx-auto text-[#172747] transition duration-300 ease-in-out"
+  style={{ overflow: 'hidden' }}
   data-aos="fade-up"
   data-aos-delay={index * 100}
 >
@@ -2180,10 +2217,11 @@ const PropertyCardLuxe = ({
   <svg
     height="300"
     width="300"
-    className="absolute inset-0 z-10"
+    className="absolute inset-0 z-10 w-full h-full"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 300 300"
     preserveAspectRatio="none"
+    style={{ maxWidth: '100%', height: 'auto' }}
   >
     <line x1="0" y1="0" x2="300" y2="0" className="line top" />
     <line x1="0" y1="0" x2="0" y2="300" className="line left" />
