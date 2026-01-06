@@ -19,7 +19,25 @@ import {
 import path from "path";
 
 const sections = [
-  
+  {
+    name: "Property Comparison",
+    path: "/dashboard/propertycomparison",
+    icon: faFileAlt,
+    description: "Compare properties by user."
+  },
+  {
+    name: "Saved Properties",
+    path: "/dashboard/savedproperty",
+    icon: faFileCirclePlus,
+    description: "User's saved properties."
+  },
+  {
+    name: "Testimonials",
+    path: "/dashboard/testimonials",
+    icon: faAddressCard,
+    description: "Manage customer testimonials."
+  },
+ 
   // { 
   //   name: "Contact Form", 
   //   path: "/dashboard/contactform", 
@@ -123,7 +141,7 @@ export default function DashboardPage() {
       <div className="min-h-screen bg-gray-50 p-8">
         <h1 className="text-3xl font-bold text-[#224295] mb-8">Admin Dashboard</h1>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {sections.map((section, index) => (
             <div
               key={index}

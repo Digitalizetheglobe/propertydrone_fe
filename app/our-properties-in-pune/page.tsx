@@ -70,7 +70,7 @@ function LuxePropertiesContent() {
   const [availableBudgets, setAvailableBudgets] = useState<string[]>([]);
 
   // API base URL - ideally from environment variables
-  const baseUrl = "https://api.propertydronerealty.com";
+  const baseUrl = "http://localhost:5000";
 
   const propertyCategories = [
     { id: 'all', name: 'All', icon: '/icons/home.svg' },

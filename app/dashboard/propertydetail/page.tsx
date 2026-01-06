@@ -4,6 +4,35 @@ import { useEffect, useState, useRef, useMemo } from "react";
 import { MicIcon, SearchIcon, XIcon, FilterIcon, UploadIcon, TrashIcon } from "lucide-react";
 
 export default function PropertyDetail() {
+  // --- Comparison logic ---
+  const staticUserId = 1; // Demo user, replace with logged-in user id if available
+  const [comparedPropertyIds, setComparedPropertyIds] = useState<number[]>([]);
+
+  // Fetch compared property ids on mount
+  useEffect(() => {
+    fetch(`http://localhost:5000/api/property-comparisons`)
+      .then(res => res.json())
+      .then(data => {
+        // For current user only
+        const compIds = data.filter((cmp: any) => `${cmp.webUserId}` === `${staticUserId}`).map((cmp: any) => parseInt(cmp.propertyId));
+        setComparedPropertyIds(compIds);
+      });
+  }, []);
+
+  // Add to comparison
+  const addToComparison = async (property: any) => {
+    await fetch('http://localhost:5000/api/property-comparisons', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        webUserId: staticUserId,
+        propertyId: property.id,
+        propertyData: property
+      })
+    });
+    setComparedPropertyIds(prev => [...prev, property.id]);
+  };
+
   const [properties, setProperties] = useState<any[]>([]);
   const [filteredProperties, setFilteredProperties] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -21,7 +50,7 @@ export default function PropertyDetail() {
   const [showFilters, setShowFilters] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   
-  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
+  const baseUrl = "http://localhost:5000"; // For dev — ideally from env
   const imagePath = propertyImages?.[0]
     ? `${baseUrl}${propertyImages[0]}`
     : null;
@@ -29,7 +58,7 @@ export default function PropertyDetail() {
   // Fetch properties function
   const fetchProperties = () => {
     setLoading(true);
-    fetch("https://api.propertydronerealty.com/properties")
+    fetch("http://localhost:5000/properties")
       .then((res) => res.json())
       .then((data) => {
         // Sort properties by ID in descending order
@@ -151,7 +180,7 @@ export default function PropertyDetail() {
 
   const deleteProperty = async (id: string) => {
     try {
-      const response = await fetch(`https://api.propertydronerealty.com/properties/${id}`, {
+      const response = await fetch(`http://localhost:5000/properties/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -245,7 +274,7 @@ export default function PropertyDetail() {
       }
       
       // Send request
-      const response = await fetch(`https://api.propertydronerealty.com/properties/${editProperty.id}`, {
+      const response = await fetch(`http://localhost:5000/properties/${editProperty.id}`, {
         method: "PUT",
         body: formData,
       });
@@ -422,6 +451,22 @@ export default function PropertyDetail() {
           <div className="grid grid-cols-1 gap-6">
             {filteredProperties.map((property, index) => (
               <div key={index} className="bg-white shadow-lg rounded-lg p-6 transition-all hover:shadow-xl">
+                {/* Comparison checkbox */}
+                <div className="flex items-center mb-2">
+                  <input
+                    type="checkbox"
+                    checked={comparedPropertyIds.includes(property.id)}
+                    onChange={e => {
+                      if (e.target.checked) addToComparison(property);
+                      // For removal, need delete logic (future)
+                    }}
+                    id={`compare-${property.id}`}
+                    className="mr-2 text-blue-500 h-4 w-4"
+                  />
+                  <label htmlFor={`compare-${property.id}`} className="select-none cursor-pointer text-sm font-semibold text-blue-600">
+                    Compare this property
+                  </label>
+                </div>
                 <h3 className="text-2xl font-bold">{property.propertyName}</h3>
                 <p className="text-gray-600">{property.location}, {property.city}</p>
 

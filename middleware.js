@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 
 export function middleware(request) {
-  const cookieStore = cookies();
-  const token = cookieStore.get('adminToken');
+  const token = request.cookies.get('adminToken')?.value;
   const path = request.nextUrl.pathname;
 
   // Public routes

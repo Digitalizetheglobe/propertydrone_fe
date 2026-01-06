@@ -43,6 +43,29 @@ export default function Properties() {
 }
 
 function PropertiesContent() {
+  // --- Comparison checkbox logic ---
+  const [comparedIds, setComparedIds] = useState<number[]>([]);
+  const [compareLoadingId, setCompareLoadingId] = useState<number|null>(null);
+  // Demo user, replace 1 with actual userId as needed
+  const webUserId = 1;
+  // fetch existing compared (checked) ids
+  const fetchComparedIds = async () => {
+    const res = await fetch("http://localhost:5000/api/property-comparisons");
+    if (!res.ok) return;
+    const all = await res.json();
+    setComparedIds(
+      all.filter((cmp:any) => `${cmp.webUserId}`===`${webUserId}`)
+        .map((cmp:any)=>parseInt(cmp.propertyId))
+    );
+  };
+  useEffect(() => {
+    fetchComparedIds();
+    // Always sync when window regains focus (tab switch)
+    const onFocus = () => fetchComparedIds();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, []);
+
   const searchParams = useSearchParams();
   const locationParam = searchParams.get('location');
   const lastWord = locationParam ? locationParam.trim().split(' ').pop() : null;
@@ -60,7 +83,7 @@ function PropertiesContent() {
   const [searchLocation, setSearchLocation] = useState('');
 
   // API base URL - ideally from environment variables
-  const baseUrl = "https://api.propertydronerealty.com";
+  const baseUrl = "http://localhost:5000";
 
   const propertyCategories = [
     { id: 'all', name: 'All', icon: '/icons/home.svg' },
@@ -753,7 +776,7 @@ const AnimatedStarButton = () => {
                   >
                     {filteredProperties.length > 0 ? (
                       filteredProperties.map((property) => (
-                             <Link href={`/luxe-properties/${property.slug}`} passHref key={property.id} className="w-full sm:w-auto">
+                             <div  className="w-full sm:w-auto">
                         <motion.div 
                           key={`motion-${property.id}`}
                           variants={cardVariants}
@@ -782,6 +805,7 @@ const AnimatedStarButton = () => {
                                       const target = e.target as HTMLImageElement;
                                       target.src = '/images/property-placeholder.jpg';
                                     }}
+                                    unoptimized={typeof imageSrc === 'string' && (imageSrc.startsWith('http://localhost') || imageSrc.startsWith('https://localhost'))}
                                   />
                                 ) : null;
                               })()}
@@ -853,9 +877,11 @@ const AnimatedStarButton = () => {
                           </div>
                           
                           <div className="p-4 lg:p-5">
-                            <h3 className="text-lg lg:text-xl mb-2 font-bold leading-tight">
-                              {property.propertyName}
-                            </h3>
+                            <Link href={`/luxe-properties/${property.slug}`} passHref key={property.id}>
+  <h3 className="text-lg lg:text-xl mb-2 font-bold leading-tight hover:text-blue-600 transition-colors cursor-pointer">
+    {property.propertyName}
+  </h3>
+</Link>
                             
                             <div className=" sm:flex-row justify-between text-sm mb-5 gap-2">
                               <div className="flex mb-2 items-center bg-gray-50 px-1 py-1.5 rounded-[4px]">
@@ -904,18 +930,64 @@ const AnimatedStarButton = () => {
                              
                               
                         
-                                <motion.button
-                                  whileHover={{ scale: 1.05 }}
-                                  whileTap={{ scale: 0.95 }}
-                                  className="w-full bg-[#172747] cursor-pointer hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
-                                >
-                                  View Details
-                                </motion.button>
+                                <div className="flex items-center gap-2 w-full">
+{comparedIds.includes(property.id) ? (
+  <button
+    type="button"
+    className="px-4 py-2 rounded font-semibold text-white bg-red-600 hover:bg-red-700 text-xs transition-colors disabled:opacity-60"
+    disabled={compareLoadingId === property.id}
+    onClick={async () => {
+      setCompareLoadingId(property.id);
+      setComparedIds(prev => prev.filter(id => id !== property.id));
+      const resp = await fetch(`http://localhost:5000/api/property-comparisons/${property.id}`, { method: 'DELETE' });
+      if (!resp.ok) {
+        setComparedIds(prev => [...prev, property.id]);
+      } else {
+        await fetchComparedIds();
+      }
+      setCompareLoadingId(null);
+    }}
+  >
+    Uncompare
+  </button>
+) : (
+  <button
+    type="button"
+    className="px-4 py-2 rounded font-semibold text-white bg-green-600 hover:bg-green-700 text-xs transition-colors disabled:opacity-60"
+    disabled={compareLoadingId === property.id || comparedIds.length >= 5}
+    onClick={async () => {
+      setCompareLoadingId(property.id);
+      setComparedIds(prev => [...prev, property.id]);
+      const resp = await fetch('http://localhost:5000/api/property-comparisons', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
+      });
+      if (!resp.ok) {
+        setComparedIds(prev => prev.filter(id => id !== property.id));
+      } else {
+        await fetchComparedIds();
+      }
+      setCompareLoadingId(null);
+    }}
+  >
+    Compare
+  </button>
+)}
+                                  <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="flex-1 bg-[#172747] cursor-pointer hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
+                                    onClick={(e) => {e.stopPropagation();window.location.href = `/luxe-properties/${property.slug}`;}}
+                                  >
+                                    View Details
+                                  </motion.button>
+                                </div>
                               
                             </motion.div>
                           </div>
                         </motion.div>
-                        </Link>
+                        </div>
                       ))
                     ) : (
                       <div className="col-span-full text-center py-12">

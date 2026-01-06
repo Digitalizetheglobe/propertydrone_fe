@@ -37,7 +37,7 @@ const PropertyPopup = ({ onClose, onSubmitSuccess }: PropertyPopupProps) => {
     setError('');
     setSuccess('');
     try {
-      const response = await fetch('https://api.propertydronerealty.com/contacts', {
+      const response = await fetch('http://localhost:5000/contacts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

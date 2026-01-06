@@ -8,9 +8,7 @@ export default function Header() {
     <header className="bg-blue-200 text-[#224295] py-4 shadow-md items-center justify-center mx-auto ">
       <div className=" mx-auto max-w-6xl flex justify-between items-center ">
       <div className="text-xl font-bold">
-      <Link href="/dashboard">
-        <Image src={logo} alt="Logo" width={200} height={100} />
-      </Link>
+    
     </div>
 
         <nav>

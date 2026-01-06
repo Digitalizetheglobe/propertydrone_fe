@@ -584,7 +584,7 @@ const locationCounts = useMemo<LocationData[]>(() => {
         location: location,
         count: 1,
         
-        image: property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : "/api/placeholder/400/320"
+        image: property.multipleImages?.[0]?.path ? `http://localhost:5000${property.multipleImages[0].path}` : "/api/placeholder/400/320"
       });
     } else {
       
@@ -666,7 +666,7 @@ const locationCounts = useMemo<LocationData[]>(() => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      const response = await fetch("https://api.propertydronerealty.com/contacts", {
+      const response = await fetch("http://localhost:5000/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -717,7 +717,7 @@ const locationCounts = useMemo<LocationData[]>(() => {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://api.propertydronerealty.com/properties');
+        const response = await fetch('http://localhost:5000/properties');
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }
@@ -936,13 +936,13 @@ const PropertyCard = ({
     multipleImages: property.multipleImages,
     firstImagePath: property.multipleImages?.[0]?.path,
     fullImagePath: property.multipleImages?.[0]?.path 
-      ? `https://api.propertydronerealty.com${property.multipleImages[0].path}`
+      ? `http://localhost:5000${property.multipleImages[0].path}`
       : main4
   });
 
   // Update image path handling with proper error checking
   const imagePath = property.multipleImages && property.multipleImages.length > 0 && property.multipleImages[0].path
-    ? `https://api.propertydronerealty.com${property.multipleImages[0].path}`
+    ? `http://localhost:5000${property.multipleImages[0].path}`
     : main4;
 
   return (
@@ -1126,7 +1126,7 @@ const PropertyCardLuxe = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const baseUrl = "https://api.propertydronerealty.com";
+  const baseUrl = "http://localhost:5000";
   const imagePath = property?.multipleImages?.[0]?.path
     ? `${baseUrl}${property.multipleImages[0].path}`
     : main2;
@@ -1405,7 +1405,7 @@ const PropertyCardLuxe = ({
   ];
 
   useEffect(() => {
-    fetch('https://api.propertydronerealty.com/blogs')
+    fetch('http://localhost:5000/blogs')
       .then(res => res.json())
       .then(data => {
         console.log('API data:', data); // Debug: log API response
@@ -1978,7 +1978,7 @@ const PropertyCardLuxe = ({
             >
               <div className="relative h-64 w-full mb-4 overflow-hidden rounded-t-lg group">
                 <Image
-                  src={property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : main4}
+                  src={property.multipleImages?.[0]?.path ? `http://localhost:5000${property.multipleImages[0].path}` : main4}
                   alt={property.propertyName}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
@@ -2160,151 +2160,31 @@ const PropertyCardLuxe = ({
       )}
     </div>
   {/* -------------------- */}
-    <section className="bg-[#172747] text-white py-16 why-choose-section" style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
-      <style>{`
-        .why-choose-section {
-          overflow-x: hidden !important;
-          overflow-y: hidden !important;
-          position: relative;
-        }
-        .why-choose-section::-webkit-scrollbar {
-          display: none !important;
-          width: 0 !important;
-          height: 0 !important;
-        }
-        .why-choose-section * {
-          scrollbar-width: none !important;
-          -ms-overflow-style: none !important;
-        }
-        .why-choose-section *::-webkit-scrollbar {
-          display: none !important;
-          width: 0 !important;
-          height: 0 !important;
-        }
-        .why-choose-section .container {
-          overflow-x: hidden !important;
-          overflow-y: hidden !important;
-        }
-      `}</style>
-      <div className="container  max-w-6xl mx-auto " style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
-        <div className="mb-8 px-4 mx-auto max-w-6xl" style={{ overflowX: 'hidden' }}>
-        
-
-               <AnimatedLetters
-  text="WHY CHOOSE US"
-  as="h2"
-  className="uppercase text-white text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-            
-/>
-
-
-       <h2 className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]" 
-                  >We're redefining how people explore and purchase property.</h2>
+    <section className="bg-[#172747] text-white py-16">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="mb-8 text-center">
+          <AnimatedLetters
+            text="WHY CHOOSE US"
+            as="h2"
+            className="uppercase text-white text-base sm:text-lg font-lato tracking-[1px] leading-tight mb-2"
+          />
+          <h2 className="text-white mb-6 font-light text-2xl sm:text-4xl leading-tight tracking-[1px] font-ivy text-start">We're redefining how people explore and purchase property.</h2>
         </div>
-        
-    
-       <div style={{ overflowX: 'hidden', width: '100%' }}>
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 mx-auto max-w-6xl gap-4" style={{ overflowX: 'hidden', width: '100%', maxWidth: '100%' }}>
-    {features.map((feature, index) => (
-      <div
-  key={feature.id}
-  className="relative group flex w-full max-w-[300px] h-[300px] mx-auto text-[#172747] transition duration-300 ease-in-out"
-  style={{ overflow: 'hidden' }}
-  data-aos="fade-up"
-  data-aos-delay={index * 100}
->
-  {/* SVG Border */}
-  <svg
-    height="300"
-    width="300"
-    className="absolute inset-0 z-10 w-full h-full"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 300 300"
-    preserveAspectRatio="none"
-    style={{ maxWidth: '100%', height: 'auto' }}
-  >
-    <line x1="0" y1="0" x2="300" y2="0" className="line top" />
-    <line x1="0" y1="0" x2="0" y2="300" className="line left" />
-    <line x1="0" y1="300" x2="300" y2="300" className="line bottom" />
-    <line x1="300" y1="0" x2="300" y2="300" className="line right" />
-
-  </svg>
-
-  {/* Content */}
-  <div className="relative z-20 px-4 pt-6 bg-gray-400 border-r-2 border-gray-400 group-hover:bg-transparent">
-    <p className="text-[#172747] group-hover:text-gray-400 text-[28px]">{feature.id}</p>
-    <h3
-      className="text-[24px] text-[#172747] group-hover:text-gray-400 leading-[100%] tracking-normal mb-2"
-      style={{ fontFamily: 'Lato' }}
-    >
-      {feature.title}
-    </h3>
-    <p
-      className="text-[#172747] group-hover:text-gray-400 text-[18px]"
-      style={{ lineHeight: '1.5', fontFamily: 'Lato' }}
-    >
-      {feature.description}
-    </p>
-  </div>
-
-  <style jsx>{`
-    .line {
-      stroke-width: 4px;
-      stroke: #c6c6d0;
-      fill: none;
-      transition: transform 0.6s ease-in-out;
-    }
-
-    .top,
-    .bottom {
-      stroke-dasharray: 300;
-    }
-
-    .left,
-    .right {
-      stroke-dasharray: 300;
-    }
-
-    .top {
-      transform: translateX(-300px);
-    }
-
-    .bottom {
-      transform: translateX(300px);
-    }
-
-    .left {
-      transform: translateY(-300px);
-    }
-
-    .right {
-      transform: translateY(300px);
-    }
-
-    .group:hover .top {
-      transform: translateX(0);
-    }
-
-    .group:hover .bottom {
-      transform: translateX(0);
-    }
-
-    .group:hover .left {
-      transform: translateY(0);
-    }
-
-    .group:hover .right {
-      transform: translateY(0);
-    }
-  `}</style>
-</div>
-
-    ))}
-  </div>
-</div>
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 overflow-visible">
+          {features.map((feature, index) => (
+            <div
+              key={feature.id}
+              className="relative flex flex-col justify-center items-center bg-white/90 backdrop-blur shadow-xl rounded-3xl pt-2 pb-6 px-6 h-[320px] transition-all duration-300 ease-in-out group hover:bg-blue-50 hover:scale-105 overflow-visible"
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
+            >
+            
+              <h3 className="text-lg text-[#172747] font-bold mt-1 mb-2 text-center font-lato group-hover:text-blue-700 transition-all">{feature.title}</h3>
+              <p className="text-[#433f60] text-base text-center leading-relaxed font-lato group-hover:text-blue-600 transition-all">{feature.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
-      
     </section>
   {/* ---------------------------------- */}
    <div

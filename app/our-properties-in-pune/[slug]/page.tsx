@@ -42,7 +42,7 @@ function PropertyPageContent() {
           throw new Error('Property slug is required');
         }
 
-        const response = await fetch(`https://api.propertydronerealty.com/properties/${slug}`);
+        const response = await fetch(`http://localhost:5000/properties/${slug}`);
         if (!response.ok) {
           throw new Error('Failed to fetch property details');
         }

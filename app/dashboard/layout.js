@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Sidebar from "../components/Sidebar";
 
 export default function DashboardLayout({
   children,
@@ -26,9 +27,12 @@ export default function DashboardLayout({
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-gray-50">
-        <div className="flex-grow">{children}</div>
-      </main>
+      <div className="flex min-h-screen bg-gray-50">
+        <div className="hidden md:block"><Sidebar /></div>
+        <main className="flex-1 ml-0 md:ml-60 p-6">
+          {children}
+        </main>
+      </div>
       <Footer />
     </>
   );

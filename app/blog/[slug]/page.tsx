@@ -56,7 +56,7 @@ const BlogDetail = ({ params }: PageProps) => {
     const fetchBlog = async () => {
       try {
         console.log('Fetching blog for slug:', resolvedParams.slug);
-        const response = await fetch(`https://api.propertydronerealty.com/blogs/${resolvedParams.slug}`);
+        const response = await fetch(`http://localhost:5000/blogs/${resolvedParams.slug}`);
         
         if (!response.ok) {
           throw new Error(`Failed to fetch blog data: ${response.status}`);

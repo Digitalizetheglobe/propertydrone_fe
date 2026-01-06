@@ -14,6 +14,7 @@ const MainHeader: React.FC = () => {
     const dropdownRef = useRef<HTMLDivElement>(null);
     const dropdownButtonRef = useRef<HTMLButtonElement>(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isPropertiesDropdownOpen, setIsPropertiesDropdownOpen] = useState(false);
 
     // Handle screen resize and detect mobile view
     useEffect(() => {
@@ -138,19 +139,39 @@ const MainHeader: React.FC = () => {
 
                         {/* Desktop Navigation */}
                         <div className="hidden cursor-pointer md:flex space-x-6 px-6">
-                            {navigationItems
-                                .filter(item => item.alwaysShow)
-                                .map((item) => (
-                                    <a 
-                                        key={item.name} 
-                                        href={item.href} 
-                                        className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]"
-                                    >
-                                        {item.name}
-                                    </a>    
-                                ))
-                            }
+    {navigationItems
+        .filter(item => item.alwaysShow)
+        .map((item) => (
+            item.name === 'Properties' ? (
+                <div key={item.name} className="relative flex items-center"
+                    onMouseEnter={() => setIsPropertiesDropdownOpen(true)}
+                    onMouseLeave={() => setIsPropertiesDropdownOpen(false)}
+                >
+                    <a 
+                        href={item.href} 
+                        className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]"
+                    >
+                        {item.name}
+                    </a>
+                    {isPropertiesDropdownOpen && (
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max bg-white shadow-lg rounded-[4px] z-50 flex flex-row p-2">
+                            <a href="/luxe-properties" className="px-4 py-2 text-black hover:bg-[#17274710] hover:text-[#172747] transition-all duration-300 whitespace-nowrap">Luxe Properties</a>
+                            <a href="/our-properties-in-pune" className="px-4 py-2 text-black hover:bg-[#17274710] hover:text-[#172747] transition-all duration-300 whitespace-nowrap">Pune Properties</a>
                         </div>
+                    )}
+                </div>
+            ) : (
+                <a 
+                    key={item.name} 
+                    href={item.href} 
+                    className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]"
+                >
+                    {item.name}
+                </a>    
+            )
+        ))
+    }
+</div>
                     </div>
 
                     <div className="flex items-center cursor-pointer space-x-3">
@@ -166,21 +187,21 @@ const MainHeader: React.FC = () => {
                             </button>
 
                             {/* Dropdown Menu */}
-                            <div 
-                                ref={dropdownRef}
-                                className={`dropdown-menu cursor-pointer absolute right-0 mt-1 w-48 ${isDropdownOpen ? 'block' : 'hidden'} bg-white backdrop-blur-[28px] bg-opacity-40 rounded-[4px] shadow-lg z-50`}
-                                onMouseLeave={() => setIsDropdownOpen(false)}
-                            >
-                                {dropdownItems.map((item) => (
-                                    <a 
-                                        key={item.name} 
-                                        href={item.href} 
-                                        className="block px-4 py-3 text-black hover:bg-[#17274710] hover:text-[#172747] transition-all duration-300"
-                                    >
-                                        {item.name}
-                                    </a>
-                                ))}
-                            </div>
+<div 
+                                    ref={dropdownRef}
+                                    className={`dropdown-menu cursor-pointer absolute right-0 mt-1 w-max ${isDropdownOpen ? 'flex' : 'hidden'} flex-row bg-white backdrop-blur-[28px] bg-opacity-40 rounded-[4px] shadow-lg z-50`}
+                                    onMouseLeave={() => setIsDropdownOpen(false)}
+                                >
+                                    {dropdownItems.map((item) => (
+                                        <a 
+                                            key={item.name} 
+                                            href={item.href} 
+                                            className="px-4 py-3 text-black hover:bg-[#17274710] hover:text-[#172747] transition-all duration-300 whitespace-nowrap"
+                                        >
+                                            {item.name}
+                                        </a>
+                                    ))}
+                                </div>
                         </div>
                                 <Link href={`/#filter-section`}>
                        <button className="hidden  cursor-pointer sm:flex p-3 sm:px-6 sm:py-5 bg-white hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white backdrop-blur-[18px] z-50 text-black rounded-[4px]">
