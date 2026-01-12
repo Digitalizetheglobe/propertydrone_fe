@@ -7,20 +7,13 @@ const nextConfig = {
   },
   
   // Turbopack configuration
-  experimental: {
-    turbo: {
-      rules: {
-        // Add any Turbopack rules here
-      },
-    },
-  },
+  turbopack: {},
   
   // Other Next.js configurations
   reactStrictMode: true,
 
   // Image configuration
   images: {
-    domains: ['localhost', 'api.propertydronerealty.com', 'example.com'],
     remotePatterns: [
       {
         protocol: 'http',

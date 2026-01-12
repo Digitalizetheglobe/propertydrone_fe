@@ -7,6 +7,7 @@ interface Testimonial {
   testimonial: string;
   rating?: number;
   isActive?: boolean;
+  createdAt?: string;
 }
 
 export default function TestimonialsPage() {
@@ -18,7 +19,7 @@ export default function TestimonialsPage() {
   const [editId, setEditId] = useState<string | number | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/testimonials")
+    fetch("https://api.propertydronerealty.com/api/testimonials")
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch testimonials");
         return res.json();
@@ -34,7 +35,8 @@ export default function TestimonialsPage() {
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
+    const checked = e.target instanceof HTMLInputElement ? e.target.checked : undefined;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
@@ -44,10 +46,11 @@ export default function TestimonialsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      let res, newTestimonial;
+      let res: Response;
+      let newTestimonial: Testimonial;
       if (editId !== null) {
         // Update
-        res = await fetch(`http://localhost:5000/api/testimonials/${editId}`, {
+        res = await fetch(`https://api.propertydronerealty.com/api/testimonials/${editId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
@@ -57,7 +60,7 @@ export default function TestimonialsPage() {
         setTestimonials(t => t.map(test => test.id === editId ? newTestimonial : test));
       } else {
         // Create
-        res = await fetch("http://localhost:5000/api/testimonials", {
+        res = await fetch("https://api.propertydronerealty.com/api/testimonials", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
@@ -77,7 +80,7 @@ export default function TestimonialsPage() {
   const handleDelete = async (id: string | number) => {
     if (!window.confirm("Are you sure you want to delete this testimonial?")) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/testimonials/${id}`, {
+      const res = await fetch(`https://api.propertydronerealty.com/api/testimonials/${id}`, {
         method: "DELETE"
       });
       if (!res.ok) throw new Error("Delete failed");

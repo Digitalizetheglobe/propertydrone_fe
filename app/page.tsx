@@ -29,7 +29,7 @@ import imagedefault2 from "@/public/images/OIP (8).jpg";
 import imagedefault3 from "@/public/images/today8.jpg";
 // import d10 from "@/public/images/Frame 113.png";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp, Building2 , Globe, Book, Wallet, Zap, Home as HomeIcon, ClipboardList,Clock,Banknote,Eye,
-  Users } from 'lucide-react';
+  Users, Search } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import bg1 from '@/public/images/7578550-uhd_3840_2160_30fps 1.png'; // Adjust the path as necessary
 // import main2 from '../public/images/mainvideo.mp4';
@@ -162,22 +162,26 @@ const features = [
   {
     id: '01',
     title: 'Verified Listings Only',
-    description: 'Every property on our platform is verified for accuracy. Inquiry with confidence knowing whats real—and nothing less.'
+    description: 'Every property on our platform is verified for accuracy. Inquiry with confidence knowing whats real—and nothing less.',
+    icon: Eye
   },
   {
     id: '02',
     title: 'Expert Consultation',
-    description: 'Our real estate experts guide you through location comparisons, pricing trends, and negotiation tactics to make sure you choose right, not just whats available.'
+    description: 'Our real estate experts guide you through location comparisons, pricing trends, and negotiation tactics to make sure you choose right, not just whats available.',
+    icon: Users
   },
   {
     id: '03',
     title: 'Trusted Developer',
-    description: 'Weve partnered with Indias most reputed developers to bring you projects that are on time, legally clear, and high on return value.'
+    description: 'Weve partnered with Indias most reputed developers to bring you projects that are on time, legally clear, and high on return value.',
+    icon: Building2
   },
   {
     id: '04',
     title: 'Zero Brokerage',
-    description: 'We work directly with top builders, so you get the best deals without any extra commission or brokerage charges.'
+    description: 'We work directly with top builders, so you get the best deals without any extra commission or brokerage charges.',
+    icon: Wallet
   }
 ];
 
@@ -513,6 +517,36 @@ const CookieBanner = ({ onAccept, onReject }: { onAccept: () => void; onReject: 
 };
 
 export default function Home() {
+  // ----------- Add Compare State & Logic -------------
+  const [comparedIds, setComparedIds] = useState<number[]>([]);
+  const [compareLoadingId, setCompareLoadingId] = useState<number | null>(null);
+  const [comparisonIdMap, setComparisonIdMap] = useState<Record<number, number>>({});
+  const webUserId = 1;
+
+  const fetchComparedIds = async () => {
+    const res = await fetch("https://api.propertydronerealty.com/api/property-comparisons");
+    if (!res.ok) return;
+    const all = await res.json();
+    setComparedIds(
+      all.filter((cmp: any) => `${cmp.webUserId}` === `${webUserId}`)
+        .map((cmp: any) => parseInt(cmp.propertyId))
+    );
+    const map: Record<number, number> = {};
+    all.forEach((cmp: any) => {
+      if (`${cmp.webUserId}` === `${webUserId}`) {
+        map[parseInt(cmp.propertyId)] = cmp.id;
+      }
+    });
+    setComparisonIdMap(map);
+  };
+  useEffect(() => {
+    fetchComparedIds();
+    const onFocus = () => fetchComparedIds();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, []);
+  // ---------- End Compare State & Logic --------------
+
   // Add displayCount state
   const [displayCount, setDisplayCount] = useState(3);
 
@@ -584,7 +618,7 @@ const locationCounts = useMemo<LocationData[]>(() => {
         location: location,
         count: 1,
         
-        image: property.multipleImages?.[0]?.path ? `http://localhost:5000${property.multipleImages[0].path}` : "/api/placeholder/400/320"
+        image: property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : "/api/placeholder/400/320"
       });
     } else {
       
@@ -666,7 +700,7 @@ const locationCounts = useMemo<LocationData[]>(() => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/contacts", {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -696,11 +730,17 @@ const locationCounts = useMemo<LocationData[]>(() => {
   const [filters, setFilters] = useState({
     type: '',
     location: '',
+    locations: [] as string[],
     bedrooms: '',
     minPrice: '',
     maxPrice: '',
     search: '', 
   });
+  const [activeTab, setActiveTab] = useState('BUY');
+  const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
 
   // State for properties data from API
   // const [properties, setProperties] = useState<Property[]>([]);
@@ -717,7 +757,7 @@ const locationCounts = useMemo<LocationData[]>(() => {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:5000/properties');
+        const response = await fetch('https://api.propertydronerealty.com/properties');
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }
@@ -832,8 +872,14 @@ useEffect(() => {
     );
   }
 
-  if (filters.location) {
-    filtered = filtered.filter(property => property.location === filters.location);
+  if (filters.locations && filters.locations.length > 0) {
+    filtered = filtered.filter(property => 
+      filters.locations.includes(property.location) || 
+      (property.city && filters.locations.includes(property.city))
+    );
+  } else if (filters.location) {
+     // Fallback for single location if needed, or migration
+     filtered = filtered.filter(property => property.location === filters.location);
   }
 
   if (filters.minPrice) {
@@ -872,7 +918,84 @@ useEffect(() => {
 const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
   const { name, value } = e.target as HTMLSelectElement | HTMLInputElement;
   setFilters({ ...filters, [name]: value });
+  
+  // Generate suggestions for search field
+  if (name === 'search' && value.trim().length > 0) {
+    const searchTerm = value.toLowerCase().trim();
+    const suggestionsSet = new Set<string>();
+    
+    properties.forEach(property => {
+      // Check property name
+      if (property.propertyName?.toLowerCase().includes(searchTerm)) {
+        suggestionsSet.add(property.propertyName);
+      }
+      // Check location
+      if (property.location?.toLowerCase().includes(searchTerm)) {
+        suggestionsSet.add(property.location);
+      }
+      // Check city
+      if (property.city?.toLowerCase().includes(searchTerm)) {
+        suggestionsSet.add(property.city);
+      }
+    });
+    
+    const suggestions = Array.from(suggestionsSet).slice(0, 8); // Limit to 8 suggestions
+    setSearchSuggestions(suggestions);
+    setShowSuggestions(suggestions.length > 0);
+  } else if (name === 'search' && value.trim().length === 0) {
+    setSearchSuggestions([]);
+    setShowSuggestions(false);
+  }
 };
+
+// Handle suggestion click
+  const handleSuggestionClick = (suggestion: string) => {
+    // Check if the suggestion corresponds to a location or city
+    const isLocationOrCity = properties.some(p => p.location === suggestion || p.city === suggestion);
+
+    if (isLocationOrCity) {
+      // Add to locations if not already present
+      if (!filters.locations.includes(suggestion)) {
+        setFilters(prev => ({
+          ...prev,
+          locations: [...prev.locations, suggestion],
+          search: '' // Clear search text after selecting location
+        }));
+      } else {
+         setFilters(prev => ({ ...prev, search: '' }));
+      }
+    } else {
+      // It's likely a property name or general search term
+      setFilters(prev => ({ ...prev, search: suggestion }));
+    }
+    setShowSuggestions(false);
+  };
+
+  const removeLocationTag = (locToRemove: string) => {
+    setFilters(prev => ({
+      ...prev,
+      locations: prev.locations.filter(loc => loc !== locToRemove)
+    }));
+  };
+
+// Close suggestions when clicking outside
+useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      searchInputRef.current &&
+      !searchInputRef.current.contains(event.target as Node) &&
+      suggestionsRef.current &&
+      !suggestionsRef.current.contains(event.target as Node)
+    ) {
+      setShowSuggestions(false);
+    }
+  };
+
+  document.addEventListener('mousedown', handleClickOutside);
+  return () => {
+    document.removeEventListener('mousedown', handleClickOutside);
+  };
+}, []);
 
 const resetFilters = () => {
   setFilters({
@@ -880,6 +1003,7 @@ const resetFilters = () => {
     bedrooms: '',
     search: '',
     location: '',
+    locations: [],
     minPrice: '',
     maxPrice: '',
   });
@@ -925,9 +1049,21 @@ const resetFilters = () => {
 const PropertyCard = ({
   property,
   delay,
+  comparedIds,
+  setComparedIds,
+  compareLoadingId,
+  setCompareLoadingId,
+  comparisonIdMap,
+  fetchComparedIds
 }: {
   property: Property;
   delay: number;
+  comparedIds: number[];
+  setComparedIds: React.Dispatch<React.SetStateAction<number[]>>;
+  compareLoadingId: number | null;
+  setCompareLoadingId: React.Dispatch<React.SetStateAction<number | null>>;
+  comparisonIdMap: Record<number, number>;
+  fetchComparedIds: () => Promise<void>;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -936,13 +1072,13 @@ const PropertyCard = ({
     multipleImages: property.multipleImages,
     firstImagePath: property.multipleImages?.[0]?.path,
     fullImagePath: property.multipleImages?.[0]?.path 
-      ? `http://localhost:5000${property.multipleImages[0].path}`
+      ? `https://api.propertydronerealty.com${property.multipleImages[0].path}`
       : main4
   });
 
   // Update image path handling with proper error checking
   const imagePath = property.multipleImages && property.multipleImages.length > 0 && property.multipleImages[0].path
-    ? `http://localhost:5000${property.multipleImages[0].path}`
+    ? `https://api.propertydronerealty.com${property.multipleImages[0].path}`
     : main4;
 
   return (
@@ -1107,7 +1243,47 @@ const PropertyCard = ({
         <div className="flex items-center justify-between px-4 py-3">
          
           <div className="flex space-x-2 items-center">
-           
+          <label className="flex items-center gap-2 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={comparedIds.includes(property.id)}
+              disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
+              onChange={async (e) => {
+                setCompareLoadingId(property.id);
+                if (e.target.checked) {
+                  setComparedIds(prev => [...prev, property.id]);
+                  const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
+                  });
+                  if (!resp.ok) {
+                    setComparedIds(prev => prev.filter(id => id !== property.id));
+                  } else {
+                    await fetchComparedIds();
+                  }
+                } else {
+                  setComparedIds(prev => prev.filter(id => id !== property.id));
+                  const comparisonId = comparisonIdMap[property.id];
+                  if (!comparisonId) {
+                    setCompareLoadingId(null);
+                    return;
+                  }
+                  const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                  if (!resp.ok) {
+                    setComparedIds(prev => [...prev, property.id]);
+                  } else {
+                    await fetchComparedIds();
+                  }
+                }
+                setCompareLoadingId(null);
+              }}
+              className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
+            />
+            <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
+              {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
+            </span>
+          </label>
             <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105 cursor-pointer">
               View Details
             </button>
@@ -1120,13 +1296,25 @@ const PropertyCard = ({
 const PropertyCardLuxe = ({
   property,
   delay,
+  comparedIds,
+  setComparedIds,
+  compareLoadingId,
+  setCompareLoadingId,
+  comparisonIdMap,
+  fetchComparedIds
 }: {
   property: Property;
   delay: number;
+  comparedIds: number[];
+  setComparedIds: React.Dispatch<React.SetStateAction<number[]>>;
+  compareLoadingId: number | null;
+  setCompareLoadingId: React.Dispatch<React.SetStateAction<number | null>>;
+  comparisonIdMap: Record<number, number>;
+  fetchComparedIds: () => Promise<void>;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const baseUrl = "http://localhost:5000";
+  const baseUrl = "https://api.propertydronerealty.com";
   const imagePath = property?.multipleImages?.[0]?.path
     ? `${baseUrl}${property.multipleImages[0].path}`
     : main2;
@@ -1292,7 +1480,47 @@ const PropertyCardLuxe = ({
         <div className="flex items-center justify-between px-4 py-3">
          
           <div className="flex space-x-2 items-center">
-       
+          <label className="flex items-center gap-2 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={comparedIds.includes(property.id)}
+              disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
+              onChange={async (e) => {
+                setCompareLoadingId(property.id);
+                if (e.target.checked) {
+                  setComparedIds(prev => [...prev, property.id]);
+                  const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
+                  });
+                  if (!resp.ok) {
+                    setComparedIds(prev => prev.filter(id => id !== property.id));
+                  } else {
+                    await fetchComparedIds();
+                  }
+                } else {
+                  setComparedIds(prev => prev.filter(id => id !== property.id));
+                  const comparisonId = comparisonIdMap[property.id];
+                  if (!comparisonId) {
+                    setCompareLoadingId(null);
+                    return;
+                  }
+                  const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                  if (!resp.ok) {
+                    setComparedIds(prev => [...prev, property.id]);
+                  } else {
+                    await fetchComparedIds();
+                  }
+                }
+                setCompareLoadingId(null);
+              }}
+              className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
+            />
+            <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
+              {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
+            </span>
+          </label>
             <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105 cursor-pointer">
               View Details
             </button>
@@ -1405,7 +1633,7 @@ const PropertyCardLuxe = ({
   ];
 
   useEffect(() => {
-    fetch('http://localhost:5000/blogs')
+    fetch('https://api.propertydronerealty.com/blogs')
       .then(res => res.json())
       .then(data => {
         console.log('API data:', data); // Debug: log API response
@@ -1553,40 +1781,124 @@ const PropertyCardLuxe = ({
       <div className="text-md md:text-lg text-center text-white mb-7 font-medium">
         Search properties for sale across top locations.
       </div>
-      <form 
-        className="w-full flex flex-col  gap-2 items-center justify-center"
-        onSubmit={(e) => {
-          e.preventDefault();
-          // Filtering happens automatically via useEffect when filters.search changes
-        }}
-      >
-        <input
-          type="text"
-          name="search"
-          value={filters.search || ''}
-          onChange={handleFilterChange}
-          placeholder="City, Location, Property Name, Price Range"
-          className="flex-1 px-6 py-3 rounded-full w-[600px] border-none text-center shadow-sm text-lg bg-white focus:bg-white focus:outline-none placeholder-gray-600 text-gray-900 font-semibold"
-        />
-        <div className="flex items-center justify-center gap-2">
-        {filters.search && (
-          <button
-            type="button"
-            onClick={() => setFilters({ ...filters, search: '' })}
-            className="px-8 py-2 rounded-full font-bold text-white bg-[#172747] hover:border hover:bg-white hover:text-[#172747] text-lg shadow transition-colors duration-200"
-          >
-            Clear
-          </button>
-        )}
-        <button
-          type="submit"
-          className="px-8 py-2 rounded-full font-bold text-white bg-[#172747] hover:bg-white hover:text-[#172747] text-lg shadow transition-colors duration-200"
-        >
-          Search
-        </button>
       
-        </div>
-      </form>
+      {/* Navigation Tabs and Search Bar Container with Glass Effect */}
+      <div className="w-full">
+        <form 
+          onSubmit={(e) => {
+            e.preventDefault();
+            // Filtering happens automatically via useEffect when filters.search changes
+          }}
+          className="w-full backdrop-blur-lg bg-[#172747]/40  rounded-2xl shadow-2xl overflow-hidden"
+        >
+          {/* Navigation Tabs with Glass Effect - Top Locations */}
+          <div className=" rounded-t-2xl px-2 py-2 flex items-center justify-center gap-3 md:gap-4 lg:gap-5 border-b border-white/10 overflow-x-auto">
+            {(locationCounts.length > 0 
+              ? locationCounts.sort((a, b) => b.count - a.count).slice(0, 5)
+              : ['Hinjawadi', 'Kharadi', 'Wakad', 'Baner', 'Viman Nagar'].map(loc => ({ location: loc, count: 0, image: '' }))
+            ).map((locationData) => (
+              <button
+                key={locationData.location}
+                type="button"
+                onClick={() => {
+                  setActiveTab(locationData.location);
+                  setFilters({ ...filters, locations: [locationData.location], search: '' });
+                }}
+                className={`uppercase text-white font-semibold text-xs sm:text-xs md:text-sm transition-all duration-200 pb-1 relative whitespace-nowrap ${
+                  filters.locations.includes(locationData.location) ? 'after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-white' : 'hover:opacity-80'
+                }`}
+              >
+                {locationData.location}
+              </button>
+            ))}
+          </div>
+
+          {/* Search Bar with Glass Effect - directly connected, no gap */}
+          <div className="relative">
+            <div className="backdrop-blur-md bg-white/95 rounded-t-2xl flex items-center overflow-hidden shadow-inner">
+              {/* Search Icon */}
+              <div className="pl-4 pr-3 flex-shrink-0">
+                <Search className="w-5 h-5 text-gray-400" />
+              </div>
+              
+              {/* Input Field */}
+              {/* Input Field Area */}
+              <div className="flex-1 flex items-center flex-wrap gap-2 py-2 px-2">
+                {filters.locations.map((loc, idx) => (
+                  <span key={idx} className="bg-[#172747] text-white text-xs sm:text-sm px-2 py-1 rounded-full flex items-center gap-1 whitespace-nowrap">
+                    {loc}
+                    <button
+                      type="button"
+                      onClick={() => removeLocationTag(loc)}
+                      className="hover:text-red-300 focus:outline-none"
+                    >
+                      <span className="sr-only">Remove {loc}</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </span>
+                ))}
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  name="search"
+                  value={filters.search || ''}
+                  onChange={handleFilterChange}
+                  onFocus={() => {
+                    if (searchSuggestions.length > 0) {
+                      setShowSuggestions(true);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                     if (e.key === 'Backspace' && filters.search === '' && filters.locations.length > 0) {
+                        // Remove the last tag on backspace if input is empty
+                        const newLocs = [...filters.locations];
+                        newLocs.pop();
+                        setFilters({ ...filters, locations: newLocs });
+                     }
+                  }}
+                  placeholder={filters.locations.length > 0 ? "" : "Search for locality, landmark, project, or builder"}
+                  className="flex-1 min-w-[120px] bg-transparent focus:outline-none placeholder-gray-400 text-sm md:text-base font-normal border-none text-gray-900"
+                />
+              </div>
+              
+              {/* Separator */}
+              <div className="h-10 w-0.5 bg-gray-800 flex-shrink-0 mx-1"></div>
+              
+              {/* Search Button */}
+              <button
+                type="submit"
+                className="px-6 py-2 mr-2 bg-[#172747] rounded-xl text-white font-bold uppercase text-xs sm:text-sm md:text-base hover:bg-[#1a2f5a] transition-colors duration-200 flex-shrink-0"
+              >
+                Search
+              </button>
+            </div>
+            
+            {/* Suggestions Dropdown */}
+            {showSuggestions && searchSuggestions.length > 0 && (
+              <div
+                ref={suggestionsRef}
+                className="absolute top-full left-0 w-full mt-1 bg-white rounded-b-2xl shadow-2xl border border-gray-200 z-50 max-h-64 overflow-y-auto"
+              >
+                {searchSuggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-colors duration-150 text-gray-900 text-sm md:text-base border-b border-gray-100 last:border-b-0"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                      <span>{suggestion}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -1763,6 +2075,12 @@ const PropertyCardLuxe = ({
             key={property.id} 
             property={property} 
             delay={index * 200}
+            comparedIds={comparedIds}
+            setComparedIds={setComparedIds}
+            compareLoadingId={compareLoadingId}
+            setCompareLoadingId={setCompareLoadingId}
+            comparisonIdMap={comparisonIdMap}
+            fetchComparedIds={fetchComparedIds}
           />
         ))}
       </div>
@@ -1862,6 +2180,12 @@ const PropertyCardLuxe = ({
               key={property.id}
               property={property}
               delay={index * 200}
+              comparedIds={comparedIds}
+              setComparedIds={setComparedIds}
+              compareLoadingId={compareLoadingId}
+              setCompareLoadingId={setCompareLoadingId}
+              comparisonIdMap={comparisonIdMap}
+              fetchComparedIds={fetchComparedIds}
             />
           ))}
         </div>
@@ -1978,7 +2302,7 @@ const PropertyCardLuxe = ({
             >
               <div className="relative h-64 w-full mb-4 overflow-hidden rounded-t-lg group">
                 <Image
-                  src={property.multipleImages?.[0]?.path ? `http://localhost:5000${property.multipleImages[0].path}` : main4}
+                  src={property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : main4}
                   alt={property.propertyName}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
@@ -2160,17 +2484,17 @@ const PropertyCardLuxe = ({
       )}
     </div>
   {/* -------------------- */}
-    <section className="bg-[#172747] text-white py-16">
+    <section className="bg-white text-[#172747] py-16">
       <div className="max-w-6xl mx-auto px-4">
         <div className="mb-8 text-center">
           <AnimatedLetters
             text="WHY CHOOSE US"
             as="h2"
-            className="uppercase text-white text-base sm:text-lg font-lato tracking-[1px] leading-tight mb-2"
+            className="uppercase text-[#172747] text-base sm:text-lg font-lato tracking-[1px] leading-tight mb-2"
           />
-          <h2 className="text-white mb-6 font-light text-2xl sm:text-4xl leading-tight tracking-[1px] font-ivy text-start">We're redefining how people explore and purchase property.</h2>
+          <h2 className="text-[#172747] mb-6 font-light text-2xl sm:text-4xl leading-tight tracking-[1px] font-ivy text-start">We're redefining how people explore and purchase property.</h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 overflow-visible">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 overflow-visible">
           {features.map((feature, index) => (
             <div
               key={feature.id}
@@ -2183,6 +2507,110 @@ const PropertyCardLuxe = ({
               <p className="text-[#433f60] text-base text-center leading-relaxed font-lato group-hover:text-blue-600 transition-all">{feature.description}</p>
             </div>
           ))}
+        </div> */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-5 gap-2 overflow-visible">
+          {/* Feature 0 - Top-left, spans 3 rows */}
+          {(() => {
+            const feature = features[0];
+            const IconComponent = feature.icon;
+            return (
+              <div
+                key={feature.id}
+                className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:row-span-3 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
+                data-aos="fade-up"
+                data-aos-delay={0}
+              >
+                <div className="flex justify-center mb-2">
+                  <div className="w-16 h-16 rounded-full border-2 border-gray-400 flex items-center justify-center group-hover:border-green-500 transition-all">
+                    <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
+                  </div>
+                </div>
+                <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
+                <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
+              </div>
+            );
+          })()}
+          
+          {/* Feature 1 - Top-center, spans 3 rows */}
+          {(() => {
+            const feature = features[1];
+            const IconComponent = feature.icon;
+            return (
+              <div
+                key={feature.id}
+                className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:row-span-3 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
+                data-aos="fade-up"
+                data-aos-delay={100}
+              >
+                <div className="flex justify-center mb-2">
+                <div className="w-16 h-16 rounded-full border-2 border-gray-400 flex items-center justify-center group-hover:border-green-500 transition-all">
+                <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
+                  </div>
+                </div>
+                <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
+                <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
+              </div>
+            );
+          })()}
+          
+          {/* Feature 3 - Dark blue block on right, spans all 5 rows */}
+          {(() => {
+            const feature = features[3];
+            const IconComponent = feature.icon;
+            return (
+              <div
+                key={feature.id}
+                className="relative flex flex-col justify-between bg-[#172747] shadow-xl rounded-2xl pt-6 pb-4 px-4 lg:row-span-5 transition-all duration-300 ease-in-out overflow-visible"
+                data-aos="fade-up"
+                data-aos-delay={200}
+              >
+                <div>
+                  <div className="flex justify-center mb-2">
+                    <div className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center">
+                      <IconComponent className="w-8 h-8 text-white" />
+                    </div>
+                  </div>
+                  <h3 className="text-lg text-white font-bold mb-2 text-center font-lato">{feature.title}</h3>
+                  <p className="text-white/90 text-lg text-center leading-relaxed font-lato mb-4">{feature.description}</p>
+                  <div className="flex justify-center mb-4">
+                    <Image 
+                      src={main4} 
+                      alt="Property" 
+                      className="rounded-lg object-cover w-full max-w-xs h-64"
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 flex justify-center">
+                  <button className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl">
+                    Start Free Trial
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
+          
+          {/* Feature 2 - Bottom, spans 2 columns and 2 rows, starts at row 4 */}
+          {(() => {
+            const feature = features[2];
+            const IconComponent = feature.icon;
+            return (
+              <div
+                key={feature.id}
+                className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:col-span-2 lg:row-span-2 lg:row-start-4 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
+                data-aos="fade-up"
+                data-aos-delay={300}
+              >
+                <div className="flex justify-center mb-2">
+                <div className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center">
+                <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
+                  </div>
+                </div>
+                <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
+                <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
+              </div>
+            );
+          })()}
         </div>
       </div>
     </section>

@@ -56,7 +56,7 @@ const BlogDetail = ({ params }: PageProps) => {
     const fetchBlog = async () => {
       try {
         console.log('Fetching blog for slug:', resolvedParams.slug);
-        const response = await fetch(`http://localhost:5000/blogs/${resolvedParams.slug}`);
+        const response = await fetch(`https://api.propertydronerealty.com/blogs/${resolvedParams.slug}`);
         
         if (!response.ok) {
           throw new Error(`Failed to fetch blog data: ${response.status}`);
@@ -190,7 +190,7 @@ const BlogDetail = ({ params }: PageProps) => {
         <div className="max-w-3xl mx-auto">
           {blog.blogImage && blog.blogImage.length > 0 ? (
             <Image 
-              src={`http://localhost:5000${blog.blogImage[0].path}`}
+              src={`https://api.propertydronerealty.com${blog.blogImage[0].path}`}
               alt={blog.blogTitle} 
               fill
               style={{ objectFit: "cover" }}

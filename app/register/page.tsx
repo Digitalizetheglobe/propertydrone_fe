@@ -52,7 +52,7 @@ export default function RegisterPage() {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:5000/admin/register", {
+      const response = await axios.post("https://api.propertydronerealty.com/admin/register", {
         userName: formData.userName,
         email: formData.email,
         password: formData.password,

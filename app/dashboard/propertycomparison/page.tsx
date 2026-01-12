@@ -13,7 +13,7 @@ export default function PropertyComparisonPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/property-comparisons")
+    fetch("https://api.propertydronerealty.com/api/property-comparisons")
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch property comparisons");
         return res.json();

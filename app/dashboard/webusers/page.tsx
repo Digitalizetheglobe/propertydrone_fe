@@ -7,7 +7,7 @@ export default function WebUsersDashboard() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/webusers")
+    fetch("https://api.propertydronerealty.com/api/webusers")
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);

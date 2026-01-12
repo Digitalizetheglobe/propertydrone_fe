@@ -18,7 +18,7 @@ const CompareProperties = () => {
     setLoading(true);
     try {
       // Just fetch all comparisons from API (raw request)
-      const res = await fetch("http://localhost:5000/api/property-comparisons");
+      const res = await fetch("https://api.propertydronerealty.com/api/property-comparisons");
       if (!res.ok) throw new Error("Failed to fetch property comparisons");
       const allComparisons = await res.json();
       setComparisons(allComparisons);

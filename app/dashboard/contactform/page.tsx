@@ -23,7 +23,7 @@ const ContactForm = () => {
     setSuccess(false);
 
     try {
-      const response = await fetch("http://localhost:5000/contacts", {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

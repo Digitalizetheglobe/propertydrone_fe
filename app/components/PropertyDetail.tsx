@@ -136,7 +136,7 @@ const generateQRCode: GenerateQRCodeFn = (text) => {
   };
 
   // Image handling
-  const baseUrl = "http://localhost:5000"; // For dev — ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
   const propertyImages = property?.multipleImages?.map(img => `${baseUrl}${img.path}`) || [];
 
   useEffect(() => {

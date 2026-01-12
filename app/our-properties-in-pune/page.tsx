@@ -43,6 +43,38 @@ export default function LuxeProperties() {
 }
 
 function LuxePropertiesContent() {
+  // --- Comparison checkbox logic ---
+  const [comparedIds, setComparedIds] = useState<number[]>([]);
+  const [compareLoadingId, setCompareLoadingId] = useState<number|null>(null);
+  const [comparisonIdMap, setComparisonIdMap] = useState<Record<number, number>>({}); // propertyId -> comparisonId
+  // Demo user, replace 1 with actual userId as needed
+  const webUserId = 1;
+  // fetch existing compared (checked) ids
+  const fetchComparedIds = async () => {
+    const res = await fetch("https://api.propertydronerealty.com/api/property-comparisons");
+    if (!res.ok) return;
+    const all = await res.json();
+    setComparedIds(
+      all.filter((cmp:any) => `${cmp.webUserId}`===`${webUserId}`)
+        .map((cmp:any)=>parseInt(cmp.propertyId))
+    );
+    // Map propertyId to comparisonId
+    const map: Record<number, number> = {};
+    all.forEach((cmp: any) => {
+      if (`${cmp.webUserId}` === `${webUserId}`) {
+        map[parseInt(cmp.propertyId)] = cmp.id;
+      }
+    });
+    setComparisonIdMap(map);
+  };
+  useEffect(() => {
+    fetchComparedIds();
+    // Always sync when window regains focus (tab switch)
+    const onFocus = () => fetchComparedIds();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, []);
+
   const searchParams = useSearchParams();
   const locationParam = searchParams.get('location');
   const lastWord = locationParam ? locationParam.trim().split(' ').pop() : null;
@@ -70,7 +102,7 @@ function LuxePropertiesContent() {
   const [availableBudgets, setAvailableBudgets] = useState<string[]>([]);
 
   // API base URL - ideally from environment variables
-  const baseUrl = "http://localhost:5000";
+  const baseUrl = "https://api.propertydronerealty.com";
 
   const propertyCategories = [
     { id: 'all', name: 'All', icon: '/icons/home.svg' },
@@ -771,21 +803,57 @@ const filteredProperties = properties.filter(property => {
                                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
                                 className="flex flex-col sm:flex-row justify-between items-center gap-3"
                               >
-                                {/* {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
-                                  <div className="font-bold text-lg lg:text-xl text-[#172747]">
-                                    ₹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
-                                  </div>
-                                )} */}
-                                
-                              
-                                  <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="w-full bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
-                                  >
-                                    View Details
-                                  </motion.button>
-                                
+                                {/* Compare checkbox */}
+                                <label className="flex items-center gap-2 cursor-pointer select-none">
+                                  <input
+                                    type="checkbox"
+                                    checked={comparedIds.includes(property.id)}
+                                    disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
+                                    onChange={async (e) => {
+                                      setCompareLoadingId(property.id);
+                                      if (e.target.checked) {
+                                        // Compare (add)
+                                        setComparedIds(prev => [...prev, property.id]);
+                                        const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
+                                          method: 'POST',
+                                          headers: { 'Content-Type': 'application/json' },
+                                          body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
+                                        });
+                                        if (!resp.ok) {
+                                          setComparedIds(prev => prev.filter(id => id !== property.id));
+                                        } else {
+                                          await fetchComparedIds();
+                                        }
+                                      } else {
+                                        // Uncompare (remove)
+                                        setComparedIds(prev => prev.filter(id => id !== property.id));
+                                        const comparisonId = comparisonIdMap[property.id];
+                                        if (!comparisonId) {
+                                          setCompareLoadingId(null);
+                                          return;
+                                        }
+                                        const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                                        if (!resp.ok) {
+                                          setComparedIds(prev => [...prev, property.id]);
+                                        } else {
+                                          await fetchComparedIds();
+                                        }
+                                      }
+                                      setCompareLoadingId(null);
+                                    }}
+                                    className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
+                                  />
+                                  <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
+                                    {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
+                                  </span>
+                                </label>
+                                <motion.button
+                                  whileHover={{ scale: 1.05 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  className="w-full bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
+                                >
+                                  View Details
+                                </motion.button>
                               </motion.div>
                             </div>
                           </motion.div>

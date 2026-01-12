@@ -89,7 +89,7 @@ export default function AddProject() {
       });
       
       // Send POST request to API
-      const response = await fetch("http://localhost:5000/projects", {
+      const response = await fetch("https://api.propertydronerealty.com/projects", {
         method: "POST",
         body: submitData,
         // Don't set Content-Type header when sending FormData

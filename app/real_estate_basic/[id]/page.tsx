@@ -19,7 +19,7 @@ type Props = {
 }
 
 async function getRealEstateBasic(id: string) {
-  const res = await fetch(`http://localhost:5000/real-estate/${id}`, {
+  const res = await fetch(`https://api.propertydronerealty.com/real-estate/${id}`, {
     cache: 'no-store'
   });
   if (!res.ok) throw new Error('Failed to fetch real estate basic');
