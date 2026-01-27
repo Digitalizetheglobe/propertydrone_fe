@@ -28,8 +28,10 @@ import imagedefault1 from "@/public/images/OIP (1).jpg";
 import imagedefault2 from "@/public/images/OIP (8).jpg";
 import imagedefault3 from "@/public/images/today8.jpg";
 // import d10 from "@/public/images/Frame 113.png";
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp, Building2 , Globe, Book, Wallet, Zap, Home as HomeIcon, ClipboardList,Clock,Banknote,Eye,
-  Users, Search } from 'lucide-react';
+import {
+  ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp, Building2, Globe, Book, Wallet, Zap, Home as HomeIcon, ClipboardList, Clock, Banknote, Eye,
+  Users, Search
+} from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import bg1 from '@/public/images/7578550-uhd_3840_2160_30fps 1.png'; // Adjust the path as necessary
 // import main2 from '../public/images/mainvideo.mp4';
@@ -47,6 +49,7 @@ import 'aos/dist/aos.css';
 
 import axios from 'axios';
 import PropertyPopup from "./components/propertypopup";
+import BottomPropertyDetails from "./components/bottompropertydetails";
 
 
 interface YoutubeVideo {
@@ -153,7 +156,7 @@ const faqData = [
     question: 'What types of properties does Property Drone Realty specialize in?',
     answer: 'Property Drone Realty deals in residential apartments, villas, bungalows, and a wide variety of commercial spaces like offices and shops in Pune and surrounding areas.'
   },
- 
+
 ];
 
 
@@ -213,7 +216,7 @@ const propertyData = [
     title: "Phajhi Business Hub",
     location: "Location",
     price: "₹4.53 Cr",
-   imageUrl: bg1
+    imageUrl: bg1
   },
   {
     id: 5,
@@ -413,7 +416,7 @@ const AnimatedStarButton = () => {
         </span>
 
         {/* Button content */}
-        <span 
+        <span
           className="flex items-center justify-center gap-1 relative z-[1] rounded-full py-2 px-4 pl-2 w-full"
           style={{ backgroundColor: 'rgba(23, 39, 71, 0.95)' }}
         >
@@ -462,18 +465,18 @@ const AnimatedStarButton = () => {
           </span>
 
           {/* LUXE text */}
-        <span 
-  className="tracking-[2px] ml-1.5 bg-clip-text text-xs text-transparent group-hover:scale-105 transition transform-gpu cursor-pointer"
-  style={{
-    backgroundImage: 'linear-gradient(to bottom, #FFD700, #DAA520)',
-    WebkitBackgroundClip: 'text',
-    backgroundClip: 'text',
-    fontWeight: '400',
-    textShadow: '0 0 0.4px #FFD700, 0 0 0.4px #DAA520', // simulate bold
-  }}
->
-  LUXE
-</span>
+          <span
+            className="tracking-[2px] ml-1.5 bg-clip-text text-xs text-transparent group-hover:scale-105 transition transform-gpu cursor-pointer"
+            style={{
+              backgroundImage: 'linear-gradient(to bottom, #FFD700, #DAA520)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              fontWeight: '400',
+              textShadow: '0 0 0.4px #FFD700, 0 0 0.4px #DAA520', // simulate bold
+            }}
+          >
+            LUXE
+          </span>
 
         </span>
       </button>
@@ -487,13 +490,13 @@ const CookieBanner = ({ onAccept, onReject }: { onAccept: () => void; onReject: 
     <div className="fixed bottom-0 left-0 right-0 bg-[#172747] text-white px-4 py-6 shadow-lg z-50">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex-1">
-          <p className="text-sm md:text-base"  style={{
-              fontSize: '16px',
-              fontFamily: 'Lato, sans-serif',
-              letterSpacing: '0.5px',
-              lineHeight: '1.3',
-            }}>
-            We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. 
+          <p className="text-sm md:text-base" style={{
+            fontSize: '16px',
+            fontFamily: 'Lato, sans-serif',
+            letterSpacing: '0.5px',
+            lineHeight: '1.3',
+          }}>
+            We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic.
             By clicking "Accept", you consent to our use of cookies.
           </p>
         </div>
@@ -566,72 +569,72 @@ export default function Home() {
   }, []);
 
   const containerVariants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.2,
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.2,
+      },
     },
-  },
-};
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.2,
-      duration: 0.6,
-      ease: 'easeOut',
-    },
-  }),
-};
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-};
-useEffect(() => {
-  AOS.init({
-    duration: 800, 
-    once: true,   
-  });
-}, []);
+  };
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.2,
+        duration: 0.6,
+        ease: 'easeOut',
+      },
+    }),
+  };
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+  };
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: true,
+    });
+  }, []);
   const [properties, setProperties] = useState<Property[]>([]);
 
-  
-interface LocationData {
-  location: string;
-  count: number;
-  image: string;
-}
 
-const locationCounts = useMemo<LocationData[]>(() => {
+  interface LocationData {
+    location: string;
+    count: number;
+    image: string;
+  }
 
-  if (!properties.length) return [];
-  
-  const locationMap = new Map<string, LocationData>();
-  
-  properties.forEach(property => {
-    const location = property.location;
-    
-    if (!locationMap.has(location)) {
-      locationMap.set(location, {
-        location: location,
-        count: 1,
-        
-        image: property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : "/api/placeholder/400/320"
-      });
-    } else {
-      
-      const current = locationMap.get(location)!;
-      locationMap.set(location, {
-        ...current,
-        count: current.count + 1
-      });
-    }
-  });
-  
-  return Array.from(locationMap.values());
-}, [properties]);
+  const locationCounts = useMemo<LocationData[]>(() => {
+
+    if (!properties.length) return [];
+
+    const locationMap = new Map<string, LocationData>();
+
+    properties.forEach(property => {
+      const location = property.location;
+
+      if (!locationMap.has(location)) {
+        locationMap.set(location, {
+          location: location,
+          count: 1,
+
+          image: property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : "/api/placeholder/400/320"
+        });
+      } else {
+
+        const current = locationMap.get(location)!;
+        locationMap.set(location, {
+          ...current,
+          count: current.count + 1
+        });
+      }
+    });
+
+    return Array.from(locationMap.values());
+  }, [properties]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -651,7 +654,7 @@ const locationCounts = useMemo<LocationData[]>(() => {
       [name]: value
     }));
   };
- const itemsPerPage = 3;
+  const itemsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(testimonials.length / itemsPerPage);
 
@@ -677,24 +680,24 @@ const locationCounts = useMemo<LocationData[]>(() => {
     setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
   };
 
- const images = [
-  { img: d1, link: 'anp-corp' },
-  { img: d2, link: 'majestique-developer' },
-  { img: d3, link: 'krunal-groups' },
-  { img: d4, link: 'kasturi' },
-  { img: d6, link: 'skyi-developers' },
-  { img: d5, link: 'Solitaire' },
-  { img: d7, link: 'anp-corp' },
-  { img: d8, link: 'majestique-developer' },
-  { img: d9, link: 'krunal-groups' },
-  { img: d10, link: 'kasturi' },
-  { img: d12, link: 'skyi-developers' },
-  { img: d11, link: 'Solitaire' },
-  { img: d13, link: 'anp-corp' },
-  { img: d14, link: 'majestique-developer' },
- 
- 
-];
+  const images = [
+    { img: d1, link: 'anp-corp' },
+    { img: d2, link: 'majestique-developer' },
+    { img: d3, link: 'krunal-groups' },
+    { img: d4, link: 'kasturi' },
+    { img: d6, link: 'skyi-developers' },
+    { img: d5, link: 'Solitaire' },
+    { img: d7, link: 'anp-corp' },
+    { img: d8, link: 'majestique-developer' },
+    { img: d9, link: 'krunal-groups' },
+    { img: d10, link: 'kasturi' },
+    { img: d12, link: 'skyi-developers' },
+    { img: d11, link: 'Solitaire' },
+    { img: d13, link: 'anp-corp' },
+    { img: d14, link: 'majestique-developer' },
+
+
+  ];
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -714,7 +717,7 @@ const locationCounts = useMemo<LocationData[]>(() => {
       if (!response.ok) throw new Error("Failed to submit contact form");
 
       console.log('Form submitted successfully');
-      
+
       // Reset form after successful submission
       setFormData({
         name: '',
@@ -734,7 +737,7 @@ const locationCounts = useMemo<LocationData[]>(() => {
     bedrooms: '',
     minPrice: '',
     maxPrice: '',
-    search: '', 
+    search: '',
   });
   const [activeTab, setActiveTab] = useState('BUY');
   const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
@@ -762,7 +765,7 @@ const locationCounts = useMemo<LocationData[]>(() => {
           throw new Error('Failed to fetch properties');
         }
         const data = await response.json();
-        
+
         // Sort properties by date - assuming each property has a date field
         // If there's no date field, you might need to modify this logic
         const sortedData = [...data].sort((a, b) => {
@@ -771,27 +774,27 @@ const locationCounts = useMemo<LocationData[]>(() => {
           const dateB = new Date(b.date || b.createdAt || 0);
           return dateB.getTime() - dateA.getTime(); // Latest first
         });
-        
+
         setProperties(sortedData);
         setFilteredProperties(sortedData);
-        
+
         // Filter luxury properties
         const luxuryFiltered = sortedData.filter(property => {
           const propertyType = property.propertyType?.toLowerCase() || '';
           return ['luxury', 'lux', 'luxary', 'luxury'].includes(propertyType);
         });
-        
+
         console.log('Luxury properties found:', luxuryFiltered.length, luxuryFiltered.map(p => ({ name: p.propertyName, type: p.propertyType })));
-        
+
         setLuxuryProperties(luxuryFiltered);
-        
+
         // Separate featured and remaining properties
         const featured = sortedData.slice(0, 3); // Get first 3 properties as featured
         const remaining = sortedData.slice(3);   // Get the rest for the slider
-        
+
         setFeaturedProperties(featured);
         setRemainingProperties(remaining);
-        
+
         setLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An unknown error occurred');
@@ -802,153 +805,153 @@ const locationCounts = useMemo<LocationData[]>(() => {
     fetchProperties();
   }, []);
 
- const useCounter = (end: number, duration: number = 2000) => {
-  const [count, setCount] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const useCounter = (end: number, duration: number = 2000) => {
+    const [count, setCount] = useState(0);
+    const [isVisible, setIsVisible] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        },
+        { threshold: 0.1 }
+      );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
       if (ref.current) {
-        observer.unobserve(ref.current);
+        observer.observe(ref.current);
       }
-    };
-  }, []);
 
-  useEffect(() => {
-    if (!isVisible) return;
+      return () => {
+        if (ref.current) {
+          observer.unobserve(ref.current);
+        }
+      };
+    }, []);
 
-    let startTime: number;
-    let animationFrame: number;
+    useEffect(() => {
+      if (!isVisible) return;
 
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / duration, 1);
-      
-      setCount(Math.floor(progress * end));
+      let startTime: number;
+      let animationFrame: number;
 
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
+      const animate = (currentTime: number) => {
+        if (!startTime) startTime = currentTime;
+        const progress = Math.min((currentTime - startTime) / duration, 1);
 
-    animationFrame = requestAnimationFrame(animate);
+        setCount(Math.floor(progress * end));
 
-    return () => {
-      cancelAnimationFrame(animationFrame);
-    };
-  }, [end, duration, isVisible]);
+        if (progress < 1) {
+          animationFrame = requestAnimationFrame(animate);
+        }
+      };
 
-  return { count, ref };
-};
+      animationFrame = requestAnimationFrame(animate);
+
+      return () => {
+        cancelAnimationFrame(animationFrame);
+      };
+    }, [end, duration, isVisible]);
+
+    return { count, ref };
+  };
 
   // Apply filters to properties
-// Apply filters to properties
-useEffect(() => {
-  if (!properties.length) return;
+  // Apply filters to properties
+  useEffect(() => {
+    if (!properties.length) return;
 
-  let filtered = [...properties];
+    let filtered = [...properties];
 
-  // Search functionality (case insensitive search across multiple fields)
-  if (filters.search) {
-    const searchTerm = filters.search.toLowerCase();
-    filtered = filtered.filter(property => 
-      property.propertyName?.toLowerCase().includes(searchTerm) ||
-      property.location?.toLowerCase().includes(searchTerm) ||
-      property.city ?.toLowerCase().includes(searchTerm)
-    );
-  }
+    // Search functionality (case insensitive search across multiple fields)
+    if (filters.search) {
+      const searchTerm = filters.search.toLowerCase();
+      filtered = filtered.filter(property =>
+        property.propertyName?.toLowerCase().includes(searchTerm) ||
+        property.location?.toLowerCase().includes(searchTerm) ||
+        property.city?.toLowerCase().includes(searchTerm)
+      );
+    }
 
-  if (filters.locations && filters.locations.length > 0) {
-    filtered = filtered.filter(property => 
-      filters.locations.includes(property.location) || 
-      (property.city && filters.locations.includes(property.city))
-    );
-  } else if (filters.location) {
-     // Fallback for single location if needed, or migration
-     filtered = filtered.filter(property => property.location === filters.location);
-  }
+    if (filters.locations && filters.locations.length > 0) {
+      filtered = filtered.filter(property =>
+        filters.locations.includes(property.location) ||
+        (property.city && filters.locations.includes(property.city))
+      );
+    } else if (filters.location) {
+      // Fallback for single location if needed, or migration
+      filtered = filtered.filter(property => property.location === filters.location);
+    }
 
-  if (filters.minPrice) {
-    filtered = filtered.filter(property => {
-      const budget = parseInt(property.tentativeBudget.replace(/[^0-9]/g, ''));
-      return budget >= parseInt(filters.minPrice, 10);
+    if (filters.minPrice) {
+      filtered = filtered.filter(property => {
+        const budget = parseInt(property.tentativeBudget.replace(/[^0-9]/g, ''));
+        return budget >= parseInt(filters.minPrice, 10);
+      });
+    }
+
+    if (filters.maxPrice) {
+      filtered = filtered.filter(property => {
+        const budget = parseInt(property.tentativeBudget.replace(/[^0-9]/g, ''));
+        return budget <= parseInt(filters.maxPrice, 10);
+      });
+    }
+
+    // Update filtered properties and separate featured/remaining
+    setFilteredProperties(filtered);
+
+    // Filter luxury properties from the filtered results
+    const luxuryFiltered = filtered.filter(property => {
+      const propertyType = property.propertyType?.toLowerCase() || '';
+      return ['luxury', 'lux', 'luxary', 'luxury'].includes(propertyType);
     });
-  }
 
-  if (filters.maxPrice) {
-    filtered = filtered.filter(property => {
-      const budget = parseInt(property.tentativeBudget.replace(/[^0-9]/g, ''));
-      return budget <= parseInt(filters.maxPrice, 10);
-    });
-  }
+    console.log('Filtered luxury properties:', luxuryFiltered.length, luxuryFiltered.map(p => ({ name: p.propertyName, type: p.propertyType })));
 
-  // Update filtered properties and separate featured/remaining
-  setFilteredProperties(filtered);
-  
-  // Filter luxury properties from the filtered results
-  const luxuryFiltered = filtered.filter(property => {
-    const propertyType = property.propertyType?.toLowerCase() || '';
-    return ['luxury', 'lux', 'luxary', 'luxury'].includes(propertyType);
-  });
-  
-  console.log('Filtered luxury properties:', luxuryFiltered.length, luxuryFiltered.map(p => ({ name: p.propertyName, type: p.propertyType })));
-  
-  setLuxuryProperties(luxuryFiltered);
-  
-  // Update featured and remaining properties from filtered results
-  setFeaturedProperties(filtered.slice(0, 3)); // Get first 3 filtered properties as featured
-  setRemainingProperties(filtered.slice(3));   // Get the rest for the slider
-  
-}, [filters, properties]);
+    setLuxuryProperties(luxuryFiltered);
 
-const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-  const { name, value } = e.target as HTMLSelectElement | HTMLInputElement;
-  setFilters({ ...filters, [name]: value });
-  
-  // Generate suggestions for search field
-  if (name === 'search' && value.trim().length > 0) {
-    const searchTerm = value.toLowerCase().trim();
-    const suggestionsSet = new Set<string>();
-    
-    properties.forEach(property => {
-      // Check property name
-      if (property.propertyName?.toLowerCase().includes(searchTerm)) {
-        suggestionsSet.add(property.propertyName);
-      }
-      // Check location
-      if (property.location?.toLowerCase().includes(searchTerm)) {
-        suggestionsSet.add(property.location);
-      }
-      // Check city
-      if (property.city?.toLowerCase().includes(searchTerm)) {
-        suggestionsSet.add(property.city);
-      }
-    });
-    
-    const suggestions = Array.from(suggestionsSet).slice(0, 8); // Limit to 8 suggestions
-    setSearchSuggestions(suggestions);
-    setShowSuggestions(suggestions.length > 0);
-  } else if (name === 'search' && value.trim().length === 0) {
-    setSearchSuggestions([]);
-    setShowSuggestions(false);
-  }
-};
+    // Update featured and remaining properties from filtered results
+    setFeaturedProperties(filtered.slice(0, 3)); // Get first 3 filtered properties as featured
+    setRemainingProperties(filtered.slice(3));   // Get the rest for the slider
 
-// Handle suggestion click
+  }, [filters, properties]);
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    const { name, value } = e.target as HTMLSelectElement | HTMLInputElement;
+    setFilters({ ...filters, [name]: value });
+
+    // Generate suggestions for search field
+    if (name === 'search' && value.trim().length > 0) {
+      const searchTerm = value.toLowerCase().trim();
+      const suggestionsSet = new Set<string>();
+
+      properties.forEach(property => {
+        // Check property name
+        if (property.propertyName?.toLowerCase().includes(searchTerm)) {
+          suggestionsSet.add(property.propertyName);
+        }
+        // Check location
+        if (property.location?.toLowerCase().includes(searchTerm)) {
+          suggestionsSet.add(property.location);
+        }
+        // Check city
+        if (property.city?.toLowerCase().includes(searchTerm)) {
+          suggestionsSet.add(property.city);
+        }
+      });
+
+      const suggestions = Array.from(suggestionsSet).slice(0, 8); // Limit to 8 suggestions
+      setSearchSuggestions(suggestions);
+      setShowSuggestions(suggestions.length > 0);
+    } else if (name === 'search' && value.trim().length === 0) {
+      setSearchSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+
+  // Handle suggestion click
   const handleSuggestionClick = (suggestion: string) => {
     // Check if the suggestion corresponds to a location or city
     const isLocationOrCity = properties.some(p => p.location === suggestion || p.city === suggestion);
@@ -962,7 +965,7 @@ const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputEl
           search: '' // Clear search text after selecting location
         }));
       } else {
-         setFilters(prev => ({ ...prev, search: '' }));
+        setFilters(prev => ({ ...prev, search: '' }));
       }
     } else {
       // It's likely a property name or general search term
@@ -978,36 +981,36 @@ const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputEl
     }));
   };
 
-// Close suggestions when clicking outside
-useEffect(() => {
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      searchInputRef.current &&
-      !searchInputRef.current.contains(event.target as Node) &&
-      suggestionsRef.current &&
-      !suggestionsRef.current.contains(event.target as Node)
-    ) {
-      setShowSuggestions(false);
-    }
-  };
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target as Node) &&
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
 
-  document.addEventListener('mousedown', handleClickOutside);
-  return () => {
-    document.removeEventListener('mousedown', handleClickOutside);
-  };
-}, []);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
-const resetFilters = () => {
-  setFilters({
-    type: '',
-    bedrooms: '',
-    search: '',
-    location: '',
-    locations: [],
-    minPrice: '',
-    maxPrice: '',
-  });
-};
+  const resetFilters = () => {
+    setFilters({
+      type: '',
+      bedrooms: '',
+      search: '',
+      location: '',
+      locations: [],
+      minPrice: '',
+      maxPrice: '',
+    });
+  };
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -1029,7 +1032,7 @@ const resetFilters = () => {
         scrollContainer.scrollLeft += 1;
 
         // Reset scroll position when reaching the end
-        if (scrollContainer.scrollLeft >= 
+        if (scrollContainer.scrollLeft >=
           (scrollContainer.scrollWidth - scrollContainer.clientWidth)) {
           scrollContainer.scrollLeft = 0;
         }
@@ -1045,493 +1048,489 @@ const resetFilters = () => {
   }, [isPaused]);
   // Functions for slider control
   // Property card component to avoid repetition
- 
-const PropertyCard = ({
-  property,
-  delay,
-  comparedIds,
-  setComparedIds,
-  compareLoadingId,
-  setCompareLoadingId,
-  comparisonIdMap,
-  fetchComparedIds
-}: {
-  property: Property;
-  delay: number;
-  comparedIds: number[];
-  setComparedIds: React.Dispatch<React.SetStateAction<number[]>>;
-  compareLoadingId: number | null;
-  setCompareLoadingId: React.Dispatch<React.SetStateAction<number | null>>;
-  comparisonIdMap: Record<number, number>;
-  fetchComparedIds: () => Promise<void>;
-}) => {
-  const [isHovered, setIsHovered] = useState(false);
 
-  // Add console logging to debug image path
-  console.log('Property Image Data:', {
-    multipleImages: property.multipleImages,
-    firstImagePath: property.multipleImages?.[0]?.path,
-    fullImagePath: property.multipleImages?.[0]?.path 
+  const PropertyCard = ({
+    property,
+    delay,
+    comparedIds,
+    setComparedIds,
+    compareLoadingId,
+    setCompareLoadingId,
+    comparisonIdMap,
+    fetchComparedIds
+  }: {
+    property: Property;
+    delay: number;
+    comparedIds: number[];
+    setComparedIds: React.Dispatch<React.SetStateAction<number[]>>;
+    compareLoadingId: number | null;
+    setCompareLoadingId: React.Dispatch<React.SetStateAction<number | null>>;
+    comparisonIdMap: Record<number, number>;
+    fetchComparedIds: () => Promise<void>;
+  }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    // Add console logging to debug image path
+    console.log('Property Image Data:', {
+      multipleImages: property.multipleImages,
+      firstImagePath: property.multipleImages?.[0]?.path,
+      fullImagePath: property.multipleImages?.[0]?.path
+        ? `https://api.propertydronerealty.com${property.multipleImages[0].path}`
+        : main4
+    });
+
+    // Update image path handling with proper error checking
+    const imagePath = property.multipleImages && property.multipleImages.length > 0 && property.multipleImages[0].path
       ? `https://api.propertydronerealty.com${property.multipleImages[0].path}`
-      : main4
-  });
+      : main4;
 
-  // Update image path handling with proper error checking
-  const imagePath = property.multipleImages && property.multipleImages.length > 0 && property.multipleImages[0].path
-    ? `https://api.propertydronerealty.com${property.multipleImages[0].path}`
-    : main4;
-
-  return (
-    <Link href={`/our-properties-in-pune/${property.slug}`} passHref>
-      <div
-        className="bg-white rounded-md cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div className="relative h-52 w-full overflow-hidden">
-          <Image
-            src={imagePath}
-            alt={property.propertyName || "Property Image"}
-            fill
-            className={`z-0 transition-transform duration-700 ease-in-out object-cover ${
-              isHovered ? "scale-110" : "scale-100"
-            }`}
-            onError={(e) => {
-              console.error('Image load error:', e);
-              const target = e.target as HTMLImageElement;
-              target.src = main4.src;
-            }}
-            priority={true}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        </div>
-        {/* Developer and Location */}
-        <div className="flex border-b border-[#00000033]">
-          <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
-            <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
+    return (
+      <Link href={`/our-properties-in-pune/${property.slug}`} passHref>
+        <div
+          className="bg-white rounded-md cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div className="relative h-52 w-full overflow-hidden">
+            <Image
+              src={imagePath}
+              alt={property.propertyName || "Property Image"}
+              fill
+              className={`z-0 transition-transform duration-700 ease-in-out object-cover ${isHovered ? "scale-110" : "scale-100"
+                }`}
+              onError={(e) => {
+                console.error('Image load error:', e);
+                const target = e.target as HTMLImageElement;
+                target.src = main4.src;
+              }}
+              priority={true}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+          {/* Developer and Location */}
+          <div className="flex border-b border-[#00000033]">
+            <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
+              <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
                 fontSize: '16px',
                 fontFamily: 'Lato, sans-serif',
                 letterSpacing: '0.5px',
                 lineHeight: '1.3',
               }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-              {property.beds || ""}  Beds
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                {property.beds || ""}  Beds
+              </div>
             </div>
-          </div>
-          <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
-             <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
+            <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
+              <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
                 fontSize: '16px',
                 fontFamily: 'Lato, sans-serif',
                 letterSpacing: '0.5px',
                 lineHeight: '1.3',
               }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <path d="M22 6l-10 7L2 6"></path>
-              </svg>
-              {property.baths || ""}  Baths
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <path d="M22 6l-10 7L2 6"></path>
+                </svg>
+                {property.baths || ""}  Baths
+              </div>
             </div>
-          </div>
-          <div className="w-1/2 flex items-center justify-center py-2 space-x-1">
-            <svg
-              className="w-5 h-5 text-black"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            <span className="text-[#172747] text-lg "  style={{
+            <div className="w-1/2 flex items-center justify-center py-2 space-x-1">
+              <svg
+                className="w-5 h-5 text-black"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              <span className="text-[#172747] text-lg " style={{
                 fontSize: '16px',
                 fontFamily: 'Lato, sans-serif',
                 letterSpacing: '0.5px',
                 lineHeight: '1.3',
               }}>{property.location || "Location"}</span>
+            </div>
           </div>
-        </div>
 
 
-        {/* Title */}
-        <div className="px-4 pt-1 pb-2">
-          <h3
-            className={` ${
-              isHovered ? "text-blue-800" : "text-[#172747]"
-            }`}
-            style={{
-              fontSize: '20px',
-              fontFamily: 'Lato, sans-serif',
-              letterSpacing: '0.5px',
-              lineHeight: '1.3',
-            }}
-          >
-            {property.propertyName || "Prime Business Hub"}
-          </h3>
-        </div>
-
-        {/* Property Details */}
-        <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-          <div className="flex items-center space-x-2">
-         
-<span
-  className="text-gray-700 px-2"
-  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
->
-  Carpet Area : {(() => {
-    const words = String(property.carpetArea).split(' ');
-    return words.length > 5
-      ? words.slice(0, 5).join(' ') + '...'
-      : words.join(' ');
-  })()}
-</span>
-
-          </div>
-        
-        </div>
-        <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-          <div className="flex items-center space-x-2">
-         
-<span
-  className="text-gray-700 px-2"
-  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
->
-  Possession : {(() => {
-    const words = String(property.possession).split(' ');
-    return words.length > 5
-      ? words.slice(0, 5).join(' ') + '...'
-      : words.join(' ');
-  })()}
-</span>
-
-          </div>
-        
-        </div>
-        <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-          <div className="flex items-center space-x-2">
-         
-<span
-  className="text-gray-700 px-2"
-  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
->
- Topology  : {(() => {
-    const words = String(property.topology).split(' ');
-    return words.length > 5
-      ? words.slice(0, 5).join(' ') + '...'
-      : words.join(' ');
-  })()}
-</span>
-
-          </div>
-        
-        </div>
-
-        {/* Price and Actions */}
-        <div className="flex items-center justify-between px-4 py-3">
-         
-          <div className="flex space-x-2 items-center">
-          <label className="flex items-center gap-2 cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={comparedIds.includes(property.id)}
-              disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
-              onChange={async (e) => {
-                setCompareLoadingId(property.id);
-                if (e.target.checked) {
-                  setComparedIds(prev => [...prev, property.id]);
-                  const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
-                  });
-                  if (!resp.ok) {
-                    setComparedIds(prev => prev.filter(id => id !== property.id));
-                  } else {
-                    await fetchComparedIds();
-                  }
-                } else {
-                  setComparedIds(prev => prev.filter(id => id !== property.id));
-                  const comparisonId = comparisonIdMap[property.id];
-                  if (!comparisonId) {
-                    setCompareLoadingId(null);
-                    return;
-                  }
-                  const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
-                  if (!resp.ok) {
-                    setComparedIds(prev => [...prev, property.id]);
-                  } else {
-                    await fetchComparedIds();
-                  }
-                }
-                setCompareLoadingId(null);
+          {/* Title */}
+          <div className="px-4 pt-1 pb-2">
+            <h3
+              className={` ${isHovered ? "text-blue-800" : "text-[#172747]"
+                }`}
+              style={{
+                fontSize: '20px',
+                fontFamily: 'Lato, sans-serif',
+                letterSpacing: '0.5px',
+                lineHeight: '1.3',
               }}
-              className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
-            />
-            <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
-              {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
-            </span>
-          </label>
-            <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105 cursor-pointer">
-              View Details
-            </button>
-          </div>
-        </div>
-      </div>
-    </Link>
-  );
-};
-const PropertyCardLuxe = ({
-  property,
-  delay,
-  comparedIds,
-  setComparedIds,
-  compareLoadingId,
-  setCompareLoadingId,
-  comparisonIdMap,
-  fetchComparedIds
-}: {
-  property: Property;
-  delay: number;
-  comparedIds: number[];
-  setComparedIds: React.Dispatch<React.SetStateAction<number[]>>;
-  compareLoadingId: number | null;
-  setCompareLoadingId: React.Dispatch<React.SetStateAction<number | null>>;
-  comparisonIdMap: Record<number, number>;
-  fetchComparedIds: () => Promise<void>;
-}) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const baseUrl = "https://api.propertydronerealty.com";
-  const imagePath = property?.multipleImages?.[0]?.path
-    ? `${baseUrl}${property.multipleImages[0].path}`
-    : main2;
-
-  return (
-    <Link href={`/luxe-properties/${property.slug}`} passHref>
-      <div
-        className="bg-white rounded-[4px] cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div className="relative h-52 w-full overflow-hidden">
-          <Image
-            src={imagePath}
-            alt={property.propertyName || "Property Image"}
-            fill
-            className={`z-0 transition-transform duration-700 ease-in-out object-cover ${
-              isHovered ? "scale-110" : "scale-100"
-            }`}
-          />
-          <div className="absolute top-4 left-4 z-10">
-            <div className="rounded-full flex items-center">
-              <AnimatedStarButton />
-            </div>
-          </div>
-        </div>
-
-        {/* Developer and Location */}
-        <div className="flex border-b border-[#00000033]">
-          <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
-            <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
-                fontSize: '16px',
-                fontFamily: 'Lato, sans-serif',
-                letterSpacing: '0.5px',
-                lineHeight: '1.3',
-              }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-              {property.beds || ""}  Beds
-            </div>
-          </div>
-          <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
-             <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
-                fontSize: '16px',
-                fontFamily: 'Lato, sans-serif',
-                letterSpacing: '0.5px',
-                lineHeight: '1.3',
-              }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <path d="M22 6l-10 7L2 6"></path>
-              </svg>
-              {property.baths || ""}  Baths
-            </div>
-          </div>
-          <div className="w-1/2 flex items-center justify-center py-2 space-x-1">
-            <svg
-              className="w-5 h-5 text-black"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            <span className="text-[#172747] text-lg "  style={{
+              {property.propertyName || "Prime Business Hub"}
+            </h3>
+          </div>
+
+          {/* Property Details */}
+          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
+            <div className="flex items-center space-x-2">
+
+              <span
+                className="text-gray-700 px-2"
+                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+              >
+                Carpet Area : {(() => {
+                  const words = String(property.carpetArea).split(' ');
+                  return words.length > 5
+                    ? words.slice(0, 5).join(' ') + '...'
+                    : words.join(' ');
+                })()}
+              </span>
+
+            </div>
+
+          </div>
+          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
+            <div className="flex items-center space-x-2">
+
+              <span
+                className="text-gray-700 px-2"
+                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+              >
+                Possession : {(() => {
+                  const words = String(property.possession).split(' ');
+                  return words.length > 5
+                    ? words.slice(0, 5).join(' ') + '...'
+                    : words.join(' ');
+                })()}
+              </span>
+
+            </div>
+
+          </div>
+          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
+            <div className="flex items-center space-x-2">
+
+              <span
+                className="text-gray-700 px-2"
+                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+              >
+                Topology  : {(() => {
+                  const words = String(property.topology).split(' ');
+                  return words.length > 5
+                    ? words.slice(0, 5).join(' ') + '...'
+                    : words.join(' ');
+                })()}
+              </span>
+
+            </div>
+
+          </div>
+
+          {/* Price and Actions */}
+          <div className="flex items-center justify-between px-4 py-3">
+
+            <div className="flex space-x-2 items-center">
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={comparedIds.includes(property.id)}
+                  disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
+                  onChange={async (e) => {
+                    setCompareLoadingId(property.id);
+                    if (e.target.checked) {
+                      setComparedIds(prev => [...prev, property.id]);
+                      const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
+                      });
+                      if (!resp.ok) {
+                        setComparedIds(prev => prev.filter(id => id !== property.id));
+                      } else {
+                        await fetchComparedIds();
+                      }
+                    } else {
+                      setComparedIds(prev => prev.filter(id => id !== property.id));
+                      const comparisonId = comparisonIdMap[property.id];
+                      if (!comparisonId) {
+                        setCompareLoadingId(null);
+                        return;
+                      }
+                      const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                      if (!resp.ok) {
+                        setComparedIds(prev => [...prev, property.id]);
+                      } else {
+                        await fetchComparedIds();
+                      }
+                    }
+                    setCompareLoadingId(null);
+                  }}
+                  className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
+                />
+                <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
+                  {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
+                </span>
+              </label>
+              <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105 cursor-pointer">
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+      </Link>
+    );
+  };
+  const PropertyCardLuxe = ({
+    property,
+    delay,
+    comparedIds,
+    setComparedIds,
+    compareLoadingId,
+    setCompareLoadingId,
+    comparisonIdMap,
+    fetchComparedIds
+  }: {
+    property: Property;
+    delay: number;
+    comparedIds: number[];
+    setComparedIds: React.Dispatch<React.SetStateAction<number[]>>;
+    compareLoadingId: number | null;
+    setCompareLoadingId: React.Dispatch<React.SetStateAction<number | null>>;
+    comparisonIdMap: Record<number, number>;
+    fetchComparedIds: () => Promise<void>;
+  }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    const baseUrl = "https://api.propertydronerealty.com";
+    const imagePath = property?.multipleImages?.[0]?.path
+      ? `${baseUrl}${property.multipleImages[0].path}`
+      : main2;
+
+    return (
+      <Link href={`/luxe-properties/${property.slug}`} passHref>
+        <div
+          className="bg-white rounded-[4px] cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div className="relative h-52 w-full overflow-hidden">
+            <Image
+              src={imagePath}
+              alt={property.propertyName || "Property Image"}
+              fill
+              className={`z-0 transition-transform duration-700 ease-in-out object-cover ${isHovered ? "scale-110" : "scale-100"
+                }`}
+            />
+            <div className="absolute top-4 left-4 z-10">
+              <div className="rounded-full flex items-center">
+                <AnimatedStarButton />
+              </div>
+            </div>
+          </div>
+
+          {/* Developer and Location */}
+          <div className="flex border-b border-[#00000033]">
+            <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
+              <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
+                fontSize: '16px',
+                fontFamily: 'Lato, sans-serif',
+                letterSpacing: '0.5px',
+                lineHeight: '1.3',
+              }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                {property.beds || ""}  Beds
+              </div>
+            </div>
+            <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
+              <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
+                fontSize: '16px',
+                fontFamily: 'Lato, sans-serif',
+                letterSpacing: '0.5px',
+                lineHeight: '1.3',
+              }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <path d="M22 6l-10 7L2 6"></path>
+                </svg>
+                {property.baths || ""}  Baths
+              </div>
+            </div>
+            <div className="w-1/2 flex items-center justify-center py-2 space-x-1">
+              <svg
+                className="w-5 h-5 text-black"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              <span className="text-[#172747] text-lg " style={{
                 fontSize: '16px',
                 fontFamily: 'Lato, sans-serif',
                 letterSpacing: '0.5px',
                 lineHeight: '1.3',
               }}>{property.location || "Location"}</span>
+            </div>
           </div>
-        </div>
 
 
-        {/* Title */}
-        <div className="px-4 pt-1 pb-2">
-          <h3
-            className={` ${
-              isHovered ? "text-blue-800" : "text-[#172747]"
-            }`}
-            style={{
-              fontSize: '20px',
-              fontFamily: 'Lato, sans-serif',
-              letterSpacing: '0.5px',
-              lineHeight: '1.3',
-            }}
-          >
-            {property.propertyName || "Prime Business Hub"}
-          </h3>
-        </div>
-
-        {/* Property Details */}
-        <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-          <div className="flex items-center space-x-2">
-         
-  <span
-    className="text-gray-700 px-2"
-    style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
-  >
-    Carpet Area : {(() => {
-      const words = String(property.carpetArea).split(' ');
-      return words.length > 5
-        ? words.slice(0, 5).join(' ') + '...'
-        : words.join(' ');
-    })()}
-  </span>
-
-          </div>
-         
-        </div>
-        <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-          <div className="flex items-center space-x-2">
-         
-<span
-  className="text-gray-700 px-2"
-  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
->
-  Possession : {(() => {
-    const words = String(property.possession).split(' ');
-    return words.length > 5
-      ? words.slice(0, 5).join(' ') + '...'
-      : words.join(' ');
-  })()}
-</span>
-
-          </div>
-        
-        </div>
-        <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-          <div className="flex items-center space-x-2">
-         
-<span
-  className="text-gray-700 px-2"
-  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
->
- Typology : {(() => {
-    const words = String(property.topology).split(' ');
-    return words.length > 5
-      ? words.slice(0, 5).join(' ') + '...'
-      : words.join(' ');
-  })()}
-</span>
-
-          </div>
-        
-        </div>
-
-        {/* Price and Actions */}
-        <div className="flex items-center justify-between px-4 py-3">
-         
-          <div className="flex space-x-2 items-center">
-          <label className="flex items-center gap-2 cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={comparedIds.includes(property.id)}
-              disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
-              onChange={async (e) => {
-                setCompareLoadingId(property.id);
-                if (e.target.checked) {
-                  setComparedIds(prev => [...prev, property.id]);
-                  const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
-                  });
-                  if (!resp.ok) {
-                    setComparedIds(prev => prev.filter(id => id !== property.id));
-                  } else {
-                    await fetchComparedIds();
-                  }
-                } else {
-                  setComparedIds(prev => prev.filter(id => id !== property.id));
-                  const comparisonId = comparisonIdMap[property.id];
-                  if (!comparisonId) {
-                    setCompareLoadingId(null);
-                    return;
-                  }
-                  const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
-                  if (!resp.ok) {
-                    setComparedIds(prev => [...prev, property.id]);
-                  } else {
-                    await fetchComparedIds();
-                  }
-                }
-                setCompareLoadingId(null);
+          {/* Title */}
+          <div className="px-4 pt-1 pb-2">
+            <h3
+              className={` ${isHovered ? "text-blue-800" : "text-[#172747]"
+                }`}
+              style={{
+                fontSize: '20px',
+                fontFamily: 'Lato, sans-serif',
+                letterSpacing: '0.5px',
+                lineHeight: '1.3',
               }}
-              className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
-            />
-            <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
-              {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
-            </span>
-          </label>
-            <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105 cursor-pointer">
-              View Details
-            </button>
+            >
+              {property.propertyName || "Prime Business Hub"}
+            </h3>
+          </div>
+
+          {/* Property Details */}
+          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
+            <div className="flex items-center space-x-2">
+
+              <span
+                className="text-gray-700 px-2"
+                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+              >
+                Carpet Area : {(() => {
+                  const words = String(property.carpetArea).split(' ');
+                  return words.length > 5
+                    ? words.slice(0, 5).join(' ') + '...'
+                    : words.join(' ');
+                })()}
+              </span>
+
+            </div>
+
+          </div>
+          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
+            <div className="flex items-center space-x-2">
+
+              <span
+                className="text-gray-700 px-2"
+                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+              >
+                Possession : {(() => {
+                  const words = String(property.possession).split(' ');
+                  return words.length > 5
+                    ? words.slice(0, 5).join(' ') + '...'
+                    : words.join(' ');
+                })()}
+              </span>
+
+            </div>
+
+          </div>
+          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
+            <div className="flex items-center space-x-2">
+
+              <span
+                className="text-gray-700 px-2"
+                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
+              >
+                Typology : {(() => {
+                  const words = String(property.topology).split(' ');
+                  return words.length > 5
+                    ? words.slice(0, 5).join(' ') + '...'
+                    : words.join(' ');
+                })()}
+              </span>
+
+            </div>
+
+          </div>
+
+          {/* Price and Actions */}
+          <div className="flex items-center justify-between px-4 py-3">
+
+            <div className="flex space-x-2 items-center">
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={comparedIds.includes(property.id)}
+                  disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
+                  onChange={async (e) => {
+                    setCompareLoadingId(property.id);
+                    if (e.target.checked) {
+                      setComparedIds(prev => [...prev, property.id]);
+                      const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
+                      });
+                      if (!resp.ok) {
+                        setComparedIds(prev => prev.filter(id => id !== property.id));
+                      } else {
+                        await fetchComparedIds();
+                      }
+                    } else {
+                      setComparedIds(prev => prev.filter(id => id !== property.id));
+                      const comparisonId = comparisonIdMap[property.id];
+                      if (!comparisonId) {
+                        setCompareLoadingId(null);
+                        return;
+                      }
+                      const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                      if (!resp.ok) {
+                        setComparedIds(prev => [...prev, property.id]);
+                      } else {
+                        await fetchComparedIds();
+                      }
+                    }
+                    setCompareLoadingId(null);
+                  }}
+                  className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
+                />
+                <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
+                  {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
+                </span>
+              </label>
+              <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105 cursor-pointer">
+                View Details
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </Link>
-  );
-};
- const [videos, setVideos] = useState<YoutubeVideo[]>([]);
-  
+      </Link>
+    );
+  };
+  const [videos, setVideos] = useState<YoutubeVideo[]>([]);
+
   const sliderRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch all videos
@@ -1596,7 +1595,7 @@ const PropertyCardLuxe = ({
 
   // Add cookie consent state
   const [showCookieBanner, setShowCookieBanner] = useState(true);
-  
+
   // Check if user has already made a choice
   useEffect(() => {
     const cookieChoice = localStorage.getItem('cookieChoice');
@@ -1709,29 +1708,29 @@ const PropertyCardLuxe = ({
           onReject={handleRejectCookies}
         />
       )}
-      
-<PropertyPopup/>
-<div className="relative h-[600px] bg-gray-800 overflow-hidden">
-  {/* Background Video with Overlay */}
 
-  {/* Bhavik new */}
-  <div className="absolute inset-0 z-0">
-    <video
-      autoPlay
-      muted
-      loop
-      playsInline
-      className="w-full h-full object-cover"
-    >
-      <source src="/mainvideo.mp4" type="video/mp4" />
-  
-    </video>
-    <div className="absolute inset-0 bg-black opacity-50"></div>
-  </div>
+      <PropertyPopup />
+      <div className="relative h-[600px] bg-gray-800 overflow-hidden">
+        {/* Background Video with Overlay */}
 
-  {/* Main Content */}
-  <main className="relative z-10 container mx-auto px-4 pt-40 max-w-6xl">
-    {/* <div className="flex flex-col md:flex-row gap-[20px] py-4">
+        {/* Bhavik new */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/mainvideo.mp4" type="video/mp4" />
+
+          </video>
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+        </div>
+
+        {/* Main Content */}
+        <main className="relative z-10 container mx-auto px-4 pt-40 max-w-6xl">
+          {/* <div className="flex flex-col md:flex-row gap-[20px] py-4">
       <div>
         <h1
           style={{
@@ -1772,141 +1771,138 @@ const PropertyCardLuxe = ({
         </Link>
       </div>
     </div> */}
-    <div className="flex items-center justify-center w-full  bg-transparent">
-  <div className="w-full max-w-4xl mx-auto px-4 md:px-0">
-    <div className="backdrop-blur-md bg-black/20 rounded-2xl py-10  px-3 md:px-8 shadow-lg  flex flex-col items-center">
-      <h1 className="text-3xl md:text-5xl font-bold text-center mb-4 text-white">
-        Find Your Dream Property
-      </h1>
-      <div className="text-md md:text-lg text-center text-white mb-7 font-medium">
-        Search properties for sale across top locations.
-      </div>
-      
-      {/* Navigation Tabs and Search Bar Container with Glass Effect */}
-      <div className="w-full">
-        <form 
-          onSubmit={(e) => {
-            e.preventDefault();
-            // Filtering happens automatically via useEffect when filters.search changes
-          }}
-          className="w-full backdrop-blur-lg bg-[#172747]/40  rounded-2xl shadow-2xl overflow-hidden"
-        >
-          {/* Navigation Tabs with Glass Effect - Top Locations */}
-          <div className=" rounded-t-2xl px-2 py-2 flex items-center justify-center gap-3 md:gap-4 lg:gap-5 border-b border-white/10 overflow-x-auto">
-            {(locationCounts.length > 0 
-              ? locationCounts.sort((a, b) => b.count - a.count).slice(0, 5)
-              : ['Hinjawadi', 'Kharadi', 'Wakad', 'Baner', 'Viman Nagar'].map(loc => ({ location: loc, count: 0, image: '' }))
-            ).map((locationData) => (
-              <button
-                key={locationData.location}
-                type="button"
-                onClick={() => {
-                  setActiveTab(locationData.location);
-                  setFilters({ ...filters, locations: [locationData.location], search: '' });
-                }}
-                className={`uppercase text-white font-semibold text-xs sm:text-xs md:text-sm transition-all duration-200 pb-1 relative whitespace-nowrap ${
-                  filters.locations.includes(locationData.location) ? 'after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-white' : 'hover:opacity-80'
-                }`}
-              >
-                {locationData.location}
-              </button>
-            ))}
-          </div>
+          <div className="flex items-center justify-center w-full  bg-transparent">
+            <div className="w-full max-w-4xl mx-auto px-4 md:px-0">
+              <div className="backdrop-blur-md bg-black/20 rounded-2xl py-10  px-3 md:px-8 shadow-lg  flex flex-col items-center">
+                <h1 className="text-3xl md:text-5xl font-bold text-center mb-4 text-white">
+                  Find Your Dream Property
+                </h1>
+                <div className="text-md md:text-lg text-center text-white mb-7 font-medium">
+                  Search properties for sale across top locations.
+                </div>
 
-          {/* Search Bar with Glass Effect - directly connected, no gap */}
-          <div className="relative">
-            <div className="backdrop-blur-md bg-white/95 rounded-t-2xl flex items-center overflow-hidden shadow-inner">
-              {/* Search Icon */}
-              <div className="pl-4 pr-3 flex-shrink-0">
-                <Search className="w-5 h-5 text-gray-400" />
-              </div>
-              
-              {/* Input Field */}
-              {/* Input Field Area */}
-              <div className="flex-1 flex items-center flex-wrap gap-2 py-2 px-2">
-                {filters.locations.map((loc, idx) => (
-                  <span key={idx} className="bg-[#172747] text-white text-xs sm:text-sm px-2 py-1 rounded-full flex items-center gap-1 whitespace-nowrap">
-                    {loc}
-                    <button
-                      type="button"
-                      onClick={() => removeLocationTag(loc)}
-                      className="hover:text-red-300 focus:outline-none"
-                    >
-                      <span className="sr-only">Remove {loc}</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    </button>
-                  </span>
-                ))}
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  name="search"
-                  value={filters.search || ''}
-                  onChange={handleFilterChange}
-                  onFocus={() => {
-                    if (searchSuggestions.length > 0) {
-                      setShowSuggestions(true);
-                    }
-                  }}
-                  onKeyDown={(e) => {
-                     if (e.key === 'Backspace' && filters.search === '' && filters.locations.length > 0) {
-                        // Remove the last tag on backspace if input is empty
-                        const newLocs = [...filters.locations];
-                        newLocs.pop();
-                        setFilters({ ...filters, locations: newLocs });
-                     }
-                  }}
-                  placeholder={filters.locations.length > 0 ? "" : "Search for locality, landmark, project, or builder"}
-                  className="flex-1 min-w-[120px] bg-transparent focus:outline-none placeholder-gray-400 text-sm md:text-base font-normal border-none text-gray-900"
-                />
-              </div>
-              
-              {/* Separator */}
-              <div className="h-10 w-0.5 bg-gray-800 flex-shrink-0 mx-1"></div>
-              
-              {/* Search Button */}
-              <button
-                type="submit"
-                className="px-6 py-2 mr-2 bg-[#172747] rounded-xl text-white font-bold uppercase text-xs sm:text-sm md:text-base hover:bg-[#1a2f5a] transition-colors duration-200 flex-shrink-0"
-              >
-                Search
-              </button>
-            </div>
-            
-            {/* Suggestions Dropdown */}
-            {showSuggestions && searchSuggestions.length > 0 && (
-              <div
-                ref={suggestionsRef}
-                className="absolute top-full left-0 w-full mt-1 bg-white rounded-b-2xl shadow-2xl border border-gray-200 z-50 max-h-64 overflow-y-auto"
-              >
-                {searchSuggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => handleSuggestionClick(suggestion)}
-                    className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-colors duration-150 text-gray-900 text-sm md:text-base border-b border-gray-100 last:border-b-0"
+                {/* Navigation Tabs and Search Bar Container with Glass Effect */}
+                <div className="w-full">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      // Filtering happens automatically via useEffect when filters.search changes
+                    }}
+                    className="w-full backdrop-blur-lg bg-[#172747]/40  rounded-2xl shadow-2xl overflow-hidden"
                   >
-                    <div className="flex items-center gap-2">
-                      <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                      <span>{suggestion}</span>
+                    {/* Navigation Tabs with Glass Effect - Top Locations */}
+                    <div className=" rounded-t-2xl px-2 py-2 flex items-center justify-center gap-3 md:gap-4 lg:gap-5 border-b border-white/10 overflow-x-auto">
+                      {(locationCounts.length > 0
+                        ? locationCounts.sort((a, b) => b.count - a.count).slice(0, 5)
+                        : ['Hinjawadi', 'Kharadi', 'Wakad', 'Baner', 'Viman Nagar'].map(loc => ({ location: loc, count: 0, image: '' }))
+                      ).map((locationData) => (
+                        <button
+                          key={locationData.location}
+                          type="button"
+                          onClick={() => {
+                            setActiveTab(locationData.location);
+                            setFilters({ ...filters, locations: [locationData.location], search: '' });
+                          }}
+                          className={`uppercase text-white font-semibold text-xs sm:text-xs md:text-sm transition-all duration-200 pb-1 relative whitespace-nowrap ${filters.locations.includes(locationData.location) ? 'after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-white' : 'hover:opacity-80'
+                            }`}
+                        >
+                          {locationData.location}
+                        </button>
+                      ))}
                     </div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-    
-  </main>
-</div>
 
- <style>
+                    {/* Search Bar with Glass Effect - directly connected, no gap */}
+                    <div className="relative">
+                      <div className="backdrop-blur-md bg-white/95 rounded-t-2xl flex items-center overflow-hidden shadow-inner">
+                        {/* Search Icon */}
+                        <div className="pl-4 pr-3 flex-shrink-0">
+                          <Search className="w-5 h-5 text-gray-400" />
+                        </div>
+
+                        {/* Input Field */}
+                        {/* Input Field Area */}
+                        <div className="flex-1 flex items-center flex-wrap gap-2 py-2 px-2">
+                          {filters.locations.map((loc, idx) => (
+                            <span key={idx} className="bg-[#172747] text-white text-xs sm:text-sm px-2 py-1 rounded-full flex items-center gap-1 whitespace-nowrap">
+                              {loc}
+                              <button
+                                type="button"
+                                onClick={() => removeLocationTag(loc)}
+                                className="hover:text-red-300 focus:outline-none"
+                              >
+                                <span className="sr-only">Remove {loc}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                </svg>
+                              </button>
+                            </span>
+                          ))}
+                          <input
+                            ref={searchInputRef}
+                            type="text"
+                            name="search"
+                            value={filters.search || ''}
+                            onChange={handleFilterChange}
+                            onFocus={() => {
+                              if (searchSuggestions.length > 0) {
+                                setShowSuggestions(true);
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Backspace' && filters.search === '' && filters.locations.length > 0) {
+                                // Remove the last tag on backspace if input is empty
+                                const newLocs = [...filters.locations];
+                                newLocs.pop();
+                                setFilters({ ...filters, locations: newLocs });
+                              }
+                            }}
+                            placeholder={filters.locations.length > 0 ? "" : "Search for locality, landmark, project, or builder"}
+                            className="flex-1 min-w-[120px] bg-transparent focus:outline-none placeholder-gray-400 text-sm md:text-base font-normal border-none text-gray-900"
+                          />
+                        </div>
+
+
+                        {/* Search Button */}
+                        <button
+                          type="submit"
+                          className="px-6 py-2 m-2 bg-[#172747] rounded-full text-white font-bold uppercase text-xs sm:text-sm md:text-base hover:bg-[#1a2f5a] transition-colors duration-200 flex-shrink-0"
+                        >
+                          Search
+                        </button>
+                      </div>
+
+                      {/* Suggestions Dropdown */}
+                      {showSuggestions && searchSuggestions.length > 0 && (
+                        <div
+                          ref={suggestionsRef}
+                          className="absolute top-full left-0 w-full mt-1 bg-white rounded-b-2xl shadow-2xl border border-gray-200 z-50 max-h-64 overflow-y-auto"
+                        >
+                          {searchSuggestions.map((suggestion, index) => (
+                            <button
+                              key={index}
+                              type="button"
+                              onClick={() => handleSuggestionClick(suggestion)}
+                              className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-colors duration-150 text-gray-900 text-sm md:text-base border-b border-gray-100 last:border-b-0"
+                            >
+                              <div className="flex items-center gap-2">
+                                <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                <span>{suggestion}</span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </main>
+      </div>
+
+      <style>
         {`
           @keyframes opacityEffect {
             0% { border-right: 1px solid transparent; }
@@ -1941,13 +1937,13 @@ const PropertyCardLuxe = ({
         `}
       </style>
 
-     
-{/* ------------------------------ */}
-{/* ------------------------------ */}
-{/* Hero Search Bar Section (Image style) */}
 
-{/* Filter Section */}
-{/* <div className="bg-white shadow-md p-4 md:p-6">
+      {/* ------------------------------ */}
+      {/* ------------------------------ */}
+      {/* Hero Search Bar Section (Image style) */}
+
+      {/* Filter Section */}
+      {/* <div className="bg-white shadow-md p-4 md:p-6">
   <div className="grid grid-row-1 md:grid-cols-5 gap-4 md:gap-6 mx-2 md:mx-20">
 
   
@@ -2025,182 +2021,182 @@ const PropertyCardLuxe = ({
 </div> */}
 
 
-<div
-  className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed"
-  style={{ 
-    backgroundImage: `url(${luxeImage.src})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat'
-  }}
->
-  
- 
-
-  {/* Loading and Error States */}
-  {loading ? (
-    <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 text-white border-t-2 border-b-2 border-[#172747]"></div>
-    </div>
-  ) : error ? (
-    <div className="text-center text-red-500 p-4">
-      Error: {error}. Please try again later.
-    </div>
-  ) : luxuryProperties.length === 0 ? (
-    <div className="text-center py-12">
-      <p className="text-gray-500">No luxury properties found matching your criteria.</p>
-      <button 
-        onClick={resetFilters}
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-[#172747] transition-colors duration-300 cursor-pointer"
-      >
-        Reset Filters
-      </button>
-    </div>
-  ) : (
-    <div className="space-y-10 max-w-6xl mx-auto px-4 ">
-      {/* Featured Properties Section */}
-      <div className="mb-8 ">
-    <AnimatedLetters
-      text="LUXURY PROPERTIES"
-      as="h2"
-      className="uppercase text-white text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-    />
-
-    <h2 className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
-      Discover our exclusive collection of luxury properties in Pune
-    </h2>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {luxuryProperties.slice(0, 3).map((property, index) => (
-          <PropertyCardLuxe 
-            key={property.id} 
-            property={property} 
-            delay={index * 200}
-            comparedIds={comparedIds}
-            setComparedIds={setComparedIds}
-            compareLoadingId={compareLoadingId}
-            setCompareLoadingId={setCompareLoadingId}
-            comparisonIdMap={comparisonIdMap}
-            fetchComparedIds={fetchComparedIds}
-          />
-        ))}
-      </div>
-      
-      {/* View All Luxury Properties Button */}
-      {luxuryProperties.length > 3 && (
-        <div className="flex justify-center mt-8">
-          <Link href="/luxe-properties">
-            <button className="bg-white text-[#172747] px-6 py-3 rounded hover:bg-gray-100 transition-colors duration-300 cursor-pointer flex items-center gap-2">
-              View All Luxury Properties
-              <ArrowRight size={16} />
-            </button>
-          </Link>
-        </div>
-      )}
-      </div>
-    </div>
-  )}
-</div>
-<div className="w-full overflow-hidden mt-6" id="filter-section">
       <div
-        ref={scrollContainerRef}
-        className="flex overflow-x-auto scrollbar-hide snap-x"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
+        className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed"
+        style={{
+          backgroundImage: `url(${luxeImage.src})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
       >
-        {images.map((imgObj, index) => (
-          <div
-            key={index}
-            className="flex-shrink-0 h-32 mx-2 first:ml-0 mt-10 sm:mt-0 transition-all duration-300 ease-in-out"
-            style={{
-              transform: 'scale(1)',
-              transformOrigin: 'center center',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-          >
-            <div className="shadow-md flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
-              <Image
-                src={imgObj.img}
-                alt={`Card ${index + 1}`}
-                className="w-auto cursor-pointerh-22 object-cover transition-all duration-300 sm:h-30"
+
+
+
+        {/* Loading and Error States */}
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 text-white border-t-2 border-b-2 border-[#172747]"></div>
+          </div>
+        ) : error ? (
+          <div className="text-center text-red-500 p-4">
+            Error: {error}. Please try again later.
+          </div>
+        ) : luxuryProperties.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500">No luxury properties found matching your criteria.</p>
+            <button
+              onClick={resetFilters}
+              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-[#172747] transition-colors duration-300 cursor-pointer"
+            >
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-10 max-w-6xl mx-auto px-4 ">
+            {/* Featured Properties Section */}
+            <div className="mb-8 ">
+              <AnimatedLetters
+                text="LUXURY PROPERTIES"
+                as="h2"
+                className="uppercase text-white text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
               />
+
+              <h2 className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
+                Discover our exclusive collection of luxury properties in Pune
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {luxuryProperties.slice(0, 3).map((property, index) => (
+                  <PropertyCardLuxe
+                    key={property.id}
+                    property={property}
+                    delay={index * 200}
+                    comparedIds={comparedIds}
+                    setComparedIds={setComparedIds}
+                    compareLoadingId={compareLoadingId}
+                    setCompareLoadingId={setCompareLoadingId}
+                    comparisonIdMap={comparisonIdMap}
+                    fetchComparedIds={fetchComparedIds}
+                  />
+                ))}
+              </div>
+
+              {/* View All Luxury Properties Button */}
+              {luxuryProperties.length > 3 && (
+                <div className="flex justify-center mt-8">
+                  <Link href="/luxe-properties">
+                    <button className="bg-white text-[#172747] px-6 py-3 rounded hover:bg-gray-100 transition-colors duration-300 cursor-pointer flex items-center gap-2">
+                      View All Luxury Properties
+                      <ArrowRight size={16} />
+                    </button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
-        ))}
+        )}
       </div>
-    </div>
-
-
-{/* ------------------------------------------------------------------------------------------------------ */}
-   <div className=" mx-auto px-6 md:px-20 py-8 bg-[#EEF1F5]">
-  
- 
-
-  {/* Loading and Error States */}
-  {loading ? (
-    <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 text-white border-t-2 border-b-2 border-[#172747]"></div>
-    </div>
-  ) : error ? (
-    <div className="text-center text-red-500 p-4">
-      Error: {error}. Please try again later.
-    </div>
-  ) : filteredProperties.length === 0 ? (
-    <div className="text-center py-12">
-      <p className="text-gray-500">No properties found matching your criteria.</p>
-      <button 
-        onClick={resetFilters}
-        className="mt-4  bg-blue-500 text-white px-4 py-2 rounded hover:bg-[#172747] transition-colors duration-300 cursor-pointer"
-      >
-        Reset Filters
-      </button>
-    </div>
-  ) : (
-    <div className="space-y-10 max-w-6xl mx-auto px-4">
-      {/* Featured Properties Section */}
-      <div className="mb-8">
-        <AnimatedLetters
-          text="FEATURED PROPERTIES"
-          as="h2"
-          className="uppercase text-[#172747] text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-        />
-
-       
-         <h2  className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-                 >Explore top-performing properties with high ROI and verified builder credibility.</h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredProperties.map((property, index) => (
-            <PropertyCard
-              key={property.id}
-              property={property}
-              delay={index * 200}
-              comparedIds={comparedIds}
-              setComparedIds={setComparedIds}
-              compareLoadingId={compareLoadingId}
-              setCompareLoadingId={setCompareLoadingId}
-              comparisonIdMap={comparisonIdMap}
-              fetchComparedIds={fetchComparedIds}
-            />
+      <div className="w-full overflow-hidden mt-6" id="filter-section">
+        <div
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto scrollbar-hide snap-x"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {images.map((imgObj, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 h-32 mx-2 first:ml-0 mt-10 sm:mt-0 transition-all duration-300 ease-in-out"
+              style={{
+                transform: 'scale(1)',
+                transformOrigin: 'center center',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              <div className="shadow-md flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
+                <Image
+                  src={imgObj.img}
+                  alt={`Card ${index + 1}`}
+                  className="w-auto cursor-pointerh-22 object-cover transition-all duration-300 sm:h-30"
+                />
+              </div>
+            </div>
           ))}
         </div>
-        <div className="flex justify-center mt-8">
-          <Link href="/our-properties-in-pune">
-            <button className="bg-white text-[#172747] px-6 py-3 rounded hover:bg-gray-100 transition-colors duration-300 cursor-pointer flex items-center gap-2">
-              View All Properties
-              <ArrowRight size={16} />
-            </button>
-          </Link>
-        </div>
       </div>
-    </div>
-  )}
-</div>
+
+
+      {/* ------------------------------------------------------------------------------------------------------ */}
+      <div className=" mx-auto px-6 md:px-20 py-8 bg-[#EEF1F5]">
+
+
+
+        {/* Loading and Error States */}
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 text-white border-t-2 border-b-2 border-[#172747]"></div>
+          </div>
+        ) : error ? (
+          <div className="text-center text-red-500 p-4">
+            Error: {error}. Please try again later.
+          </div>
+        ) : filteredProperties.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500">No properties found matching your criteria.</p>
+            <button
+              onClick={resetFilters}
+              className="mt-4  bg-blue-500 text-white px-4 py-2 rounded hover:bg-[#172747] transition-colors duration-300 cursor-pointer"
+            >
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-10 max-w-6xl mx-auto px-4">
+            {/* Featured Properties Section */}
+            <div className="mb-8">
+              <AnimatedLetters
+                text="FEATURED PROPERTIES"
+                as="h2"
+                className="uppercase text-[#172747] text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+              />
+
+
+              <h2 className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+              >Explore top-performing properties with high ROI and verified builder credibility.</h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {featuredProperties.map((property, index) => (
+                  <PropertyCard
+                    key={property.id}
+                    property={property}
+                    delay={index * 200}
+                    comparedIds={comparedIds}
+                    setComparedIds={setComparedIds}
+                    compareLoadingId={compareLoadingId}
+                    setCompareLoadingId={setCompareLoadingId}
+                    comparisonIdMap={comparisonIdMap}
+                    fetchComparedIds={fetchComparedIds}
+                  />
+                ))}
+              </div>
+              <div className="flex justify-center mt-8">
+                <Link href="/our-properties-in-pune">
+                  <button className="bg-white text-[#172747] px-6 py-3 rounded hover:bg-gray-100 transition-colors duration-300 cursor-pointer flex items-center gap-2">
+                    View All Properties
+                    <ArrowRight size={16} />
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
 
 
@@ -2208,236 +2204,236 @@ const PropertyCardLuxe = ({
       {/* -------------------------------------------------------------- */}
 
       <div className="max-w-6xl mx-auto px-4 py-12">
-     
-      <div >
-        
-            <AnimatedLetters
-  text="TOP LOCALITIES"
-  as="h2"
-  className="uppercase text-[#172747] text-[16px] text-center sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-            
-/>
+
+        <div >
+
+          <AnimatedLetters
+            text="TOP LOCALITIES"
+            as="h2"
+            className="uppercase text-[#172747] text-[16px] text-center sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+
+          />
 
 
-         <h2  className="text-[#172747]  font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
- > Find homes in the most sought-after neighborhoods of Pune.</h2>
-      </div>
+          <h2 className="text-[#172747]  font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+          > Find homes in the most sought-after neighborhoods of Pune.</h2>
+        </div>
 
-     
-      <div className="max-w-6xl mx-auto  py-8">
-    <h2 className="text-2xl text-[#172747] font-bold mb-6">Popular Locations</h2>
-    
-   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-  {locationCounts.map((locationData: { location: string; count: number; image: string }, index: number) => (
-    <Link
-      key={index}
-      href={`/our-properties-in-pune?${locationData.location}`}
-      className={`
-      ${index < 5? 'block' : 'hidden'}           // Show only first 3 by default (mobile)
+
+        <div className="max-w-6xl mx-auto  py-8">
+          <h2 className="text-2xl text-[#172747] font-bold mb-6">Popular Locations</h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+            {locationCounts.map((locationData: { location: string; count: number; image: string }, index: number) => (
+              <Link
+                key={index}
+                href={`/our-properties-in-pune?${locationData.location}`}
+                className={`
+      ${index < 5 ? 'block' : 'hidden'}           // Show only first 3 by default (mobile)
       lg:${index < 5 ? 'block' : 'hidden'}                               // Show all on lg and above
       `.trim()}
-    >
-      <div className="relative grid h-52 w-full cursor-pointer place-content-center overflow-hidden rounded-[4px] bg-[#172747] shadow-md transition-transform duration-300 hover:scale-105 group">
-      <div className="absolute right-6 top-6 p-1 z-50 rounded-full">
-        <Building2 className="w-8 h-8 text-[#EEF1F5] transition-colors duration-300" />
-      </div>
-      <span className="absolute top-[20px] left-1/2 -translate-x-1/2 bg-[#172747] pr-9 pt-2 text-xl font-semibold uppercase text-[#EEF1F5] opacity-0 tracking-[6px] transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:tracking-[3px]">
-        explore now
-      </span>
-      <div className="absolute inset-0 border-2 border-[#EEF1F5] opacity-0 rotate-[10deg] transition-all duration-500 ease-in-out group-hover:inset-[10px] group-hover:opacity-100 group-hover:rotate-0 rounded-[4px] pointer-events-none"></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-[#EEF1F5]">
-        <h3 className="text-2xl font-semibold">{locationData.location}</h3>
-        <p className="text-xl">
-        {locationData.count} {locationData.count === 1 ? 'Property' : 'Properties'}
-        </p>
-      </div>
-      </div>
-    </Link>
-  ))}
-</div>
-
-  </div>
-
-      
-      <div className="flex justify-center">
-        <Link href="/our-properties-in-pune">
-        <button className="bg-[#172747] cursor-pointer text-white px-6 py-2 flex items-center gap-2 rounded hover:bg-[#172747] transition">
-          View All Locations
-          <ArrowRight size={16} />
-        </button>
-        </Link>
-      </div>
-    </div>
-
-    {/* ------------------------ */}
- 
- <div className="bg-[#EEF1F5] ">
-  <section className="max-w-6xl mx-auto px-4 py-12">
-    <div className="mb-2 animate-fade-in text-justify">
-     
-      <AnimatedLetters
-      text="UPCOMING & LATEST LAUNCHES"
-      as="h2"
-      className="uppercase text-[#172747] text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-      />
- 
-     
-       
-    </div>
-    <h2  className="text-[#172747] mb-4 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
- > Be the first to discover the hottest launches in Pune.</h2>
-      
-
-    {/* Latest Properties Slider */}
-    <div>
-      {/* <h3 className="text-xl font-light mb-6 animate-fade-in">Latest Launches</h3> */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {remainingProperties
-          .slice(currentSlide * 2, currentSlide * 2 + 2)
-          .map((property) => (
-            <Link href={`/luxe-properties/${property.slug}`} passHref key={`property-${property.id}`}>
-            <div
-              key={property.id}
-              className="flex flex-col hover:bg-[#EEF1F5] rounded-[4px] shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out transform hover:-translate-y-1"
-            >
-              <div className="relative h-64 w-full mb-4 overflow-hidden rounded-t-lg group">
-                <Image
-                  src={property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : main4}
-                  alt={property.propertyName}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
-                />
-              </div>
-              <div className="px-4 pb-4">
-                <h3 className="text-xl font-light">{property.propertyName}</h3>
-                <p className="text-sm text-gray-600">{property.location}, {property.city}</p>
-                <div className="flex justify-between items-center mt-2">
-                  <div className="flex gap-2">
-                    {property.beds && (
-                      <span className="text-sm text-gray-600">{property.beds} Beds</span>
-                    )}
-                    {property.baths && (
-                      <span className="text-sm text-gray-600">{property.baths} Baths</span>
-                    )}
-                    {property.carpetArea && (
-                      <span className="text-sm text-gray-600">{property.carpetArea} sq.ft</span>
-                    )}
+              >
+                <div className="relative grid h-52 w-full cursor-pointer place-content-center overflow-hidden rounded-[4px] bg-[#172747] shadow-md transition-transform duration-300 hover:scale-105 group">
+                  <div className="absolute right-6 top-6 p-1 z-50 rounded-full">
+                    <Building2 className="w-8 h-8 text-[#EEF1F5] transition-colors duration-300" />
                   </div>
-                  <p className="text-sm font-medium">{property.tentativeBudget}</p>
+                  <span className="absolute top-[20px] left-1/2 -translate-x-1/2 bg-[#172747] pr-9 pt-2 text-xl font-semibold uppercase text-[#EEF1F5] opacity-0 tracking-[6px] transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:tracking-[3px]">
+                    explore now
+                  </span>
+                  <div className="absolute inset-0 border-2 border-[#EEF1F5] opacity-0 rotate-[10deg] transition-all duration-500 ease-in-out group-hover:inset-[10px] group-hover:opacity-100 group-hover:rotate-0 rounded-[4px] pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-[#EEF1F5]">
+                    <h3 className="text-2xl font-semibold">{locationData.location}</h3>
+                    <p className="text-xl">
+                      {locationData.count} {locationData.count === 1 ? 'Property' : 'Properties'}
+                    </p>
+                  </div>
                 </div>
+              </Link>
+            ))}
+          </div>
+
+        </div>
+
+
+        <div className="flex justify-center">
+          <Link href="/our-properties-in-pune">
+            <button className="bg-[#172747] cursor-pointer text-white px-6 py-2 flex items-center gap-2 rounded hover:bg-[#172747] transition">
+              View All Locations
+              <ArrowRight size={16} />
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      {/* ------------------------ */}
+
+      <div className="bg-[#EEF1F5] ">
+        <section className="max-w-6xl mx-auto px-4 py-12">
+          <div className="mb-2 animate-fade-in text-justify">
+
+            <AnimatedLetters
+              text="UPCOMING & LATEST LAUNCHES"
+              as="h2"
+              className="uppercase text-[#172747] text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+            />
+
+
+
+          </div>
+          <h2 className="text-[#172747] mb-4 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+          > Be the first to discover the hottest launches in Pune.</h2>
+
+
+          {/* Latest Properties Slider */}
+          <div>
+            {/* <h3 className="text-xl font-light mb-6 animate-fade-in">Latest Launches</h3> */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {remainingProperties
+                .slice(currentSlide * 2, currentSlide * 2 + 2)
+                .map((property) => (
+                  <Link href={`/luxe-properties/${property.slug}`} passHref key={`property-${property.id}`}>
+                    <div
+                      key={property.id}
+                      className="flex flex-col hover:bg-[#EEF1F5] rounded-[4px] shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out transform hover:-translate-y-1"
+                    >
+                      <div className="relative h-64 w-full mb-4 overflow-hidden rounded-t-lg group">
+                        <Image
+                          src={property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : main4}
+                          alt={property.propertyName}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                        />
+                      </div>
+                      <div className="px-4 pb-4">
+                        <h3 className="text-xl font-light">{property.propertyName}</h3>
+                        <p className="text-sm text-gray-600">{property.location}, {property.city}</p>
+                        <div className="flex justify-between items-center mt-2">
+                          <div className="flex gap-2">
+                            {property.beds && (
+                              <span className="text-sm text-gray-600">{property.beds} Beds</span>
+                            )}
+                            {property.baths && (
+                              <span className="text-sm text-gray-600">{property.baths} Baths</span>
+                            )}
+                            {property.carpetArea && (
+                              <span className="text-sm text-gray-600">{property.carpetArea} sq.ft</span>
+                            )}
+                          </div>
+                          <p className="text-sm font-medium">{property.tentativeBudget}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+            </div>
+
+            <div className="mt-12 flex items-center justify-between w-full relative animate-fade-in">
+              {/* Slide Indicator */}
+              <div className="text-lg font-medium flex-shrink-0 z-10 pr-2">
+                <span className="font-bold">
+                  {String(currentSlide + 1).padStart(2, '0')}
+                </span>
+                <span className="text-[#172747]">
+                  {' '}
+                  / {String(Math.max(1, totalSlides)).padStart(2, '0')}
+                </span>
+              </div>
+
+              {/* Horizontal Divider */}
+              <div className="flex-grow h-px bg-[#172747]"></div>
+
+              {/* Navigation Buttons */}
+              <div className="flex gap-2 flex-shrink-0 z-10 pl-2">
+                <button
+                  onClick={prevSlide}
+                  className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
+                  aria-label="Previous slide"
+                  disabled={remainingProperties.length <= 2}
+                >
+                  <ArrowLeft size={20} />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
+                  aria-label="Next slide"
+                  disabled={remainingProperties.length <= 2}
+                >
+                  <ArrowRight size={20} />
+                </button>
               </div>
             </div>
-            </Link>
-          ))}
+          </div>
+        </section>
       </div>
 
-      <div className="mt-12 flex items-center justify-between w-full relative animate-fade-in">
-        {/* Slide Indicator */}
-        <div className="text-lg font-medium flex-shrink-0 z-10 pr-2">
-          <span className="font-bold">
-            {String(currentSlide + 1).padStart(2, '0')}
-          </span>
-          <span className="text-[#172747]">
-            {' '}
-            / {String(Math.max(1, totalSlides)).padStart(2, '0')}
-          </span>
-        </div>
+      <div className="container mx-auto max-w-6xl px-4 py-8">
 
-        {/* Horizontal Divider */}
-        <div className="flex-grow h-px bg-[#172747]"></div>
 
-        {/* Navigation Buttons */}
-        <div className="flex gap-2 flex-shrink-0 z-10 pl-2">
-          <button
-            onClick={prevSlide}
-            className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
-            aria-label="Previous slide"
-            disabled={remainingProperties.length <= 2}
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
-            aria-label="Next slide"
-            disabled={remainingProperties.length <= 2}
-          >
-            <ArrowRight size={20} />
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
- <div className="container mx-auto max-w-6xl px-4 py-8">
-     
-
-      <div className="mb-8">
-        
-        
-            <AnimatedLetters
-  text="Featured Videos"
-  as="h2"
-  className="uppercase text-[#172747] text-[16px] text-center sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-            
-/>
-
-  <h2  className="text-[#172747]  font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-                  >Explore insightful YouTube videos handpicked for you </h2>
-      </div>
-    
-
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
-        </div>
-      )}
-
-      {loading ? (
-        <div className="text-center py-10">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#172747] mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading amazing videos...</p>
-        </div>
-      ) : videos.length === 0 ? (
-        <div className="text-center py-16 bg-gray-100 rounded-lg">
-          <i className="fas fa-video text-gray-400 text-4xl mb-4"></i>
-          <p className="text-gray-500 text-lg">No videos found in the collection</p>
-        </div>
-      ) : (
         <div className="mb-8">
-          <div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6" 
-            onMouseEnter={handlePause}
-            onMouseLeave={handleResume}
-          >
-            {displayVideos().map((video) => {
-              const videoId = getYoutubeVideoId(video.youtube_url);
 
-              return (
-                <div key={video.id} className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl border border-gray-200">
-                  {videoId ? (
-                    <div className="relative pb-[56.25%] h-0">
-                      <iframe
-                        className="absolute top-0 left-0 w-full h-full"
-                        src={`https://www.youtube.com/embed/${videoId}`}
-                        title={video.title || "YouTube Video"}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
-                    </div>
-                  ) : (
-                    <div className="bg-gray-200 h-48 flex items-center justify-center">
-                      <p className="text-gray-500">Invalid YouTube URL</p>
-                    </div>
-                  )}
 
-                  <div className="p-5">
-                    <h2 className="text-xl font-bold mb-3 line-clamp-2 text-gray-800">{video.title || "Untitled"}</h2>
-                    {/* <p className="text-gray-600 mb-4 line-clamp-3">{video.description || "No description"}</p> */}
+          <AnimatedLetters
+            text="Featured Videos"
+            as="h2"
+            className="uppercase text-[#172747] text-[16px] text-center sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
 
-                    {/* <div className="flex justify-between items-center text-sm">
+          />
+
+          <h2 className="text-[#172747]  font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
+          >Explore insightful YouTube videos handpicked for you </h2>
+        </div>
+
+
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {error}
+          </div>
+        )}
+
+        {loading ? (
+          <div className="text-center py-10">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#172747] mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading amazing videos...</p>
+          </div>
+        ) : videos.length === 0 ? (
+          <div className="text-center py-16 bg-gray-100 rounded-lg">
+            <i className="fas fa-video text-gray-400 text-4xl mb-4"></i>
+            <p className="text-gray-500 text-lg">No videos found in the collection</p>
+          </div>
+        ) : (
+          <div className="mb-8">
+            <div
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6"
+              onMouseEnter={handlePause}
+              onMouseLeave={handleResume}
+            >
+              {displayVideos().map((video) => {
+                const videoId = getYoutubeVideoId(video.youtube_url);
+
+                return (
+                  <div key={video.id} className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl border border-gray-200">
+                    {videoId ? (
+                      <div className="relative pb-[56.25%] h-0">
+                        <iframe
+                          className="absolute top-0 left-0 w-full h-full"
+                          src={`https://www.youtube.com/embed/${videoId}`}
+                          title={video.title || "YouTube Video"}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                    ) : (
+                      <div className="bg-gray-200 h-48 flex items-center justify-center">
+                        <p className="text-gray-500">Invalid YouTube URL</p>
+                      </div>
+                    )}
+
+                    <div className="p-5">
+                      <h2 className="text-xl font-bold mb-3 line-clamp-2 text-gray-800">{video.title || "Untitled"}</h2>
+                      {/* <p className="text-gray-600 mb-4 line-clamp-3">{video.description || "No description"}</p> */}
+
+                      {/* <div className="flex justify-between items-center text-sm">
                       <div className="flex items-center">
                         <i className="fas fa-user-circle mr-2 text-blue-500"></i>
                         <span className="font-medium text-gray-700">{video.author || "Unknown"}</span>
@@ -2447,54 +2443,54 @@ const PropertyCardLuxe = ({
                         {formatDate(video.date)}
                       </div>
                     </div> */}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Slider controls */}
-          <div className="flex justify-center items-center gap-4">
-            <button 
-              onClick={() => setCurrentSlide((prev) => (prev - 1 + Math.ceil(videos.length / 3)) % Math.ceil(videos.length / 3))}
-              className=" text-[#172747]  w-10 h-10 flex items-center justify-center p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
-            >
-             <ArrowLeft size={20} /> 
-            </button>
-            
-            <div className="flex gap-2">
-              {Array.from({ length: Math.ceil(videos.length / 3) }).map((_, index) => (
-                <button 
-                  key={index}
-                  onClick={() => handleSlideChange(index)}
-                  className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-[#172747]' : 'bg-gray-300'}`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
+                );
+              })}
             </div>
-            
-            <button 
-              onClick={() => setCurrentSlide((prev) => (prev + 1) % Math.ceil(videos.length / 3))}
-              className=" text-[#172747]  w-10 h-10 flex items-center justify-center p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
-            >
-                <ArrowRight size={20} /> 
-            </button>
+
+            {/* Slider controls */}
+            <div className="flex justify-center items-center gap-4">
+              <button
+                onClick={() => setCurrentSlide((prev) => (prev - 1 + Math.ceil(videos.length / 3)) % Math.ceil(videos.length / 3))}
+                className=" text-[#172747]  w-10 h-10 flex items-center justify-center p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
+              >
+                <ArrowLeft size={20} />
+              </button>
+
+              <div className="flex gap-2">
+                {Array.from({ length: Math.ceil(videos.length / 3) }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSlideChange(index)}
+                    className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-[#172747]' : 'bg-gray-300'}`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={() => setCurrentSlide((prev) => (prev + 1) % Math.ceil(videos.length / 3))}
+                className=" text-[#172747]  w-10 h-10 flex items-center justify-center p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
+              >
+                <ArrowRight size={20} />
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
-  {/* -------------------- */}
-    <section className="bg-white text-[#172747] py-16">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="mb-8 text-center">
-          <AnimatedLetters
-            text="WHY CHOOSE US"
-            as="h2"
-            className="uppercase text-[#172747] text-base sm:text-lg font-lato tracking-[1px] leading-tight mb-2"
-          />
-          <h2 className="text-[#172747] mb-6 font-light text-2xl sm:text-4xl leading-tight tracking-[1px] font-ivy text-start">We're redefining how people explore and purchase property.</h2>
-        </div>
-        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 overflow-visible">
+        )}
+      </div>
+      {/* -------------------- */}
+      <section className="bg-white text-[#172747] py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="mb-8 text-center">
+            <AnimatedLetters
+              text="WHY CHOOSE US"
+              as="h2"
+              className="uppercase text-[#172747] text-base sm:text-lg font-lato tracking-[1px] leading-tight mb-2"
+            />
+            <h2 className="text-[#172747] mb-6 font-light text-2xl sm:text-4xl leading-tight tracking-[1px] font-ivy text-start">We're redefining how people explore and purchase property.</h2>
+          </div>
+          {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 overflow-visible">
           {features.map((feature, index) => (
             <div
               key={feature.id}
@@ -2508,607 +2504,607 @@ const PropertyCardLuxe = ({
             </div>
           ))}
         </div> */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-5 gap-2 overflow-visible">
-          {/* Feature 0 - Top-left, spans 3 rows */}
-          {(() => {
-            const feature = features[0];
-            const IconComponent = feature.icon;
-            return (
-              <div
-                key={feature.id}
-                className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:row-span-3 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
-                data-aos="fade-up"
-                data-aos-delay={0}
-              >
-                <div className="flex justify-center mb-2">
-                  <div className="w-16 h-16 rounded-full border-2 border-gray-400 flex items-center justify-center group-hover:border-green-500 transition-all">
-                    <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
-                  </div>
-                </div>
-                <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
-                <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
-              </div>
-            );
-          })()}
-          
-          {/* Feature 1 - Top-center, spans 3 rows */}
-          {(() => {
-            const feature = features[1];
-            const IconComponent = feature.icon;
-            return (
-              <div
-                key={feature.id}
-                className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:row-span-3 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
-                data-aos="fade-up"
-                data-aos-delay={100}
-              >
-                <div className="flex justify-center mb-2">
-                <div className="w-16 h-16 rounded-full border-2 border-gray-400 flex items-center justify-center group-hover:border-green-500 transition-all">
-                <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
-                  </div>
-                </div>
-                <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
-                <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
-              </div>
-            );
-          })()}
-          
-          {/* Feature 3 - Dark blue block on right, spans all 5 rows */}
-          {(() => {
-            const feature = features[3];
-            const IconComponent = feature.icon;
-            return (
-              <div
-                key={feature.id}
-                className="relative flex flex-col justify-between bg-[#172747] shadow-xl rounded-2xl pt-6 pb-4 px-4 lg:row-span-5 transition-all duration-300 ease-in-out overflow-visible"
-                data-aos="fade-up"
-                data-aos-delay={200}
-              >
-                <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-5 gap-2 overflow-visible">
+            {/* Feature 0 - Top-left, spans 3 rows */}
+            {(() => {
+              const feature = features[0];
+              const IconComponent = feature.icon;
+              return (
+                <div
+                  key={feature.id}
+                  className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:row-span-3 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
+                  data-aos="fade-up"
+                  data-aos-delay={0}
+                >
                   <div className="flex justify-center mb-2">
-                    <div className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center">
-                      <IconComponent className="w-8 h-8 text-white" />
+                    <div className="w-16 h-16 rounded-full border-2 border-gray-400 flex items-center justify-center group-hover:border-green-500 transition-all">
+                      <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
                     </div>
                   </div>
-                  <h3 className="text-lg text-white font-bold mb-2 text-center font-lato">{feature.title}</h3>
-                  <p className="text-white/90 text-lg text-center leading-relaxed font-lato mb-4">{feature.description}</p>
-                  <div className="flex justify-center mb-4">
-                    <Image 
-                      src={main4} 
-                      alt="Property" 
-                      className="rounded-lg object-cover w-full max-w-xs h-64"
-                    />
-                  </div>
+                  <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
+                  <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
                 </div>
-                <div className="mt-4 flex justify-center">
-                  <button className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl">
-                    Start Free Trial
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-            );
-          })()}
-          
-          {/* Feature 2 - Bottom, spans 2 columns and 2 rows, starts at row 4 */}
-          {(() => {
-            const feature = features[2];
-            const IconComponent = feature.icon;
-            return (
-              <div
-                key={feature.id}
-                className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:col-span-2 lg:row-span-2 lg:row-start-4 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
-                data-aos="fade-up"
-                data-aos-delay={300}
-              >
-                <div className="flex justify-center mb-2">
-                <div className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center">
-                <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
-                  </div>
-                </div>
-                <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
-                <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
-              </div>
-            );
-          })()}
-        </div>
-      </div>
-    </section>
-  {/* ---------------------------------- */}
-   <div
-  className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed "
-  style={{ 
-    backgroundImage: `url(${luxeImage2.src})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat'
-  }}
->
-<div className=" py-8 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-16 items-start">
-          {/* Left side - Text content */}
-            <div className="w-full lg:w-1/3 space-y-4">
-            <AnimatedLetters
-              text="NRI Corner "
-              as="h2"
-              className="text-[#172747] text-center font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-              
-            />
-           
-            <p className="text-[#172747] text-[18px] sm:text-[20px] font-lato leading-none"
-                  style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '150%', color: '#2a4073' }}>
-                     Why Invest in India  </p>
-            <p className="text-[#172747] text-[16px] sm:text-[18px] font-lato leading-none"
-                  style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '150%', color: '#2a4073' }}>
-                     India is set to remain as one of the world's fastest growing economies. There's never been a better time to invest in real estate in India. Let us help you throughout the pre-and-post purchase processes.
-                  </p>
+              );
+            })()}
 
-            </div>
-               
-          {/* Right side - Services grid */}
-         
-<div className="w-full lg:w-2/3">
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {services.map((service, index) => (
+            {/* Feature 1 - Top-center, spans 3 rows */}
+            {(() => {
+              const feature = features[1];
+              const IconComponent = feature.icon;
+              return (
+                <div
+                  key={feature.id}
+                  className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:row-span-3 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
+                  data-aos="fade-up"
+                  data-aos-delay={100}
+                >
+                  <div className="flex justify-center mb-2">
+                    <div className="w-16 h-16 rounded-full border-2 border-gray-400 flex items-center justify-center group-hover:border-green-500 transition-all">
+                      <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
+                    </div>
+                  </div>
+                  <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
+                  <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
+                </div>
+              );
+            })()}
+
+            {/* Feature 3 - Dark blue block on right, spans all 5 rows */}
+            {(() => {
+              const feature = features[3];
+              const IconComponent = feature.icon;
+              return (
+                <div
+                  key={feature.id}
+                  className="relative flex flex-col justify-between bg-[#172747] shadow-xl rounded-2xl pt-6 pb-4 px-4 lg:row-span-5 transition-all duration-300 ease-in-out overflow-visible"
+                  data-aos="fade-up"
+                  data-aos-delay={200}
+                >
+                  <div>
+                    <div className="flex justify-center mb-2">
+                      <div className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center">
+                        <IconComponent className="w-8 h-8 text-white" />
+                      </div>
+                    </div>
+                    <h3 className="text-lg text-white font-bold mb-2 text-center font-lato">{feature.title}</h3>
+                    <p className="text-white/90 text-lg text-center leading-relaxed font-lato mb-4">{feature.description}</p>
+                    <div className="flex justify-center mb-4">
+                      <Image
+                        src={main4}
+                        alt="Property"
+                        className="rounded-lg object-cover w-full max-w-xs h-64"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4 flex justify-center">
+                    <button className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl">
+                      Start Free Trial
+                      <ArrowRight className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Feature 2 - Bottom, spans 2 columns and 2 rows, starts at row 4 */}
+            {(() => {
+              const feature = features[2];
+              const IconComponent = feature.icon;
+              return (
+                <div
+                  key={feature.id}
+                  className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:col-span-2 lg:row-span-2 lg:row-start-4 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
+                  data-aos="fade-up"
+                  data-aos-delay={300}
+                >
+                  <div className="flex justify-center mb-2">
+                    <div className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center">
+                      <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
+                    </div>
+                  </div>
+                  <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
+                  <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+      </section>
+      {/* ---------------------------------- */}
       <div
-        key={index}
-        className="flex flex-col bg-[#172747] hover:border hover:border-[#172747] group shadow-sm items-center justify-center p-6 sm:p-8 text-center hover:bg-white rounded-lg transition-all duration-300"
+        className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed "
+        style={{
+          backgroundImage: `url(${luxeImage2.src})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
       >
-        <Link href="/nri-corner">
-          <div className="flex items-center justify-center mb-2">
-            <span className="w-16 sm:w-20 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-              {service.icon}
-            </span>
-          </div>
-          <h4 className="text-white text-[20px] sm:text-[26px] group-hover:text-[#172747] font-medium text-sm leading-tight transition-colors duration-300">
-            {service.title}
-          </h4>
-        </Link>
-      </div>
-    ))}
-  </div>
-</div>
+        <div className=" py-8 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col lg:flex-row gap-16 items-start">
+              {/* Left side - Text content */}
+              <div className="w-full lg:w-1/3 space-y-4">
+                <AnimatedLetters
+                  text="NRI Corner "
+                  as="h2"
+                  className="text-[#172747] text-center font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
 
-        </div>
-      </div>
-    </div>
-    </div>
-    {/* ------------ */}
-    <section className="relative w-full py-16 md:py-24">
-      {/* Background image */}
-      <div className="absolute inset-0 z-0 ">
-        <Image 
-          src= {main33}
-          alt="Background" 
-          layout="fill"
-          objectFit="cover"
-          priority
-        />
-      </div>
-      
-      <div className="relative z-10 container mx-auto max-w-4xl px-4">
-        {/* Quote section */}
-        <div className="text-center mb-12">
-          <h2  
-          style={{
-            fontFamily: "'Ivy Mode'",
-            fontWeight: 300,
-            fontSize: '46px',
-            lineHeight: '140%',
-            letterSpacing: '1px'
-          }}
-          className="text-[#172747] mb-6 "
-        >
-            "Let the experts help you<br />
-            make the right investment"
-          </h2>
-          
-          <div className="mt-4">
-            <h2 
-          className="text-[24px] leading-[100%] text-[#172747] tracking-normal"
-        style={{ fontFamily: 'Lato',letterSpacing: '1px' }} >Mr.Nikhil Mawale</h2>
-            <h2 
-            className="text-[20px] leading-[100%] text-[#172747] f mb-6 tracking-normal "
-        style={{ fontFamily: 'Lato',letterSpacing: '1px' }}
-          >Founder</h2>
+                />
+
+                <p className="text-[#172747] text-[18px] sm:text-[20px] font-lato leading-none"
+                  style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '150%', color: '#2a4073' }}>
+                  Why Invest in India  </p>
+                <p className="text-[#172747] text-[16px] sm:text-[18px] font-lato leading-none"
+                  style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '150%', color: '#2a4073' }}>
+                  India is set to remain as one of the world's fastest growing economies. There's never been a better time to invest in real estate in India. Let us help you throughout the pre-and-post purchase processes.
+                </p>
+
+              </div>
+
+              {/* Right side - Services grid */}
+
+              <div className="w-full lg:w-2/3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {services.map((service, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col bg-[#172747] hover:border hover:border-[#172747] group shadow-sm items-center justify-center p-6 sm:p-8 text-center hover:bg-white rounded-lg transition-all duration-300"
+                    >
+                      <Link href="/nri-corner">
+                        <div className="flex items-center justify-center mb-2">
+                          <span className="w-16 sm:w-20 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                            {service.icon}
+                          </span>
+                        </div>
+                        <h4 className="text-white text-[20px] sm:text-[26px] group-hover:text-[#172747] font-medium text-sm leading-tight transition-colors duration-300">
+                          {service.title}
+                        </h4>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
-        
-        {/* Form section */}
-        <div className="bg-white rounded-md shadow-sm p-6 max-w-3xl mx-auto">
-          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center gap-4">
-            <div className="w-full md:flex-1">
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Name"
-                className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
-                required
-              />
-            </div>
-            <div className="w-full md:flex-1">
-              <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              onInput={e => {
-                const input = e.target as HTMLInputElement;
-                input.value = input.value.replace(/\D/g, '');
+      </div>
+      {/* ------------ */}
+      <section className="relative w-full py-16 md:py-24">
+        {/* Background image */}
+        <div className="absolute inset-0 z-0 ">
+          <Image
+            src={main33}
+            alt="Background"
+            layout="fill"
+            objectFit="cover"
+            priority
+          />
+        </div>
+
+        <div className="relative z-10 container mx-auto max-w-4xl px-4">
+          {/* Quote section */}
+          <div className="text-center mb-12">
+            <h2
+              style={{
+                fontFamily: "'Ivy Mode'",
+                fontWeight: 300,
+                fontSize: '46px',
+                lineHeight: '140%',
+                letterSpacing: '1px'
               }}
-              placeholder="Phone"
-              className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
-              required
-              pattern="[0-9]{10}"
-              maxLength={10}
-              minLength={10}
-              title="Please enter a valid 10-digit phone number"
-              inputMode="numeric"
-              />
-            </div>
-            
-            <button
-              type="submit"
-              className="w-full cursor-pointer md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center "
+              className="text-[#172747] mb-6 "
             >
-              Get a Consultation
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </button>
-           
-          </form>
+              "Let the experts help you<br />
+              make the right investment"
+            </h2>
+
+            <div className="mt-4">
+              <h2
+                className="text-[24px] leading-[100%] text-[#172747] tracking-normal"
+                style={{ fontFamily: 'Lato', letterSpacing: '1px' }} >Mr.Nikhil Mawale</h2>
+              <h2
+                className="text-[20px] leading-[100%] text-[#172747] f mb-6 tracking-normal "
+                style={{ fontFamily: 'Lato', letterSpacing: '1px' }}
+              >Founder</h2>
+            </div>
+          </div>
+
+          {/* Form section */}
+          <div className="bg-white rounded-md shadow-sm p-6 max-w-3xl mx-auto">
+            <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center gap-4">
+              <div className="w-full md:flex-1">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Name"
+                  className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
+                  required
+                />
+              </div>
+              <div className="w-full md:flex-1">
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  onInput={e => {
+                    const input = e.target as HTMLInputElement;
+                    input.value = input.value.replace(/\D/g, '');
+                  }}
+                  placeholder="Phone"
+                  className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
+                  required
+                  pattern="[0-9]{10}"
+                  maxLength={10}
+                  minLength={10}
+                  title="Please enter a valid 10-digit phone number"
+                  inputMode="numeric"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full cursor-pointer md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center "
+              >
+                Get a Consultation
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+
+            </form>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* ------------------ */}
-    <div
-  className="relative bg-fixed bg-center bg-cover bg-no-repeat"
-  style={{
-    backgroundImage: `url(${luxeImage1.src})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-  }}
->
-  {/* Overlay */}
-  <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none"></div>
-
-  {/* Content */}
-  <section className="relative z-10 max-w-6xl mx-auto px-4 py-12">
-    <div className="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center">
-      <div>
-        <AnimatedLetters
-          text="TESTIMONIAL"
-          as="h2"
-          className="uppercase text-white text-[18px] tracking-[1px] leading-[100%] mb-2"
-        />
-        <h2 className="text-white font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
-          Your trust is our greatest award
-        </h2>
-      </div>
-    </div>
-
-    {/* Cards */}
-    <motion.div
-      className="flex flex-wrap justify-center gap-6"
-      style={{ padding: '20px' }}
-    >
-      {visibleTestimonials.map((item, index) => (
-        <div
-          key={index}
-          style={{
-            border: '1px solid #ddd',
-            borderRadius: '8px',
-            padding: '20px',
-            color: '#fff',
-            width: '320px',
-            background: 'rgba(255,255,255,0.05)',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-            fontFamily: 'Poppins, sans-serif',
-          }}
-        >
-          <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>{item.name}</h3>
-          <div style={{ marginBottom: '15px', color: '#f9b31e' }}>{'★'.repeat(5)}</div>
-          <p style={{ color: '#fff', fontSize: '15px', lineHeight: '1.6' }}>{item.text}</p>
-          <p style={{ marginTop: '10px', color: '#fff', fontSize: '13px' }}>{item.date}</p>
-        </div>
-      ))}
-    </motion.div>
-
-    {/* Pagination */}
-    <div className="flex justify-center items-center gap-4 mt-10 font-[Poppins,sans-serif]">
-      <div className="text-white text-[16px]">
-        <strong>{String(currentPage).padStart(2, '0')}</strong>
-        <span> / {String(totalPages).padStart(2, '0')}</span>
-      </div>
-      <div className="flex-grow h-px bg-white"></div>
-      <button
-        onClick={goToPreviousPage}
-        disabled={currentPage === 1}
-        className="w-9 h-9 flex items-center justify-center rounded-full border border-white bg-white text-black disabled:opacity-50"
+      {/* ------------------ */}
+      <div
+        className="relative bg-fixed bg-center bg-cover bg-no-repeat"
+        style={{
+          backgroundImage: `url(${luxeImage1.src})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
       >
-        ‹
-      </button>
-      <button
-        onClick={goToNextPage}
-        disabled={currentPage === totalPages}
-        className="w-9 h-9 flex items-center justify-center rounded-full border border-white bg-white text-black disabled:opacity-50"
-      >
-        ›
-      </button>
-    </div>
-  </section>
-</div>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none"></div>
 
-    {/* ---- */}
+        {/* Content */}
+        <section className="relative z-10 max-w-6xl mx-auto px-4 py-12">
+          <div className="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+            <div>
+              <AnimatedLetters
+                text="TESTIMONIAL"
+                as="h2"
+                className="uppercase text-white text-[18px] tracking-[1px] leading-[100%] mb-2"
+              />
+              <h2 className="text-white font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
+                Your trust is our greatest award
+              </h2>
+            </div>
+          </div>
 
-    {/* ----------------- */}
-
-    <section className="bg-[#172747] text-white py-16 px-4 md:px-8">
-      <div className="container ">
-        {/* Header Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 mx-auto max-w-6xl px-4">
-          <div>
-          <p
-            className="uppercase test-[16px] sm:text-[18px]  text-white leading-[100%] tracking-normal mb-2"
-            style={{ fontFamily: 'Lato' }}
-          >INSIGHTS & UPDATES</p>
-            <h2  style={{
-                  fontFamily: "'Ivy Mode'",
-                  fontWeight: 300,
-                  // fontSize: '56px',
-                  lineHeight: '140%',
-                  letterSpacing: '0'
+          {/* Cards */}
+          <motion.div
+            className="flex flex-wrap justify-center gap-6"
+            style={{ padding: '20px' }}
+          >
+            {visibleTestimonials.map((item, index) => (
+              <div
+                key={index}
+                style={{
+                  border: '1px solid #ddd',
+                  borderRadius: '8px',
+                  padding: '20px',
+                  color: '#fff',
+                  width: '320px',
+                  background: 'rgba(255,255,255,0.05)',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                  fontFamily: 'Poppins, sans-serif',
                 }}
+              >
+                <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>{item.name}</h3>
+                <div style={{ marginBottom: '15px', color: '#f9b31e' }}>{'★'.repeat(5)}</div>
+                <p style={{ color: '#fff', fontSize: '15px', lineHeight: '1.6' }}>{item.text}</p>
+                <p style={{ marginTop: '10px', color: '#fff', fontSize: '13px' }}>{item.date}</p>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Pagination */}
+          <div className="flex justify-center items-center gap-4 mt-10 font-[Poppins,sans-serif]">
+            <div className="text-white text-[16px]">
+              <strong>{String(currentPage).padStart(2, '0')}</strong>
+              <span> / {String(totalPages).padStart(2, '0')}</span>
+            </div>
+            <div className="flex-grow h-px bg-white"></div>
+            <button
+              onClick={goToPreviousPage}
+              disabled={currentPage === 1}
+              className="w-9 h-9 flex items-center justify-center rounded-full border border-white bg-white text-black disabled:opacity-50"
+            >
+              ‹
+            </button>
+            <button
+              onClick={goToNextPage}
+              disabled={currentPage === totalPages}
+              className="w-9 h-9 flex items-center justify-center rounded-full border border-white bg-white text-black disabled:opacity-50"
+            >
+              ›
+            </button>
+          </div>
+        </section>
+      </div>
+
+      {/* ---- */}
+
+      {/* ----------------- */}
+
+      <section className="bg-[#172747] text-white py-16 px-4 md:px-8">
+        <div className="container ">
+          {/* Header Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 mx-auto max-w-6xl px-4">
+            <div>
+              <p
+                className="uppercase test-[16px] sm:text-[18px]  text-white leading-[100%] tracking-normal mb-2"
+                style={{ fontFamily: 'Lato' }}
+              >INSIGHTS & UPDATES</p>
+              <h2 style={{
+                fontFamily: "'Ivy Mode'",
+                fontWeight: 300,
+                // fontSize: '56px',
+                lineHeight: '140%',
+                letterSpacing: '0'
+              }}
                 className="text-white mb-0  text-[32px] sm:text-[50px]"
               >
-              Make smarter decisions with expert-written blogs.
-            </h2>
-          </div>
-         <div className="items-baseline ">
-          <div className="items-center mt-0 md:mt-10">
-            <p className="text-gray-300">
-              Get the latest on market trends, property tips, and expert insights. Our blog brings you quick, valuable reads to guide your real estate journey with confidence.
-            </p>
-            <Link href="/blog">
-              <button className="bg-white cursor-pointer text-[#172747] border border-white mt-4 px-4 py-2 rounded hover:bg-[#172747] hover:text-white hover:border hover:border-white transition">
-                Read Our Blog
-              </button>
-            </Link>
-          </div>
-         </div>
-        </div>
-
-        {/* Call to Action */}
-       
-
-        {/* Blog Posts Grid */}
-            {/* <div className="flex-grow h-px bg-gray-400"></div> */}
-       <div className="grid grid-cols-1 md:grid-cols-3 mx-auto max-w-6xl px-4 gap-6">
-      {lastThreePosts.map((post, i) => (
-        <motion.div
-          key={post.id}
-          className="border border-gray-300 hover:bg-white hover:text-[#172747] hover:border-0 rounded-[4px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 "
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          custom={i}
-        >
-          <Link href={`/blog/${post.slug}`} className="block group">
-            <div className="relative cursor-pointer h-48 overflow-hidden ">
-              <Image
-                src={post.image}
-                alt={post.title}
-                fill
-                className="object-cover transform transition-transform duration-300 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 33vw"
-              />
+                Make smarter decisions with expert-written blogs.
+              </h2>
             </div>
-            <div className="p-4 ">
-              <div className="text-gray-400 text-sm mb-2 group-hover:text-[#172747]">{post.date}</div>
-              <h3 className="text-lg font-medium mb-4 group-hover:text-[#172747] transition-colors duration-300">
-                {post.title}
-              </h3>
-              <div className="inline-flex items-center text-gray-500 group-hover:text-[#172747] transition-colors duration-300">
-                <ArrowRight size={16} />
+            <div className="items-baseline ">
+              <div className="items-center mt-0 md:mt-10">
+                <p className="text-gray-300">
+                  Get the latest on market trends, property tips, and expert insights. Our blog brings you quick, valuable reads to guide your real estate journey with confidence.
+                </p>
+                <Link href="/blog">
+                  <button className="bg-white cursor-pointer text-[#172747] border border-white mt-4 px-4 py-2 rounded hover:bg-[#172747] hover:text-white hover:border hover:border-white transition">
+                    Read Our Blog
+                  </button>
+                </Link>
               </div>
             </div>
-          </Link>
-        </motion.div>
-      ))}
-    </div>
-            {/* <div className="flex-grow h-px bg-gray-400"></div> */}
-      </div>
-    </section>
+          </div>
 
-    {/* ------------------------------------ */}
+          {/* Call to Action */}
 
 
-    <section className="bg-gray-100 py-16">
-      <div className="container mx-auto px-6 max-w-6xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Left Column - Heading */}
-          <div>
-          <p
-            className="uppercase text-[18px]  text-[#172747] leading-[100%] tracking-normal mb-2"
-            style={{ fontFamily: 'Lato' }}
-          >FAQ</p>
-             <h2  style={{
-                  fontFamily: "'Ivy Mode'",
-                  fontWeight: 300,
-                  // fontSize: '56px',
-                  lineHeight: '140%',
-                  letterSpacing: '0'
-                }}
+          {/* Blog Posts Grid */}
+          {/* <div className="flex-grow h-px bg-gray-400"></div> */}
+          <div className="grid grid-cols-1 md:grid-cols-3 mx-auto max-w-6xl px-4 gap-6">
+            {lastThreePosts.map((post, i) => (
+              <motion.div
+                key={post.id}
+                className="border border-gray-300 hover:bg-white hover:text-[#172747] hover:border-0 rounded-[4px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 "
+                variants={fadeInUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                custom={i}
+              >
+                <Link href={`/blog/${post.slug}`} className="block group">
+                  <div className="relative cursor-pointer h-48 overflow-hidden ">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover transform transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+                  <div className="p-4 ">
+                    <div className="text-gray-400 text-sm mb-2 group-hover:text-[#172747]">{post.date}</div>
+                    <h3 className="text-lg font-medium mb-4 group-hover:text-[#172747] transition-colors duration-300">
+                      {post.title}
+                    </h3>
+                    <div className="inline-flex items-center text-gray-500 group-hover:text-[#172747] transition-colors duration-300">
+                      <ArrowRight size={16} />
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+          {/* <div className="flex-grow h-px bg-gray-400"></div> */}
+        </div>
+      </section>
+
+      {/* ------------------------------------ */}
+
+
+      <section className="bg-gray-100 py-16">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Left Column - Heading */}
+            <div>
+              <p
+                className="uppercase text-[18px]  text-[#172747] leading-[100%] tracking-normal mb-2"
+                style={{ fontFamily: 'Lato' }}
+              >FAQ</p>
+              <h2 style={{
+                fontFamily: "'Ivy Mode'",
+                fontWeight: 300,
+                // fontSize: '56px',
+                lineHeight: '140%',
+                letterSpacing: '0'
+              }}
                 className="text-[#172747] mb-0 sm:mb-6 text-[32px] sm:text-[50px]"
-              >Have questions? <br/> We've got answers.</h2>
-          </div>
-          
-          {/* Right Column - Accordion */}
-       <div className="space-y-3 py-4">
-  {faqData.map((faq, index) => {
-    const isOpen = openIndex === index;
-
-    return (
-      <div
-        key={faq.id}
-        className={`rounded-[4px]  transition-all duration-300 ${
-          isOpen ? 'bg-white shadow-md' : 'bg-[#F1EEFF] shadow-sm'
-        }`}
-      >
-        <button
-          onClick={() => toggleAccordion(index)}
-          className="w-full flex justify-between cursor-pointer items-center px-6 py-5 text-left text-[#1C1C1C]  focus:outline-none"
-        >
-          <span className="sm:text-[16px]" 
-           style={{ fontFamily: 'Lato', letterSpacing: '1px' }}>
-            {faq.question}
-          </span>
-          <span className={`transition-transform cursor-pointer duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-            {isOpen ? (
-              <ChevronUp size={20} className="text-[#6B6B6B]" />
-            ) : (
-              <ChevronDown size={20} className="text-[#6B6B6B]" />
-            )}
-          </span>
-        </button>
-
-        {isOpen && (
-          <div className=" px-6 py-4 text-[#4B4B4B] text-sm sm:text-[15px] cursor-pointer bg-white border-t border-[#E0E0E0]   "
-                      style={{ fontFamily: 'Lato', letterSpacing: '1px' , lineHeight: '150%'}}>
-            {faq.answer}
-          </div>
-        )}
-      </div>
-    );
-  })}
-</div>
-
-
-        </div>
-      </div>
-    </section>
-     <div className="w-full py-16 px-4  md:px-8 bg-[#172747]">
-      <div className="max-w-6xl mx-auto gap-4  flex-col md:flex-row flex md:flex">
-        {/* Stats box*/}
-        <div className="flex flex-col md:flex-row gap-4 pl-2 w-full">
-          {/* Years in Market */}
-          <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full transition-transform duration-300 group-hover:animate-bounce">
-              <Zap className="w-6 h-6 text-indigo-500 group-hover:text-indigo-600 transition-colors duration-300" />
+              >Have questions? <br /> We've got answers.</h2>
             </div>
-            {(() => {
-              const { count, ref } = useCounter(5);
-              return (
-                <div className="mt-8" ref={ref}>
-                  <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-                    {count} <span>Year</span>
-                  </h3>
-                  <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-                    In the market
-                  </p>
-                </div>
-              );
-            })()}
-          </div>
 
-          {/* Properties Sold */}
-          <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <div className="w-6 h-6 flex items-center justify-center text-indigo-500 transition-transform duration-300 group-hover:animate-bounce">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
+            {/* Right Column - Accordion */}
+            <div className="space-y-3 py-4">
+              {faqData.map((faq, index) => {
+                const isOpen = openIndex === index;
+
+                return (
+                  <div
+                    key={faq.id}
+                    className={`rounded-[4px]  transition-all duration-300 ${isOpen ? 'bg-white shadow-md' : 'bg-[#F1EEFF] shadow-sm'
+                      }`}
+                  >
+                    <button
+                      onClick={() => toggleAccordion(index)}
+                      className="w-full flex justify-between cursor-pointer items-center px-6 py-5 text-left text-[#1C1C1C]  focus:outline-none"
+                    >
+                      <span className="sm:text-[16px]"
+                        style={{ fontFamily: 'Lato', letterSpacing: '1px' }}>
+                        {faq.question}
+                      </span>
+                      <span className={`transition-transform cursor-pointer duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                        {isOpen ? (
+                          <ChevronUp size={20} className="text-[#6B6B6B]" />
+                        ) : (
+                          <ChevronDown size={20} className="text-[#6B6B6B]" />
+                        )}
+                      </span>
+                    </button>
+
+                    {isOpen && (
+                      <div className=" px-6 py-4 text-[#4B4B4B] text-sm sm:text-[15px] cursor-pointer bg-white border-t border-[#E0E0E0]   "
+                        style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '150%' }}>
+                        {faq.answer}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+
+          </div>
+        </div>
+      </section>
+      <div className="w-full py-16 px-4  md:px-8 bg-[#172747]">
+        <div className="max-w-6xl mx-auto gap-4  flex-col md:flex-row flex md:flex">
+          {/* Stats box*/}
+          <div className="flex flex-col md:flex-row gap-4 pl-2 w-full">
+            {/* Years in Market */}
+            <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
+              <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full transition-transform duration-300 group-hover:animate-bounce">
+                <Zap className="w-6 h-6 text-indigo-500 group-hover:text-indigo-600 transition-colors duration-300" />
               </div>
+              {(() => {
+                const { count, ref } = useCounter(5);
+                return (
+                  <div className="mt-8" ref={ref}>
+                    <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+                      {count} <span>Year</span>
+                    </h3>
+                    <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+                      In the market
+                    </p>
+                  </div>
+                );
+              })()}
             </div>
-            {(() => {
-              const { count, ref } = useCounter(500);
-              return (
-                <div className="mt-8" ref={ref}>
-                  <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-                    {count} <span>+</span>
-                  </h3>
-                  <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-                    Properties Sold
-                  </p>
-                </div>
-              );
-            })()}
-          </div>
 
-          {/* Industry Awards */}
-          <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <Book className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
-            </div>
-            {(() => {
-              const { count, ref } = useCounter(25);
-              return (
-                <div className="mt-8" ref={ref}>
-                  <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-                    {count} <span>+</span>
-                  </h3>
-                  <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-                    Industry awards
-                  </p>
+            {/* Properties Sold */}
+            <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
+              <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+                <div className="w-6 h-6 flex items-center justify-center text-indigo-500 transition-transform duration-300 group-hover:animate-bounce">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
                 </div>
-              );
-            })()}
-          </div>
+              </div>
+              {(() => {
+                const { count, ref } = useCounter(500);
+                return (
+                  <div className="mt-8" ref={ref}>
+                    <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+                      {count} <span>+</span>
+                    </h3>
+                    <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
+                      Properties Sold
+                    </p>
+                  </div>
+                );
+              })()}
+            </div>
 
-          {/* Support */}
-          <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <Globe className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+            {/* Industry Awards */}
+            <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
+              <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+                <Book className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+              </div>
+              {(() => {
+                const { count, ref } = useCounter(25);
+                return (
+                  <div className="mt-8" ref={ref}>
+                    <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
+                      {count} <span>+</span>
+                    </h3>
+                    <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
+                      Industry awards
+                    </p>
+                  </div>
+                );
+              })()}
             </div>
-            {(() => {
-              const { count, ref } = useCounter(24);
-              return (
-                <div className="mt-8" ref={ref}>
-                  <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-                    {count} / 7
-                  </h3>
-                  <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-                    Support
-                  </p>
-                </div>
-              );
-            })()}
-          </div>
 
-          {/* Cities */}
-          <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-            <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-              <Wallet className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+            {/* Support */}
+            <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
+              <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+                <Globe className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+              </div>
+              {(() => {
+                const { count, ref } = useCounter(24);
+                return (
+                  <div className="mt-8" ref={ref}>
+                    <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
+                      {count} / 7
+                    </h3>
+                    <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
+                      Support
+                    </p>
+                  </div>
+                );
+              })()}
             </div>
-            {(() => {
-              const { count, ref } = useCounter(9);
-              return (
-                <div className="mt-8" ref={ref}>
-                  <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-                    {count}
-                  </h3>
-                  <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-                    Cities
-                  </p>
-                </div>
-              );
-            })()}
+
+            {/* Cities */}
+            <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
+              <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
+                <Wallet className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
+              </div>
+              {(() => {
+                const { count, ref } = useCounter(9);
+                return (
+                  <div className="mt-8" ref={ref}>
+                    <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
+                      {count}
+                    </h3>
+                    <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
+                      Cities
+                    </p>
+                  </div>
+                );
+              })()}
+            </div>
           </div>
         </div>
       </div>
+      <BottomPropertyDetails />
     </div>
-  </div>
-);
+  );
 }
 function useMemo<T>(factory: () => T, dependencies: any[]): T {
   return reactUseMemo(factory, dependencies);

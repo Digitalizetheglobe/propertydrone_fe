@@ -44,6 +44,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
+
 /* Custom Tiptap Editor Styles */
 .underline {
   text-decoration: underline;
@@ -147,15 +148,9 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
-@font-face {
-  font-family: 'Ivy Mode';
-  src: url('/fonts/ivy-mode-light.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 
 body {
-  font-family: 'Ivy Mode', sans-serif;
+  font-family: 'Rubik', 'Helvetica', sans-serif;
 }
 
 @layer base {
@@ -163,13 +158,17 @@ body {
     border: var(--color-border);
     outline: 50% solid var(--color-ring);
   }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font: var(--font-Ivy-Mode);
+
   }
-}/* First, add this at the top of your global CSS to prevent overflow */
-html, body {
+}
+
+/* First, add this at the top of your global CSS to prevent overflow */
+html,
+body {
   overflow-x: hidden;
   width: 100%;
   position: relative;
@@ -267,6 +266,7 @@ html, body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -279,13 +279,15 @@ html, body {
 }
 
 .card-shadow {
-  box-shadow: 0 0 0 999px rgba(0, 0, 0, 0); /* Prevent outline clip */
+  box-shadow: 0 0 0 999px rgba(0, 0, 0, 0);
+  /* Prevent outline clip */
 }
 
 /* WhatsApp Floating Button Styles */
 .whatsapp-float-btn {
   transition: width 0.2s, height 0.2s, box-shadow 0.2s;
 }
+
 .whatsapp-float-btn:hover {
   width: 45px !important;
   height: 45px !important;

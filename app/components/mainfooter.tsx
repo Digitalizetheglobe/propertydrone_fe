@@ -356,7 +356,7 @@ const Mainfooter = () => {
             <div className="flex flex-col md:flex-row justify-between items-center gap-6 py-4">
               <div
                 style={{
-                  fontFamily: "'Ivy Mode'",
+                  fontFamily: "'Rubik', 'Helvetica', sans-serif",
                   fontWeight: 300,
                   fontSize: "36px",
                   lineHeight: "140%",

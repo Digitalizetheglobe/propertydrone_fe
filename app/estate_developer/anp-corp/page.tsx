@@ -37,116 +37,116 @@ export default function PropertyDeveloperShowcase() {
 
   return (
     <>
-     <section className="relative min-h-screen">
-  <div className="absolute inset-0 z-0">
-    <Image
-      src={bgimage1}
-      alt="Luxury Property"
-      fill
-      style={{ objectFit: "cover" }}
-      priority
-    />
-    <div className="absolute inset-0 bg-black opacity-40"></div>
-  </div>
-
-  <div className="relative z-10 flex items-center justify-center min-h-screen px-4  pt-20 bg-gradient-to-br text-white">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto items-center">
-      
-      {/* Left: Text */}
-      <motion.div
-        initial={{ x: -80, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <p
-          className="uppercase text-[16px] sm:text-[18px] text-white leading-[100%] tracking-normal mb-2"
-          style={{ fontFamily: 'Lato' }}
-        >
-          Developer Details
-        </p>
-        <h2
-          style={{
-            fontFamily: "'Ivy Mode'",
-            fontWeight: 300,
-            lineHeight: '140%',
-            letterSpacing: '0'
-          }}
-          className="text-white mb-0 text-[32px] sm:text-[50px]"
-        >
-          ANP Corp
-        </h2>
-        <p
-          className="text-gray-300 max-w-3xl text-base leading-none mb-4"
-          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
-        >
-          We have been a part of the real estate industry since 1996. Initially known as Prakash Constructions, then very famously known as 5 Star Constructions, and now it comes with a new identity, ANP Corp.
-        </p>
-        <p
-          className="text-gray-300 max-w-3xl text-base leading-none mb-4"
-          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
-        >
-          Since our establishment, the goal has always been about giving an experience to the customers and not just spaces — retail, residential and commercial spaces of top-notch standards to match with the best across the world.
-        </p>
-        <p
-          className="text-gray-300 max-w-3xl text-base leading-none mb-4"
-          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
-        >
-          ANP Corp, with its brand new identity, is particular about offering a life which is more pleasurable and delightful in the most magnificent way possible. Grandiosity not only comes from just a well-planned layout, but from every small detail that makes for a fine living.
-        </p>
-       
-
-        <div className="flex flex-col sm:flex-row mt-6 gap-4">
-          <Link href="/contact-us-propertydrone-realty">
-            <button className="border border-white rounded-[4px] bg-white text-[#172747] hover:bg-[#172747] px-6 py-3 hover:text-white transition-colors">
-              Book Consultation
-            </button>
-          </Link>
+      <section className="relative min-h-screen">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={bgimage1}
+            alt="Luxury Property"
+            fill
+            style={{ objectFit: "cover" }}
+            priority
+          />
+          <div className="absolute inset-0 bg-black opacity-40"></div>
         </div>
-      </motion.div>
 
-      {/* Right: Image */}
-      <motion.div
-        initial={{ x: 80, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <Image
-          src={i}
-          alt="ANP Corp"
-          className="rounded-2xl shadow-lg"
-          width={300}
-          height={350}
-          priority
-        />
-         <p
-          className="text-gray-200 max-w-3xl text-base leading-none pt-6"
-          style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
-        >
-          <strong>Address:</strong> 9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045<br />
-          <strong>Email:</strong> info@propertydronerealty.com<br />
-          <strong>Mobile:</strong> +91 9175992110<br />
-          <strong>Phone:</strong> +91 9175992110<br />
-          <strong>Location:</strong> Maharashtra, India – Pune City
-        </p>
-      </motion.div>
-    </div>
-  </div>
-</section>
+        <div className="relative z-10 flex items-center justify-center min-h-screen px-4  pt-20 bg-gradient-to-br text-white">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto items-center">
 
-    <div className="max-w-6xl mx-auto p-4 font-sans">
-      {/* Property Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
-        <h1 className="text-3xl md:text-4xl text-indigo-950 font-serif tracking-wide">
-          {propertyData.name}
-        </h1>
-        <button className="bg-indigo-950 text-white px-4 py-2 mt-2 md:mt-0 flex items-center rounded">
-          Properties By Developer <ArrowRight className="ml-2 h-4 w-4" />
-        </button>
-      </div>
-      <p className="text-gray-700 mb-6">{propertyData.location}</p>
+            {/* Left: Text */}
+            <motion.div
+              initial={{ x: -80, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              <p
+                className="uppercase text-[16px] sm:text-[18px] text-white leading-[100%] tracking-normal mb-2"
+                style={{ fontFamily: 'Lato' }}
+              >
+                Developer Details
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Rubik', 'Helvetica', sans-serif",
+                  fontWeight: 300,
+                  lineHeight: '140%',
+                  letterSpacing: '0'
+                }}
+                className="text-white mb-0 text-[32px] sm:text-[50px]"
+              >
+                ANP Corp
+              </h2>
+              <p
+                className="text-gray-300 max-w-3xl text-base leading-none mb-4"
+                style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
+              >
+                We have been a part of the real estate industry since 1996. Initially known as Prakash Constructions, then very famously known as 5 Star Constructions, and now it comes with a new identity, ANP Corp.
+              </p>
+              <p
+                className="text-gray-300 max-w-3xl text-base leading-none mb-4"
+                style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
+              >
+                Since our establishment, the goal has always been about giving an experience to the customers and not just spaces — retail, residential and commercial spaces of top-notch standards to match with the best across the world.
+              </p>
+              <p
+                className="text-gray-300 max-w-3xl text-base leading-none mb-4"
+                style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
+              >
+                ANP Corp, with its brand new identity, is particular about offering a life which is more pleasurable and delightful in the most magnificent way possible. Grandiosity not only comes from just a well-planned layout, but from every small detail that makes for a fine living.
+              </p>
 
-      {/* Property Image */}
-      {/* <div className="mb-6 relative">
+
+              <div className="flex flex-col sm:flex-row mt-6 gap-4">
+                <Link href="/contact-us-propertydrone-realty">
+                  <button className="border border-white rounded-[4px] bg-white text-[#172747] hover:bg-[#172747] px-6 py-3 hover:text-white transition-colors">
+                    Book Consultation
+                  </button>
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Right: Image */}
+            <motion.div
+              initial={{ x: 80, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              <Image
+                src={i}
+                alt="ANP Corp"
+                className="rounded-2xl shadow-lg"
+                width={300}
+                height={350}
+                priority
+              />
+              <p
+                className="text-gray-200 max-w-3xl text-base leading-none pt-6"
+                style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
+              >
+                <strong>Address:</strong> 9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045<br />
+                <strong>Email:</strong> info@propertydronerealty.com<br />
+                <strong>Mobile:</strong> +91 9175992110<br />
+                <strong>Phone:</strong> +91 9175992110<br />
+                <strong>Location:</strong> Maharashtra, India – Pune City
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-6xl mx-auto p-4 font-sans">
+        {/* Property Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+          <h1 className="text-3xl md:text-4xl text-indigo-950 font-serif tracking-wide">
+            {propertyData.name}
+          </h1>
+          <button className="bg-indigo-950 text-white px-4 py-2 mt-2 md:mt-0 flex items-center rounded">
+            Properties By Developer <ArrowRight className="ml-2 h-4 w-4" />
+          </button>
+        </div>
+        <p className="text-gray-700 mb-6">{propertyData.location}</p>
+
+        {/* Property Image */}
+        {/* <div className="mb-6 relative">
         <Image 
           src={developerimg}
           alt="Majestique The Ornate - Aerial View" 
@@ -154,35 +154,35 @@ export default function PropertyDeveloperShowcase() {
         />
       </div> */}
 
-      {/* Apartment Types */}
-      <div className="flex flex-wrap mb-6 gap-8">
-        {propertyData.apartmentTypes.map((apt, index) => (
-          <div key={index} className="flex flex-col items-center">
-            <h2 className="text-xl font-bold text-indigo-950">{apt.type}</h2>
-            <p className="text-gray-600">{apt.area}</p>
+        {/* Apartment Types */}
+        <div className="flex flex-wrap mb-6 gap-8">
+          {propertyData.apartmentTypes.map((apt, index) => (
+            <div key={index} className="flex flex-col items-center">
+              <h2 className="text-xl font-bold text-indigo-950">{apt.type}</h2>
+              <p className="text-gray-600">{apt.area}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Description */}
+        <div className="mb-10">
+          <p className="text-gray-700 leading-relaxed">
+            {propertyData.description}
+          </p>
+        </div>
+
+        {/* Developers Section */}
+        <div className="mt-10">
+          <h2 className="text-xl font-semibold mb-4">Top Developers</h2>
+          <div className="bg-white p-4 rounded-md shadow-sm">
+            <ul className="space-y-4">
+              {developers.map((developer, index) => (
+                <li key={index} className="text-gray-800 font-medium">{developer}</li>
+              ))}
+            </ul>
           </div>
-        ))}
-      </div>
-
-      {/* Description */}
-      <div className="mb-10">
-        <p className="text-gray-700 leading-relaxed">
-          {propertyData.description}
-        </p>
-      </div>
-
-      {/* Developers Section */}
-      <div className="mt-10">
-        <h2 className="text-xl font-semibold mb-4">Top Developers</h2>
-        <div className="bg-white p-4 rounded-md shadow-sm">
-          <ul className="space-y-4">
-            {developers.map((developer, index) => (
-              <li key={index} className="text-gray-800 font-medium">{developer}</li>
-            ))}
-          </ul>
         </div>
       </div>
-    </div>
     </>
   );
 }

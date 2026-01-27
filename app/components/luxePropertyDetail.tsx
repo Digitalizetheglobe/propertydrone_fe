@@ -79,7 +79,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   const [mapUrl, setMapUrl] = useState("");
   const [qrText, setQrText] = useState(
     property.event ||
-      "https://maharerait.maharashtra.gov.in/public/project/view/54260"
+    "https://maharerait.maharashtra.gov.in/public/project/view/54260"
   );
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [projectId, setProjectId] = useState("P52100079313");
@@ -106,7 +106,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   useEffect(() => {
     setQrText(
       property.event ||
-        "https://maharerait.maharashtra.gov.in/public/project/view/54260"
+      "https://maharerait.maharashtra.gov.in/public/project/view/54260"
     );
   }, [property.event]);
 
@@ -213,7 +213,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   };
 
   interface InputChangeEvent
-    extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> {}
+    extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> { }
 
   const handleInputChange = (e: InputChangeEvent): void => {
     const { name, value } = e.target;
@@ -291,7 +291,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
           <div className="relative flex flex-col max-w-6xl justify-center h-full ml-10 text-white px-4">
             <h1
               style={{
-                fontFamily: "Ivy Mode",
+                fontFamily: "'Rubik', 'Helvetica', sans-serif",
                 fontWeight: 100,
                 lineHeight: "150%",
                 letterSpacing: "0",
@@ -363,8 +363,8 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                 {/* Main property image */}
                 <div className="relative h-56 xs:h-64 sm:h-72 md:h-96 bg-gray-200">
                   {property.multipleImages?.length > 0 &&
-                  property.multipleImages[mainImage]?.path &&
-                  property.multipleImages[mainImage].path.trim() !== "" ? (
+                    property.multipleImages[mainImage]?.path &&
+                    property.multipleImages[mainImage].path.trim() !== "" ? (
                     <img
                       src={`${baseUrl}${property.multipleImages[mainImage].path}`}
                       alt={property.propertyName}
@@ -432,11 +432,10 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                     <div
                       key={index}
                       className={`relative h-14 w-24 md:h-20 md:w-32 flex-shrink-0 cursor-pointer rounded-md overflow-hidden
-            ${
-              mainImage === index
-                ? "ring-2 md:ring-4 ring-[#172747]"
-                : "opacity-80"
-            }`}
+            ${mainImage === index
+                          ? "ring-2 md:ring-4 ring-[#172747]"
+                          : "opacity-80"
+                        }`}
                       onClick={() => {
                         setMainImage(index);
                         openModal(index);
@@ -495,7 +494,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                 <h3 className="text-lg font-semibold mb-3">Configurations</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {property.configurationTypology &&
-                  property.configurationTypology.length > 0 ? (
+                    property.configurationTypology.length > 0 ? (
                     property.configurationTypology.map((config, idx) => (
                       <div
                         key={idx}
@@ -647,7 +646,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                     onClick={() => {
                       setMapUrl(
                         property?.googleMapUrl ||
-                          "https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045"
+                        "https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045"
                       );
                       setShowMapPopup(true);
                     }}
@@ -663,10 +662,10 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                     {property.location && property.city
                       ? `${property.location}, ${property.city}`
                       : property.location
-                      ? property.location
-                      : property.city
-                      ? property.city
-                      : "Location details not available"}
+                        ? property.location
+                        : property.city
+                          ? property.city
+                          : "Location details not available"}
                   </div>
                 </div>
               </div>
@@ -675,11 +674,10 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
               <div className="relative bg-white rounded-lg shadow-sm border p-4">
                 {/* Main Content */}
                 <div
-                  className={`transition-all duration-300 ${
-                    isBlurred ? "blur-sm pointer-events-none" : ""
-                  }`}
+                  className={`transition-all duration-300 ${isBlurred ? "blur-sm pointer-events-none" : ""
+                    }`}
                 >
-                  <h2 className="text-[#172747] mb-4 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
+                  <h2 className="text-[#172747] mb-4 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Rubik]">
                     Pros & Cons
                   </h2>
 
@@ -753,7 +751,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
 
             {/* Right Column - Video Section */}
             <div className="bg-white rounded-lg shadow-sm border p-6">
-              <h2 className="text-lg flex items-center text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
+              <h2 className="text-lg flex items-center text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Rubik]">
                 <Video className="mr-2 text-gray-600" size={20} />
                 Video
               </h2>
@@ -793,7 +791,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
             {/* Property Information */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-                <h2 className="text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
+                <h2 className="text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Rubik]">
                   About This Property
                 </h2>
                 <p
@@ -1223,7 +1221,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                 </>
               )}
               {property.multipleImages?.[currentImageIndex]?.path &&
-              property.multipleImages[currentImageIndex].path.trim() !== "" ? (
+                property.multipleImages[currentImageIndex].path.trim() !== "" ? (
                 <Image
                   src={`${baseUrl}${property.multipleImages[currentImageIndex].path}`}
                   alt={property.propertyName}

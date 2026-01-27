@@ -57,7 +57,7 @@ export default function RootLayout({
 
         {/* Fonts */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Ivy+Mode:ital,wght@0,300;0,400;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
           rel="stylesheet"
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
