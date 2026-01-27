@@ -41,7 +41,7 @@ import main33 from '../public/images/Frame 145.png';
 import main4 from '../public/images/buliding.png';
 import { useMemo as reactUseMemo } from 'react';
 
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 // import { useEffect } from 'react';
@@ -576,7 +576,7 @@ export default function Home() {
       },
     },
   };
-  const fadeInUp = {
+  const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: (i: number) => ({
       opacity: 1,

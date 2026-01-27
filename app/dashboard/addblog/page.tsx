@@ -1,21 +1,20 @@
 "use client";
 import React, { useState, useCallback } from "react";
 import axios from "axios";
-import RichTextEditor from 'reactjs-tiptap-editor';
-import { 
-  BaseKit, 
-  Bold, 
-  BulletList, 
-  Heading, 
-  Italic, 
-  Blockquote, 
-  Code, 
-  Color, 
-  FontSize, 
-  History, 
-  HorizontalRule, 
-  Iframe, 
-  Indent, 
+import RichTextEditor, {
+  BaseKit,
+  Bold,
+  BulletList,
+  Heading,
+  Italic,
+  Blockquote,
+  Code,
+  Color,
+  FontSize,
+  History,
+  HorizontalRule,
+  Iframe,
+  Indent,
   Link,
   OrderedList,
   SlashCommand,
@@ -25,7 +24,7 @@ import {
   Underline,
   Image,
   FontFamily
-} from 'reactjs-tiptap-editor/extension-bundle'
+} from 'reactjs-tiptap-editor';
 import 'reactjs-tiptap-editor/style.css';
 
 export default function AddBlog() {
@@ -44,7 +43,7 @@ export default function AddBlog() {
 
   const event = new CustomEvent("myEvent", { detail: { data: "something" } });
   window.dispatchEvent(event);
-  
+
 
   const extensions = [
     BaseKit.configure({
@@ -83,7 +82,7 @@ export default function AddBlog() {
     //       const formData = new FormData();
     //       formData.append('file', file);
     //       formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!); 
-    
+
     //       const cloudinaryResponse = await axios.post(
     //         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`, 
     //         formData,
@@ -91,7 +90,7 @@ export default function AddBlog() {
     //           headers: { 'Content-Type': 'multipart/form-data' }
     //         }
     //       );
-    
+
     //       return cloudinaryResponse.data.secure_url;
     //     } catch (error) {
     //       console.error('Image upload failed', error);
@@ -100,7 +99,7 @@ export default function AddBlog() {
     //   },
     // }),
   ];
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -114,9 +113,9 @@ export default function AddBlog() {
       formData.append('writer', blog.writer);
       formData.append('category', blog.category);
       formData.append('tags', blog.tags);
-      
+
       // Add tags
-    
+
 
       // Add image if present
       if (blog.blogImage) {
@@ -130,9 +129,9 @@ export default function AddBlog() {
           "Content-Type": "multipart/form-data",
         },
       });
-      
+
       alert("Blog added successfully!");
-      
+
       // Reset form
       setBlog({
         blogTitle: "",
@@ -186,25 +185,25 @@ export default function AddBlog() {
             rows={3}
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">Content*</label>
           <div className="border rounded bg-white p-4">
-          <RichTextEditor
-  output="html"
-  content={blog.blogContent}
-  onChangeContent={(content) => setBlog({ ...blog, blogContent: content })}
-  extensions={extensions}
-  minHeight="300px"
-  useEditorOptions={{
-    editorProps: {
-      attributes: {
-        class: 'prose dark:prose-invert max-w-none',
-      },
-    },
-  }}
-  bubbleMenu={{}}
-/>
+            <RichTextEditor
+              output="html"
+              content={blog.blogContent}
+              onChangeContent={(content) => setBlog({ ...blog, blogContent: content })}
+              extensions={extensions}
+              minHeight="300px"
+              useEditorOptions={{
+                editorProps: {
+                  attributes: {
+                    class: 'prose dark:prose-invert max-w-none',
+                  },
+                },
+              }}
+              bubbleMenu={{}}
+            />
           </div>
         </div>
 
@@ -228,21 +227,21 @@ export default function AddBlog() {
               placeholder="Blog category"
               value={blog.category}
               onChange={(e) => setBlog({ ...blog, category: e.target.value })}
-             
+
             />
           </div>
         </div>
 
         <div className="mb-4">
-         <label className="block text-sm font-medium mb-1">tags*</label>
-            <input
-              type="string"
-              className="border p-2 w-full rounded"
-              placeholder="Blog tags"
-              value={blog.tags}
-              onChange={(e) => setBlog({ ...blog, tags: e.target.value })}
-             
-            />
+          <label className="block text-sm font-medium mb-1">tags*</label>
+          <input
+            type="string"
+            className="border p-2 w-full rounded"
+            placeholder="Blog tags"
+            value={blog.tags}
+            onChange={(e) => setBlog({ ...blog, tags: e.target.value })}
+
+          />
         </div>
 
         <div className="mb-4">

@@ -4,21 +4,20 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 // Make sure to adjust the import path according to your project structure
-import RichTextEditor from 'reactjs-tiptap-editor';
-import { 
-  BaseKit, 
-  Bold, 
-  BulletList, 
-  Heading, 
-  Italic, 
-  Blockquote, 
-  Code, 
-  Color, 
-  FontSize, 
-  History, 
-  HorizontalRule, 
-  Iframe, 
-  Indent, 
+import RichTextEditor, {
+  BaseKit,
+  Bold,
+  BulletList,
+  Heading,
+  Italic,
+  Blockquote,
+  Code,
+  Color,
+  FontSize,
+  History,
+  HorizontalRule,
+  Iframe,
+  Indent,
   Link,
   OrderedList,
   SlashCommand,
@@ -28,7 +27,7 @@ import {
   Underline,
   Image,
   FontFamily
-} from 'reactjs-tiptap-editor/extension-bundle'
+} from 'reactjs-tiptap-editor';
 import 'reactjs-tiptap-editor/style.css';
 
 // Define the extensions array for RichTextEditor
@@ -76,7 +75,7 @@ export default function AddRealEstateBasic() {
   const [loading, setLoading] = useState(false);
 
   // Function to upload images and get URLs
-  
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFormData({ ...formData, images: Array.from(e.target.files) });
@@ -85,7 +84,7 @@ export default function AddRealEstateBasic() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Client-side validation
     if (!formData.title.trim()) {
       toast.error('Title is required');
@@ -114,7 +113,7 @@ export default function AddRealEstateBasic() {
       // For now, use placeholder URLs for images
       // You can implement image upload later if needed
       const imageUrls = formData.images.map(file => `/${file.name}`);
-      
+
       // Prepare JSON data for the API
       const jsonData = {
         title: formData.title.trim(),
@@ -150,13 +149,13 @@ export default function AddRealEstateBasic() {
 
       const result = await response.json();
       console.log('Real estate listing created:', result);
-      
+
       // Log what we sent vs what we received
       console.log('Data sent:', jsonData);
       console.log('Data received:', result);
-      
+
       toast.success(`Real estate listing "${formData.title}" created successfully!`);
-      
+
       // Reset form after successful submission
       setFormData({
         title: '',
@@ -218,7 +217,7 @@ export default function AddRealEstateBasic() {
             placeholder="Enter property description"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">Content *</label>
           <div className="border border-gray-300 rounded-md">
@@ -261,7 +260,7 @@ export default function AddRealEstateBasic() {
           />
         </div>
 
-       
+
 
         <div className="mb-6">
           <label htmlFor="images" className="block text-sm font-medium text-gray-700 mb-1">

@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import bg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -45,7 +45,7 @@ export default function Properties() {
 function PropertiesContent() {
   // --- Comparison checkbox logic ---
   const [comparedIds, setComparedIds] = useState<number[]>([]);
-  const [compareLoadingId, setCompareLoadingId] = useState<number|null>(null);
+  const [compareLoadingId, setCompareLoadingId] = useState<number | null>(null);
   const [comparisonIdMap, setComparisonIdMap] = useState<Record<number, number>>({}); // propertyId -> comparisonId
   // Demo user, replace 1 with actual userId as needed
   const webUserId = 1;
@@ -55,8 +55,8 @@ function PropertiesContent() {
     if (!res.ok) return;
     const all = await res.json();
     setComparedIds(
-      all.filter((cmp:any) => `${cmp.webUserId}`===`${webUserId}`)
-        .map((cmp:any)=>parseInt(cmp.propertyId))
+      all.filter((cmp: any) => `${cmp.webUserId}` === `${webUserId}`)
+        .map((cmp: any) => parseInt(cmp.propertyId))
     );
     // Map propertyId to comparisonId
     const map: Record<number, number> = {};
@@ -106,7 +106,7 @@ function PropertiesContent() {
     { id: 'plotting', name: 'Plotting', icon: '/icons/plotting.svg' },
     { id: 'retail', name: 'Retail', icon: '/icons/retail.svg' },
   ];
-  
+
   const propertyTypes = [
     'Sales',
     'Lease',
@@ -132,7 +132,7 @@ function PropertiesContent() {
   const nextImage = (propertyId: number, imagesLength: number, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     if (imagesLength <= 1) return; // Don't process if there's only one image
-    
+
     setActiveImageIndexes(prev => ({
       ...prev,
       [propertyId]: ((prev[propertyId] || 0) + 1) % imagesLength
@@ -142,7 +142,7 @@ function PropertiesContent() {
   const prevImage = (propertyId: number, imagesLength: number, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     if (imagesLength <= 1) return; // Don't process if there's only one image
-    
+
     setActiveImageIndexes(prev => ({
       ...prev,
       [propertyId]: (prev[propertyId] || 0) === 0 ? imagesLength - 1 : (prev[propertyId] || 0) - 1
@@ -160,13 +160,13 @@ function PropertiesContent() {
       try {
         setLoading(true);
         const response = await fetch(`${baseUrl}/properties`);
-        
+
         if (!response.ok) {
           throw new Error(`API request failed with status ${response.status}`);
         }
-        
+
         const data = await response.json();
-        
+
         // Map API data to our expected format and ensure all required fields have values
         const formattedProperties = data.map((property: any) => {
           console.log('Mapping property:', property.id, 'propertyType:', property.propertyType);
@@ -190,16 +190,16 @@ function PropertiesContent() {
             propertyType: property.propertyType || '', // Ensure propertyType is mapped
           };
         });
-        
+
         // Extract unique locations from properties
         const locations = [...new Set(formattedProperties.map((p: Property) => p.location))];
         setAvailableLocations(locations as string[]);
-        
+
         // Sort properties to show latest first
         const sortedProperties = formattedProperties.sort((a: { createdAt: string }, b: { createdAt: string }) => {
           return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         });
-        
+
         console.log('Formatted properties:', sortedProperties.map((p: Property) => ({ id: p.id, propertyType: p.propertyType })));
         setProperties(sortedProperties);
         setError(null);
@@ -232,66 +232,66 @@ function PropertiesContent() {
     setFeaturedOnly(false);
   };
 
-const getBudgetValue = (budget: any) => {
-  if (typeof budget === 'number') return budget;
-  if (typeof budget === 'string') {
-    // Extract digits from string, e.g. "₹ 90 Lacs" => 9000000
-    const match = budget.replace(/,/g, '').match(/(\d+(\.\d+)?)/);
-    if (match) {
-      let value = parseFloat(match[1]);
-      // Check for "Lac" or "Cr" in the string and convert accordingly
-      if (/lac/i.test(budget)) value *= 100000;
-      if (/cr/i.test(budget)) value *= 10000000;
-      return value;
+  const getBudgetValue = (budget: any) => {
+    if (typeof budget === 'number') return budget;
+    if (typeof budget === 'string') {
+      // Extract digits from string, e.g. "₹ 90 Lacs" => 9000000
+      const match = budget.replace(/,/g, '').match(/(\d+(\.\d+)?)/);
+      if (match) {
+        let value = parseFloat(match[1]);
+        // Check for "Lac" or "Cr" in the string and convert accordingly
+        if (/lac/i.test(budget)) value *= 100000;
+        if (/cr/i.test(budget)) value *= 10000000;
+        return value;
+      }
     }
-  }
-  return NaN;
-};
+    return NaN;
+  };
 
-const filteredProperties = properties.filter(property => {
-  console.log('Filtering property:', {
-    id: property.id,
-    propertyType: property.propertyType,
-    activeTab,
-    isLuxury: ['luxury', 'lux', 'luxary', 'Luxury'].includes((property.propertyType || '').trim())
-  });
-
-  // Featured filter
-  if (featuredOnly && !property.featured) return false;
-
-  // Category filter (robust budget extraction)
-  const budget = getBudgetValue(property.tentativeBudget);
-  if (activeCategory === 'primary' && !isNaN(budget) && budget >= 25000000) return false;
-  if (activeCategory === 'luxury' && !isNaN(budget) && budget < 25000000) return false;
-
-  // Luxe tab property type filter
-  if (activeTab === 'luxe') {
-    const propertyType = (property.propertyType || '').trim();
-    console.log('Checking property type:', {
+  const filteredProperties = properties.filter(property => {
+    console.log('Filtering property:', {
       id: property.id,
-      propertyType,
-      isLuxury: ['luxury', 'lux', 'luxary', 'Luxury'].includes(propertyType)
+      propertyType: property.propertyType,
+      activeTab,
+      isLuxury: ['luxury', 'lux', 'luxary', 'Luxury'].includes((property.propertyType || '').trim())
     });
-    if (!['luxury', 'lux', 'luxary', 'Luxury'].includes(propertyType)) {
-      console.log('Property filtered out by luxe filter:', property.id, 'propertyType:', propertyType);
-      return false;
+
+    // Featured filter
+    if (featuredOnly && !property.featured) return false;
+
+    // Category filter (robust budget extraction)
+    const budget = getBudgetValue(property.tentativeBudget);
+    if (activeCategory === 'primary' && !isNaN(budget) && budget >= 25000000) return false;
+    if (activeCategory === 'luxury' && !isNaN(budget) && budget < 25000000) return false;
+
+    // Luxe tab property type filter
+    if (activeTab === 'luxe') {
+      const propertyType = (property.propertyType || '').trim();
+      console.log('Checking property type:', {
+        id: property.id,
+        propertyType,
+        isLuxury: ['luxury', 'lux', 'luxary', 'Luxury'].includes(propertyType)
+      });
+      if (!['luxury', 'lux', 'luxary', 'Luxury'].includes(propertyType)) {
+        console.log('Property filtered out by luxe filter:', property.id, 'propertyType:', propertyType);
+        return false;
+      }
     }
-  }
 
-  // Location filter from query param
-  if (lastWord && property.location.toLowerCase() !== lastWord.toLowerCase()) return false;
+    // Location filter from query param
+    if (lastWord && property.location.toLowerCase() !== lastWord.toLowerCase()) return false;
 
-  // UI location filter
-  if (activeLocation !== 'all' && property.location !== activeLocation) return false;
+    // UI location filter
+    if (activeLocation !== 'all' && property.location !== activeLocation) return false;
 
-  // Location search filter (case-insensitive, partial match)
-  if (searchLocation && !property.location.toLowerCase().includes(searchLocation.toLowerCase())) return false;
+    // Location search filter (case-insensitive, partial match)
+    if (searchLocation && !property.location.toLowerCase().includes(searchLocation.toLowerCase())) return false;
 
-  return true;
-});
-// Removed duplicate declaration of filteredProperties
+    return true;
+  });
+  // Removed duplicate declaration of filteredProperties
   // Framer Motion variants
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -300,13 +300,13 @@ const filteredProperties = properties.filter(property => {
       }
     }
   };
-  
-  const cardVariants = {
+
+  const cardVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
-    visible: { 
-      y: 0, 
+    visible: {
+      y: 0,
       opacity: 1,
-      transition: { 
+      transition: {
         type: "spring",
         stiffness: 100,
         damping: 12
@@ -323,7 +323,7 @@ const filteredProperties = properties.filter(property => {
     }
   };
 
-  const imageVariants = {
+  const imageVariants: Variants = {
     hover: {
       scale: 1.05,
       transition: {
@@ -332,10 +332,10 @@ const filteredProperties = properties.filter(property => {
     }
   };
 
-  const badgeVariants = {
+  const badgeVariants: Variants = {
     initial: { scale: 0.8, opacity: 0 },
-    animate: { 
-      scale: 1, 
+    animate: {
+      scale: 1,
       opacity: 1,
       transition: {
         delay: 0.2,
@@ -345,9 +345,9 @@ const filteredProperties = properties.filter(property => {
     }
   };
 
-  const heartVariants = {
+  const heartVariants: Variants = {
     initial: { scale: 1 },
-    hover: { 
+    hover: {
       scale: 1.2,
       transition: {
         repeat: 1,
@@ -356,10 +356,10 @@ const filteredProperties = properties.filter(property => {
       }
     }
   };
-const AnimatedStarButton = () => {
-  return (
-    <div className="relative">
-      <style jsx>{`
+  const AnimatedStarButton = () => {
+    return (
+      <div className="relative">
+        <style jsx>{`
         @keyframes border-glow-translate {
           0% {
             transform: translateX(-50%) scaleX(1);
@@ -399,88 +399,88 @@ const AnimatedStarButton = () => {
         }
       `}</style>
 
-      <button className="group relative bg-neutral-200 rounded-full p-px overflow-hidden">
-        <span className="absolute inset-0 rounded-full overflow-hidden">
-          <span className="inset-0 absolute pointer-events-none select-none">
+        <button className="group relative bg-neutral-200 rounded-full p-px overflow-hidden">
+          <span className="absolute inset-0 rounded-full overflow-hidden">
+            <span className="inset-0 absolute pointer-events-none select-none">
+              <span
+                className="block -translate-x-1/2 -translate-y-1/3 size-24 blur-xl"
+                style={{
+                  background:
+                    'linear-gradient(135deg, rgb(122, 105, 249), rgb(242, 99, 120), rgb(245, 131, 63))',
+                }}
+              ></span>
+            </span>
+          </span>
+
+          <span
+            className="inset-0 absolute pointer-events-none select-none"
+            style={{ animation: 'border-glow-translate 10s ease-in-out infinite alternate' }}
+          >
             <span
-              className="block -translate-x-1/2 -translate-y-1/3 size-24 blur-xl"
+              className="block z-0 h-full w-12 blur-xl -translate-x-1/2 rounded-full"
               style={{
+                animation: 'border-glow-scale 10s ease-in-out infinite alternate',
                 background:
                   'linear-gradient(135deg, rgb(122, 105, 249), rgb(242, 99, 120), rgb(245, 131, 63))',
               }}
             ></span>
           </span>
-        </span>
 
-        <span
-          className="inset-0 absolute pointer-events-none select-none"
-          style={{ animation: 'border-glow-translate 10s ease-in-out infinite alternate' }}
-        >
-          <span
-            className="block z-0 h-full w-12 blur-xl -translate-x-1/2 rounded-full"
-            style={{
-              animation: 'border-glow-scale 10s ease-in-out infinite alternate',
-              background:
-                'linear-gradient(135deg, rgb(122, 105, 249), rgb(242, 99, 120), rgb(245, 131, 63))',
-            }}
-          ></span>
-        </span>
+          <span className="flex items-center justify-center gap-1 relative z-[1] bg-neutral-50/90 rounded-full py-2 px-4 pl-2 w-full">
+            <span className="relative group-hover:scale-105 transition-transform group-hover:rotate-[360deg] duration-500">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="opacity-80"
+                style={{
+                  animation:
+                    'star-rotate 14s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite alternate',
+                }}
+              >
+                <path
+                  d="M11.5268 2.29489C11.5706 2.20635 11.6383 2.13183 11.7223 2.07972C11.8062 2.02761 11.903 2 12.0018 2C12.1006 2 12.1974 2.02761 12.2813 2.07972C12.3653 2.13183 12.433 2.20635 12.4768 2.29489L14.7868 6.97389C14.939 7.28186 15.1636 7.5483 15.4414 7.75035C15.7192 7.95239 16.0419 8.08401 16.3818 8.13389L21.5478 8.88989C21.6457 8.90408 21.7376 8.94537 21.8133 9.00909C21.8889 9.07282 21.9452 9.15644 21.9758 9.2505C22.0064 9.34456 22.0101 9.4453 21.9864 9.54133C21.9627 9.63736 21.9126 9.72485 21.8418 9.79389L18.1058 13.4319C17.8594 13.672 17.6751 13.9684 17.5686 14.2955C17.4622 14.6227 17.4369 14.9708 17.4948 15.3099L18.3768 20.4499C18.3941 20.5477 18.3835 20.6485 18.3463 20.7406C18.3091 20.8327 18.2467 20.9125 18.1663 20.9709C18.086 21.0293 17.9908 21.0639 17.8917 21.0708C17.7926 21.0777 17.6935 21.0566 17.6058 21.0099L12.9878 18.5819C12.6835 18.4221 12.345 18.3386 12.0013 18.3386C11.6576 18.3386 11.3191 18.4221 11.0148 18.5819L6.3978 21.0099C6.31013 21.0563 6.2112 21.0772 6.11225 21.0701C6.0133 21.0631 5.91832 21.0285 5.83809 20.9701C5.75787 20.9118 5.69563 20.8321 5.65846 20.7401C5.62128 20.6482 5.61066 20.5476 5.6278 20.4499L6.5088 15.3109C6.567 14.9716 6.54178 14.6233 6.43534 14.2959C6.32889 13.9686 6.14441 13.672 5.8978 13.4319L2.1618 9.79489C2.09039 9.72593 2.03979 9.63829 2.01576 9.54197C1.99173 9.44565 1.99524 9.34451 2.02588 9.25008C2.05652 9.15566 2.11307 9.07174 2.18908 9.00788C2.26509 8.94402 2.3575 8.90279 2.4558 8.88889L7.6208 8.13389C7.96106 8.08439 8.28419 7.95295 8.56238 7.75088C8.84058 7.54881 9.0655 7.28216 9.2178 6.97389L11.5268 2.29489Z"
+                  fill="url(#paint0_linear)"
+                  stroke="url(#paint1_linear)"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <defs>
+                  <linearGradient id="paint0_linear" x1="-0.5" y1="9" x2="15.5" y2="-1.5" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#7A69F9" />
+                    <stop offset="0.575" stopColor="#F26378" />
+                    <stop offset="1" stopColor="#F5833F" />
+                  </linearGradient>
+                  <linearGradient id="paint1_linear" x1="-0.5" y1="9" x2="15.5" y2="-1.5" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#7A69F9" />
+                    <stop offset="0.575" stopColor="#F26378" />
+                    <stop offset="1" stopColor="#F5833F" />
+                  </linearGradient>
+                </defs>
+              </svg>
 
-        <span className="flex items-center justify-center gap-1 relative z-[1] bg-neutral-50/90 rounded-full py-2 px-4 pl-2 w-full">
-          <span className="relative group-hover:scale-105 transition-transform group-hover:rotate-[360deg] duration-500">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="opacity-80"
-              style={{
-                animation:
-                  'star-rotate 14s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite alternate',
-              }}
-            >
-              <path
-                d="M11.5268 2.29489C11.5706 2.20635 11.6383 2.13183 11.7223 2.07972C11.8062 2.02761 11.903 2 12.0018 2C12.1006 2 12.1974 2.02761 12.2813 2.07972C12.3653 2.13183 12.433 2.20635 12.4768 2.29489L14.7868 6.97389C14.939 7.28186 15.1636 7.5483 15.4414 7.75035C15.7192 7.95239 16.0419 8.08401 16.3818 8.13389L21.5478 8.88989C21.6457 8.90408 21.7376 8.94537 21.8133 9.00909C21.8889 9.07282 21.9452 9.15644 21.9758 9.2505C22.0064 9.34456 22.0101 9.4453 21.9864 9.54133C21.9627 9.63736 21.9126 9.72485 21.8418 9.79389L18.1058 13.4319C17.8594 13.672 17.6751 13.9684 17.5686 14.2955C17.4622 14.6227 17.4369 14.9708 17.4948 15.3099L18.3768 20.4499C18.3941 20.5477 18.3835 20.6485 18.3463 20.7406C18.3091 20.8327 18.2467 20.9125 18.1663 20.9709C18.086 21.0293 17.9908 21.0639 17.8917 21.0708C17.7926 21.0777 17.6935 21.0566 17.6058 21.0099L12.9878 18.5819C12.6835 18.4221 12.345 18.3386 12.0013 18.3386C11.6576 18.3386 11.3191 18.4221 11.0148 18.5819L6.3978 21.0099C6.31013 21.0563 6.2112 21.0772 6.11225 21.0701C6.0133 21.0631 5.91832 21.0285 5.83809 20.9701C5.75787 20.9118 5.69563 20.8321 5.65846 20.7401C5.62128 20.6482 5.61066 20.5476 5.6278 20.4499L6.5088 15.3109C6.567 14.9716 6.54178 14.6233 6.43534 14.2959C6.32889 13.9686 6.14441 13.672 5.8978 13.4319L2.1618 9.79489C2.09039 9.72593 2.03979 9.63829 2.01576 9.54197C1.99173 9.44565 1.99524 9.34451 2.02588 9.25008C2.05652 9.15566 2.11307 9.07174 2.18908 9.00788C2.26509 8.94402 2.3575 8.90279 2.4558 8.88889L7.6208 8.13389C7.96106 8.08439 8.28419 7.95295 8.56238 7.75088C8.84058 7.54881 9.0655 7.28216 9.2178 6.97389L11.5268 2.29489Z"
-                fill="url(#paint0_linear)"
-                stroke="url(#paint1_linear)"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <defs>
-                <linearGradient id="paint0_linear" x1="-0.5" y1="9" x2="15.5" y2="-1.5" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#7A69F9" />
-                  <stop offset="0.575" stopColor="#F26378" />
-                  <stop offset="1" stopColor="#F5833F" />
-                </linearGradient>
-                <linearGradient id="paint1_linear" x1="-0.5" y1="9" x2="15.5" y2="-1.5" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#7A69F9" />
-                  <stop offset="0.575" stopColor="#F26378" />
-                  <stop offset="1" stopColor="#F5833F" />
-                </linearGradient>
-              </defs>
-            </svg>
+              <span
+                className="rounded-full size-11 absolute opacity-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-lg"
+                style={{
+                  animation: 'star-shine 14s ease-in-out infinite alternate',
+                  background:
+                    'linear-gradient(135deg, rgb(59, 196, 242), rgb(122, 105, 249), rgb(242, 99, 120), rgb(245, 131, 63))',
+                }}
+              ></span>
+            </span>
 
-            <span
-              className="rounded-full size-11 absolute opacity-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-lg"
-              style={{
-                animation: 'star-shine 14s ease-in-out infinite alternate',
-                background:
-                  'linear-gradient(135deg, rgb(59, 196, 242), rgb(122, 105, 249), rgb(242, 99, 120), rgb(245, 131, 63))',
-              }}
-            ></span>
+            <span className="tracking-[2px] bg-gradient-to-b ml-1.5 from-neutral-950 to-neutral-950/50 bg-clip-text text-xs text-transparent group-hover:scale-105 transition transform-gpu font-bold">
+              LUXE
+            </span>
           </span>
-
-          <span className="tracking-[2px] bg-gradient-to-b ml-1.5 from-neutral-950 to-neutral-950/50 bg-clip-text text-xs text-transparent group-hover:scale-105 transition transform-gpu font-bold">
-            LUXE
-          </span>
-        </span>
-      </button>
-    </div>
-  );
-};
+        </button>
+      </div>
+    );
+  };
   return (
-  <div className="min-h-screen bg-gradient-to-br from-amber-100 to-blue-60">
+    <div className="min-h-screen bg-gradient-to-br from-amber-100 to-blue-60">
       {/* Section title */}
       <section className="relative min-h-[530px] sm:min-h-[530px] min-[320px]:min-h-[660px]">
         <div className="absolute inset-0 z-0">
@@ -529,36 +529,35 @@ const AnimatedStarButton = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/our-properties-in-pune">
-              <button className="bg-[#172747] text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
-                Explore Properties
-                <ArrowRight size={18} />
-              </button>
+                <button className="bg-[#172747] text-white hover:text-[#172747] hover:bg-white hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
+                  Explore Properties
+                  <ArrowRight size={18} />
+                </button>
               </Link>
               <Link href="/contact-us-propertydrone-realty">
-              <button className="border border-white bg-white text-[#172747] px-6 py-3 hover:bg-[#172747] hover:text-white transition-colors">
-                Book Consultation
-              </button>
+                <button className="border border-white bg-white text-[#172747] px-6 py-3 hover:bg-[#172747] hover:text-white transition-colors">
+                  Book Consultation
+                </button>
               </Link>
-             
+
             </div>
           </div>
         </div>
       </section>
-      
+
       {/* Filter controls */}
-            <div className="container mx-auto px-4 pt-4 pb-8">
-      <div className='flex flex-col lg:flex-row'>
+      <div className="container mx-auto px-4 pt-4 pb-8">
+        <div className='flex flex-col lg:flex-row'>
 
           <div className="w-full lg:w-1/4 mb-6 lg:mb-0">
             <div className="bg-white shadow-md rounded-[4px] p-4 lg:p-6 sticky top-6 overflow-auto border border-gray-100">
               <div className="flex items-center justify-center mb-6">
                 <div className="flex bg-blue-50 p-2 rounded-full border border-blue-100 w-full justify-center">
                   <button
-                    className={`px-6 lg:px-12 py-2 rounded-full text-sm flex items-center gap-1 font-medium transition-all duration-200 cursor-pointer ${
-                      activeTab === 'luxe'
-                      ? 'bg-gradient-to-br from-amber-100 to-blue-60 text-[#172747] shadow-sm'
-                      : 'text-gray-500'
-                    }`}
+                    className={`px-6 lg:px-12 py-2 rounded-full text-sm flex items-center gap-1 font-medium transition-all duration-200 cursor-pointer ${activeTab === 'luxe'
+                        ? 'bg-gradient-to-br from-amber-100 to-blue-60 text-[#172747] shadow-sm'
+                        : 'text-gray-500'
+                      }`}
                     onClick={() => setActiveTab('luxe')}
                   >
                     <svg
@@ -572,16 +571,15 @@ const AnimatedStarButton = () => {
                     Luxe
                   </button>
                   <Link href="/our-properties-in-pune">
-                  <button
-                    className={`px-6 lg:px-12 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${
-                      activeTab === 'all'
-                      ? 'bg-white text-[#172747] shadow-sm'
-                      : 'text-gray-500'
-                    }`}
-                    onClick={() => setActiveTab('all')}
-                  >
-                    All
-                  </button>
+                    <button
+                      className={`px-6 lg:px-12 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${activeTab === 'all'
+                          ? 'bg-white text-[#172747] shadow-sm'
+                          : 'text-gray-500'
+                        }`}
+                      onClick={() => setActiveTab('all')}
+                    >
+                      All
+                    </button>
                   </Link>
                 </div>
               </div>
@@ -616,15 +614,15 @@ const AnimatedStarButton = () => {
               <div className="mb-8">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="font-semibold text-gray-800">Featured Property</h3>
-                  <motion.label 
+                  <motion.label
                     className="relative inline-flex items-center cursor-pointer"
                     whileTap={{ scale: 0.95 }}
                   >
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       checked={featuredOnly}
                       onChange={() => setFeaturedOnly(!featuredOnly)}
-                      className="sr-only peer" 
+                      className="sr-only peer"
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#172747] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#172747]"></div>
                   </motion.label>
@@ -648,7 +646,7 @@ const AnimatedStarButton = () => {
                     ))}
                   </select>
                 </div>
-                
+
                 {/* Desktop Grid */}
                 <div className="hidden sm:grid grid-cols-2 gap-3">
                   <motion.button
@@ -659,7 +657,7 @@ const AnimatedStarButton = () => {
                   >
                     All Locations
                   </motion.button>
-                  
+
                   {availableLocations.map((location, index) => (
                     <motion.button
                       key={index}
@@ -673,12 +671,12 @@ const AnimatedStarButton = () => {
                   ))}
                 </div>
               </div>
-              
 
-              <motion.button 
+
+              <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-               className="bg-[#172747] cursor-pointer rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors "
+                className="bg-[#172747] cursor-pointer rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors "
                 onClick={resetFilters}
               >
                 Reset Search
@@ -686,228 +684,228 @@ const AnimatedStarButton = () => {
             </div>
           </div>
 
-      
-              <div className="w-full lg:w-3/4 lg:pl-6 pb-6">
-              <div className="flex flex-col sm:flex-row pb-4 gap-4">
-     <h2
-        style={{
-        fontFamily: "Ivy Mode",
-        fontWeight: 100,
-        lineHeight: '150%',
-        letterSpacing: '0'
-        }}
-        className=" text-[#172747] text-[32px] sm:text-[42px]"
-      > Explore Luxury Properties
-            </h2>
-            
-</div>
-                  {(activeCategory !== 'all' || activeLocation !== 'all' || featuredOnly) && (
-                        <motion.div 
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="bg-blue-50 p-3 rounded-[4px] mb-6 flex flex-wrap items-center gap-2"
-                        >
-                          <span className="text-sm font-medium text-[#172747] mr-2">Active Filters:</span>
-                          
-                          {activeCategory !== 'all' && (
-                            <span className="bg-blue-100 text-[#172747] px-3 py-1 rounded-full text-xs font-medium flex items-center">
-                              Category: {activeCategory}
-                              <button 
-                                onClick={() => setActiveCategory('all')}
-                                className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700"
-                              >
-                                ×
-                              </button>
-                            </span>
-                          )}
-                          
-                          {activeLocation !== 'all' && (
-                            <span className="bg-blue-100 text-[#172747] px-3 py-1 rounded-full text-xs font-medium flex items-center">
-                              Location: {activeLocation}
-                              <button 
-                                onClick={() => setActiveLocation('all')}
-                                className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700"
-                              >
-                                ×
-                              </button>
-                            </span>
-                          )}
-                          
-                          {featuredOnly && (
-                            <span className="bg-blue-100 text-[#172747] px-3 py-1 rounded-full text-xs font-medium flex items-center">
-                              Featured Only
-                              <button 
-                                onClick={() => setFeaturedOnly(false)}
-                                className="ml-2  cursor-pointer text-[#172747] hover:text-blue-700"
-                              >
-                                ×
-                              </button>
-                            </span>
-                          )}
-                          
-                          <button 
-                            onClick={resetFilters}
-                            className="ml-auto text-sm text-[#172747] hover:underline"
-                          >
-                            Clear All
-                          </button>
-                        </motion.div>
-                      )}
-                    
-                      {loading ? (
-                        <div className="flex justify-center items-center h-64">
-                          <motion.div 
-                            animate={{ 
-                              rotate: 360,
-                              transition: { 
-                                duration: 1, 
-                                repeat: Infinity, 
-                                ease: "linear" 
-                              } 
-                            }}
-                            className="rounded-full h-12 w-12 border-t-4 border-b-4 border-[#172747]"
-                          ></motion.div>
-                        </div>
-                      ) : error ? (
-                        <motion.div 
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="bg-red-50 text-red-600 p-5 rounded-[4px] border border-red-100 shadow-sm"
-                        >
-                          {error}
-                        </motion.div>
-                      ) : (
-                  <motion.div 
-                    className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                  >
-                    {filteredProperties.length > 0 ? (
-                      filteredProperties.map((property) => (
-                             <div  className="w-full sm:w-auto">
-                        <motion.div 
-                          key={`motion-${property.id}`}
-                          variants={cardVariants}
-                          whileHover="hover"
-                          onHoverStart={() => setHoveredCard(property.id)}
-                          onHoverEnd={() => setHoveredCard(null)}
-                          className="bg-white rounded-[4px] overflow-hidden shadow-md border border-gray-100 transform transition-all duration-300"
-                        >
-                          <div className="relative overflow-hidden">
-                            <motion.div 
-                              variants={imageVariants}
-                              className="h-56 bg-gray-200 relative"
-                            >
-                              {/* Image with proper URL handling */}
-                              {(() => {
-                                const imageSrc = getImageSource(property, activeImageIndexes[property.id] || 0);
-                                return imageSrc && imageSrc !== "" ? (
-                                  <Image 
-                                    src={imageSrc}
-                                    alt={property.propertyName}
-                                    fill
-                                    className="object-cover"
-                                    priority={hoveredCard === property.id}
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                    onError={(e) => {
-                                      const target = e.target as HTMLImageElement;
-                                      target.src = '/images/property-placeholder.jpg';
-                                    }}
-                                    unoptimized={typeof imageSrc === 'string' && (imageSrc.startsWith('http://localhost') || imageSrc.startsWith('https://localhost'))}
-                                  />
-                                ) : null;
-                              })()}
-                              
-                              {/* Luxe Badge */}
-                              <div className="absolute top-4 left-4 z-10">
-                                <div className="rounded-full flex items-center">
-                                  <AnimatedStarButton />
-                                </div>
-                              </div>
 
-                              {/* Only show navigation arrows if property has multiple images */}
-                              {hasMultipleImages(property) && (
-                                <>
-                                  {/* Left arrow for previous image */}
-                                  <button 
-                                    onClick={(e) => prevImage(property.id, property.multipleImages?.length || 0, e)}
-                                    className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 p-1 rounded-full bg-white/70 hover:bg-white/90 transition-all"
-                                  >
-                                    <ChevronLeft className="h-6 w-6 text-gray-700" />
-                                  </button>
-                                  
-                                  {/* Right arrow for next image */}
-                                  <button 
-                                    onClick={(e) => nextImage(property.id, property.multipleImages?.length || 0, e)}
-                                    className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 p-1 rounded-full bg-white/70 hover:bg-white/90 transition-all"
-                                  >
-                                    <ChevronRight className="h-6 w-6 text-gray-700" />
-                                  </button>
-                                  
-                                  {/* Image counter indicator */}
-                                  <div className="absolute bottom-3 right-3 bg-black/60 text-white px-2 py-1 rounded-full text-xs font-medium">
-                                    {(activeImageIndexes[property.id] || 0) + 1}/{property.multipleImages?.length || 0}
-                                  </div>
-                                  
-                                  {/* Image dots indicator */}
-                                  <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
-                                    {property.multipleImages?.map((_, i) => (
-                                      <button 
-                                        key={i}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setActiveImageIndexes(prev => ({
-                                            ...prev,
-                                            [property.id]: i
-                                          }));
-                                        }}
-                                        className={`h-2 w-2 rounded-full ${i === (activeImageIndexes[property.id] || 0) ? 'bg-white' : 'bg-white/50'} transition-all`}
-                                      />
-                                    ))}
-                                  </div>
-                                </>
-                              )}
-                              
-                              {/* Semi-transparent gradient overlay */}
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
-                            </motion.div>
-                            
-                            {/* Property location on image */}
-                            <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-white">
-                              <div className="flex items-center text-xs text-gray-100 mt-1">
-                                <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                {property.location}, {property.city}
+          <div className="w-full lg:w-3/4 lg:pl-6 pb-6">
+            <div className="flex flex-col sm:flex-row pb-4 gap-4">
+              <h2
+                style={{
+                  fontFamily: "Ivy Mode",
+                  fontWeight: 100,
+                  lineHeight: '150%',
+                  letterSpacing: '0'
+                }}
+                className=" text-[#172747] text-[32px] sm:text-[42px]"
+              > Explore Luxury Properties
+              </h2>
+
+            </div>
+            {(activeCategory !== 'all' || activeLocation !== 'all' || featuredOnly) && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-blue-50 p-3 rounded-[4px] mb-6 flex flex-wrap items-center gap-2"
+              >
+                <span className="text-sm font-medium text-[#172747] mr-2">Active Filters:</span>
+
+                {activeCategory !== 'all' && (
+                  <span className="bg-blue-100 text-[#172747] px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                    Category: {activeCategory}
+                    <button
+                      onClick={() => setActiveCategory('all')}
+                      className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700"
+                    >
+                      ×
+                    </button>
+                  </span>
+                )}
+
+                {activeLocation !== 'all' && (
+                  <span className="bg-blue-100 text-[#172747] px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                    Location: {activeLocation}
+                    <button
+                      onClick={() => setActiveLocation('all')}
+                      className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700"
+                    >
+                      ×
+                    </button>
+                  </span>
+                )}
+
+                {featuredOnly && (
+                  <span className="bg-blue-100 text-[#172747] px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                    Featured Only
+                    <button
+                      onClick={() => setFeaturedOnly(false)}
+                      className="ml-2  cursor-pointer text-[#172747] hover:text-blue-700"
+                    >
+                      ×
+                    </button>
+                  </span>
+                )}
+
+                <button
+                  onClick={resetFilters}
+                  className="ml-auto text-sm text-[#172747] hover:underline"
+                >
+                  Clear All
+                </button>
+              </motion.div>
+            )}
+
+            {loading ? (
+              <div className="flex justify-center items-center h-64">
+                <motion.div
+                  animate={{
+                    rotate: 360,
+                    transition: {
+                      duration: 1,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }
+                  }}
+                  className="rounded-full h-12 w-12 border-t-4 border-b-4 border-[#172747]"
+                ></motion.div>
+              </div>
+            ) : error ? (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-red-50 text-red-600 p-5 rounded-[4px] border border-red-100 shadow-sm"
+              >
+                {error}
+              </motion.div>
+            ) : (
+              <motion.div
+                className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {filteredProperties.length > 0 ? (
+                  filteredProperties.map((property) => (
+                    <div className="w-full sm:w-auto">
+                      <motion.div
+                        key={`motion-${property.id}`}
+                        variants={cardVariants}
+                        whileHover="hover"
+                        onHoverStart={() => setHoveredCard(property.id)}
+                        onHoverEnd={() => setHoveredCard(null)}
+                        className="bg-white rounded-[4px] overflow-hidden shadow-md border border-gray-100 transform transition-all duration-300"
+                      >
+                        <div className="relative overflow-hidden">
+                          <motion.div
+                            variants={imageVariants}
+                            className="h-56 bg-gray-200 relative"
+                          >
+                            {/* Image with proper URL handling */}
+                            {(() => {
+                              const imageSrc = getImageSource(property, activeImageIndexes[property.id] || 0);
+                              return imageSrc && imageSrc !== "" ? (
+                                <Image
+                                  src={imageSrc}
+                                  alt={property.propertyName}
+                                  fill
+                                  className="object-cover"
+                                  priority={hoveredCard === property.id}
+                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.src = '/images/property-placeholder.jpg';
+                                  }}
+                                  unoptimized={typeof imageSrc === 'string' && (imageSrc.startsWith('http://localhost') || imageSrc.startsWith('https://localhost'))}
+                                />
+                              ) : null;
+                            })()}
+
+                            {/* Luxe Badge */}
+                            <div className="absolute top-4 left-4 z-10">
+                              <div className="rounded-full flex items-center">
+                                <AnimatedStarButton />
                               </div>
                             </div>
+
+                            {/* Only show navigation arrows if property has multiple images */}
+                            {hasMultipleImages(property) && (
+                              <>
+                                {/* Left arrow for previous image */}
+                                <button
+                                  onClick={(e) => prevImage(property.id, property.multipleImages?.length || 0, e)}
+                                  className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 p-1 rounded-full bg-white/70 hover:bg-white/90 transition-all"
+                                >
+                                  <ChevronLeft className="h-6 w-6 text-gray-700" />
+                                </button>
+
+                                {/* Right arrow for next image */}
+                                <button
+                                  onClick={(e) => nextImage(property.id, property.multipleImages?.length || 0, e)}
+                                  className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 p-1 rounded-full bg-white/70 hover:bg-white/90 transition-all"
+                                >
+                                  <ChevronRight className="h-6 w-6 text-gray-700" />
+                                </button>
+
+                                {/* Image counter indicator */}
+                                <div className="absolute bottom-3 right-3 bg-black/60 text-white px-2 py-1 rounded-full text-xs font-medium">
+                                  {(activeImageIndexes[property.id] || 0) + 1}/{property.multipleImages?.length || 0}
+                                </div>
+
+                                {/* Image dots indicator */}
+                                <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
+                                  {property.multipleImages?.map((_, i) => (
+                                    <button
+                                      key={i}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setActiveImageIndexes(prev => ({
+                                          ...prev,
+                                          [property.id]: i
+                                        }));
+                                      }}
+                                      className={`h-2 w-2 rounded-full ${i === (activeImageIndexes[property.id] || 0) ? 'bg-white' : 'bg-white/50'} transition-all`}
+                                    />
+                                  ))}
+                                </div>
+                              </>
+                            )}
+
+                            {/* Semi-transparent gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
+                          </motion.div>
+
+                          {/* Property location on image */}
+                          <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-white">
+                            <div className="flex items-center text-xs text-gray-100 mt-1">
+                              <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                              </svg>
+                              {property.location}, {property.city}
+                            </div>
                           </div>
-                          
-                          <div className="p-4 lg:p-5">
-                            <Link href={`/luxe-properties/${property.slug}`} passHref key={property.id}>
-  <h3 className="text-lg lg:text-xl mb-2 font-bold leading-tight hover:text-blue-600 transition-colors cursor-pointer">
-    {property.propertyName}
-  </h3>
-</Link>
-                            
-                            <div className=" sm:flex-row justify-between text-sm mb-5 gap-2">
-                              <div className="flex mb-2 items-center bg-gray-50 px-1 py-1.5 rounded-[4px]">
-                                <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                </svg>
-                                {String(property.topology).split("").map((item: string, index: number) => (
-                                  <span key={`${property.id}-topology-${index}`} className="text-gray-700 block"  style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>
-                                    {item.trim()}
-                                  </span>
-                                ))}
-                              </div>
-                              
-                              <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-[4px]">
-                                <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
-                                </svg>
+                        </div>
+
+                        <div className="p-4 lg:p-5">
+                          <Link href={`/luxe-properties/${property.slug}`} passHref key={property.id}>
+                            <h3 className="text-lg lg:text-xl mb-2 font-bold leading-tight hover:text-blue-600 transition-colors cursor-pointer">
+                              {property.propertyName}
+                            </h3>
+                          </Link>
+
+                          <div className=" sm:flex-row justify-between text-sm mb-5 gap-2">
+                            <div className="flex mb-2 items-center bg-gray-50 px-1 py-1.5 rounded-[4px]">
+                              <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                              </svg>
+                              {String(property.topology).split("").map((item: string, index: number) => (
+                                <span key={`${property.id}-topology-${index}`} className="text-gray-700 block" style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>
+                                  {item.trim()}
+                                </span>
+                              ))}
+                            </div>
+
+                            <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-[4px]">
+                              <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+                              </svg>
                               <span
                                 className="text-gray-700"
                                 style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
@@ -919,104 +917,104 @@ const AnimatedStarButton = () => {
                                     : words.join(' ');
                                 })()}
                               </span>
-                              </div>
                             </div>
-                             {/* {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
+                          </div>
+                          {/* {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
                                 <div className="font-bold text-lg lg:text-xl text-[#172747]">
                                   ₹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
                                 </div>
                               )} */}
-                            
-                            <motion.div 
-                              initial={{ scale: 0.95, opacity: 0 }}
-                              animate={{ 
-                                scale: hoveredCard === property.id ? 1.05 : 1, 
-                                opacity: 1 
-                              }}
-                              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                              className="flex flex-col sm:flex-row justify-between items-center gap-3"
-                            >
-                             
-                              
-                        
-                                <div className="flex items-center gap-2 w-full">
-<label className="flex items-center gap-2 cursor-pointer select-none">
-  <input
-    type="checkbox"
-    checked={comparedIds.includes(property.id)}
-    disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
-    onChange={async (e) => {
-      setCompareLoadingId(property.id);
-      if (e.target.checked) {
-        // Compare (add)
-        setComparedIds(prev => [...prev, property.id]);
-        const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
-        });
-        if (!resp.ok) {
-          setComparedIds(prev => prev.filter(id => id !== property.id));
-        } else {
-          await fetchComparedIds();
-        }
-      } else {
-        // Uncompare (remove)
-        setComparedIds(prev => prev.filter(id => id !== property.id));
-        const comparisonId = comparisonIdMap[property.id];
-        if (!comparisonId) {
-          setCompareLoadingId(null);
-          return;
-        }
-        const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
-        if (!resp.ok) {
-          setComparedIds(prev => [...prev, property.id]);
-        } else {
-          await fetchComparedIds();
-        }
-      }
-      setCompareLoadingId(null);
-    }}
-    className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
-  />
-  <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
-    {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
-  </span>
-</label>
-                                  <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="flex-1 bg-[#172747] cursor-pointer hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
-                                    onClick={(e) => {e.stopPropagation();window.location.href = `/luxe-properties/${property.slug}`;}}
-                                  >
-                                    View Details
-                                  </motion.button>
-                                </div>
-                              
-                            </motion.div>
-                          </div>
-                        </motion.div>
+
+                          <motion.div
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{
+                              scale: hoveredCard === property.id ? 1.05 : 1,
+                              opacity: 1
+                            }}
+                            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                            className="flex flex-col sm:flex-row justify-between items-center gap-3"
+                          >
+
+
+
+                            <div className="flex items-center gap-2 w-full">
+                              <label className="flex items-center gap-2 cursor-pointer select-none">
+                                <input
+                                  type="checkbox"
+                                  checked={comparedIds.includes(property.id)}
+                                  disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
+                                  onChange={async (e) => {
+                                    setCompareLoadingId(property.id);
+                                    if (e.target.checked) {
+                                      // Compare (add)
+                                      setComparedIds(prev => [...prev, property.id]);
+                                      const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
+                                      });
+                                      if (!resp.ok) {
+                                        setComparedIds(prev => prev.filter(id => id !== property.id));
+                                      } else {
+                                        await fetchComparedIds();
+                                      }
+                                    } else {
+                                      // Uncompare (remove)
+                                      setComparedIds(prev => prev.filter(id => id !== property.id));
+                                      const comparisonId = comparisonIdMap[property.id];
+                                      if (!comparisonId) {
+                                        setCompareLoadingId(null);
+                                        return;
+                                      }
+                                      const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                                      if (!resp.ok) {
+                                        setComparedIds(prev => [...prev, property.id]);
+                                      } else {
+                                        await fetchComparedIds();
+                                      }
+                                    }
+                                    setCompareLoadingId(null);
+                                  }}
+                                  className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
+                                />
+                                <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
+                                  {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
+                                </span>
+                              </label>
+                              <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="flex-1 bg-[#172747] cursor-pointer hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
+                                onClick={(e) => { e.stopPropagation(); window.location.href = `/luxe-properties/${property.slug}`; }}
+                              >
+                                View Details
+                              </motion.button>
+                            </div>
+
+                          </motion.div>
                         </div>
-                      ))
-                    ) : (
-                      <div className="col-span-full text-center py-12">
-                        <p className="text-gray-600 mb-4">No properties match your current filters.</p>
-                        <button 
-                          onClick={resetFilters}
-                          className="inline-flex items-center px-4 py-2 bg-[#172747] text-white rounded-[4px] hover:bg-[#0e1a34] transition-colors"
-                        >
-                          Reset Filters
-                        </button>
-                      </div>
-                    )}
-                  </motion.div>
+                      </motion.div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="col-span-full text-center py-12">
+                    <p className="text-gray-600 mb-4">No properties match your current filters.</p>
+                    <button
+                      onClick={resetFilters}
+                      className="inline-flex items-center px-4 py-2 bg-[#172747] text-white rounded-[4px] hover:bg-[#0e1a34] transition-colors"
+                    >
+                      Reset Filters
+                    </button>
+                  </div>
                 )}
-                </div>
+              </motion.div>
+            )}
+          </div>
+        </div>
       </div>
-      </div>
-      
+
       {/* Footer */}
     </div>
-    
+
   );
 }
