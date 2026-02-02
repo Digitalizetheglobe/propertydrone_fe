@@ -227,11 +227,13 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Set up the base URL for images
-  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
+  const baseUrl = "http://localhost:5000"; // For dev — ideally from env
 
   // Process the image paths
   const propertyImages =
-    property?.multipleImages?.map((img) => `${baseUrl}${img.path}`) || [];
+    property?.multipleImages?.map((img) =>
+      img.path.startsWith('http') ? img.path : `${baseUrl}${img.path}`
+    ) || [];
   const getYouTubeVideoId = (url: string | undefined) => {
     if (!url) return "DrIKLgR6STs"; // Default ID
 
@@ -366,7 +368,13 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                     property.multipleImages[mainImage]?.path &&
                     property.multipleImages[mainImage].path.trim() !== "" ? (
                     <img
-                      src={`${baseUrl}${property.multipleImages[mainImage].path}`}
+                      src={(() => {
+                        const path = property.multipleImages[mainImage].path;
+                        if (path.startsWith('http')) return path;
+                        const cleanPath = path.replace(/\\/g, '/');
+                        const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+                        return `${baseUrl}${finalPath}`;
+                      })()}
                       alt={property.propertyName}
                       className="object-cover w-full h-full cursor-pointer"
                       onClick={() => openModal(mainImage)}
@@ -443,7 +451,12 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                     >
                       {img.path && img.path.trim() !== "" ? (
                         <img
-                          src={`${baseUrl}${img.path}`}
+                          src={(() => {
+                            if (img.path.startsWith('http')) return img.path;
+                            const cleanPath = img.path.replace(/\\/g, '/');
+                            const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+                            return `${baseUrl}${finalPath}`;
+                          })()}
                           alt={`Thumbnail ${index + 1}`}
                           className="object-cover w-full h-full"
                         />
@@ -1394,7 +1407,7 @@ export async function getServerSideProps(context: {
 
   try {
     const res = await fetch(
-      `https://api.propertydronerealty.com/properties/${slug}`
+      `http://localhost:5000/properties/${slug}`
     );
     if (!res.ok) {
       throw new Error("Failed to fetch property");

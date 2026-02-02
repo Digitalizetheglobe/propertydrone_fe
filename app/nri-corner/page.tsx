@@ -31,7 +31,7 @@ export default function BlogHeroSection() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://api.propertydronerealty.com/contacts", {
+      const response = await fetch("http://localhost:5000/contacts", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -106,27 +106,27 @@ export default function BlogHeroSection() {
       </Head>
       <section className="relative min-h-screen">
         <div className="absolute inset-0 z-0">
-          <Image 
+          <Image
             src={heroBackground}
-            alt="Luxury Property" 
+            alt="Luxury Property"
             fill
             style={{ objectFit: "cover" }}
             priority
           />
           <div className="absolute inset-0 bg-black opacity-40"></div>
         </div>
-        
+
         {/* Hero Content */}
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
           <div className="text-center max-w-3xl mx-auto text-white">
             <p className="text-sm uppercase font-medium tracking-wider text-gray-300 mb-4">
-              NRI Corner 
+              NRI Corner
             </p>
-            
+
             <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
-              Why Invest in India 
+              Why Invest in India
             </h1>
-            
+
             <p className="text-gray-200 mb-8 max-w-xl mx-auto">
               India is set to remain as one of the world's fastest growing economies. There's never been a better time to invest in real estate in India. Let us help you throughout the pre-and-post purchase processes.
             </p>
@@ -141,7 +141,7 @@ export default function BlogHeroSection() {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 mb-4">
               <span className="text-3xl">💼</span>
-                <h2
+              <h2
                 className="text-3xl md:text-4xl"
                 style={{
                   fontFamily: "'Ivy Mode'",
@@ -150,10 +150,10 @@ export default function BlogHeroSection() {
                   lineHeight: '140%',
                   letterSpacing: '1px'
                 }}
-                >
+              >
                 <span className="md:hidden" style={{ fontSize: '38px' }}>What We Offer</span>
                 <span className="hidden md:inline" style={{ fontSize: '50px' }}>What We Offer</span>
-                </h2>
+              </h2>
             </div>
             <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
           </div>
@@ -171,7 +171,7 @@ export default function BlogHeroSection() {
               >
                 {/* Gradient Background on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
+
                 {/* Floating Icon */}
                 <div className="relative mb-6">
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-purple-200 transition-all duration-300 group-hover:rotate-3 group-hover:scale-110">
@@ -185,7 +185,7 @@ export default function BlogHeroSection() {
 
                 {/* Content */}
                 <div className="relative">
-                  <h3 className="text-3xl md:text-4xl" 
+                  <h3 className="text-3xl md:text-4xl"
                     style={{
                       fontFamily: "'Ivy Mode'",
                       fontWeight: 200,
@@ -194,10 +194,10 @@ export default function BlogHeroSection() {
                       letterSpacing: '1px'
                     }}>{offering.title}
                   </h3>
-                  
+
                   <p className="text-base font-normal leading-none"
-                  style={{ fontFamily: 'Lato', letterSpacing: '0.5px', lineHeight: '150%' }}>
-                 {offering.description}
+                    style={{ fontFamily: 'Lato', letterSpacing: '0.5px', lineHeight: '150%' }}>
+                    {offering.description}
                   </p>
                 </div>
 
@@ -214,19 +214,19 @@ export default function BlogHeroSection() {
 
           {/* Call to Action */}
           <div className="text-center mt-16">
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/luxe-properties">
-              <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
-                Explore Properties
-                {/* <FiArrowRight size={18} /> */}
-              </button>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link href="/luxe-properties">
+                <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
+                  Explore Properties
+                  {/* <FiArrowRight size={18} /> */}
+                </button>
               </Link>
               <Link href="/contact-us-propertydrone-realty">
-              <button className="border border-gray-300 bg-white text-gray-800 px-6 py-3 hover:bg-gray-50 transition-colors">
-                Book Consultation
-              </button>
+                <button className="border border-gray-300 bg-white text-gray-800 px-6 py-3 hover:bg-gray-50 transition-colors">
+                  Book Consultation
+                </button>
               </Link>
-             
+
             </div>
           </div>
         </div>
@@ -246,86 +246,86 @@ export default function BlogHeroSection() {
         `}</style>
       </section>
       <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 overflow-hidden">
-            <div className="flex flex-col md:flex-row bg-white rounded-lg overflow-hidden shadow-lg max-w-5xl mx-auto">
-              <div className="w-full md:w-1/2 h-[550px] md:h-auto">
-                <div className="relative w-full h-full">
-                  <Image 
-                    src={service6} 
-                    alt="Customer support representative" 
-                    fill
-                    style={{ objectFit: "cover" }}
-                    priority
-                  />
-                </div>
+        <div className="container mx-auto px-4 overflow-hidden">
+          <div className="flex flex-col md:flex-row bg-white rounded-lg overflow-hidden shadow-lg max-w-5xl mx-auto">
+            <div className="w-full md:w-1/2 h-[550px] md:h-auto">
+              <div className="relative w-full h-full">
+                <Image
+                  src={service6}
+                  alt="Customer support representative"
+                  fill
+                  style={{ objectFit: "cover" }}
+                  priority
+                />
               </div>
-              <div className="md:w-1/2 p-8 flex flex-col justify-center">
-                <div className="max-w-md mx-auto w-full">
-                  <h2 className="text-3xl font-light text-center mb-6">Want to know more details?</h2>
-                  <p className="text-center text-gray-600 mb-8">Feel free to contact with us</p>
-                  
-                  <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="Name"
-                        className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                      />
+            </div>
+            <div className="md:w-1/2 p-8 flex flex-col justify-center">
+              <div className="max-w-md mx-auto w-full">
+                <h2 className="text-3xl font-light text-center mb-6">Want to know more details?</h2>
+                <p className="text-center text-gray-600 mb-8">Feel free to contact with us</p>
+
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-4">
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Name"
+                      className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Email"
+                      className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <input
+                      type="tel"
+                      name="mobile"
+                      value={formData.mobile}
+                      onChange={handleChange}
+                      placeholder="Mobile Number"
+                      className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Your Message"
+                      className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-32 resize-none"
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-gray-800 hover:bg-gray-700 text-white py-2 rounded transition duration-200"
+                  >
+                    {isSubmitting ? 'Submitting...' : 'Send Message'}
+                  </button>
+                  {submitStatus && (
+                    <div className={`mt-4 text-center ${submitStatus.success ? 'text-green-600' : 'text-red-600'}`}>
+                      {submitStatus.message}
                     </div>
-                    <div className="mb-4">
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="Email"
-                        className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <input
-                        type="tel"
-                        name="mobile"
-                        value={formData.mobile}
-                        onChange={handleChange}
-                        placeholder="Mobile Number"
-                        className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                      />
-                    </div>
-                    <div className="mb-6">
-                      <textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Your Message"
-                        className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-32 resize-none"
-                        required
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-gray-800 hover:bg-gray-700 text-white py-2 rounded transition duration-200"
-                    >
-                      {isSubmitting ? 'Submitting...' : 'Send Message'}
-                    </button>
-                    {submitStatus && (
-                      <div className={`mt-4 text-center ${submitStatus.success ? 'text-green-600' : 'text-red-600'}`}>
-                        {submitStatus.message}
-                      </div>
-                    )}
-                  </form>
-                </div>
+                  )}
+                </form>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
     </>
   );
 }

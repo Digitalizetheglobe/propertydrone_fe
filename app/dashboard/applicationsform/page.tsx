@@ -16,7 +16,7 @@ function ApplicationsFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const jobId = searchParams.get('jobId') || '';
-  
+
   const [formData, setFormData] = useState({
     jobId: jobId,
     firstName: '',
@@ -34,18 +34,18 @@ function ApplicationsFormContent() {
     resume: null as File | null,
     additionalDocuments: null as FileList | null
   });
-  
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
-  
+
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value
     });
-    
+
     // Clear error when field is edited
     if (errors[name]) {
       setErrors({
@@ -54,7 +54,7 @@ function ApplicationsFormContent() {
       });
     }
   };
-  
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
     if (files && files.length > 0) {
@@ -64,7 +64,7 @@ function ApplicationsFormContent() {
           ...formData,
           [name]: files[0]
         });
-      } 
+      }
       // For additional documents, we can have multiple files
       else if (name === 'additionalDocuments') {
         setFormData({
@@ -72,7 +72,7 @@ function ApplicationsFormContent() {
           [name]: files
         });
       }
-      
+
       // Clear error when field is edited
       if (errors[name]) {
         setErrors({
@@ -82,10 +82,10 @@ function ApplicationsFormContent() {
       }
     }
   };
-  
+
   const validateForm = (): Record<string, string> => {
     const newErrors: Record<string, string> = {};
-    
+
     // Required fields
     if (!formData.jobId) newErrors.jobId = 'Job ID is required';
     if (!formData.firstName) newErrors.firstName = 'First name is required';
@@ -95,26 +95,26 @@ function ApplicationsFormContent() {
     if (!formData.phone) newErrors.phone = 'Phone number is required';
     if (!formData.experienceYears) newErrors.experienceYears = 'Years of experience is required';
     if (!formData.resume) newErrors.resume = 'Resume is required';
-    
+
     return newErrors;
   };
-  
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Validate form
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
-    
+
     setIsSubmitting(true);
-    
+
     try {
       // Create FormData object to handle file uploads
       const submitData = new FormData();
-      
+
       // Append all form fields
       Object.keys(formData).forEach(key => {
         const value = formData[key as keyof typeof formData];
@@ -133,17 +133,17 @@ function ApplicationsFormContent() {
           submitData.append(key, String(value));
         }
       });
-      
+
       // Submit the form data
-      const response = await fetch('https://api.propertydronerealty.com/applications/submit', {
+      const response = await fetch('http://localhost:5000/applications/submit', {
         method: 'POST',
         body: submitData,
       });
-      
+
       if (response.ok) {
         const result = await response.json();
         setSubmitMessage('Application submitted successfully!');
-        
+
         // Redirect or clear form after successful submission
         setTimeout(() => {
           router.push('/dashboard/application-success');
@@ -158,7 +158,7 @@ function ApplicationsFormContent() {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow">
@@ -166,13 +166,13 @@ function ApplicationsFormContent() {
           <h1 className="text-3xl font-bold text-gray-900">Job Application</h1>
           <p className="mt-2 text-gray-600">Complete the form below to apply</p>
         </div>
-        
+
         {submitMessage && (
           <div className={`mb-6 p-4 rounded ${submitMessage.includes('successfully') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
             {submitMessage}
           </div>
         )}
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {/* Job ID */}
@@ -191,7 +191,7 @@ function ApplicationsFormContent() {
               />
               {errors.jobId && <p className="mt-1 text-sm text-red-600">{errors.jobId}</p>}
             </div>
-            
+
             {/* First Name */}
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
@@ -207,7 +207,7 @@ function ApplicationsFormContent() {
               />
               {errors.firstName && <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>}
             </div>
-            
+
             {/* Last Name */}
             <div>
               <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
@@ -223,7 +223,7 @@ function ApplicationsFormContent() {
               />
               {errors.lastName && <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>}
             </div>
-            
+
             {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -239,7 +239,7 @@ function ApplicationsFormContent() {
               />
               {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
             </div>
-            
+
             {/* Phone */}
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
@@ -255,7 +255,7 @@ function ApplicationsFormContent() {
               />
               {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
             </div>
-            
+
             {/* Current Company */}
             <div>
               <label htmlFor="currentCompany" className="block text-sm font-medium text-gray-700">
@@ -270,7 +270,7 @@ function ApplicationsFormContent() {
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
-            
+
             {/* LinkedIn Profile */}
             <div>
               <label htmlFor="linkedInProfile" className="block text-sm font-medium text-gray-700">
@@ -286,7 +286,7 @@ function ApplicationsFormContent() {
                 placeholder="https://linkedin.com/in/yourprofile"
               />
             </div>
-            
+
             {/* Portfolio URL */}
             <div>
               <label htmlFor="portfolioUrl" className="block text-sm font-medium text-gray-700">
@@ -302,7 +302,7 @@ function ApplicationsFormContent() {
                 placeholder="https://yourportfolio.com"
               />
             </div>
-            
+
             {/* Experience Years */}
             <div>
               <label htmlFor="experienceYears" className="block text-sm font-medium text-gray-700">
@@ -319,7 +319,7 @@ function ApplicationsFormContent() {
               />
               {errors.experienceYears && <p className="mt-1 text-sm text-red-600">{errors.experienceYears}</p>}
             </div>
-            
+
             {/* Current Salary */}
             <div>
               <label htmlFor="currentSalary" className="block text-sm font-medium text-gray-700">
@@ -335,7 +335,7 @@ function ApplicationsFormContent() {
                 placeholder="e.g. $75,000"
               />
             </div>
-            
+
             {/* Expected Salary */}
             <div>
               <label htmlFor="expectedSalary" className="block text-sm font-medium text-gray-700">
@@ -351,7 +351,7 @@ function ApplicationsFormContent() {
                 placeholder="e.g. $85,000"
               />
             </div>
-            
+
             {/* Notice Period */}
             <div>
               <label htmlFor="noticePeriod" className="block text-sm font-medium text-gray-700">
@@ -368,7 +368,7 @@ function ApplicationsFormContent() {
               />
             </div>
           </div>
-          
+
           {/* Cover Letter */}
           <div>
             <label htmlFor="coverLetter" className="block text-sm font-medium text-gray-700">
@@ -384,7 +384,7 @@ function ApplicationsFormContent() {
               placeholder="Tell us why you're a good fit for this position..."
             ></textarea>
           </div>
-          
+
           {/* Resume */}
           <div>
             <label htmlFor="resume" className="block text-sm font-medium text-gray-700">
@@ -405,7 +405,7 @@ function ApplicationsFormContent() {
               Accepted file formats: PDF, DOC, DOCX
             </p>
           </div>
-          
+
           {/* Additional Documents */}
           <div>
             <label htmlFor="additionalDocuments" className="block text-sm font-medium text-gray-700">
@@ -426,7 +426,7 @@ function ApplicationsFormContent() {
               You can select multiple files. Accepted file formats: PDF, DOC, DOCX, JPG, JPEG, PNG
             </p>
           </div>
-          
+
           {/* Submit button */}
           <div className="flex justify-end">
             <button

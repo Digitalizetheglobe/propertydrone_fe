@@ -13,7 +13,7 @@ export default function SavedPropertyPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("https://api.propertydronerealty.com/api/saved-properties")
+    fetch("http://localhost:5000/api/saved-properties")
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch saved properties");
         return res.json();

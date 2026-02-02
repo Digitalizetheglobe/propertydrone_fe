@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import logo from "@/app/images/PropertyDrone-Logo.png"; 
+import logo from "@/app/images/PropertyDrone-Logo.png";
 
 interface PropertyPopupProps {
   onClose?: () => void;
@@ -21,7 +21,7 @@ const PropertyPopup = ({ onClose, onSubmitSuccess }: PropertyPopupProps) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
-  const canShowPopupRef = useRef(false);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,7 +37,7 @@ const PropertyPopup = ({ onClose, onSubmitSuccess }: PropertyPopupProps) => {
     setError('');
     setSuccess('');
     try {
-      const response = await fetch('https://api.propertydronerealty.com/contacts', {
+      const response = await fetch('http://localhost:5000/contacts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -50,6 +50,7 @@ const PropertyPopup = ({ onClose, onSubmitSuccess }: PropertyPopupProps) => {
       if (!response.ok) throw new Error('Failed to submit form');
       setSuccess('Thank you! We will contact you soon.');
       setFormData({ fullName: '', email: '', phone: '' });
+      localStorage.setItem('propertyPopupClosed', 'true');
       if (onSubmitSuccess) {
         onSubmitSuccess();
       } else {
@@ -63,6 +64,7 @@ const PropertyPopup = ({ onClose, onSubmitSuccess }: PropertyPopupProps) => {
   };
 
   const closePopup = () => {
+    localStorage.setItem('propertyPopupClosed', 'true');
     if (onClose) {
       onClose();
     } else {
@@ -70,26 +72,17 @@ const PropertyPopup = ({ onClose, onSubmitSuccess }: PropertyPopupProps) => {
     }
   };
 
-  // Show popup on first scroll after 15 seconds
+  // Show popup after 3 minutes
   useEffect(() => {
-    // Wait 15 seconds before allowing popup to show
+    // Check if popup has been closed previously
+    const isClosed = localStorage.getItem('propertyPopupClosed');
+    if (isClosed) return;
+
     const timer = setTimeout(() => {
-      canShowPopupRef.current = true;
+      setIsVisible(true);
     }, 180000);
 
-    const handleScroll = () => {
-      if (canShowPopupRef.current) {
-        setIsVisible(true);
-        window.removeEventListener('scroll', handleScroll);
-      }
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   if (!isVisible) return null;
@@ -97,12 +90,12 @@ const PropertyPopup = ({ onClose, onSubmitSuccess }: PropertyPopupProps) => {
   return (
     <>
       {/* Backdrop */}
-      <div 
+      <div
         className="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4 animate-fade-in"
         onClick={closePopup}
       >
         {/* Popup Container */}
-        <div 
+        <div
           className="bg-white rounded-2xl shadow-2xl max-w-md w-full relative animate-scale-up transform transition-all duration-300 hover:scale-105 border border-gray-200"
           onClick={(e) => e.stopPropagation()}
         >
@@ -120,10 +113,10 @@ const PropertyPopup = ({ onClose, onSubmitSuccess }: PropertyPopupProps) => {
             {/* Logo Section */}
             <div className="text-center mb-6">
               <Link href="/">
-                <Image 
-                  src={logo} 
-                  alt="Logo" 
-                  className="max-h-12 sm:max-h-none mx-auto" 
+                <Image
+                  src={logo}
+                  alt="Logo"
+                  className="max-h-12 sm:max-h-none mx-auto"
                 />
               </Link>
             </div>

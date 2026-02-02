@@ -38,8 +38,8 @@ function LoginContent() {
 
     try {
       setLoading(true);
-      const response = await axios.post("https://api.propertydronerealty.com/admin/login", formData);
-      
+      const response = await axios.post("http://localhost:5000/admin/login", formData);
+
       if (response.data?.token) {
         Cookies.set("adminToken", response.data.token, { expires: 7 });
         localStorage.setItem("adminInfo", JSON.stringify({

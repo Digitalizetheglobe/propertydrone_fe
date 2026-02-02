@@ -4,9 +4,11 @@ import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import bg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 import { motion, Variants } from 'framer-motion';
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Bookmark, MapPin, Share2 } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import EnquireSideButton from '@/app/components/EnquireSideButton';
 
 interface ImageItem {
   path: string;
@@ -46,16 +48,51 @@ function LuxePropertiesContent() {
   // --- Comparison checkbox logic ---
   const [comparedIds, setComparedIds] = useState<number[]>([]);
   const [compareLoadingId, setCompareLoadingId] = useState<number | null>(null);
-  const [comparisonIdMap, setComparisonIdMap] = useState<Record<number, number>>({}); // propertyId -> comparisonId
-  // Demo user, replace 1 with actual userId as needed
-  const webUserId = 1;
+  const [comparisonIdMap, setComparisonIdMap] = useState<Record<number, number>>({});
+
+  const [webUserId, setWebUserId] = useState<number | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('webuser');
+      if (stored) {
+        const u = JSON.parse(stored);
+        if (u && u.id) {
+          setWebUserId(u.id);
+        } else {
+          setWebUserId(null);
+        }
+      } else {
+        setWebUserId(null);
+      }
+    } catch (e) {
+      console.error(e);
+      setWebUserId(null);
+    }
+  }, []);
+
   // fetch existing compared (checked) ids
   const fetchComparedIds = async () => {
-    const res = await fetch("https://api.propertydronerealty.com/api/property-comparisons");
+    let currentUserId: number | null = null;
+    try {
+      const stored = localStorage.getItem('webuser');
+      if (stored) {
+        const u = JSON.parse(stored);
+        if (u && u.id) currentUserId = u.id;
+      }
+    } catch (e) { }
+
+    if (!currentUserId) {
+      setComparedIds([]);
+      setComparisonIdMap({});
+      return;
+    }
+
+    const res = await fetch(`http://localhost:5000/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
     setComparedIds(
-      all.filter((cmp: any) => `${cmp.webUserId}` === `${webUserId}`)
+      all.filter((cmp: any) => `${cmp.webUserId}` === `${currentUserId}`)
         .map((cmp: any) => parseInt(cmp.propertyId))
     );
     // Map propertyId to comparisonId
@@ -69,6 +106,9 @@ function LuxePropertiesContent() {
   };
   useEffect(() => {
     fetchComparedIds();
+  }, [webUserId]);
+
+  useEffect(() => {
     // Always sync when window regains focus (tab switch)
     const onFocus = () => fetchComparedIds();
     window.addEventListener("focus", onFocus);
@@ -77,10 +117,12 @@ function LuxePropertiesContent() {
 
   const searchParams = useSearchParams();
   const locationParam = searchParams.get('location');
-  const lastWord = locationParam ? locationParam.trim().split(' ').pop() : null;
+  const categoryParam = searchParams.get('category');
+  const topologyParam = searchParams.get('topology'); // e.g. "2" for 2BHK
 
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [activeLocation, setActiveLocation] = useState('all');
+  // Initialize states with URL params if available, otherwise default to 'all'
+  const [activeCategory, setActiveCategory] = useState(categoryParam || 'all');
+  const [activeLocation, setActiveLocation] = useState(locationParam || 'all');
   const [featuredOnly, setFeaturedOnly] = useState(false);
   const [properties, setProperties] = useState<Property[]>([]);
   const [availableLocations, setAvailableLocations] = useState<string[]>([]);
@@ -88,6 +130,116 @@ function LuxePropertiesContent() {
   const [error, setError] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [activeImageIndexes, setActiveImageIndexes] = useState<Record<number, number>>({});
+  // --- Saved Property logic ---
+  const [savedIds, setSavedIds] = useState<number[]>([]);
+  const [savedLoadingId, setSavedLoadingId] = useState<number | null>(null);
+  const [savedIdMap, setSavedIdMap] = useState<Record<number, number>>({});
+
+  const fetchSavedIds = async () => {
+    let currentUserId: number | null = null;
+    try {
+      const stored = localStorage.getItem('webuser');
+      if (stored) {
+        const u = JSON.parse(stored);
+        if (u && u.id) currentUserId = u.id;
+      }
+    } catch (e) { }
+
+    if (!currentUserId) {
+      setSavedIds([]);
+      setSavedIdMap({});
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/saved-properties?webUserId=${currentUserId}`);
+      if (!res.ok) return;
+      const all = await res.json();
+
+      setSavedIds(
+        all.filter((item: any) => `${item.webUserId}` === `${currentUserId}`)
+          .map((item: any) => parseInt(item.propertyId))
+      );
+      const map: Record<number, number> = {};
+      all.forEach((item: any) => {
+        if (`${item.webUserId}` === `${currentUserId}`) {
+          map[parseInt(item.propertyId)] = item.id;
+        }
+      });
+      setSavedIdMap(map);
+    } catch (err) {
+      console.error("Error fetching saved properties", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchSavedIds();
+  }, [webUserId]);
+
+  const toggleSave = async (property: Property, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const storedUser = localStorage.getItem('webuser');
+    let userId: number | null = null;
+    if (storedUser) {
+      try {
+        const parsed = JSON.parse(storedUser);
+        userId = parsed.id;
+      } catch (err) {
+        console.error("Error parsing user data", err);
+      }
+    }
+
+    if (!userId) {
+      window.location.href = '/signin';
+      return;
+    }
+
+    setSavedLoadingId(property.id);
+    const isSaved = savedIds.includes(property.id);
+
+    try {
+      if (isSaved) {
+        // Remove
+        const recordId = savedIdMap[property.id];
+        if (recordId) {
+          setSavedIds(prev => prev.filter(id => id !== property.id));
+          const resp = await fetch(`http://localhost:5000/api/saved-properties/${recordId}`, { method: 'DELETE' });
+          if (!resp.ok) {
+            // Rollback
+            setSavedIds(prev => [...prev, property.id]);
+          } else {
+            await fetchSavedIds();
+          }
+        }
+      } else {
+        // Add
+        setSavedIds(prev => [...prev, property.id]);
+        const resp = await fetch(`http://localhost:5000/api/saved-properties`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            webUserId: userId,
+            propertyId: property.id,
+            propertyData: property
+          })
+        });
+        if (!resp.ok) {
+          setSavedIds(prev => prev.filter(id => id !== property.id));
+        } else {
+          await fetchSavedIds();
+        }
+      }
+    } catch (error) {
+      console.error("Save property error:", error);
+    } finally {
+      setSavedLoadingId(null);
+    }
+  };
+
+  // --- End Saved Property logic ---
+
   const [activeTab, setActiveTab] = useState('luxe');
 
   // New filter states
@@ -95,14 +247,21 @@ function LuxePropertiesContent() {
   const [cityFilter, setCityFilter] = useState('all');
   const [budgetFilter, setBudgetFilter] = useState('all');
   const [badgeFilter, setBadgeFilter] = useState('all');
-  const [topologyFilter, setTopologyFilter] = useState<number | 'all'>('all');
+  const [topologyFilter, setTopologyFilter] = useState<number | 'all'>(topologyParam ? Number(topologyParam) : 'all');
   const [availableCities, setAvailableCities] = useState<string[]>([]);
   const [availableBadges, setAvailableBadges] = useState<string[]>([]);
   const [availableTopologies, setAvailableTopologies] = useState<number[]>([]);
   const [availableBudgets, setAvailableBudgets] = useState<string[]>([]);
 
+  // Sync state when URL params change (e.g. navigation)
+  useEffect(() => {
+    if (categoryParam) setActiveCategory(categoryParam);
+    if (locationParam) setActiveLocation(locationParam);
+    if (topologyParam) setTopologyFilter(Number(topologyParam));
+  }, [searchParams]);
+
   // API base URL - ideally from environment variables
-  const baseUrl = "https://api.propertydronerealty.com";
+  const baseUrl = "http://localhost:5000";
 
   const propertyCategories = [
     { id: 'all', name: 'All', icon: '/icons/home.svg' },
@@ -130,14 +289,20 @@ function LuxePropertiesContent() {
       if (property.multipleImages[index]?.path) {
         // Ensure the path is properly prefixed with baseUrl if it doesn't already include it
         const path = property.multipleImages[index].path;
-        return path.startsWith('http') ? path : `${baseUrl}${path}`;
+        if (path.startsWith('http')) return path;
+        const cleanPath = path.replace(/\\/g, '/');
+        const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+        return `${baseUrl}${finalPath}`;
       }
     }
 
     // Fallback to single image or default bg
     // Also ensure the single image is properly prefixed
     if (typeof property.image === 'string') {
-      return property.image.startsWith('http') ? property.image : `${baseUrl}${property.image}`;
+      if (property.image.startsWith('http')) return property.image;
+      const cleanPath = property.image.replace(/\\/g, '/');
+      const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+      return `${baseUrl}${finalPath}`;
     }
 
     // Final fallback to default background
@@ -359,6 +524,7 @@ function LuxePropertiesContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      <EnquireSideButton />
       {/* Section title */}
       <section className="relative min-h-[530px] sm:min-h-[530px] min-[320px]:min-h-[660px]">
         <div className="absolute inset-0 z-0">
@@ -428,8 +594,8 @@ function LuxePropertiesContent() {
                 <div className="flex bg-blue-50 p-2 border border-bg-gradient-to-br from-amber-100 to-blue-60 rounded-full w-full justify-center">
                   <button
                     className={`px-6 lg:px-12 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${activeTab === 'all'
-                        ? 'bg-white text-[#172747] shadow-sm'
-                        : 'text-gray-500'
+                      ? 'bg-white text-[#172747] shadow-sm'
+                      : 'text-gray-500'
                       }`}
                     onClick={() => setActiveTab('all')}
                   >
@@ -438,8 +604,8 @@ function LuxePropertiesContent() {
                   <Link href={"/luxe-properties"} >
                     <button
                       className={`px-6 lg:px-12 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-200 cursor-pointer ${activeTab === 'luxe'
-                          ? 'bg-white border border-bg-gradient-to-br from-amber-100 to-blue-60 text-[#172747] shadow-sm'
-                          : 'text-gray-500 '
+                        ? 'bg-white border border-bg-gradient-to-br from-amber-100 to-blue-60 text-[#172747] shadow-sm'
+                        : 'text-gray-500 '
                         }`}
                       onClick={() => setActiveTab('luxe')}
                     >
@@ -657,25 +823,26 @@ function LuxePropertiesContent() {
                         whileHover="hover"
                         onHoverStart={() => setHoveredCard(property.id)}
                         onHoverEnd={() => setHoveredCard(null)}
-                        className="bg-white rounded-[4px] overflow-hidden shadow-md border border-gray-100 transform transition-all duration-300"
+                        className="bg-white rounded-[4px] overflow-hidden shadow-md border border-gray-100 transform transition-all duration-300 group"
                       >
                         <div className="relative overflow-hidden">
+
+
                           <motion.div
                             variants={imageVariants}
                             className="h-56 bg-gray-200 relative"
                           >
                             {/* Image with proper URL handling */}
-                            <Image
-                              src={getImageSource(property, activeImageIndexes[property.id] || 0)}
+                            <img
+                              src={getImageSource(property, activeImageIndexes[property.id] || 0) as string}
                               alt={property.propertyName}
-                              fill
-                              className="object-cover"
-                              priority={hoveredCard === property.id}
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              className={`absolute inset-0 w-full h-full object-cover ${hoveredCard === property.id ? 'scale-105 transition-transform duration-700' : ''}`}
                               onError={(e) => {
                                 // Fallback to default image if loading fails
                                 const target = e.target as HTMLImageElement;
-                                target.src = '/images/property-placeholder.jpg'; // Make sure to have this fallback image
+                                if (target.src !== bg.src) {
+                                  target.src = bg.src;
+                                }
                               }}
                             />
 
@@ -801,54 +968,126 @@ function LuxePropertiesContent() {
                             transition={{ type: "spring", stiffness: 400, damping: 10 }}
                             className="flex flex-col sm:flex-row justify-between items-center gap-3"
                           >
-                            {/* Compare checkbox */}
-                            <label className="flex items-center gap-2 cursor-pointer select-none">
-                              <input
-                                type="checkbox"
-                                checked={comparedIds.includes(property.id)}
-                                disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
-                                onChange={async (e) => {
-                                  setCompareLoadingId(property.id);
-                                  if (e.target.checked) {
-                                    // Compare (add)
-                                    setComparedIds(prev => [...prev, property.id]);
-                                    const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
-                                      method: 'POST',
-                                      headers: { 'Content-Type': 'application/json' },
-                                      body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
-                                    });
-                                    if (!resp.ok) {
-                                      setComparedIds(prev => prev.filter(id => id !== property.id));
-                                    } else {
-                                      await fetchComparedIds();
+                            <div className="flex items-center gap-2">
+                              {/* Location Button */}
+                              <a
+                                href={(property as any).googleMapUrl || `https://www.google.com/maps/search/?api=1&query=${property.location || ''}+${property.city || ''}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                                title="View on Map"
+                              >
+                                <MapPin size={16} className="text-red-500" />
+                              </a>
+
+                              {/* Share Button */}
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigator.clipboard.writeText(`${window.location.origin}/our-properties-in-pune/${property.slug}`);
+                                }}
+                                className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                                title="Copy Link"
+                              >
+                                <Share2 size={16} className="text-gray-700" />
+                              </button>
+
+                              {/* WhatsApp Button */}
+                              <a
+                                href={`https://wa.me/?text=Check out this property: ${typeof window !== 'undefined' ? window.location.origin : ''}/our-properties-in-pune/${property.slug}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                                title="Share on WhatsApp"
+                              >
+                                <FaWhatsapp size={16} className="text-green-500" />
+                              </a>
+
+                              {/* Save Button */}
+                              <button
+                                onClick={(e) => toggleSave(property, e)}
+                                disabled={savedLoadingId === property.id}
+                                className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                                title={savedIds.includes(property.id) ? "Unsave" : "Save"}
+                              >
+                                <Bookmark
+                                  size={16}
+                                  className={`${savedIds.includes(property.id) ? 'fill-[#172747] text-[#172747]' : 'text-[#172747]'}`}
+                                />
+                              </button>
+                              {/* Compare checkbox */}
+                              <label className="flex items-center gap-1 cursor-pointer select-none">
+                                <input
+                                  type="checkbox"
+                                  checked={comparedIds.includes(property.id)}
+                                  disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
+                                  onChange={async (e) => {
+                                    // Authentication check
+                                    const storedUser = localStorage.getItem('webuser');
+                                    let userId: number | null = null;
+
+                                    if (storedUser) {
+                                      try {
+                                        const parsed = JSON.parse(storedUser);
+                                        userId = parsed.id;
+                                      } catch (err) {
+                                        console.error("Error parsing user data", err);
+                                      }
                                     }
-                                  } else {
-                                    // Uncompare (remove)
-                                    setComparedIds(prev => prev.filter(id => id !== property.id));
-                                    const comparisonId = comparisonIdMap[property.id];
-                                    if (!comparisonId) {
-                                      setCompareLoadingId(null);
+
+                                    if (!userId) {
+                                      e.preventDefault();
+                                      window.location.href = '/signin';
                                       return;
                                     }
-                                    const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
-                                    if (!resp.ok) {
+
+                                    setCompareLoadingId(property.id);
+                                    if (e.target.checked) {
+                                      // Compare (add)
                                       setComparedIds(prev => [...prev, property.id]);
+                                      try {
+                                        const resp = await fetch('http://localhost:5000/api/property-comparisons', {
+                                          method: 'POST',
+                                          headers: { 'Content-Type': 'application/json' },
+                                          body: JSON.stringify({ webUserId: userId, propertyId: property.id, propertyData: property })
+                                        });
+                                        if (!resp.ok) {
+                                          setComparedIds(prev => prev.filter(id => id !== property.id));
+                                        } else {
+                                          await fetchComparedIds();
+                                        }
+                                      } catch (error) {
+                                        console.error("Comparison error:", error);
+                                        setComparedIds(prev => prev.filter(id => id !== property.id));
+                                      }
                                     } else {
-                                      await fetchComparedIds();
+                                      // Uncompare (remove)
+                                      setComparedIds(prev => prev.filter(id => id !== property.id));
+                                      const comparisonId = comparisonIdMap[property.id];
+                                      if (!comparisonId) {
+                                        setCompareLoadingId(null);
+                                        return;
+                                      }
+                                      const resp = await fetch(`http://localhost:5000/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                                      if (!resp.ok) {
+                                        setComparedIds(prev => [...prev, property.id]);
+                                      } else {
+                                        await fetchComparedIds();
+                                      }
                                     }
-                                  }
-                                  setCompareLoadingId(null);
-                                }}
-                                className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
-                              />
-                              <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
-                                {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
-                              </span>
-                            </label>
+                                    setCompareLoadingId(null);
+                                  }}
+                                  className="form-checkbox h-4 w-4 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
+                                />
+                                <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-[10px]' : 'text-green-700 font-semibold text-[10px]'}>
+                                  {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
+                                </span>
+                              </label>
+                            </div>
                             <motion.button
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
-                              className="w-full bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-sm font-medium px-4 py-2 rounded-[4px] shadow-sm transition-all duration-200"
+                              className="bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-[10px] font-medium px-3 py-1.5 rounded-[4px] shadow-sm transition-all duration-200"
                             >
                               View Details
                             </motion.button>

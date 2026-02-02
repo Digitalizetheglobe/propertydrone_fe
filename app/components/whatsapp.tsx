@@ -1,41 +1,46 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import wp from "@/public/images/wha.png"; // ✅ Adjusted import path for WhatsApp icon
-import snd from "@/public/images/send.png";
+import { MessageCircle, X, Check, ChevronDown } from "lucide-react";
+import { FaWhatsapp } from 'react-icons/fa';
+
 const WhatsAppPopup = () => {
   const [showPopup, setShowPopup] = useState(false);
-  const [phoneNumber] = useState("+91 9156123575"); // ✅ Default WhatsApp number
-  const [message, setMessage] = useState("");
+  const [phoneNumber] = useState("+91 9156123575"); // Default WhatsApp number
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleSendMessage = () => {
-    if (!message.trim() || !phoneNumber.trim()) return;
-
-    // Remove spaces and ensure proper number format
+    // Just open WhatsApp with pre-filled message regardless of form for now, behaving like "Chat"
+    // Or should we validate form? The button says "Chat on WhatsApp".
+    // The image implies "Submit" is for internal lead, "Chat" is for WA.
     const formattedPhoneNumber = phoneNumber.replace(/\s+/g, "");
-    const url = `https://wa.me/${formattedPhoneNumber}?text=${encodeURIComponent(message)}`;
-    
+    const url = `https://wa.me/${formattedPhoneNumber}?text=${encodeURIComponent("Hi, I would like to consult nicely regarding a property.")}`;
     window.open(url, "_blank");
-    setMessage("");
   };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("Consultation request submitted! (Demo)");
+    setShowPopup(false);
+  }
 
   return (
     <>
       {/* WhatsApp Floating Button */}
       <button
         onClick={() => setShowPopup(!showPopup)}
-        className="whatsapp-float-btn"
+        className="whatsapp-float-btn transition-transform hover:scale-105 active:scale-95"
         style={{
           position: "fixed",
           bottom: "40px",
-          left: "40px", // ✅ Changed to left side on desktop
-          backgroundColor: "rgb(33, 202, 95)",
+          left: "40px",
+          backgroundColor: "#DC2626", // Red
           border: "none",
           borderRadius: "50%",
-          width: "40px",
-          height: "40px",
+          width: "56px",
+          height: "56px",
           cursor: "pointer",
-          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+          boxShadow: "0px 4px 12px rgba(220, 38, 38, 0.4)",
           padding: 0,
           display: "flex",
           alignItems: "center",
@@ -43,114 +48,106 @@ const WhatsAppPopup = () => {
           zIndex: 1000,
         }}
       >
-        <Image src={wp} alt="WhatsApp" width={35} height={35} />
+        <div className="relative">
+          <MessageCircle size={32} className="text-white fill-white" />
+          {/* Try to simulate the 3-dots look if needed, but fill-white works well */}
+        </div>
       </button>
 
-      {/* WhatsApp Chat Popup */}
+      {/* Consultation Popup */}
       {showPopup && (
         <div
+          className="fixed z-[1001] bg-white rounded-lg shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300 border border-gray-100"
           style={{
-            position: "fixed",
-            bottom: "90px",
-            left: "20px", // ✅ Adjusted popup position to left side
-            width: "320px",
-            backgroundColor: "#fff",
-            borderRadius: "10px",
-            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-            zIndex: 1000,
-            fontFamily: "Arial, sans-serif",
+            bottom: "100px",
+            left: "40px",
+            width: "280px",
+            maxWidth: "calc(100vw - 40px)",
+            fontFamily: "Inter, sans-serif",
           }}
         >
           {/* Header */}
-          <div
-            style={{
-              backgroundColor: "#075E54",
-              color: "#fff",
-              padding: "12px",
-              borderTopLeftRadius: "10px",
-              borderTopRightRadius: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              fontWeight: "bold",
-            }}
-          >
-            <span>Property Drone Realty</span>
-            <span onClick={() => setShowPopup(false)} style={{ cursor: "pointer", fontSize: "18px" }}>✖</span>
-          </div>
-
-          {/* Chat Body */}
-          <div
-            style={{
-              padding: "12px",
-              backgroundColor: "#ECE5DD",
-              minHeight: "150px",
-              maxHeight: "250px",
-              overflowY: "auto",
-            }}
-          >
-            <div
-              style={{
-                backgroundColor: "#DCF8C6",
-                padding: "8px",
-                borderRadius: "8px",
-                maxWidth: "80%",
-                marginBottom: "10px",
-                fontSize: "14px",
-                boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              Hey! 👋 Enter a message and send it to WhatsApp.
-            </div>
-          </div>
-
-          {/* Chat Input */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row", // ✅ Changed to row layout
-              alignItems: "center",
-              gap: "8px",
-              padding: "12px",
-              backgroundColor: "#fff",
-              borderBottomLeftRadius: "10px",
-              borderBottomRightRadius: "10px",
-            }}
-          >
-            {/* Message Input */}
-            <input
-              type="text"
-              placeholder="Enter your message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              style={{
-                flex: 1,
-                padding: "8px",
-                borderRadius: "20px",
-                border: "1px solid #ddd",
-                outline: "none",
-                fontSize: "14px",
-              }}
-            />
-
-            {/* Send Button */}
+          <div className="px-4 py-3 flex justify-between items-center bg-gray-50 border-b border-gray-100">
+            <h2 className="text-sm font-semibold text-gray-800">Quick Consultation</h2>
             <button
-              onClick={handleSendMessage}
-              style={{
-                backgroundColor: "#25D366",
-                border: "none",
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-              }}
+              onClick={() => setShowPopup(false)}
+              className="text-gray-400 hover:text-red-500 transition-colors"
             >
-              <Image src={snd} alt="Send" width={20} height={20} />
+              <X size={18} />
             </button>
+          </div>
+
+          {/* Body */}
+          <div className="p-4">
+            <form className="space-y-3" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                placeholder="Full Name"
+                className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-xs outline-none focus:border-red-500 focus:ring-1 focus:ring-red-100 transition-all placeholder:text-gray-400"
+                required
+              />
+
+              <div className="flex gap-2">
+                <div className="relative w-16">
+                  <div className="w-full px-2 py-2 bg-white border border-gray-200 rounded text-xs flex items-center justify-center text-gray-600 bg-gray-50">
+                    <span>+91</span>
+                  </div>
+                </div>
+                <input
+                  type="tel"
+                  placeholder="Phone"
+                  className="flex-1 px-3 py-2 bg-white border border-gray-200 rounded text-xs outline-none focus:border-red-500 focus:ring-1 focus:ring-red-100 transition-all placeholder:text-gray-400"
+                  required
+                />
+              </div>
+
+              <input
+                type="email"
+                placeholder="Email"
+                className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-xs outline-none focus:border-red-500 focus:ring-1 focus:ring-red-100 transition-all placeholder:text-gray-400"
+                required
+              />
+
+              <div className="flex gap-2 items-start py-1">
+                <div className="relative flex items-center pt-0.5">
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    checked={isChecked}
+                    onChange={(e) => setIsChecked(e.target.checked)}
+                    className="peer h-3 w-3 cursor-pointer appearance-none rounded-sm border border-gray-300 checked:border-[#DC2626] checked:bg-[#DC2626] transition-all"
+                  />
+                  <Check
+                    size={10}
+                    className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100"
+                  />
+                </div>
+                <label htmlFor="terms" className="text-[10px] text-gray-400 cursor-pointer select-none leading-tight">
+                  I accept <a href="#" className="hover:text-red-500 underline">Terms</a> & <a href="#" className="hover:text-red-500 underline">Privacy</a>
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-[#DC2626] hover:bg-red-700 text-white font-medium py-2 rounded text-xs transition-colors shadow-sm"
+              >
+                Submit Request
+              </button>
+
+              <div className="relative flex items-center justify-center my-2">
+                <div className="absolute inset-x-0 h-px bg-gray-100"></div>
+                <span className="relative bg-white px-2 text-[10px] text-gray-300 uppercase">OR</span>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleSendMessage}
+                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-medium py-2 rounded text-xs transition-colors shadow-sm flex items-center justify-center gap-1.5"
+              >
+                <FaWhatsapp size={14} />
+                Chat on WhatsApp
+              </button>
+            </form>
           </div>
         </div>
       )}

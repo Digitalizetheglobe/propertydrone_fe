@@ -19,7 +19,7 @@ export default function TestimonialsPage() {
   const [editId, setEditId] = useState<string | number | null>(null);
 
   useEffect(() => {
-    fetch("https://api.propertydronerealty.com/api/testimonials")
+    fetch("http://localhost:5000/api/testimonials")
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch testimonials");
         return res.json();
@@ -50,7 +50,7 @@ export default function TestimonialsPage() {
       let newTestimonial: Testimonial;
       if (editId !== null) {
         // Update
-        res = await fetch(`https://api.propertydronerealty.com/api/testimonials/${editId}`, {
+        res = await fetch(`http://localhost:5000/api/testimonials/${editId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
@@ -60,7 +60,7 @@ export default function TestimonialsPage() {
         setTestimonials(t => t.map(test => test.id === editId ? newTestimonial : test));
       } else {
         // Create
-        res = await fetch("https://api.propertydronerealty.com/api/testimonials", {
+        res = await fetch("http://localhost:5000/api/testimonials", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
@@ -80,7 +80,7 @@ export default function TestimonialsPage() {
   const handleDelete = async (id: string | number) => {
     if (!window.confirm("Are you sure you want to delete this testimonial?")) return;
     try {
-      const res = await fetch(`https://api.propertydronerealty.com/api/testimonials/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/testimonials/${id}`, {
         method: "DELETE"
       });
       if (!res.ok) throw new Error("Delete failed");
@@ -116,7 +116,7 @@ export default function TestimonialsPage() {
                   )}
                 </div>
                 <div className="flex items-center mb-2">
-                  {[1,2,3,4,5].map(star => (
+                  {[1, 2, 3, 4, 5].map(star => (
                     <span key={star} className={"text-xl " + (item.rating && item.rating >= star ? "text-yellow-400" : "text-gray-300")}>★</span>
                   ))}
                 </div>
@@ -126,17 +126,17 @@ export default function TestimonialsPage() {
                   <span className="text-xs text-gray-400">{item.createdAt ? (new Date(item.createdAt)).toLocaleDateString() : new Date().toLocaleDateString()}</span>
                   <div className="flex gap-3 text-gray-500 text-lg">
                     <button title="Edit" className="hover:text-blue-600" onClick={() => {
-  setEditId(item.id);
-  setFormData({
-    name: item.name || "",
-    testimonial: item.testimonial || "",
-    rating: item.rating || 0,
-    isActive: item.isActive !== false
-  });
-  setShowModal(true);
-}}><svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.65 3.35l-10.3 10.3v2h2l10.3-10.3a1.416 1.416 0 00-2-2z"></path><path d="M14.86 5.14a2.001 2.001 0 00-2.83-2.83l-1.13 1.13 2.83 2.83 1.13-1.13z"></path></svg></button>
-<button title="Toggle Active" className="hover:text-yellow-500"><svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="8" r="7"/><path d="M8 4v4l3 3"/></svg></button>
-<button title="Delete" className="hover:text-red-500" onClick={() => handleDelete(item.id)}><svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h10M6 6v6m4-6v6M2 6v10a1 1 0 001 1h10a1 1 0 001-1V6M7 2h2a2 2 0 012 2v1H5V4a2 2 0 012-2z"></path></svg></button>
+                      setEditId(item.id);
+                      setFormData({
+                        name: item.name || "",
+                        testimonial: item.testimonial || "",
+                        rating: item.rating || 0,
+                        isActive: item.isActive !== false
+                      });
+                      setShowModal(true);
+                    }}><svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.65 3.35l-10.3 10.3v2h2l10.3-10.3a1.416 1.416 0 00-2-2z"></path><path d="M14.86 5.14a2.001 2.001 0 00-2.83-2.83l-1.13 1.13 2.83 2.83 1.13-1.13z"></path></svg></button>
+                    <button title="Toggle Active" className="hover:text-yellow-500"><svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="8" r="7" /><path d="M8 4v4l3 3" /></svg></button>
+                    <button title="Delete" className="hover:text-red-500" onClick={() => handleDelete(item.id)}><svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h10M6 6v6m4-6v6M2 6v10a1 1 0 001 1h10a1 1 0 001-1V6M7 2h2a2 2 0 012 2v1H5V4a2 2 0 012-2z"></path></svg></button>
                   </div>
                 </div>
               </div>
@@ -157,13 +157,13 @@ export default function TestimonialsPage() {
               </div>
               <div className="mb-2 flex items-center">
                 <label className="mr-2">Rating:</label>
-                {[1,2,3,4,5].map(star => (
-                  <span key={star} onClick={() => setFormData(fd => ({...fd, rating: star}))} className="cursor-pointer text-xl text-yellow-500">{formData.rating >= star ? '★' : '☆'}</span>
+                {[1, 2, 3, 4, 5].map(star => (
+                  <span key={star} onClick={() => setFormData(fd => ({ ...fd, rating: star }))} className="cursor-pointer text-xl text-yellow-500">{formData.rating >= star ? '★' : '☆'}</span>
                 ))}
               </div>
               <div className="mb-2">
                 <label className="inline-flex items-center">
-                  <input type="checkbox" name="isActive" checked={formData.isActive} onChange={e => setFormData(fd => ({...fd, isActive: e.target.checked}))} className="mr-2" /> Active
+                  <input type="checkbox" name="isActive" checked={formData.isActive} onChange={e => setFormData(fd => ({ ...fd, isActive: e.target.checked }))} className="mr-2" /> Active
                 </label>
               </div>
               <div className="flex gap-2 mt-4">

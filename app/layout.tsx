@@ -8,6 +8,8 @@ import ScrollButton from "./components/scrollbutton";
 import WhatsAppPopup from "./components/whatsapp";
 import Mainfooter from "./components/mainfooter";
 import Script from 'next/script'; // ✅ import Script
+import CookieBanner from "./components/CookieBanner";
+import Chatbot from "./components/chatbot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -112,7 +114,9 @@ export default function RootLayout({
         <AuthProvider>
           <LayoutWithConditionalHeader>{children}</LayoutWithConditionalHeader>
           <WhatsAppPopup />
+          <CookieBanner />
           <ScrollButton />
+          <Chatbot/>
         </AuthProvider>
       </body>
     </html>

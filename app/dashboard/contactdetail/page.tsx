@@ -18,7 +18,7 @@ const ContactDetails = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch("https://api.propertydronerealty.com/contacts");
+        const response = await fetch("http://localhost:5000/contacts");
         const data = await response.json();
         setContacts(data);
       } catch (error) {
@@ -34,11 +34,11 @@ const ContactDetails = () => {
   const handleDownload = () => {
     // Create worksheet
     const worksheet = XLSX.utils.json_to_sheet(contacts);
-    
+
     // Create workbook
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Contacts");
-    
+
     // Generate Excel file
     XLSX.writeFile(workbook, "contact_details.xlsx");
   };

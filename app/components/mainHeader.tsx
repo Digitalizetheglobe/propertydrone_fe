@@ -1,335 +1,557 @@
-"use client"; // Add this directive at the top
+"use client";
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import logo from "@/app/images/PropertyDrone-Logo.png";  // Adjust the path to your logo file
+import { usePathname } from 'next/navigation';
+import { User } from 'lucide-react';
+import logo from "@/app/images/PropertyDrone-Logo.png";
 
 const MainHeader: React.FC = () => {
+    const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-    const [isFullMenuOpen, setIsFullMenuOpen] = useState(false);
     const [menuAnimationState, setMenuAnimationState] = useState('closed');
     const menuRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const dropdownButtonRef = useRef<HTMLButtonElement>(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isPropertiesDropdownOpen, setIsPropertiesDropdownOpen] = useState(false);
+    const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
+    const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+    const [user, setUser] = useState<any>(null);
 
-    // Handle screen resize and detect mobile view
+    // New states for dual header logic
+    const [scrolled, setScrolled] = useState(false);
+    const [canShowSecondHeader, setCanShowSecondHeader] = useState(false);
+
+    // Check auth state on mount and route change
+    useEffect(() => {
+        const checkAuth = () => {
+            const storedUser = localStorage.getItem('webuser');
+            if (storedUser) {
+                try {
+                    setUser(JSON.parse(storedUser));
+                } catch (e) {
+                    console.error("Error parsing user data", e);
+                    setUser(null);
+                }
+            } else {
+                setUser(null);
+            }
+        };
+        checkAuth();
+
+        // Close all dropdowns on route change
+        setIsDropdownOpen(false);
+        setIsPropertiesDropdownOpen(false);
+        setIsServicesDropdownOpen(false);
+        setIsProfileDropdownOpen(false);
+        setIsMenuOpen(false);
+    }, [pathname]);
+
+    // Handle screen resize, mobile check, scroll, and timer
     useEffect(() => {
         const checkIfMobile = () => {
             setIsMobile(window.innerWidth < 768);
         };
-        
-        // Initial check
         checkIfMobile();
-        
-        // Add event listener
         window.addEventListener('resize', checkIfMobile);
-        
-        // Clean up
+
+        // Scroll listener for switching headers
+        const handleScroll = () => {
+            // "first video section" typically implies the hero area. 
+            // We use 700px as a threshold for when the first section is "over".
+            setScrolled(window.scrollY > 700);
+        };
+        window.addEventListener('scroll', handleScroll);
+
+        // Timer for the second header availability
+        const timer = setTimeout(() => {
+            setCanShowSecondHeader(true);
+        }, 3000);
+
         return () => {
             window.removeEventListener('resize', checkIfMobile);
+            window.removeEventListener('scroll', handleScroll);
+            clearTimeout(timer);
         };
     }, []);
-
-    // Handle menu open/close animations
-    useEffect(() => {
-        if (isMenuOpen) {
-            setMenuAnimationState('opening');
-            const timer = setTimeout(() => {
-                setMenuAnimationState('open');
-            }, 10); // Small delay to trigger the CSS transition
-            return () => clearTimeout(timer);
-        } else {
-            if (menuAnimationState === 'open' || menuAnimationState === 'opening') {
-                setMenuAnimationState('closing');
-                const timer = setTimeout(() => {
-                    setMenuAnimationState('closed');
-                }, 300); // Match this with the CSS transition duration
-                return () => clearTimeout(timer);
-            }
-        }
-    }, [isMenuOpen]);
-
-    // Close mobile menu when clicking outside
-    useEffect(() => {
-        if (!isMenuOpen) return;
-        
-        const handleClickOutside = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            if (!target.closest('.mobile-menu') && !target.closest('.hamburger-button')) {
-                setIsMenuOpen(false);
-                setIsFullMenuOpen(false);
-            }
-        };
-        
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [isMenuOpen]);
 
     // Handle dropdown click outside to close
     useEffect(() => {
         if (!isDropdownOpen) return;
-        
         const handleClickOutside = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            if (!target.closest('.dropdown-menu') && !target.closest('.dropdown-button')) {
+            if (!target.closest('.dropdown-container')) {
                 setIsDropdownOpen(false);
             }
         };
-        
         document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
+        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isDropdownOpen]);
 
-    // Toggle menu with animation
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+    // Mobile menu animation logic
+    useEffect(() => {
+        if (isMenuOpen) {
+            setMenuAnimationState('opening');
+            setTimeout(() => setMenuAnimationState('open'), 10);
+        } else if (menuAnimationState === 'open' || menuAnimationState === 'opening') {
+            setMenuAnimationState('closing');
+            setTimeout(() => setMenuAnimationState('closed'), 300);
+        }
+    }, [isMenuOpen]);
 
-    // Toggle full menu
-    const toggleFullMenu = () => {
-        setIsFullMenuOpen(!isFullMenuOpen);
-    };
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-    // Toggle dropdown
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
-
-    // Main navigation items with their display logic
-    const navigationItems = [
-        { name: 'Home', href: '/', alwaysShow: true },
-        { name: 'About', href: '/about-us-real-estate-agency', alwaysShow: true },
-        { name: 'Services', href: '/our-services-real-estate-services', alwaysShow: true },
-        { name: 'Properties', href: '/luxe-properties', alwaysShow: true },
-        { name: 'NRI Corner', href: '/nri-corner', alwaysShow: true },
-        { name: 'Developers', href: '/estate_developer', alwaysShow: false },
-        { name: 'Blog', href: '/blog', alwaysShow: false },
-        { name: 'Real Estate Basic', href: '/real_estate_basic', alwaysShow: false },
-        { name: 'Career', href: '/career', alwaysShow: false }
+    const mainNavItems = [
+        // { name: 'Home', href: '/' },
+        { name: 'About', href: '/about-us-real-estate-agency' },
+        { name: 'Services', href: '/our-services-real-estate-services' },
+        { name: 'NRI Corner', href: '/nri-corner' },
+        { name: 'Properties', href: '/luxe-properties' },
     ];
 
-    // Dropdown menu items (items that are not always shown)
-    const dropdownItems = navigationItems.filter(item => !item.alwaysShow);
+    const moreDropdownItems = [
+        { name: 'Developers', href: '/estate_developer' },
+        { name: 'Blog', href: '/blog' },
+        { name: 'News & Articles', href: '/news' },
+        { name: 'Real Estate Basic', href: '/real_estate_basic' },
+        { name: 'Career', href: '/career' }
+    ];
 
-    return (
-        <header className="fixed top-0 left-0  right-0 w-full  backdrop-blur-[28px] "
-            style={{ zIndex: 1000 }}>
-            <div className="max-w-6xl mx-auto lg:px-16">
-               <nav className="flex items-center justify-between px-4 sm:px-0 py-3 sm:py-4 z-50 bg-opacity-140">
+    const handleLogout = () => {
+        localStorage.removeItem('webuser');
+        setUser(null);
+        window.location.href = '/';
+    };
 
-                    {/* Logo container - made smaller on mobile */}
-                    <div className="flex items-center space-x-2 sm:space-x-8 px-2 sm:px-4 py-2 cursor-pointer sm:py-4 bg-white backdrop-blur-[28px] bg-opacity-40 rounded-[4px]">
-                        <Link href="/">
-                            <Image 
-                                src={logo} 
-                                alt="Logo" 
-                                width={isMobile ? 120 : 200} 
-                                height={isMobile ? 60 : 100} 
-                                className="max-h-12 sm:max-h-none" 
-                            />
-                        </Link>
+    const renderServicesDropdown = () => (
+        <div className="absolute top-full left-0 w-[600px] bg-white rounded-xl shadow-xl overflow-hidden z-50 animate-fadeIn border border-gray-100 mt-2 flex">
+            {/* Left Column: Services */}
+            <div className="w-1/2 p-2 relative">
+                <div className="text-gray-400 text-[10px] font-bold px-4 py-2 uppercase tracking-wider">Services</div>
+                <Link href="/our-services-real-estate-services#residential-consulting" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Residential Property Consulting</Link>
+                <Link href="/our-services-real-estate-services#commercial-consulting" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Commercial Property Consulting</Link>
+                <Link href="/our-services-real-estate-services#sales-marketing" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Real Estate Sales and Marketing</Link>
+                <Link href="/our-services-real-estate-services#projects-contract" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Projects Under Contract</Link>
+                <Link href="/our-services-real-estate-services#projects-mandate" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Projects on Mandate</Link>
+                <Link href="/our-services-real-estate-services#property-management" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Property Management</Link>
+                {/* Vertical Divider Line */}
+                <div className="absolute top-2 bottom-2 right-0 w-[1px] bg-gray-100"></div>
+            </div>
 
-                        {/* Desktop Navigation */}
-                        <div className="hidden cursor-pointer md:flex space-x-6 px-6">
-    {navigationItems
-        .filter(item => item.alwaysShow)
-        .map((item) => (
-            item.name === 'Properties' ? (
-                <div key={item.name} className="relative flex items-center"
-                    onMouseEnter={() => setIsPropertiesDropdownOpen(true)}
-                    onMouseLeave={() => setIsPropertiesDropdownOpen(false)}
-                >
-                    <a 
-                        href={item.href} 
-                        className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]"
-                    >
-                        {item.name}
-                    </a>
-                    {isPropertiesDropdownOpen && (
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max bg-white shadow-lg rounded-[4px] z-50 flex flex-row p-2">
-                            <a href="/luxe-properties" className="px-4 py-2 text-black hover:bg-[#17274710] hover:text-[#172747] transition-all duration-300 whitespace-nowrap">Luxe Properties</a>
-                            <a href="/our-properties-in-pune" className="px-4 py-2 text-black hover:bg-[#17274710] hover:text-[#172747] transition-all duration-300 whitespace-nowrap">Pune Properties</a>
-                        </div>
-                    )}
+            {/* Right Column: Tools */}
+            <div className="w-1/2 p-2 bg-gray-50/50">
+                <div className="text-gray-400 text-[10px] font-bold px-4 py-2 uppercase tracking-wider">Tools</div>
+                <div className="space-y-1">
+                    <Link href="/emi-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium">EMI Calculator</Link>
+                    <Link href="/roi-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium">ROI Calculator</Link>
+                    <Link href="/lrd-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium">LRD Calculator</Link>
+                    <Link href="/irr-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium">IRR Calculator</Link>
                 </div>
-            ) : (
-                <a 
-                    key={item.name} 
-                    href={item.href} 
-                    className="text-black hover:text-[#172747] hover:underline hover:underline-[#172747]"
-                >
-                    {item.name}
-                </a>    
-            )
-        ))
-    }
-</div>
+            </div>
+        </div>
+    );
+
+    const renderProfileDropdown = () => (
+        <div className="absolute top-full right-0 w-[220px] bg-white rounded-xl shadow-xl overflow-hidden z-50 animate-fadeIn border border-gray-100 mt-2 p-2">
+            <Link href="/profile" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">My Profile</Link>
+            <Link href="/saved-properties" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Saved Properties</Link>
+            <Link href="/compareproperties" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Compare Properties</Link>
+            <div className="h-[1px] bg-gray-100 my-1"></div>
+            <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg font-medium">Logout</button>
+        </div>
+    );
+
+    // Helper to render the Mega Menu content (used in both headers)
+    const renderMegaMenu = () => (
+        <div className="absolute top-full left-1/2 -translate-x-1/2 w-[1000px] bg-white rounded-2xl shadow-2xl overflow-hidden z-50 animate-fadeIn cursor-default border border-gray-100 flex mt-[2px]">
+            {/* Invisible bridge */}
+            <div className="absolute -top-4 left-0 w-full h-4 bg-transparent"></div>
+
+            {/* Left Sidebar - Visual Calls to Action */}
+            <div className="w-[30%] flex flex-col border-r border-gray-100">
+                {/* Premium Block */}
+                <Link href="/luxe-properties" className="flex-1 bg-[#172747] p-8 group/luxe flex flex-col justify-center relative overflow-hidden text-decoration-none">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover/luxe:opacity-20 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
                     </div>
+                    <h3 className="text-2xl font-bold text-white mb-2 relative z-10">Luxe Property</h3>
+                    <p className="text-blue-100 text-sm relative z-10 opacity-90">Explore our most exclusive premium listings.</p>
+                    <div className="mt-4 flex items-center text-white font-medium text-sm group-hover/luxe:underline">
+                        View Collection <span className="ml-2">→</span>
+                    </div>
+                </Link>
 
-                    <div className="flex items-center cursor-pointer space-x-3">
-                        {/* More Button with Dropdown */}
-                        <div className="relative">
-                            <button
-                                ref={dropdownButtonRef}
-                                className=" hidden sm:flex dropdown-button cursor-pointer pl-[16px] pr-[16px] py-5 bg-white backdrop-blur-[18px] z-50 hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white text-black rounded-[4px]"
-                                onClick={toggleDropdown}
-                                onMouseEnter={() => setIsDropdownOpen(true)}
-                            >
-                                {isDropdownOpen ? 'More ' : 'More '} <span className="ml-2">  ≡</span>
-                            </button>
+                {/* All Properties Block */}
+                <Link href="/our-properties-in-pune" className="flex-1 bg-gray-50 p-8 group/all flex flex-col justify-center relative overflow-hidden hover:bg-gray-100 transition-colors text-decoration-none">
+                    <div className="absolute bottom-0 right-0 p-4 opacity-5 group-hover/all:opacity-10 transition-opacity text-[#172747]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-[#172747] mb-2 relative z-10">All Property</h3>
+                    <p className="text-gray-600 text-sm relative z-10">Browse our complete inventory of listings.</p>
+                    <div className="mt-4 flex items-center text-[#172747] font-medium text-sm group-hover/all:underline">
+                        Start Search <span className="ml-2">→</span>
+                    </div>
+                </Link>
+            </div>
 
-                            {/* Dropdown Menu */}
-<div 
-                                    ref={dropdownRef}
-                                    className={`dropdown-menu cursor-pointer absolute right-0 mt-1 w-max ${isDropdownOpen ? 'flex' : 'hidden'} flex-row bg-white backdrop-blur-[28px] bg-opacity-40 rounded-[4px] shadow-lg z-50`}
-                                    onMouseLeave={() => setIsDropdownOpen(false)}
-                                >
-                                    {dropdownItems.map((item) => (
-                                        <a 
-                                            key={item.name} 
-                                            href={item.href} 
-                                            className="px-4 py-3 text-black hover:bg-[#17274710] hover:text-[#172747] transition-all duration-300 whitespace-nowrap"
-                                        >
-                                            {item.name}
-                                        </a>
-                                    ))}
-                                </div>
+            {/* Right Content - Categorized Lists */}
+            <div className="w-[70%] p-8 bg-white">
+                <div className="grid grid-cols-3 gap-8">
+                    {/* Column 1: Property Type */}
+                    <div className="space-y-6">
+                        <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Property Type</h3>
+                        <div className="space-y-3">
+                            <Link href="/our-properties-in-pune?category=Apartments" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Flats / Apartments</Link>
+                            <Link href="/our-properties-in-pune?category=Houses" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Houses & Villas</Link>
+                            <Link href="/our-properties-in-pune?category=Floors" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Builder Floors</Link>
+                            <Link href="/our-properties-in-pune?category=Land" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Plots & Land</Link>
+                            <Link href="/our-properties-in-pune?category=Retail" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Commercial Space</Link>
+                            <Link href="/our-properties-in-pune?category=Offices" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Co-working</Link>
                         </div>
-                                <Link href={`/#filter-section`}>
-                       <button className="hidden  cursor-pointer sm:flex p-3 sm:px-6 sm:py-5 bg-white hover:bg-[#172747] hover:backdrop-blur-[8px] hover:text-white backdrop-blur-[18px] z-50 text-black rounded-[4px]">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5 sm:h-6 sm:w-6"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-    />
-  </svg>
-</button>
-
-                        </Link>
-                        <Link href="/contact-us-propertydrone-realty">
-                            <button className="px-3 cursor-pointer py-2 sm:px-4 sm:py-5 bg-[#172747] backdrop-blur-[8px] z-50 text-white  rounded-[4px] hover:bg-white hover:text-[#172747] text-sm sm:text-base transition-all duration-300">
-                                CONTACT US
-                            </button>
-                        </Link>
-                        <button
-                            className="md:hidden hamburger-button p-1 bg-white border backdrop-blur-[18px] rounded-[4px] transition-all duration-300"
-                            onClick={toggleMenu}
-                            aria-label="Toggle menu"
-                        >
-                            <div className="hamburger-icon w-6 h-6 relative flex justify-center items-center">
-                                <span className={`hamburger-line absolute w-5 h-0.5 bg-[#172747] transform transition-all duration-300 ease-in-out ${isMenuOpen ? 'rotate-45' : '-translate-y-1.5'}`}></span>
-                                <span className={`hamburger-line absolute w-5 h-0.5 bg-[#172747] transition-opacity duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-                                <span className={`hamburger-line absolute w-5 h-0.5 bg-[#172747] transform transition-all duration-300 ease-in-out ${isMenuOpen ? '-rotate-45' : 'translate-y-1.5'}`}></span>
-                            </div>
-                        </button>
                     </div>
-                </nav>
 
-                {/* Mobile Navigation Menu with improved animations */}
-                <div 
-                    ref={menuRef}
-                    className={`md:hidden cursor-pointer mobile-menu fixed top-[60px] left-0 right-0 bg-white shadow-lg transform transition-all duration-300 ease-in-out overflow-hidden ${
-                        menuAnimationState === 'closed' ? 'max-h-0 opacity-0 pointer-events-none' : 
-                        menuAnimationState === 'closing' ? 'max-h-[400px] opacity-0 pointer-events-none' : 
-                        menuAnimationState === 'opening' ? 'max-h-[400px] opacity-0' : 'max-h-[400px] opacity-100'
-                    }`}
-                >
-                    <div className="flex flex-col cursor-pointer bg-[#FFFFFF] bg-opacity-95 backdrop-blur-[28px]">
-                        {navigationItems.map((item) => (
-                            <a 
-                                key={item.name} 
-                                href={item.href} 
-                                className="text-[#172747] hover:bg-[#17274710] px-4 py-3 border-b border-gray-200 transform transition-all duration-300 hover:translate-x-2"
-                            >
-                                {item.name}
-                            </a>
-                        ))}
+                    {/* Column 2: Popular Areas */}
+                    <div className="space-y-6">
+                        <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Popular Areas</h3>
+                        <div className="space-y-3">
+                            <Link href="/our-properties-in-pune?location=Ravet" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Ravet</Link>
+                            <Link href="/our-properties-in-pune?location=Wakad" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Wakad</Link>
+                            <Link href="/our-properties-in-pune?location=Baner" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Baner</Link>
+                            <Link href="/our-properties-in-pune?location=Kharadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Kharadi</Link>
+                            <Link href="/our-properties-in-pune?location=Hinjewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Hinjewadi</Link>
+                            <Link href="/our-properties-in-pune?location=Viman Nagar" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Viman Nagar</Link>
+                        </div>
+                    </div>
+
+                    {/* Column 3: BHK */}
+                    <div className="space-y-6">
+                        <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Search by BHK</h3>
+                        <div className="space-y-3">
+                            <Link href="/our-properties-in-pune?topology=1" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">1 RK / Studio</Link>
+                            <Link href="/our-properties-in-pune?topology=1" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">1 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune?topology=2" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">2 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune?topology=3" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">3 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune?topology=4" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">4+ BHK Flats</Link>
+                            <Link href="/our-properties-in-pune?category=Offices" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Commercial Office</Link>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            {/* Add custom animations for hover effects and transitions */}
+        </div>
+    );
+
+    // Render the Mobile Menu (Shared)
+    const renderMobileMenu = (customTop = "70px") => (
+        <div
+            className={`lg:hidden fixed left-0 right-0 bg-white shadow-xl overflow-hidden transition-all duration-300 ease-in-out z-[999]`}
+            style={{
+                top: customTop,
+                maxHeight: (menuAnimationState === 'open' || menuAnimationState === 'opening') ? '80vh' : '0',
+                opacity: (menuAnimationState === 'open' || menuAnimationState === 'opening') ? 1 : 0
+            }}
+        >
+            <div className="flex flex-col p-4 space-y-2">
+                {[...mainNavItems, ...moreDropdownItems].map((item) => (
+                    <Link
+                        key={item.name}
+                        href={item.href}
+                        className="px-4 py-3 text-[#172747] hover:bg-gray-100 rounded-lg font-medium border-b border-gray-100 last:border-0"
+                        onClick={() => setIsMenuOpen(false)}
+                    >
+                        {item.name}
+                    </Link>
+                ))}
+                <div className="pt-4 mt-2 border-t border-gray-100 flex flex-col gap-3">
+                    {user ? (
+                        <Link href="/profile" className="px-4 py-2 text-center text-white font-bold bg-[#172747] rounded-lg">Profile</Link>
+                    ) : (
+                        <Link href="/signin" className="px-4 py-2 text-center text-[#172747] font-bold bg-gray-100 rounded-lg">Log In</Link>
+                    )}
+                    <Link href="/contact-us-propertydrone-realty" className="px-4 py-2 text-center text-white font-bold bg-[#172747] rounded-lg">Contact Us</Link>
+                </div>
+            </div>
+        </div>
+    );
+
+    return (
+        <>
+            {/* FIRST HEADER: Visible on First Section (Top) */}
+            {!scrolled && (
+                <header className="fixed top-0 left-0 right-0 w-full z-[1000] transition-colors duration-300">
+                    <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-4">
+                        <nav className="flex items-center justify-between">
+                            {/* Logo with White Box */}
+                            <div className="flex-shrink-0 cursor-pointer bg-white px-4 py-2 rounded-xl shadow-sm">
+                                <Link href="/">
+                                    <Image src={logo} alt="PropertyDrone Logo" width={isMobile ? 120 : 160} height={isMobile ? 40 : 50} className="object-contain" />
+                                </Link>
+                            </div>
+
+                            {/* Nav Pills */}
+                            <div className="hidden lg:flex items-start gap-2 relative">
+                                {mainNavItems.map((item) => {
+                                    if (item.name === 'Properties') {
+                                        return (
+                                            <div key={item.name} className="relative group static"
+                                                onMouseEnter={() => setIsPropertiesDropdownOpen(true)}
+                                                onMouseLeave={() => setIsPropertiesDropdownOpen(false)}
+                                            >
+                                                <Link href={item.href}>
+                                                    <div className={`px-6 py-2 font-medium text-sm transition-all cursor-pointer border-b-0
+                                                    ${isPropertiesDropdownOpen || pathname === item.href
+                                                            ? 'bg-white text-[#172747] rounded-t-2xl rounded-b-none shadow-sm relative z-[60]'
+                                                            : 'rounded-full bg-white/70 hover:bg-white backdrop-blur-md text-[#172747]'
+                                                        }`}>
+                                                        {item.name}
+                                                    </div>
+                                                </Link>
+                                                {isPropertiesDropdownOpen && renderMegaMenu()}
+                                            </div>
+                                        );
+                                    } else if (item.name === 'Services') {
+                                        return (
+                                            <div key={item.name} className="relative dropdown-container"
+                                                onMouseEnter={() => setIsServicesDropdownOpen(true)}
+                                                onMouseLeave={() => setIsServicesDropdownOpen(false)}
+                                            >
+                                                <Link href={item.href}>
+                                                    <div className={`px-6 py-2 font-medium text-sm transition-all cursor-pointer border-b-0
+                                                    ${isServicesDropdownOpen || pathname === item.href
+                                                            ? 'bg-white text-[#172747] rounded-t-2xl rounded-b-none shadow-sm relative z-[60]'
+                                                            : 'rounded-full bg-white/70 hover:bg-white backdrop-blur-md text-[#172747]'
+                                                        }`}>
+                                                        {item.name}
+                                                    </div>
+                                                </Link>
+                                                {isServicesDropdownOpen && renderServicesDropdown()}
+                                            </div>
+                                        );
+                                    } else {
+                                        return (
+                                            <Link key={item.name} href={item.href}>
+                                                <div className={`px-6 py-2 rounded-full font-medium text-sm transition-all cursor-pointer
+                                                ${pathname === item.href
+                                                        ? 'bg-white text-[#172747] shadow-sm font-bold'
+                                                        : 'bg-white/70 hover:bg-white backdrop-blur-md text-[#172747]'
+                                                    }`}>
+                                                    {item.name}
+                                                </div>
+                                            </Link>
+                                        );
+                                    }
+                                })}
+
+                                {/* More Dropdown */}
+                                <div className="relative dropdown-container" ref={dropdownRef}
+                                    onMouseEnter={() => setIsDropdownOpen(true)}
+                                    onMouseLeave={() => setIsDropdownOpen(false)}
+                                >
+                                    <button
+                                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                        className={`flex items-center gap-2 px-6 py-2 font-medium text-sm transition-all cursor-pointer outline-none
+                                            ${isDropdownOpen
+                                                ? 'bg-white text-[#172747] rounded-t-2xl rounded-b-none'
+                                                : 'bg-white/70 text-[#172747] rounded-full hover:bg-white backdrop-blur-md'
+                                            }`}
+                                    >
+                                        <span className="font-bold">☰</span> More
+                                    </button>
+                                    {isDropdownOpen && (
+                                        <div className="absolute top-full right-0 bg-white rounded-b-2xl rounded-tl-2xl shadow-xl flex items-center py-4 px-6 gap-0 min-w-[500px] z-50 animate-fadeIn mt-[2px]">
+                                            <div className="absolute -top-4 left-0 w-full h-4 bg-transparent"></div>
+                                            {moreDropdownItems.map((item, index) => (
+                                                <React.Fragment key={item.name}>
+                                                    <Link href={item.href} className="text-[#172747] font-bold text-sm hover:text-blue-600 px-4 whitespace-nowrap">
+                                                        {item.name}
+                                                    </Link>
+                                                    {index < moreDropdownItems.length - 1 && <div className="h-4 w-[1px] bg-gray-300 mx-1"></div>}
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Actions */}
+                            <div className="hidden lg:flex items-center gap-4">
+                                {user ? (
+                                    <div className="relative dropdown-container"
+                                        onMouseEnter={() => setIsProfileDropdownOpen(true)}
+                                        onMouseLeave={() => setIsProfileDropdownOpen(false)}
+                                    >
+                                        <div className="flex items-center gap-2 bg-white text-[#172747] px-6 py-2 rounded-xl shadow-sm font-bold hover:bg-gray-100 transition-all text-sm cursor-pointer">
+                                            <User className="w-4 h-4" /> <span>Profile</span>
+                                        </div>
+                                        {isProfileDropdownOpen && renderProfileDropdown()}
+                                    </div>
+                                ) : (
+                                    <Link href="/signin" className="bg-white text-black px-6 py-2 rounded-xl shadow-sm font-bold hover:bg-gray-100 transition-all text-sm">Log In</Link>
+                                )}
+                                <Link href="/contact-us-propertydrone-realty" className="bg-white text-black px-6 py-2 rounded-xl shadow-sm font-bold hover:bg-gray-100 transition-all text-sm">Contact Us</Link>
+                            </div>
+
+                            {/* Mobile Hamburger */}
+                            <div className="lg:hidden">
+                                <button className="p-2 text-white bg-white/20 rounded-md backdrop-blur-md" onClick={toggleMenu} aria-label="Toggle menu">
+                                    <div className="w-6 h-6 flex flex-col justify-center items-center gap-1.5">
+                                        <span className={`block w-5 h-0.5 bg-white transform transition-all ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+                                        <span className={`block w-5 h-0.5 bg-white transition-opacity ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+                                        <span className={`block w-5 h-0.5 bg-white transform transition-all ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+                                    </div>
+                                </button>
+                            </div>
+                        </nav>
+                    </div >
+                    {renderMobileMenu()}
+                </header >
+            )}
+
+            {/* SECOND HEADER: Visible after scrolling & 3 seconds (Solid Background) */}
+            {
+                scrolled && canShowSecondHeader && (
+                    <header className="fixed top-0 left-0 right-0 w-full z-[1000] bg-white shadow-md transition-all duration-300">
+                        <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-4">
+                            <nav className="flex items-center justify-between">
+                                {/* Logo (No Box) */}
+                                <div className="flex-shrink-0 cursor-pointer">
+                                    <Link href="/">
+                                        <Image src={logo} alt="PropertyDrone Logo" width={isMobile ? 120 : 160} height={isMobile ? 40 : 50} className="object-contain" />
+                                    </Link>
+                                </div>
+
+                                {/* Nav Items (Clean Style) */}
+                                <div className="hidden lg:flex items-start gap-2 relative">
+                                    {mainNavItems.map((item) => {
+                                        if (item.name === 'Properties') {
+                                            return (
+                                                <div key={item.name} className="relative group static"
+                                                    onMouseEnter={() => setIsPropertiesDropdownOpen(true)}
+                                                    onMouseLeave={() => setIsPropertiesDropdownOpen(false)}
+                                                >
+                                                    <Link href={item.href}>
+                                                        <div className={`px-6 py-2 font-medium text-sm transition-all cursor-pointer border-b-0
+                                                        ${isPropertiesDropdownOpen || pathname === item.href
+                                                                ? 'bg-gray-100 text-[#172747] rounded-top-md'
+                                                                : 'text-[#172747] hover:bg-gray-100 rounded-full'
+                                                            }`}>
+                                                            {item.name}
+                                                        </div>
+                                                    </Link>
+                                                    {isPropertiesDropdownOpen && renderMegaMenu()}
+                                                </div>
+                                            );
+                                        } else if (item.name === 'Services') {
+                                            return (
+                                                <div key={item.name} className="relative dropdown-container"
+                                                    onMouseEnter={() => setIsServicesDropdownOpen(true)}
+                                                    onMouseLeave={() => setIsServicesDropdownOpen(false)}
+                                                >
+                                                    <Link href={item.href}>
+                                                        <div className={`px-6 py-2 font-medium text-sm transition-all cursor-pointer border-b-0
+                                                        ${isServicesDropdownOpen || pathname === item.href
+                                                                ? 'bg-gray-100 text-[#172747] rounded-top-md'
+                                                                : 'text-[#172747] hover:bg-gray-100 rounded-full'
+                                                            }`}>
+                                                            {item.name}
+                                                        </div>
+                                                    </Link>
+                                                    {isServicesDropdownOpen && renderServicesDropdown()}
+                                                </div>
+                                            );
+                                        } else {
+                                            return (
+                                                <Link key={item.name} href={item.href}>
+                                                    <div className={`px-6 py-2 rounded-full font-medium text-sm transition-all cursor-pointer
+                                                    ${pathname === item.href
+                                                            ? 'bg-gray-100 text-[#172747] font-bold'
+                                                            : 'text-[#172747] hover:bg-gray-100'
+                                                        }`}>
+                                                        {item.name}
+                                                    </div>
+                                                </Link>
+                                            );
+                                        }
+                                    })}
+
+                                    {/* More Dropdown (Clean Style) */}
+                                    <div className="relative dropdown-container" ref={dropdownRef}
+                                        onMouseEnter={() => setIsDropdownOpen(true)}
+                                        onMouseLeave={() => setIsDropdownOpen(false)}
+                                    >
+                                        <button
+                                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                            className={`flex items-center gap-2 px-6 py-2 font-medium text-sm transition-all cursor-pointer outline-none
+                                            ${isDropdownOpen
+                                                    ? 'bg-gray-100 text-[#172747] rounded-top-md'
+                                                    : 'text-[#172747] hover:bg-gray-100 rounded-full'
+                                                }`}
+                                        >
+                                            <span className="font-bold">☰</span> More
+                                        </button>
+                                        {isDropdownOpen && (
+                                            <div className="absolute top-full right-0 bg-white rounded-b-2xl rounded-tl-2xl shadow-xl flex items-center py-4 px-6 gap-0 min-w-[500px] z-50 animate-fadeIn border border-gray-100 mt-[2px]">
+                                                <div className="absolute -top-4 left-0 w-full h-4 bg-transparent"></div>
+                                                {moreDropdownItems.map((item, index) => (
+                                                    <React.Fragment key={item.name}>
+                                                        <Link href={item.href} className="text-[#172747] font-bold text-sm hover:text-blue-600 px-4 whitespace-nowrap">
+                                                            {item.name}
+                                                        </Link>
+                                                        {index < moreDropdownItems.length - 1 && <div className="h-4 w-[1px] bg-gray-300 mx-1"></div>}
+                                                    </React.Fragment>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Actions */}
+                                <div className="hidden lg:flex items-center gap-4">
+                                    {user ? (
+                                        <div className="relative dropdown-container"
+                                            onMouseEnter={() => setIsProfileDropdownOpen(true)}
+                                            onMouseLeave={() => setIsProfileDropdownOpen(false)}
+                                        >
+                                            <div className="flex items-center gap-2 bg-gray-100 text-[#172747] px-6 py-2 rounded-xl shadow-sm font-bold hover:bg-gray-200 transition-all text-sm cursor-pointer">
+                                                <User className="w-4 h-4" /> <span>Profile</span>
+                                            </div>
+                                            {isProfileDropdownOpen && renderProfileDropdown()}
+                                        </div>
+                                    ) : (
+                                        <Link href="/signin" className="bg-[#172747] text-white px-6 py-2 rounded-xl shadow-sm font-bold hover:bg-[#1f3764] transition-all text-sm">Log In</Link>
+                                    )}
+                                    <Link href="/contact-us-propertydrone-realty" className="bg-[#172747] text-white px-6 py-2 rounded-xl shadow-sm font-bold hover:bg-[#1f3764] transition-all text-sm">Contact Us</Link>
+                                </div>
+
+                                {/* Mobile Hamburger (Dark for light bg) */}
+                                <div className="lg:hidden">
+                                    <button className="p-2 text-[#172747] bg-gray-100 rounded-md" onClick={toggleMenu} aria-label="Toggle menu">
+                                        <div className="w-6 h-6 flex flex-col justify-center items-center gap-1.5">
+                                            <span className={`block w-5 h-0.5 bg-[#172747] transform transition-all ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+                                            <span className={`block w-5 h-0.5 bg-[#172747] transition-opacity ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+                                            <span className={`block w-5 h-0.5 bg-[#172747] transform transition-all ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </nav>
+                        </div >
+                        {renderMobileMenu()}
+                    </header >
+                )
+            }
+
             <style jsx global>{`
-                /* Menu link hover animation */
-                .mobile-menu a {
-                    position: relative;
-                    overflow: hidden;
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(-5px); }
+                    to { opacity: 1; transform: translateY(0); }
                 }
-                
-                .mobile-menu a::after {
-                    content: '';
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 0;
-                    height: 2px;
-                    background-color: #172747;
-                    transition: width 0.3s ease;
-                }
-                
-                .mobile-menu a:hover::after {
-                    width: 100%;
-                }
-                
-                /* Dropdown menu animations */
-                .dropdown-menu {
-                    transition: opacity 0.3s ease, transform 0.3s ease;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                }
-                
-                .dropdown-menu a {
-                    position: relative;
-                    overflow: hidden;
-                }
-                
-                .dropdown-menu a::after {
-                    content: '';
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 0;
-                    height: 2px;
-                    background-color: #172747;
-                    transition: width 0.3s ease;
-                }
-                
-                .dropdown-menu a:hover::after {
-                    width: 100%;
-                }
-                
-                /* Hamburger button animation */
-                .hamburger-button:hover {
-                    background-color: rgba(255, 255, 255, 0.9);
-                    transform: scale(1.05);
-                }
-                
-                /* Mobile menu transition */
-                .mobile-menu {
-                    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-                }
-                
-                /* Menu items staggered animation */
-                .mobile-menu a {
-                    transition: transform 0.3s ease, background-color 0.2s ease;
+                .animate-fadeIn {
+                    animation: fadeIn 0.2s ease-out forwards;
                 }
             `}</style>
-        </header>
+        </>
     );
 };
 

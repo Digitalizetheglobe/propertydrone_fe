@@ -136,8 +136,10 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Image handling
-  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
-  const propertyImages = property?.multipleImages?.map(img => `${baseUrl}${img.path}`) || [];
+  const baseUrl = "http://localhost:5000"; // For dev — ideally from env
+  const propertyImages = property?.multipleImages?.map(img =>
+    img.path.startsWith('http') ? img.path : `${baseUrl}${img.path}`
+  ) || [];
 
   useEffect(() => {
     if (property.multipleImages?.length > 1) {
@@ -258,7 +260,13 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                 <div className="relative h-64 md:h-96 bg-gray-200">
                   {property.multipleImages?.length > 0 ? (
                     <img
-                      src={`${baseUrl}${property.multipleImages[mainImage].path}`}
+                      src={(() => {
+                        const path = property.multipleImages[mainImage].path;
+                        if (path.startsWith('http')) return path;
+                        const cleanPath = path.replace(/\\/g, '/');
+                        const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+                        return `${baseUrl}${finalPath}`;
+                      })()}
                       alt={property.propertyName}
                       className="object-cover w-full h-full cursor-pointer"
                       onClick={() => openModal(mainImage)}
@@ -309,7 +317,12 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                       }}
                     >
                       <img
-                        src={`${baseUrl}${img.path}`}
+                        src={(() => {
+                          if (img.path.startsWith('http')) return img.path;
+                          const cleanPath = img.path.replace(/\\/g, '/');
+                          const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+                          return `${baseUrl}${finalPath}`;
+                        })()}
                         alt={`Thumbnail ${index + 1}`}
                         className="object-cover w-full h-full"
                       />
@@ -777,7 +790,13 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
               )}
 
               <img
-                src={`${baseUrl}${property.multipleImages[currentImageIndex].path}`}
+                src={(() => {
+                  const path = property.multipleImages[currentImageIndex].path;
+                  if (path.startsWith('http')) return path;
+                  const cleanPath = path.replace(/\\/g, '/');
+                  const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+                  return `${baseUrl}${finalPath}`;
+                })()}
                 alt={property.propertyName}
                 className="max-h-[90vh] max-w-[90vw] object-contain"
               />

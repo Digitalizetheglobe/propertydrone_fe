@@ -88,7 +88,7 @@ export default function PropertyForm() {
       ...prev,
       [name]: value,
     }));
-    
+
     // Clear error for this field if it exists
     if (errors[name]) {
       setErrors((prev) => ({
@@ -97,31 +97,31 @@ export default function PropertyForm() {
       }));
     }
   };
-  
-  // Helper function to generate slug from property name
-const generateSlug = () => {
-  // Combine propertyName, topology, and location if available
-  const { propertyName, topology, location } = formData;
-  if (propertyName) {
-    // Only include fields that are not empty
-    const parts = [propertyName, topology, location].filter(Boolean);
-    const slug = parts
-      .join(' ')
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '') // Remove special characters
-      .replace(/\s+/g, '-')     // Replace spaces with hyphens
-      .trim();
 
-    setFormData(prev => ({
-      ...prev,
-      slug
-    }));
-  }
-};
+  // Helper function to generate slug from property name
+  const generateSlug = () => {
+    // Combine propertyName, topology, and location if available
+    const { propertyName, topology, location } = formData;
+    if (propertyName) {
+      // Only include fields that are not empty
+      const parts = [propertyName, topology, location].filter(Boolean);
+      const slug = parts
+        .join(' ')
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/\s+/g, '-')     // Replace spaces with hyphens
+        .trim();
+
+      setFormData(prev => ({
+        ...prev,
+        slug
+      }));
+    }
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    
+
     const files = Array.from(e.target.files);
     setImages(files);
 
@@ -131,80 +131,80 @@ const generateSlug = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  setSubmitMessage({ type: '', message: '' });
-  setErrors({});
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitMessage({ type: '', message: '' });
+    setErrors({});
 
-  // Validate required fields
-  const newErrors: Errors = {};
-  if (!formData.propertyName) newErrors.propertyName = 'Property name is required';
-  if (!formData.slug) newErrors.slug = 'Slug is required';
+    // Validate required fields
+    const newErrors: Errors = {};
+    if (!formData.propertyName) newErrors.propertyName = 'Property name is required';
+    if (!formData.slug) newErrors.slug = 'Slug is required';
 
-  if (Object.keys(newErrors).length > 0) {
-    setErrors(newErrors);
-    setIsSubmitting(false);
-    setSubmitMessage({
-      type: 'error',
-      message: 'Please fill in all required fields',
-    });
-    return;
-  }
-
-  try {
-    // Construct multipart/form-data
-    const formDataToSend = new FormData();
-
-    // Append all text fields except configurationTypology (handle separately)
-    for (const key in formData) {
-      if (key === 'configurationTypology') continue;
-      const value = formData[key as keyof FormData];
-      if (Array.isArray(value)) {
-        if (value.length > 0 && typeof value[0] === 'string') {
-          (value as string[]).forEach((item) => formDataToSend.append(key, item));
-        }
-      } else if (typeof value === 'string') {
-        formDataToSend.append(key, value);
-      }
-    }
-
-    // Append configurationTypology as JSON string
-    formDataToSend.append('configurationTypology', JSON.stringify(formData.configurationTypology));
-
-    // Append images if in 'upload' mode
-    if (imageMode === 'upload' && images.length > 0) {
-      images.forEach((image: File) => {
-        formDataToSend.append('propertyImages', image); // multer expects 'propertyImages'
-      });
-    }
-
-    const response = await fetch('https://api.propertydronerealty.com/properties', {
-      method: 'POST',
-      body: formDataToSend, // No content-type header; browser sets it with correct boundary
-    });
-
-    if (response.ok) {
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setIsSubmitting(false);
       setSubmitMessage({
-        type: 'success',
-        message: 'Property submitted successfully!',
+        type: 'error',
+        message: 'Please fill in all required fields',
+      });
+      return;
+    }
+
+    try {
+      // Construct multipart/form-data
+      const formDataToSend = new FormData();
+
+      // Append all text fields except configurationTypology (handle separately)
+      for (const key in formData) {
+        if (key === 'configurationTypology') continue;
+        const value = formData[key as keyof FormData];
+        if (Array.isArray(value)) {
+          if (value.length > 0 && typeof value[0] === 'string') {
+            (value as string[]).forEach((item) => formDataToSend.append(key, item));
+          }
+        } else if (typeof value === 'string') {
+          formDataToSend.append(key, value);
+        }
+      }
+
+      // Append configurationTypology as JSON string
+      formDataToSend.append('configurationTypology', JSON.stringify(formData.configurationTypology));
+
+      // Append images if in 'upload' mode
+      if (imageMode === 'upload' && images.length > 0) {
+        images.forEach((image: File) => {
+          formDataToSend.append('propertyImages', image); // multer expects 'propertyImages'
+        });
+      }
+
+      const response = await fetch('http://localhost:5000/properties', {
+        method: 'POST',
+        body: formDataToSend, // No content-type header; browser sets it with correct boundary
       });
 
-     setImages([]);
-      setPreviewImages([]);
-    } else {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to submit property.');
+      if (response.ok) {
+        setSubmitMessage({
+          type: 'success',
+          message: 'Property submitted successfully!',
+        });
+
+        setImages([]);
+        setPreviewImages([]);
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to submit property.');
+      }
+    } catch (error) {
+      console.error('Error submitting property:', error);
+      setSubmitMessage({
+        type: 'error',
+        message: `Failed to submit property: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    console.error('Error submitting property:', error);
-    setSubmitMessage({
-      type: 'error',
-      message: `Failed to submit property: ${error instanceof Error ? error.message : 'Unknown error'}`,
-    });
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   // Configuration Typology Handlers
   const handleConfigChange = (idx: number, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -234,15 +234,14 @@ const generateSlug = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6">Add New Property</h1>
-      
+
       {submitMessage.message && (
-        <div className={`p-4 mb-6 rounded-md ${
-          submitMessage.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-        }`}>
+        <div className={`p-4 mb-6 rounded-md ${submitMessage.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+          }`}>
           {submitMessage.message}
         </div>
       )}
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Property Name */}
@@ -261,7 +260,7 @@ const generateSlug = () => {
               <p className="mt-1 text-sm text-red-500">{errors.propertyName}</p>
             )}
           </div>
-          
+
           {/* Topology */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -276,7 +275,7 @@ const generateSlug = () => {
               placeholder="e.g., 2 & 3 BHK"
             />
           </div>
-          
+
           {/* Carpet Area */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -291,7 +290,7 @@ const generateSlug = () => {
               placeholder="e.g., 1200-1500 sq.ft"
             />
           </div>
-          
+
           {/* City */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -305,7 +304,7 @@ const generateSlug = () => {
               className="w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
-          
+
           {/* Location */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -319,7 +318,7 @@ const generateSlug = () => {
               className="w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
-          
+
           {/* Tentative Budget */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -334,7 +333,7 @@ const generateSlug = () => {
               placeholder="e.g., ₹85L - ₹1.2Cr"
             />
           </div>
-          
+
           {/* Possession */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -350,67 +349,67 @@ const generateSlug = () => {
             />
           </div>
           {/* Property Type */}
-<div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
-    Property Type
-  </label>
-  <select
-    name="propertyType"
-    value={formData.propertyType}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md"
-  >
-    <option value="">Select type</option>
-    <option value="Luxury">Luxury</option>
-    <option value="Premium">Premium</option>
-  </select>
-</div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Property Type
+            </label>
+            <select
+              name="propertyType"
+              value={formData.propertyType}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+            >
+              <option value="">Select type</option>
+              <option value="Luxury">Luxury</option>
+              <option value="Premium">Premium</option>
+            </select>
+          </div>
 
-{/* Property Category */}
-<div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
-    Property Category
-  </label>
-  <input
-    type="text"
-    name="propertyCategory"
-    value={formData.propertyCategory}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md"
-    placeholder="e.g., Residential"
-  />
-</div>
+          {/* Property Category */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Property Category
+            </label>
+            <input
+              type="text"
+              name="propertyCategory"
+              value={formData.propertyCategory}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="e.g., Residential"
+            />
+          </div>
 
-{/* YouTube URL */}
-<div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
-    YouTube URL
-  </label>
-  <input
-    type="text"
-    name="youtubeUrl"
-    value={formData.youtubeUrl}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md"
-    placeholder="https://youtube.com/example"
-  />
-</div>
+          {/* YouTube URL */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              YouTube URL
+            </label>
+            <input
+              type="text"
+              name="youtubeUrl"
+              value={formData.youtubeUrl}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="https://youtube.com/example"
+            />
+          </div>
 
-{/* Google Map URL */}
-<div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
-    Google Map URL
-  </label>
-  <input
-    type="text"
-    name="googleMapUrl"
-    value={formData.googleMapUrl}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md"
-    placeholder="https://maps.google.com/example"
-  />
-</div>
-{/* <div>
+          {/* Google Map URL */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Google Map URL
+            </label>
+            <input
+              type="text"
+              name="googleMapUrl"
+              value={formData.googleMapUrl}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="https://maps.google.com/example"
+            />
+          </div>
+          {/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Amenities
   </label>
@@ -437,22 +436,22 @@ const generateSlug = () => {
   </select>
   <p className="text-xs text-gray-500 mt-1">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</p>
 </div> */}
-{/* Beds */}
-<div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
-    Beds
-  </label>
-  <input
-    type="string"
-    name="beds"
-    value={formData.beds}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md"
-    min={0}
-    placeholder="e.g., 3"
-  />
-</div>
-{/* <div>
+          {/* Beds */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Beds
+            </label>
+            <input
+              type="string"
+              name="beds"
+              value={formData.beds}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              min={0}
+              placeholder="e.g., 3"
+            />
+          </div>
+          {/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Storeys
   </label>
@@ -466,7 +465,7 @@ const generateSlug = () => {
     placeholder="e.g., 3"
   />
 </div> */}
-{/* <div>
+          {/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Tower Name
   </label>
@@ -479,7 +478,7 @@ const generateSlug = () => {
     placeholder="e.g., Tower A"
   />
 </div> */}
-{/* <div>
+          {/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     RERA No
   </label>
@@ -492,7 +491,7 @@ const generateSlug = () => {
     placeholder="e.g., A123456789"
   />
 </div> */}
-{/* <div>
+          {/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Car Parking
   </label>
@@ -505,7 +504,7 @@ const generateSlug = () => {
     placeholder="e.g., 2 Covered + 2 Open"
   />
 </div> */}
-{/* <div>
+          {/* <div>
   <label className="block text-sm font-medium text-gray-700 mb-1">
     Land Parcel
   </label>
@@ -518,24 +517,24 @@ const generateSlug = () => {
     placeholder="e.g., 5000 sq ft"
   />
 </div> */}
-{/* Baths */}
-<div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
-    Baths
-  </label>
-  <input
-    type="string"
-    name="baths"
-    value={formData.baths}
-    onChange={handleChange}
-    className="w-full p-2 border border-gray-300 rounded-md"
-    min={0}
-    placeholder="e.g., 2"
-  />
-</div>
-  {/* Event Field */}
-      
-          
+          {/* Baths */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Baths
+            </label>
+            <input
+              type="string"
+              name="baths"
+              value={formData.baths}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              min={0}
+              placeholder="e.g., 2"
+            />
+          </div>
+          {/* Event Field */}
+
+
           {/* Slug */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -563,9 +562,9 @@ const generateSlug = () => {
             )}
           </div>
         </div>
-          <div>
+        <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-           Rera Link 
+            Rera Link
           </label>
           <input
             type="text"
@@ -652,7 +651,7 @@ const generateSlug = () => {
                 className="w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 SEO Keywords
@@ -666,7 +665,7 @@ const generateSlug = () => {
                 placeholder="Comma separated keywords"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 SEO Description
@@ -681,22 +680,22 @@ const generateSlug = () => {
             </div>
           </div>
         </div>
-        
-        
+
+
         {/* Image Upload */}
         <div className="border-t pt-6 mt-6">
           <h2 className="text-xl font-semibold mb-4">Property Images</h2>
-          
+
           {/* Toggle between upload and URL inputs */}
           <div className="flex mb-4 border rounded-md overflow-hidden">
-            <button 
+            <button
               type="button"
               onClick={() => setImageMode('upload')}
               className={`flex-1 py-2 ${imageMode === 'upload' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
             >
               Upload Images
             </button>
-            <button 
+            <button
               type="button"
               onClick={() => setImageMode('urls')}
               className={`flex-1 py-2 ${imageMode === 'urls' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
@@ -704,7 +703,7 @@ const generateSlug = () => {
               Image URLs
             </button>
           </div>
-          
+
           {imageMode === 'upload' ? (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -717,7 +716,7 @@ const generateSlug = () => {
                 onChange={handleImageChange}
                 className="w-full p-2 border border-gray-300 rounded-md"
               />
-              
+
               {/* Image Previews */}
               {previewImages.length > 0 && (
                 <div className="mt-4">
@@ -759,17 +758,16 @@ const generateSlug = () => {
             </div>
           )}
         </div>
-        
-      
-        
+
+
+
         {/* Submit Button */}
         <div className="border-t pt-6">
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors ${
-              isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-            }`}
+            className={`w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+              }`}
           >
             {isSubmitting ? 'Submitting...' : 'Submit Property'}
           </button>

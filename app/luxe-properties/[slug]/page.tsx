@@ -45,38 +45,38 @@ function PropertyPageContent() {
           throw new Error('Property slug is required');
         }
 
-        const response = await fetch(`https://api.propertydronerealty.com/properties/${slug}`);
+        const response = await fetch(`http://localhost:5000/properties/${slug}`);
         if (!response.ok) {
           throw new Error('Failed to fetch property details');
         }
 
         const data = await response.json();
-        
+
         // Transform the data if needed to match PropertyImage interface
         const transformedData = {
           ...data,
-          multipleImages: Array.isArray(data.multipleImages) 
+          multipleImages: Array.isArray(data.multipleImages)
             ? data.multipleImages.map((img: string | PropertyImage) => {
-                // If the image is already an object with the correct structure, return it
-                if (typeof img !== 'string' && img.path) {
-                  return img;
-                }
-                
-                // If it's a string, create the appropriate object
-                const imgPath = typeof img === 'string' ? img : '';
-                const filename = typeof imgPath === 'string' && imgPath.includes('/') 
-                  ? imgPath.split('/').pop() || 'unknown' 
-                  : 'unknown';
-                
-                return {
-                  path: imgPath,
-                  filename: filename,
-                  originalName: filename
-                };
-              })
+              // If the image is already an object with the correct structure, return it
+              if (typeof img !== 'string' && img.path) {
+                return img;
+              }
+
+              // If it's a string, create the appropriate object
+              const imgPath = typeof img === 'string' ? img : '';
+              const filename = typeof imgPath === 'string' && imgPath.includes('/')
+                ? imgPath.split('/').pop() || 'unknown'
+                : 'unknown';
+
+              return {
+                path: imgPath,
+                filename: filename,
+                originalName: filename
+              };
+            })
             : []
         };
-        
+
         setProperty(transformedData);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');

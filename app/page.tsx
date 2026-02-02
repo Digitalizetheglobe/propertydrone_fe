@@ -4,23 +4,12 @@ import Head from "next/head";
 import Image from "next/image";
 import AnimatedLetters from '@/app/components/AnimatedLetters';
 // import logo from "@/app/images/PropertyDrone-Logo.png"; 
-import luxeImage from "@/public/images/luxe1.png";
+import luxeImage from "@/public/images/main1.png";
+import main22 from "@/public/images/final-bg.png";
+import finalbg2 from "@/public/images/finalbg2.png"
 import luxeImage1 from "@/public/images/luxe2.png";
 import luxeImage2 from "@/public/images/bgimage1.png";
-import d1 from "@/public/images/Frame 104.png";
-import d2 from "@/public/images/Frame 105.png";
-import d3 from "@/public/images/Frame 106.png";
-import d4 from "@/public/images/Frame 107.png";
-import d5 from "@/public/images/Frame 109.png";
-import d6 from "@/public/images/Frame 110.png";
-import d7 from "@/public/images/Frame 111.png";
-import d8 from "@/public/images/Frame 112.png";
-import d9 from "@/public/images/Frame 113.png";
-import d10 from "@/public/images/Frame 114.png";
-import d11 from "@/public/images/Frame 115.png";
-import d12 from "@/public/images/Frame 116.png";
-import d13 from "@/public/images/Frame 117.png";
-import d14 from "@/public/images/Frame 104.png";
+
 import b1 from "@/public/images/service.png";
 import b2 from "@/public/images/buliding.png";
 import b3 from "@/public/images/service2.png";
@@ -28,6 +17,7 @@ import imagedefault1 from "@/public/images/OIP (1).jpg";
 import imagedefault2 from "@/public/images/OIP (8).jpg";
 import imagedefault3 from "@/public/images/today8.jpg";
 // import d10 from "@/public/images/Frame 113.png";
+import searchFilter from "@/public/images/search-filter.png";
 import {
   ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Star, ChevronDown, ChevronUp, Building2, Globe, Book, Wallet, Zap, Home as HomeIcon, ClipboardList, Clock, Banknote, Eye,
   Users, Search
@@ -39,6 +29,10 @@ import main2 from '../public/images/main2.png';
 import main3 from '../public/images/7578550-uhd_3840_2160_30fps 1.png';
 import main33 from '../public/images/Frame 145.png';
 import main4 from '../public/images/buliding.png';
+import devImg2 from "@/public/images/download (1).webp";
+import devImg3 from "@/public/images/developerbgimg.png";
+import devImg6 from "@/public/images/R.jpg";
+
 import { useMemo as reactUseMemo } from 'react';
 
 import { motion, Variants } from 'framer-motion';
@@ -47,26 +41,20 @@ import 'aos/dist/aos.css';
 // import { useEffect } from 'react';
 
 
-import axios from 'axios';
+
 import PropertyPopup from "./components/propertypopup";
 import BottomPropertyDetails from "./components/bottompropertydetails";
-
-
-interface YoutubeVideo {
-  id: number;
-  title: string;
-  description: string;
-  youtube_url: string;
-  author: string;
-  date: string;
-}
-
-const getYoutubeVideoId = (url: string): string | null => {
-  if (!url) return null;
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-  const match = url.match(regExp);
-  return match && match[2].length === 11 ? match[2] : null;
-};
+import WhyPropertyDrone from "./components/whypropertydrone";
+import HomePageWhyPropertyDrone from "./components/homepagedevelopers";
+import HomePageLoanBanks from "./components/homepageloanbanks";
+import HomePageBlogs from "./components/homepageblogs";
+import EnquireSideButton from "@/app/components/EnquireSideButton";
+import HomePageTestimonials from "./components/homepagetestimonials";
+import HomePageNir from "./components/homepagenir";
+import HomePageYoutube from "./components/homepageyoutube";
+import HomePageFeaturedProperty from "./components/homepagefeaturedproperty";
+import HomePageLuxeProperty from "./components/homepageluxeproperty";
+import HomePageLogos from "./components/homepagelogos";
 
 const formatDate = (dateString: string) => {
   if (!dateString) return '';
@@ -79,56 +67,7 @@ const formatDate = (dateString: string) => {
 
 // Import a placeholder image
 // import placeholderImg from '../public/images/placeholder.png'; // Make sure this exists
-const services = [
-  {
-    title: "Exclusive Property",
-    icon: (
-      <div className="text-white group-hover:text-[#172747] transition-colors duration-300">
-        <HomeIcon className="w-14 h-14" />
-      </div>
-    )
-  },
-  {
-    title: "POA Assistance",
-    icon: (
-      <div className="text-white group-hover:text-[#172747] transition-colors duration-300">
-        <ClipboardList className="w-14 h-14" />
-      </div>
-    )
-  },
-  {
-    title: "24/7 Available",
-    icon: (
-      <div className="text-white group-hover:text-[#172747] transition-colors duration-300">
-        <Clock className="w-14 h-14" />
-      </div>
-    )
-  },
-  {
-    title: "Easy Loan Assistance",
-    icon: (
-      <div className="text-white group-hover:text-[#172747] transition-colors duration-300">
-        <Banknote className="w-14 h-14" />
-      </div>
-    )
-  },
-  {
-    title: "Virtual Tour",
-    icon: (
-      <div className="text-white group-hover:text-[#172747] transition-colors duration-300">
-        <Eye className="w-14 h-14" />
-      </div>
-    )
-  },
-  {
-    title: "Dedicated NRI Team",
-    icon: (
-      <div className="text-white group-hover:text-[#172747] transition-colors duration-300">
-        <Users className="w-14 h-14" />
-      </div>
-    )
-  }
-];
+
 
 const faqData = [
   {
@@ -234,80 +173,7 @@ const propertyData = [
   },
   // Add more items as needed
 ];
-const testimonials = [
-  {
-    id: 1,
-    name: "Paresh Bansod",
-    text: "I am really glad that I came across PropertyDrone Realty. Nikhil along with his colleagues Vishal and Akshay were with me throughout the entire process. They understood my requirements really well and suggested the best suitable projects. They answered my each and every query. And once I finalised the project, they also helped in the negotiation. I would totally recommend them if you are buying a flat in Pune.",
-    date: "16th April, 2025",
-    company: "PropertyDrone Realty",
-    rating: 5
-  },
-  {
-    id: 2,
-    name: "Subhamoy Saha",
-    text: "Being NRIs we were looking to settle down in Pune in near future. We came to know about Nikhil and through his YouTube Videos. His videos were concise, compact, and informative in describing a property so we decided to reach out to him. We started to narrow down our requirements and location with him around Nov 2021 and within a year we had found a place.",
-    date: "16th April, 2025",
-    company: "PropertyDrone Realty",
-    rating: 5
-  },
-  {
-    id: 3,
-    name: "Vicky Kothawade",
-    text: "I had a great experience while buying a new Flat in Pune West location and I'd like to specifically mention Ashitosh for his professionalism and support throughout the process. He provided detailed insights and guided me efficiently, making the entire journey smooth and hassle-free. His expertise in real estate and commitment to customer satisfaction is truly commendable.",
-    date: "16th April, 2025",
-    company: "PropertyDrone Realty",
-    rating: 5
-  },
-  {
-    id: 4,
-    name: "Bhagyashri Shingadi",
-    text: "We had a good experience from start to end while looking for a new house.Vishal Pandey is such an amazing person who explained us everything before hand and made our life easier to short list the property and then finalize it.We all need a trustworthy person in such processes and I think Vishal is one of those honest guy I had ever met.Proffesional and hardworking. We are greatful and thankful to him.",
-    date: "16th April, 2025",
-    company: "PropertyDrone Realty",
-    rating: 5
-  },
-  {
-    id: 5,
-    name: "Rashmi Chhetri",
-    text: "My experience with Property drone was really amazing. I can say that this is where I experienced Professionalism at its peak! They really walked the talk of 'Customer is King'. I started my hunt in 2023 with very limited time in Pune. When i restarted in May this year, I was amazed to see the same zeal and dedication the 2nd time around!",
-    date: "16th April, 2025",
-    company: "PropertyDrone Realty",
-    rating: 5
-  },
-  {
-    id: 6,
-    name: "ketan Upadhyay",
-    text: "I wanted to take a moment to express my sincere gratitude to Vishal Pandey for the exceptional service provided during our recent purchase of plot in the Vaarivana project. Vishal's teams dedication and professionalism truly made our experience remarkable.",
-    date: "16th April, 2025",
-    company: "PropertyDrone Realty",
-    rating: 5
-  },
-  {
-    id: 7,
-    name: "Ujjwal Rai",
-    text: "We came to know about vishal & his team as a channel partner. This was our first property we purchased and we were very new to this field. The way Nikhil and Vishal guided us throughout the journey of hunting the right project, Knowing our requirements first, Showing the A class builders, differentiation and builder history. It was a smooth process & we really enjoyed buying property with them. As we friends booked property in Vaarivana.",
-    date: "16th April, 2025",
-    company: "PropertyDrone Realty",
-    rating: 5
-  },
-  {
-    id: 8,
-    name: "Radha Rao",
-    text: "It is our pleasure to write this letter of recommendation for Nikhil & his team at Property Drone Realty.From our very first interaction, Nikhil, vishal and ikram impressed us with their exceptional professionalism, in-depth knowledge of the local real estate market in Pune, neighbourhood nuances, and property values. Their ability to understand our specific needs and preferences allowed them to curate tailored property options that perfectly aligned with our criteria. They went above and beyond, providing comprehensive property choices and invaluable insights to guide our decision-making process.",
-    date: "16th April, 2025",
-    company: "PropertyDrone Realty",
-    rating: 5
-  },
-  {
-    id: 9,
-    name: "Surbhi Tadwal",
-    text: "We had a good experience while looking for a new house. Vishal Pandey helped us a-lot in finalising our deal. He just didn't help you in finding your dream house but also give you the wise advice and which is really appreciable. Thanks a-lot for helping us.",
-    date: "16th April, 2025",
-    company: "PropertyDrone Realty",
-    rating: 5
-  }
-];
+
 
 
 
@@ -345,144 +211,7 @@ interface Property {
   bedroom?: string;
   bathroom?: string;
 }
-const AnimatedStarButton = () => {
-  return (
-    <div className="relative">
-      <style jsx>{`
-        @keyframes border-glow-translate {
-          0% {
-            transform: translateX(-50%) scaleX(1);
-          }
-          100% {
-            transform: translateX(200%) scaleX(0.8);
-          }
-        }
 
-        @keyframes border-glow-scale {
-          0% {
-            transform: scaleX(1);
-          }
-          100% {
-            transform: scaleX(1.2);
-          }
-        }
-
-        @keyframes star-rotate {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-
-        @keyframes star-shine {
-          0% {
-            opacity: 0;
-            transform: scale(1);
-          }
-          100% {
-            opacity: 0.4;
-            transform: scale(1.5);
-          }
-        }
-      `}</style>
-
-      <button className="group relative overflow-hidden rounded-full p-px cursor-pointer" style={{ backgroundColor: '#172747' }}>
-        {/* Main glow background */}
-        <span className="absolute inset-0 rounded-full overflow-hidden">
-          <span className="inset-0 absolute pointer-events-none select-none">
-            <span
-              className="block -translate-x-1/2 -translate-y-1/3 size-24 blur-xl"
-              style={{
-                background: 'linear-gradient(135deg, #FFD700, #FFA500, #DAA520)',
-              }}
-            ></span>
-          </span>
-        </span>
-
-        {/* Animated border glow */}
-        <span
-          className="inset-0 absolute pointer-events-none select-none"
-          style={{ animation: 'border-glow-translate 10s ease-in-out infinite alternate' }}
-        >
-          <span
-            className="block z-0 h-full w-12 blur-xl -translate-x-1/2 rounded-full"
-            style={{
-              animation: 'border-glow-scale 10s ease-in-out infinite alternate',
-              background: 'linear-gradient(135deg, #FFD700, #FFA500, #DAA520)',
-            }}
-          ></span>
-        </span>
-
-        {/* Button content */}
-        <span
-          className="flex items-center justify-center gap-1 relative z-[1] rounded-full py-2 px-4 pl-2 w-full"
-          style={{ backgroundColor: 'rgba(23, 39, 71, 0.95)' }}
-        >
-          {/* Star icon with animations */}
-          <span className="relative group-hover:scale-105 transition-transform group-hover:rotate-[360deg] duration-500">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="opacity-90"
-              style={{
-                animation: 'star-rotate 14s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite alternate',
-              }}
-            >
-              <path
-                d="M11.5268 2.29489C11.5706 2.20635 11.6383 2.13183 11.7223 2.07972C11.8062 2.02761 11.903 2 12.0018 2C12.1006 2 12.1974 2.02761 12.2813 2.07972C12.3653 2.13183 12.433 2.20635 12.4768 2.29489L14.7868 6.97389C14.939 7.28186 15.1636 7.5483 15.4414 7.75035C15.7192 7.95239 16.0419 8.08401 16.3818 8.13389L21.5478 8.88989C21.6457 8.90408 21.7376 8.94537 21.8133 9.00909C21.8889 9.07282 21.9452 9.15644 21.9758 9.2505C22.0064 9.34456 22.0101 9.4453 21.9864 9.54133C21.9627 9.63736 21.9126 9.72485 21.8418 9.79389L18.1058 13.4319C17.8594 13.672 17.6751 13.9684 17.5686 14.2955C17.4622 14.6227 17.4369 14.9708 17.4948 15.3099L18.3768 20.4499C18.3941 20.5477 18.3835 20.6485 18.3463 20.7406C18.3091 20.8327 18.2467 20.9125 18.1663 20.9709C18.086 21.0293 17.9908 21.0639 17.8917 21.0708C17.7926 21.0777 17.6935 21.0566 17.6058 21.0099L12.9878 18.5819C12.6835 18.4221 12.345 18.3386 12.0013 18.3386C11.6576 18.3386 11.3191 18.4221 11.0148 18.5819L6.3978 21.0099C6.31013 21.0563 6.2112 21.0772 6.11225 21.0701C6.0133 21.0631 5.91832 21.0285 5.83809 20.9701C5.75787 20.9118 5.69563 20.8321 5.65846 20.7401C5.62128 20.6482 5.61066 20.5476 5.6278 20.4499L6.5088 15.3109C6.567 14.9716 6.54178 14.6233 6.43534 14.2959C6.32889 13.9686 6.14441 13.672 5.8978 13.4319L2.1618 9.79489C2.09039 9.72593 2.03979 9.63829 2.01576 9.54197C1.99173 9.44565 1.99524 9.34451 2.02588 9.25008C2.05652 9.15566 2.11307 9.07174 2.18908 9.00788C2.26509 8.94402 2.3575 8.90279 2.4558 8.88889L7.6208 8.13389C7.96106 8.08439 8.28419 7.95295 8.56238 7.75088C8.84058 7.54881 9.0655 7.28216 9.2178 6.97389L11.5268 2.29489Z"
-                fill="url(#paint0_linear)"
-                stroke="url(#paint1_linear)"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <defs>
-                <linearGradient id="paint0_linear" x1="-0.5" y1="9" x2="15.5" y2="-1.5" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#FFD700" />
-                  <stop offset="0.5" stopColor="#FFA500" />
-                  <stop offset="1" stopColor="#DAA520" />
-                </linearGradient>
-                <linearGradient id="paint1_linear" x1="-0.5" y1="9" x2="15.5" y2="-1.5" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#FFD700" />
-                  <stop offset="0.5" stopColor="#FFA500" />
-                  <stop offset="1" stopColor="#DAA520" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            {/* Star shine effect */}
-            <span
-              className="rounded-full size-11 absolute opacity-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-lg"
-              style={{
-                animation: 'star-shine 14s ease-in-out infinite alternate',
-                background: 'linear-gradient(135deg, #FFD700, #FFA500, #DAA520)',
-              }}
-            ></span>
-          </span>
-
-          {/* LUXE text */}
-          <span
-            className="tracking-[2px] ml-1.5 bg-clip-text text-xs text-transparent group-hover:scale-105 transition transform-gpu cursor-pointer"
-            style={{
-              backgroundImage: 'linear-gradient(to bottom, #FFD700, #DAA520)',
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-              fontWeight: '400',
-              textShadow: '0 0 0.4px #FFD700, 0 0 0.4px #DAA520', // simulate bold
-            }}
-          >
-            LUXE
-          </span>
-
-        </span>
-      </button>
-    </div>
-  );
-};
 
 // Add CookieBanner component before the Home component
 const CookieBanner = ({ onAccept, onReject }: { onAccept: () => void; onReject: () => void }) => {
@@ -524,31 +253,113 @@ export default function Home() {
   const [comparedIds, setComparedIds] = useState<number[]>([]);
   const [compareLoadingId, setCompareLoadingId] = useState<number | null>(null);
   const [comparisonIdMap, setComparisonIdMap] = useState<Record<number, number>>({});
-  const webUserId = 1;
+  const [webUserId, setWebUserId] = useState<number | null>(null); // Start as null
+
+  // Sync userId from local storage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('webuser');
+      if (stored) {
+        const u = JSON.parse(stored);
+        if (u && u.id) {
+          setWebUserId(u.id);
+        } else {
+          setWebUserId(null);
+        }
+      } else {
+        setWebUserId(null);
+      }
+    } catch (e) {
+      console.error("Error parsing webuser", e);
+      setWebUserId(null);
+    }
+  }, []);
 
   const fetchComparedIds = async () => {
-    const res = await fetch("https://api.propertydronerealty.com/api/property-comparisons");
+    let currentUserId: number | null = null;
+    try {
+      const stored = localStorage.getItem('webuser');
+      if (stored) {
+        const u = JSON.parse(stored);
+        if (u && u.id) currentUserId = u.id;
+      }
+    } catch (e) { }
+
+    if (!currentUserId) {
+      setComparedIds([]);
+      setComparisonIdMap({});
+      return;
+    }
+
+    const res = await fetch(`http://localhost:5000/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
+
     setComparedIds(
-      all.filter((cmp: any) => `${cmp.webUserId}` === `${webUserId}`)
+      all.filter((cmp: any) => `${cmp.webUserId}` === `${currentUserId}`)
         .map((cmp: any) => parseInt(cmp.propertyId))
     );
     const map: Record<number, number> = {};
     all.forEach((cmp: any) => {
-      if (`${cmp.webUserId}` === `${webUserId}`) {
+      if (`${cmp.webUserId}` === `${currentUserId}`) {
         map[parseInt(cmp.propertyId)] = cmp.id;
       }
     });
     setComparisonIdMap(map);
   };
+
+  // Fetch compared IDs when webUserId changes
   useEffect(() => {
     fetchComparedIds();
-    const onFocus = () => fetchComparedIds();
-    window.addEventListener("focus", onFocus);
-    return () => window.removeEventListener("focus", onFocus);
-  }, []);
+  }, [webUserId]);
   // ---------- End Compare State & Logic --------------
+
+  // ----------- Add Saved (Like) State & Logic -------------
+  const [savedIds, setSavedIds] = useState<number[]>([]);
+  const [savedLoadingId, setSavedLoadingId] = useState<number | null>(null);
+  const [savedIdMap, setSavedIdMap] = useState<Record<number, number>>({});
+
+  const fetchSavedIds = async () => {
+    let currentUserId: number | null = null;
+    try {
+      const stored = localStorage.getItem('webuser');
+      if (stored) {
+        const u = JSON.parse(stored);
+        if (u && u.id) currentUserId = u.id;
+      }
+    } catch (e) { }
+
+    if (!currentUserId) {
+      setSavedIds([]);
+      setSavedIdMap({});
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/saved-properties?webUserId=${currentUserId}`);
+      if (!res.ok) return;
+      const all = await res.json();
+
+      setSavedIds(
+        all.filter((item: any) => `${item.webUserId}` === `${currentUserId}`)
+          .map((item: any) => parseInt(item.propertyId))
+      );
+      const map: Record<number, number> = {};
+      all.forEach((item: any) => {
+        if (`${item.webUserId}` === `${currentUserId}`) {
+          map[parseInt(item.propertyId)] = item.id;
+        }
+      });
+      setSavedIdMap(map);
+    } catch (e) {
+      console.error("Error fetching saved properties", e);
+    }
+  };
+
+  useEffect(() => {
+    fetchSavedIds();
+  }, [webUserId]); // Re-fetch when user ID resolves
+  // ---------- End Saved State & Logic --------------
 
   // Add displayCount state
   const [displayCount, setDisplayCount] = useState(3);
@@ -594,8 +405,8 @@ export default function Home() {
   };
   useEffect(() => {
     AOS.init({
-      duration: 800,
       once: true,
+      duration: 1000,
     });
   }, []);
   const [properties, setProperties] = useState<Property[]>([]);
@@ -621,7 +432,13 @@ export default function Home() {
           location: location,
           count: 1,
 
-          image: property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : "/api/placeholder/400/320"
+          image: (() => {
+            const path = property.multipleImages?.[0]?.path;
+            if (path) {
+              return path.startsWith('http') ? path : `http://localhost:5000${path}`;
+            }
+            return "/api/placeholder/400/320";
+          })()
         });
       } else {
 
@@ -654,20 +471,7 @@ export default function Home() {
       [name]: value
     }));
   };
-  const itemsPerPage = 3;
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(testimonials.length / itemsPerPage);
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const visibleTestimonials = testimonials.slice(startIndex, startIndex + itemsPerPage);
-
-  const goToNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
-
-  const goToPreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
   // Removed duplicate handleSubmit function
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = Math.ceil(propertyData.length / 2);
@@ -680,30 +484,13 @@ export default function Home() {
     setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
   };
 
-  const images = [
-    { img: d1, link: 'anp-corp' },
-    { img: d2, link: 'majestique-developer' },
-    { img: d3, link: 'krunal-groups' },
-    { img: d4, link: 'kasturi' },
-    { img: d6, link: 'skyi-developers' },
-    { img: d5, link: 'Solitaire' },
-    { img: d7, link: 'anp-corp' },
-    { img: d8, link: 'majestique-developer' },
-    { img: d9, link: 'krunal-groups' },
-    { img: d10, link: 'kasturi' },
-    { img: d12, link: 'skyi-developers' },
-    { img: d11, link: 'Solitaire' },
-    { img: d13, link: 'anp-corp' },
-    { img: d14, link: 'majestique-developer' },
 
-
-  ];
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      const response = await fetch("https://api.propertydronerealty.com/contacts", {
+      const response = await fetch("http://localhost:5000/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -740,6 +527,27 @@ export default function Home() {
     search: '',
   });
   const [activeTab, setActiveTab] = useState('BUY');
+  const [transactionType, setTransactionType] = useState('Buy');
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [dropdownFilters, setDropdownFilters] = useState({
+    area: '',
+    budget: '',
+    possession: ''
+  });
+
+  const filterOptions = {
+    area: ['500+ sq.ft', '1000+ sq.ft', '1500+ sq.ft', '2000+ sq.ft'],
+    budget: ['Under 50L', '50L - 1Cr', '1Cr - 2Cr', 'Above 2Cr'],
+    possession: ['Ready to Move', 'In 1 Year', 'In 2 Years', 'In 3+ Years']
+  };
+
+  const handleDropdownSelect = (type: string, value: string) => {
+    setDropdownFilters(prev => ({ ...prev, [type]: value }));
+    setActiveDropdown(null);
+    // Here you would optimally trigger the main setFilters too, e.g.:
+    // setFilters(prev => ({ ...prev, [type]: value }));
+  };
+
   const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -760,7 +568,7 @@ export default function Home() {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://api.propertydronerealty.com/properties');
+        const response = await fetch('http://localhost:5000/properties');
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }
@@ -1014,584 +822,16 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const highDemandScrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    let animationId: number;
-    let startTime: number | null = null;
-
-    interface ScrollContainer extends HTMLDivElement {
-      scrollLeft: number;
-      scrollWidth: number;
-      clientWidth: number;
-    }
-
-    const scroll = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const scrollContainer = scrollContainerRef.current as ScrollContainer | null;
-      if (!isPaused && scrollContainer) {
-        scrollContainer.scrollLeft += 1;
-
-        // Reset scroll position when reaching the end
-        if (scrollContainer.scrollLeft >=
-          (scrollContainer.scrollWidth - scrollContainer.clientWidth)) {
-          scrollContainer.scrollLeft = 0;
-        }
-      }
-      animationId = requestAnimationFrame(scroll);
-    };
-
-    animationId = requestAnimationFrame(scroll);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-    };
-  }, [isPaused]);
+    // Animation removed
+  }, []);
   // Functions for slider control
   // Property card component to avoid repetition
 
-  const PropertyCard = ({
-    property,
-    delay,
-    comparedIds,
-    setComparedIds,
-    compareLoadingId,
-    setCompareLoadingId,
-    comparisonIdMap,
-    fetchComparedIds
-  }: {
-    property: Property;
-    delay: number;
-    comparedIds: number[];
-    setComparedIds: React.Dispatch<React.SetStateAction<number[]>>;
-    compareLoadingId: number | null;
-    setCompareLoadingId: React.Dispatch<React.SetStateAction<number | null>>;
-    comparisonIdMap: Record<number, number>;
-    fetchComparedIds: () => Promise<void>;
-  }) => {
-    const [isHovered, setIsHovered] = useState(false);
-
-    // Add console logging to debug image path
-    console.log('Property Image Data:', {
-      multipleImages: property.multipleImages,
-      firstImagePath: property.multipleImages?.[0]?.path,
-      fullImagePath: property.multipleImages?.[0]?.path
-        ? `https://api.propertydronerealty.com${property.multipleImages[0].path}`
-        : main4
-    });
-
-    // Update image path handling with proper error checking
-    const imagePath = property.multipleImages && property.multipleImages.length > 0 && property.multipleImages[0].path
-      ? `https://api.propertydronerealty.com${property.multipleImages[0].path}`
-      : main4;
-
-    return (
-      <Link href={`/our-properties-in-pune/${property.slug}`} passHref>
-        <div
-          className="bg-white rounded-md cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <div className="relative h-52 w-full overflow-hidden">
-            <Image
-              src={imagePath}
-              alt={property.propertyName || "Property Image"}
-              fill
-              className={`z-0 transition-transform duration-700 ease-in-out object-cover ${isHovered ? "scale-110" : "scale-100"
-                }`}
-              onError={(e) => {
-                console.error('Image load error:', e);
-                const target = e.target as HTMLImageElement;
-                target.src = main4.src;
-              }}
-              priority={true}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </div>
-          {/* Developer and Location */}
-          <div className="flex border-b border-[#00000033]">
-            <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
-              <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
-                fontSize: '16px',
-                fontFamily: 'Lato, sans-serif',
-                letterSpacing: '0.5px',
-                lineHeight: '1.3',
-              }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-                {property.beds || ""}  Beds
-              </div>
-            </div>
-            <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
-              <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
-                fontSize: '16px',
-                fontFamily: 'Lato, sans-serif',
-                letterSpacing: '0.5px',
-                lineHeight: '1.3',
-              }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <path d="M22 6l-10 7L2 6"></path>
-                </svg>
-                {property.baths || ""}  Baths
-              </div>
-            </div>
-            <div className="w-1/2 flex items-center justify-center py-2 space-x-1">
-              <svg
-                className="w-5 h-5 text-black"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              <span className="text-[#172747] text-lg " style={{
-                fontSize: '16px',
-                fontFamily: 'Lato, sans-serif',
-                letterSpacing: '0.5px',
-                lineHeight: '1.3',
-              }}>{property.location || "Location"}</span>
-            </div>
-          </div>
 
 
-          {/* Title */}
-          <div className="px-4 pt-1 pb-2">
-            <h3
-              className={` ${isHovered ? "text-blue-800" : "text-[#172747]"
-                }`}
-              style={{
-                fontSize: '20px',
-                fontFamily: 'Lato, sans-serif',
-                letterSpacing: '0.5px',
-                lineHeight: '1.3',
-              }}
-            >
-              {property.propertyName || "Prime Business Hub"}
-            </h3>
-          </div>
 
-          {/* Property Details */}
-          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-            <div className="flex items-center space-x-2">
-
-              <span
-                className="text-gray-700 px-2"
-                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
-              >
-                Carpet Area : {(() => {
-                  const words = String(property.carpetArea).split(' ');
-                  return words.length > 5
-                    ? words.slice(0, 5).join(' ') + '...'
-                    : words.join(' ');
-                })()}
-              </span>
-
-            </div>
-
-          </div>
-          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-            <div className="flex items-center space-x-2">
-
-              <span
-                className="text-gray-700 px-2"
-                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
-              >
-                Possession : {(() => {
-                  const words = String(property.possession).split(' ');
-                  return words.length > 5
-                    ? words.slice(0, 5).join(' ') + '...'
-                    : words.join(' ');
-                })()}
-              </span>
-
-            </div>
-
-          </div>
-          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-            <div className="flex items-center space-x-2">
-
-              <span
-                className="text-gray-700 px-2"
-                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
-              >
-                Topology  : {(() => {
-                  const words = String(property.topology).split(' ');
-                  return words.length > 5
-                    ? words.slice(0, 5).join(' ') + '...'
-                    : words.join(' ');
-                })()}
-              </span>
-
-            </div>
-
-          </div>
-
-          {/* Price and Actions */}
-          <div className="flex items-center justify-between px-4 py-3">
-
-            <div className="flex space-x-2 items-center">
-              <label className="flex items-center gap-2 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={comparedIds.includes(property.id)}
-                  disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
-                  onChange={async (e) => {
-                    setCompareLoadingId(property.id);
-                    if (e.target.checked) {
-                      setComparedIds(prev => [...prev, property.id]);
-                      const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
-                      });
-                      if (!resp.ok) {
-                        setComparedIds(prev => prev.filter(id => id !== property.id));
-                      } else {
-                        await fetchComparedIds();
-                      }
-                    } else {
-                      setComparedIds(prev => prev.filter(id => id !== property.id));
-                      const comparisonId = comparisonIdMap[property.id];
-                      if (!comparisonId) {
-                        setCompareLoadingId(null);
-                        return;
-                      }
-                      const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
-                      if (!resp.ok) {
-                        setComparedIds(prev => [...prev, property.id]);
-                      } else {
-                        await fetchComparedIds();
-                      }
-                    }
-                    setCompareLoadingId(null);
-                  }}
-                  className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
-                />
-                <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
-                  {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
-                </span>
-              </label>
-              <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105 cursor-pointer">
-                View Details
-              </button>
-            </div>
-          </div>
-        </div>
-      </Link>
-    );
-  };
-  const PropertyCardLuxe = ({
-    property,
-    delay,
-    comparedIds,
-    setComparedIds,
-    compareLoadingId,
-    setCompareLoadingId,
-    comparisonIdMap,
-    fetchComparedIds
-  }: {
-    property: Property;
-    delay: number;
-    comparedIds: number[];
-    setComparedIds: React.Dispatch<React.SetStateAction<number[]>>;
-    compareLoadingId: number | null;
-    setCompareLoadingId: React.Dispatch<React.SetStateAction<number | null>>;
-    comparisonIdMap: Record<number, number>;
-    fetchComparedIds: () => Promise<void>;
-  }) => {
-    const [isHovered, setIsHovered] = useState(false);
-
-    const baseUrl = "https://api.propertydronerealty.com";
-    const imagePath = property?.multipleImages?.[0]?.path
-      ? `${baseUrl}${property.multipleImages[0].path}`
-      : main2;
-
-    return (
-      <Link href={`/luxe-properties/${property.slug}`} passHref>
-        <div
-          className="bg-white rounded-[4px] cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <div className="relative h-52 w-full overflow-hidden">
-            <Image
-              src={imagePath}
-              alt={property.propertyName || "Property Image"}
-              fill
-              className={`z-0 transition-transform duration-700 ease-in-out object-cover ${isHovered ? "scale-110" : "scale-100"
-                }`}
-            />
-            <div className="absolute top-4 left-4 z-10">
-              <div className="rounded-full flex items-center">
-                <AnimatedStarButton />
-              </div>
-            </div>
-          </div>
-
-          {/* Developer and Location */}
-          <div className="flex border-b border-[#00000033]">
-            <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
-              <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
-                fontSize: '16px',
-                fontFamily: 'Lato, sans-serif',
-                letterSpacing: '0.5px',
-                lineHeight: '1.3',
-              }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-                {property.beds || ""}  Beds
-              </div>
-            </div>
-            <div className="w-1/2 flex items-center  border-r border-[#00000033] py-2">
-              <div className=" text-[#172747] px-3 py-1 rounded-md flex items-center gap-1" style={{
-                fontSize: '16px',
-                fontFamily: 'Lato, sans-serif',
-                letterSpacing: '0.5px',
-                lineHeight: '1.3',
-              }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <path d="M22 6l-10 7L2 6"></path>
-                </svg>
-                {property.baths || ""}  Baths
-              </div>
-            </div>
-            <div className="w-1/2 flex items-center justify-center py-2 space-x-1">
-              <svg
-                className="w-5 h-5 text-black"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              <span className="text-[#172747] text-lg " style={{
-                fontSize: '16px',
-                fontFamily: 'Lato, sans-serif',
-                letterSpacing: '0.5px',
-                lineHeight: '1.3',
-              }}>{property.location || "Location"}</span>
-            </div>
-          </div>
-
-
-          {/* Title */}
-          <div className="px-4 pt-1 pb-2">
-            <h3
-              className={` ${isHovered ? "text-blue-800" : "text-[#172747]"
-                }`}
-              style={{
-                fontSize: '20px',
-                fontFamily: 'Lato, sans-serif',
-                letterSpacing: '0.5px',
-                lineHeight: '1.3',
-              }}
-            >
-              {property.propertyName || "Prime Business Hub"}
-            </h3>
-          </div>
-
-          {/* Property Details */}
-          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-            <div className="flex items-center space-x-2">
-
-              <span
-                className="text-gray-700 px-2"
-                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
-              >
-                Carpet Area : {(() => {
-                  const words = String(property.carpetArea).split(' ');
-                  return words.length > 5
-                    ? words.slice(0, 5).join(' ') + '...'
-                    : words.join(' ');
-                })()}
-              </span>
-
-            </div>
-
-          </div>
-          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-            <div className="flex items-center space-x-2">
-
-              <span
-                className="text-gray-700 px-2"
-                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
-              >
-                Possession : {(() => {
-                  const words = String(property.possession).split(' ');
-                  return words.length > 5
-                    ? words.slice(0, 5).join(' ') + '...'
-                    : words.join(' ');
-                })()}
-              </span>
-
-            </div>
-
-          </div>
-          <div className="justify-between items-center px-2 pb-2 space-x-2 bg-[#EEF1F5] text-xs text-gray-800  py-1 rounded-[4px]">
-            <div className="flex items-center space-x-2">
-
-              <span
-                className="text-gray-700 px-2"
-                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
-              >
-                Typology : {(() => {
-                  const words = String(property.topology).split(' ');
-                  return words.length > 5
-                    ? words.slice(0, 5).join(' ') + '...'
-                    : words.join(' ');
-                })()}
-              </span>
-
-            </div>
-
-          </div>
-
-          {/* Price and Actions */}
-          <div className="flex items-center justify-between px-4 py-3">
-
-            <div className="flex space-x-2 items-center">
-              <label className="flex items-center gap-2 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={comparedIds.includes(property.id)}
-                  disabled={compareLoadingId === property.id || (!comparedIds.includes(property.id) && comparedIds.length >= 5)}
-                  onChange={async (e) => {
-                    setCompareLoadingId(property.id);
-                    if (e.target.checked) {
-                      setComparedIds(prev => [...prev, property.id]);
-                      const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ webUserId: 1, propertyId: property.id, propertyData: property })
-                      });
-                      if (!resp.ok) {
-                        setComparedIds(prev => prev.filter(id => id !== property.id));
-                      } else {
-                        await fetchComparedIds();
-                      }
-                    } else {
-                      setComparedIds(prev => prev.filter(id => id !== property.id));
-                      const comparisonId = comparisonIdMap[property.id];
-                      if (!comparisonId) {
-                        setCompareLoadingId(null);
-                        return;
-                      }
-                      const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
-                      if (!resp.ok) {
-                        setComparedIds(prev => [...prev, property.id]);
-                      } else {
-                        await fetchComparedIds();
-                      }
-                    }
-                    setCompareLoadingId(null);
-                  }}
-                  className="form-checkbox h-5 w-5 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
-                />
-                <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-xs' : 'text-green-700 font-semibold text-xs'}>
-                  {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
-                </span>
-              </label>
-              <button className="bg-[#172747] text-white text-sm px-4 py-2 rounded hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] transition-transform transform hover:scale-105 cursor-pointer">
-                View Details
-              </button>
-            </div>
-          </div>
-        </div>
-      </Link>
-    );
-  };
-  const [videos, setVideos] = useState<YoutubeVideo[]>([]);
-
-  const sliderRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Fetch all videos
-  const fetchVideos = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get('/api/youtube-videos');
-      setVideos(response.data);
-      setError('');
-    } catch (err: any) {
-      // Network error fallback
-      if (err.message === 'Network Error') {
-        setError(''); // Do not show error to user
-        setVideos([
-          { id: 1, title: 'Mock Video', description: '', youtube_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', author: 'Mock', date: '2024-01-01' }
-        ]);
-      } else {
-        setError('Failed to load videos. Please refresh the page.');
-        setVideos([]); // Clear videos on error
-      }
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchVideos();
-  }, []);
-
-  // Auto-slider functionality
-  useEffect(() => {
-    if (videos.length > 0 && !isPaused) {
-      sliderRef.current = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % Math.ceil(videos.length / 3));
-      }, 5000);
-    }
-
-    return () => {
-      if (sliderRef.current) {
-        clearInterval(sliderRef.current);
-      }
-    };
-  }, [videos.length, isPaused]);
-
-  const handlePause = () => {
-    setIsPaused(true);
-  };
-
-  const handleResume = () => {
-    setIsPaused(false);
-  };
-
-  const handleSlideChange = (index: number) => {
-    setCurrentSlide(index);
-  };
-
-  const displayVideos = () => {
-    const startIndex = currentSlide * 3;
-    return videos.slice(startIndex, startIndex + 3);
-  };
 
   // Add cookie consent state
   const [showCookieBanner, setShowCookieBanner] = useState(true);
@@ -1616,62 +856,7 @@ export default function Home() {
     setShowCookieBanner(false);
   };
 
-  interface BlogPost {
-    id: number;
-    slug: string;
-    image: string;
-    title: string;
-    date: string;
-  }
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
 
-  const defaultImages = [
-    imagedefault1.src,
-    imagedefault2.src,
-    imagedefault3.src
-  ];
-
-  useEffect(() => {
-    fetch('https://api.propertydronerealty.com/blogs')
-      .then(res => res.json())
-      .then(data => {
-        console.log('API data:', data); // Debug: log API response
-        interface BlogApiImage {
-          url: string;
-          [key: string]: any;
-        }
-
-        interface BlogApiPost {
-          id: number;
-          slug: string;
-          blogImage?: BlogApiImage[];
-          blogTitle: string;
-          createdAt: string;
-          [key: string]: any;
-        }
-
-        interface BlogPostMapped {
-          id: number;
-          slug: string;
-          image: string;
-          title: string;
-          date: string;
-        }
-
-        const mapped: BlogPostMapped[] = (data as BlogApiPost[]).map((post: BlogApiPost, idx: number): BlogPostMapped => ({
-          id: post.id,
-          slug: post.slug,
-          // Always use only the default images, cycling through them
-          image: defaultImages[idx % 3],
-          title: post.blogTitle,
-          date: new Date(post.createdAt).toLocaleDateString(),
-        }));
-        setBlogPosts(mapped);
-      });
-  }, []);
-
-  // In your render, update the blog grid to only show the last 3 posts:
-  const lastThreePosts = blogPosts.slice(-3);
 
   return (
     <div className="min-h-screen">
@@ -1720,100 +905,82 @@ export default function Home() {
             muted
             loop
             playsInline
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover"
           >
             <source src="/mainvideo.mp4" type="video/mp4" />
 
           </video>
+
           <div className="absolute inset-0 bg-black opacity-50"></div>
         </div>
 
         {/* Main Content */}
-        <main className="relative z-10 container mx-auto px-4 pt-40 max-w-6xl">
-          {/* <div className="flex flex-col md:flex-row gap-[20px] py-4">
-      <div>
-        <h1
-          style={{
-            fontFamily: "Ivy Mode",
-            fontWeight: 100,
-            lineHeight: '150%',
-            letterSpacing: '0'
-          }}
-          className="text-white text-[42px] sm:text-[80px]"
-        >
-          Find the best <br /> properties in Pune
-        </h1>
-      </div>
-      <div className="flex flex-col sm:mb-[20px] md:flex-row md:items-end md:justify-between">
-        <p className="text-white text-[18px] sm:text-[28px] mb-4 md:mb-0 leading-none"
-          style={{ fontWeight: '300', fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '100%' }}>
-          with Property <br /> Management <br />company in Pune
-        </p>
-        <Link href="/contact-us-propertydrone-realty">
-         <button
-  className="flex items-center ml-0 md:ml-5 bg-white text-[#172747] px-4 py-2 rounded-[4px] border border-transparent hover:bg-[#172747] hover:text-white hover:border-white transition duration-300 ease-in-out cursor-pointer"
->
-  Get Consultation
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5 ml-2"
-    viewBox="0 0 20 20"
-    fill="currentColor"
-  >
-    <path
-      fillRule="evenodd"
-      d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-      clipRule="evenodd"
-    />
-  </svg>
-</button>
+        <main className="relative z-10 container mx-auto px-4 min-h-screen flex flex-col justify-center pt-20 max-w-6xl">
+          <EnquireSideButton />
 
-        </Link>
-      </div>
-    </div> */}
-          <div className="flex items-center justify-center w-full  bg-transparent">
-            <div className="w-full max-w-4xl mx-auto px-4 md:px-0">
-              <div className="backdrop-blur-md bg-black/20 rounded-2xl py-10  px-3 md:px-8 shadow-lg  flex flex-col items-center">
-                <h1 className="text-3xl md:text-5xl font-bold text-center mb-4 text-white">
+
+          <div className="flex  w-full  bg-transparent">
+            <div className="w-full max-w-4xl  mx-auto px-4 md:px-0">
+              <div className="bg-white items-center justify-center rounded-2xl pt-10 pb-4  px-3 md:px-8 shadow-lg  flex flex-col items-center">
+                <h1 className="text-3xl md:text-5xl font-bold text-[#191758] text-center w-full mb-4 px-2">
                   Find Your Dream Property
                 </h1>
-                <div className="text-md md:text-lg text-center text-white mb-7 font-medium">
+                <div className="text-md md:text-lg text-center text-[#191758] w-full mb-4 font-medium px-2">
                   Search properties for sale across top locations.
                 </div>
 
                 {/* Navigation Tabs and Search Bar Container with Glass Effect */}
-                <div className="w-full">
+                <div className="w-full shadow-2xl">
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
                       // Filtering happens automatically via useEffect when filters.search changes
                     }}
-                    className="w-full backdrop-blur-lg bg-[#172747]/40  rounded-2xl shadow-2xl overflow-hidden"
+                    className="w-full backdrop-blur-lg bg-[#1717B5]/90  rounded-t-2xl  overflow-hidden"
                   >
                     {/* Navigation Tabs with Glass Effect - Top Locations */}
-                    <div className=" rounded-t-2xl px-2 py-2 flex items-center justify-center gap-3 md:gap-4 lg:gap-5 border-b border-white/10 overflow-x-auto">
-                      {(locationCounts.length > 0
-                        ? locationCounts.sort((a, b) => b.count - a.count).slice(0, 5)
-                        : ['Hinjawadi', 'Kharadi', 'Wakad', 'Baner', 'Viman Nagar'].map(loc => ({ location: loc, count: 0, image: '' }))
-                      ).map((locationData) => (
+                    <div className=" rounded-t-2xl px-2 py-2 flex items-center justify-center gap-3 md:gap-4 lg:gap-5 border-b border-white/10 overflow-x-auto ">
+                      {['Residential', 'Commercial', 'Plot'].map((type) => (
                         <button
-                          key={locationData.location}
+                          key={type}
                           type="button"
                           onClick={() => {
-                            setActiveTab(locationData.location);
-                            setFilters({ ...filters, locations: [locationData.location], search: '' });
+                            setFilters({ ...filters, type: type });
                           }}
-                          className={`uppercase text-white font-semibold text-xs sm:text-xs md:text-sm transition-all duration-200 pb-1 relative whitespace-nowrap ${filters.locations.includes(locationData.location) ? 'after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-white' : 'hover:opacity-80'
+                          className={`uppercase text-white font-semibold text-xs sm:text-xs md:text-sm transition-all duration-200  relative whitespace-nowrap ${filters.type === type ? 'after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-white' : 'hover:opacity-80'
                             }`}
                         >
-                          {locationData.location}
+                          {type}
                         </button>
                       ))}
+
+                      {/* Divider */}
+                      <span className="text-white/40 text-xl font-light px-2 hidden sm:block">|</span>
+
+                      {/* Top Locations */}
+                      <div className="flex items-center gap-3">
+                        <span className="text-white/80 text-xs sm:text-sm font-medium whitespace-nowrap">Top Locations:</span>
+                        {(locationCounts.length > 0
+                          ? locationCounts.sort((a, b) => b.count - a.count).slice(0, 5)
+                          : ['Hinjawadi', 'Kharadi', 'Wakad', 'Baner', 'Viman Nagar'].map(loc => ({ location: loc, count: 0, image: '' }))
+                        ).map((locationData) => (
+                          <button
+                            key={locationData.location}
+                            type="button"
+                            onClick={() => {
+                              setFilters({ ...filters, locations: [locationData.location], search: '' });
+                            }}
+                            className="text-white font-medium text-xs sm:text-sm hover:underline hover:text-white/90 transition-colors decoration-white/50 underline-offset-4 whitespace-nowrap"
+                          >
+                            {locationData.location}
+                          </button>
+                        ))}
+                      </div>
                     </div>
 
                     {/* Search Bar with Glass Effect - directly connected, no gap */}
                     <div className="relative">
-                      <div className="backdrop-blur-md bg-white/95 rounded-t-2xl flex items-center overflow-hidden shadow-inner">
+                      <div className="backdrop-blur-md bg-white rounded-t-2xl flex items-center overflow-hidden ">
                         {/* Search Icon */}
                         <div className="pl-4 pr-3 flex-shrink-0">
                           <Search className="w-5 h-5 text-gray-400" />
@@ -1862,10 +1029,44 @@ export default function Home() {
                         </div>
 
 
+
+                        {/* Buy / Lease Radio Buttons */}
+                        <div className="hidden md:flex items-center gap-3 px-4 border-l border-gray-300 h-8 flex-shrink-0">
+                          <label className="flex items-center gap-2 cursor-pointer group">
+                            <div className="relative flex items-center justify-center w-5 h-5">
+                              <input
+                                type="radio"
+                                name="transactionType"
+                                value="Buy"
+                                checked={transactionType === 'Buy'}
+                                onChange={(e) => setTransactionType(e.target.value)}
+                                className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-full checked:border-[#6C5DD3] transition-all"
+                              />
+                              <div className="absolute w-2.5 h-2.5 bg-[#6C5DD3] rounded-full scale-0 peer-checked:scale-100 transition-transform"></div>
+                            </div>
+                            <span className={`font-medium ${transactionType === 'Buy' ? 'text-[#6C5DD3]' : 'text-gray-600 group-hover:text-gray-800'}`}>Buy</span>
+                          </label>
+
+                          <label className="flex items-center gap-2 cursor-pointer group">
+                            <div className="relative flex items-center justify-center w-5 h-5">
+                              <input
+                                type="radio"
+                                name="transactionType"
+                                value="Lease"
+                                checked={transactionType === 'Lease'}
+                                onChange={(e) => setTransactionType(e.target.value)}
+                                className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-full checked:border-[#6C5DD3] transition-all"
+                              />
+                              <div className="absolute w-2.5 h-2.5 bg-[#6C5DD3] rounded-full scale-0 peer-checked:scale-100 transition-transform"></div>
+                            </div>
+                            <span className={`font-medium ${transactionType === 'Lease' ? 'text-[#6C5DD3]' : 'text-gray-600 group-hover:text-gray-800'}`}>Lease</span>
+                          </label>
+                        </div>
+
                         {/* Search Button */}
                         <button
                           type="submit"
-                          className="px-6 py-2 m-2 bg-[#172747] rounded-full text-white font-bold uppercase text-xs sm:text-sm md:text-base hover:bg-[#1a2f5a] transition-colors duration-200 flex-shrink-0"
+                          className="px-6 py-2 m-2 bg-[#1717B5] rounded-full text-white font-bold uppercase text-xs sm:text-sm md:text-base hover:bg-[#1a2f5a] transition-colors duration-200 flex-shrink-0"
                         >
                           Search
                         </button>
@@ -1893,14 +1094,95 @@ export default function Home() {
                         </div>
                       )}
                     </div>
+
+                    {/* Popular Locations (Moved from Top) */}
+
                   </form>
                 </div>
+                {/* Filters and Property Owner Action Row */}
+                <div className="w-full max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 mt-4 px-1">
+
+                  {/* Left: Additional Filters */}
+                  {/* Left: Additional Filters - Interactive Dropdowns */}
+                  <div className="flex items-center gap-3 w-full md:w-auto overflow-visible pb-1 md:pb-0 scrollbar-hide z-50">
+                    {/* Carpet Area */}
+                    <div className="relative" onMouseEnter={() => setActiveDropdown('area')} onMouseLeave={() => setActiveDropdown(null)}>
+                      <button
+                        type="button"
+                        className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border ${dropdownFilters.area ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
+                      >
+                        <span>{dropdownFilters.area || 'Carpet Area'}</span>
+                        <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'area' ? 'rotate-180' : ''}`} />
+                      </button>
+                      {activeDropdown === 'area' && (
+                        <div className="absolute bottom-full left-0 mb-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100]">
+                          {filterOptions.area.map((opt) => (
+                            <button key={opt} onClick={() => handleDropdownSelect('area', opt)} className="w-full text-left px-4 py-2 text-xs hover:bg-gray-50 text-gray-700 transition-colors">
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Budget */}
+                    <div className="relative" onMouseEnter={() => setActiveDropdown('budget')} onMouseLeave={() => setActiveDropdown(null)}>
+                      <button
+                        type="button"
+                        className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border ${dropdownFilters.budget ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
+                      >
+                        <span>{dropdownFilters.budget || 'Budget'}</span>
+                        <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'budget' ? 'rotate-180' : ''}`} />
+                      </button>
+                      {activeDropdown === 'budget' && (
+                        <div className="absolute bottom-full left-0 mb-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100]">
+                          {filterOptions.budget.map((opt) => (
+                            <button key={opt} onClick={() => handleDropdownSelect('budget', opt)} className="w-full text-left px-4 py-2 text-xs hover:bg-gray-50 text-gray-700 transition-colors">
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Possession */}
+                    <div className="relative" onMouseEnter={() => setActiveDropdown('possession')} onMouseLeave={() => setActiveDropdown(null)}>
+                      <button
+                        type="button"
+                        className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border ${dropdownFilters.possession ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
+                      >
+                        <span>{dropdownFilters.possession || 'Possession'}</span>
+                        <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'possession' ? 'rotate-180' : ''}`} />
+                      </button>
+                      {activeDropdown === 'possession' && (
+                        <div className="absolute bottom-full left-0 mb-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100]">
+                          {filterOptions.possession.map((opt) => (
+                            <button key={opt} onClick={() => handleDropdownSelect('possession', opt)} className="w-full text-left px-4 py-2 text-xs hover:bg-gray-50 text-gray-700 transition-colors">
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Right: Property Owner Button */}
+                  <Link href="/post-property" className="flex-shrink-0 inline-flex items-center gap-2 bg-[#1717B5]/95 backdrop-blur-md px-4 py-2 rounded-full text-white hover:bg-[#191758] transition-all shadow-xl hover:shadow-2xl border border-white/10 group active:scale-95 whitespace-nowrap">
+                    <Zap className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                    <span className="font-medium text-[10px] sm:text-xs tracking-wide text-white/90">Are you a Property Owner?</span>
+                    <span className="font-bold text-[10px] sm:text-xs text-white decoration-yellow-400/50 underline underline-offset-2 decoration-2 group-hover:text-yellow-300 transition-colors">Sell / Rent for FREE</span>
+                    <ChevronRight className="w-3 h-3 text-white/60 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+                  </Link>
+                </div>
               </div>
+
+              {/* Property Owner Badge/Button */}
+
             </div>
           </div>
 
-        </main>
-      </div>
+        </main >
+      </div >
 
       <style>
         {`
@@ -1938,1172 +1220,100 @@ export default function Home() {
       </style>
 
 
-      {/* ------------------------------ */}
-      {/* ------------------------------ */}
-      {/* Hero Search Bar Section (Image style) */}
 
-      {/* Filter Section */}
-      {/* <div className="bg-white shadow-md p-4 md:p-6">
-  <div className="grid grid-row-1 md:grid-cols-5 gap-4 md:gap-6 mx-2 md:mx-20">
 
-  
-    <div className="relative">
-      <input
-        type="text"
-        name="search"
-        value={filters.search || ''}
-        onChange={handleFilterChange}
-        placeholder="Search properties..."
-        className="w-full px-4 py-2 pl-10 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
-        suppressHydrationWarning
+
+      <HomePageLuxeProperty
+        luxuryProperties={luxuryProperties}
+        loading={loading}
+        error={error}
+        resetFilters={resetFilters}
+        comparedIds={comparedIds}
+        setComparedIds={setComparedIds}
+        compareLoadingId={compareLoadingId}
+        setCompareLoadingId={setCompareLoadingId}
+        comparisonIdMap={comparisonIdMap}
+        fetchComparedIds={fetchComparedIds}
+
+        savedIds={savedIds}
+        setSavedIds={setSavedIds}
+        savedLoadingId={savedLoadingId}
+        setSavedLoadingId={setSavedLoadingId}
+        savedIdMap={savedIdMap}
+        fetchSavedIds={fetchSavedIds}
       />
-      <div className="absolute left-3 top-2.5 text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      </div>
-    </div>
-
-   
-    <div>
-      <select
-        name="location"
-        value={filters.location || ''}
-        onChange={handleFilterChange}
-        className="w-full px-4 py-2 pl-4 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
-        suppressHydrationWarning
-      >
-        <option value="" className="text-white">All Locations</option>
-        {Array.from(new Set(properties.map(p => p.location))).map(location => (
-          <option key={location} value={location} className="text-white">{location}</option>
-        ))}
-      </select>
-    </div>
-
-   
-    <div className="hidden md:block">
-      <input
-      type="number"
-      name="minPrice"
-      value={filters.minPrice || ''}
-      onChange={handleFilterChange}
-      placeholder="Min Price"
-      className="w-full px-4 py-2 pl-4 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
-      suppressHydrationWarning
-      />
-    </div>
-
-    
-      <div className="hidden md:block">
-      <input
-        type="number"
-        name="maxPrice"
-        value={filters.maxPrice || ''}
-        onChange={handleFilterChange}
-        placeholder="Max Price"
-        className="w-full px-4 py-2 pl-4 border bg-[#172747] rounded-[4px] focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-white text-white"
-        suppressHydrationWarning
-      />
-    </div>
-
-   
-    <div>
-      <button
-        onClick={resetFilters}
-        className="w-full cursor-pointer px-4 py-2 bg-[#172747] border border-white text-white rounded-[4px] hover:bg-[#4b6096] transition-colors"
-        suppressHydrationWarning
-      >
-        Reset Filters
-      </button>
-    </div>
-
-  </div>
-</div> */}
-
-
-      <div
-        className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed"
-        style={{
-          backgroundImage: `url(${luxeImage.src})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-
-
-
-        {/* Loading and Error States */}
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 text-white border-t-2 border-b-2 border-[#172747]"></div>
-          </div>
-        ) : error ? (
-          <div className="text-center text-red-500 p-4">
-            Error: {error}. Please try again later.
-          </div>
-        ) : luxuryProperties.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No luxury properties found matching your criteria.</p>
-            <button
-              onClick={resetFilters}
-              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-[#172747] transition-colors duration-300 cursor-pointer"
-            >
-              Reset Filters
-            </button>
-          </div>
-        ) : (
-          <div className="space-y-10 max-w-6xl mx-auto px-4 ">
-            {/* Featured Properties Section */}
-            <div className="mb-8 ">
-              <AnimatedLetters
-                text="LUXURY PROPERTIES"
-                as="h2"
-                className="uppercase text-white text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-              />
-
-              <h2 className="text-white mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
-                Discover our exclusive collection of luxury properties in Pune
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {luxuryProperties.slice(0, 3).map((property, index) => (
-                  <PropertyCardLuxe
-                    key={property.id}
-                    property={property}
-                    delay={index * 200}
-                    comparedIds={comparedIds}
-                    setComparedIds={setComparedIds}
-                    compareLoadingId={compareLoadingId}
-                    setCompareLoadingId={setCompareLoadingId}
-                    comparisonIdMap={comparisonIdMap}
-                    fetchComparedIds={fetchComparedIds}
-                  />
-                ))}
-              </div>
-
-              {/* View All Luxury Properties Button */}
-              {luxuryProperties.length > 3 && (
-                <div className="flex justify-center mt-8">
-                  <Link href="/luxe-properties">
-                    <button className="bg-white text-[#172747] px-6 py-3 rounded hover:bg-gray-100 transition-colors duration-300 cursor-pointer flex items-center gap-2">
-                      View All Luxury Properties
-                      <ArrowRight size={16} />
-                    </button>
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-      <div className="w-full overflow-hidden mt-6" id="filter-section">
-        <div
-          ref={scrollContainerRef}
-          className="flex overflow-x-auto scrollbar-hide snap-x"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {images.map((imgObj, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 h-32 mx-2 first:ml-0 mt-10 sm:mt-0 transition-all duration-300 ease-in-out"
-              style={{
-                transform: 'scale(1)',
-                transformOrigin: 'center center',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.05)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-              }}
-            >
-              <div className="shadow-md flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-300 transform hover:scale-105">
-                <Image
-                  src={imgObj.img}
-                  alt={`Card ${index + 1}`}
-                  className="w-auto cursor-pointerh-22 object-cover transition-all duration-300 sm:h-30"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <HomePageLogos />
 
 
       {/* ------------------------------------------------------------------------------------------------------ */}
-      <div className=" mx-auto px-6 md:px-20 py-8 bg-[#EEF1F5]">
+      <div className=" mx-auto px-6 md:px-20 py-8 " style={{
+        backgroundImage: `url(${main22.src})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
 
 
 
-        {/* Loading and Error States */}
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 text-white border-t-2 border-b-2 border-[#172747]"></div>
-          </div>
-        ) : error ? (
-          <div className="text-center text-red-500 p-4">
-            Error: {error}. Please try again later.
-          </div>
-        ) : filteredProperties.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No properties found matching your criteria.</p>
-            <button
-              onClick={resetFilters}
-              className="mt-4  bg-blue-500 text-white px-4 py-2 rounded hover:bg-[#172747] transition-colors duration-300 cursor-pointer"
-            >
-              Reset Filters
-            </button>
-          </div>
-        ) : (
-          <div className="space-y-10 max-w-6xl mx-auto px-4">
-            {/* Featured Properties Section */}
-            <div className="mb-8">
-              <AnimatedLetters
-                text="FEATURED PROPERTIES"
-                as="h2"
-                className="uppercase text-[#172747] text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-              />
 
 
-              <h2 className="text-[#172747] mb-6 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-              >Explore top-performing properties with high ROI and verified builder credibility.</h2>
+        <HomePageFeaturedProperty
+          filteredProperties={filteredProperties}
+          loading={loading}
+          error={error}
+          resetFilters={resetFilters}
+          featuredProperties={featuredProperties}
+          comparedIds={comparedIds}
+          setComparedIds={setComparedIds}
+          compareLoadingId={compareLoadingId}
+          setCompareLoadingId={setCompareLoadingId}
+          comparisonIdMap={comparisonIdMap}
+          fetchComparedIds={fetchComparedIds}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {featuredProperties.map((property, index) => (
-                  <PropertyCard
-                    key={property.id}
-                    property={property}
-                    delay={index * 200}
-                    comparedIds={comparedIds}
-                    setComparedIds={setComparedIds}
-                    compareLoadingId={compareLoadingId}
-                    setCompareLoadingId={setCompareLoadingId}
-                    comparisonIdMap={comparisonIdMap}
-                    fetchComparedIds={fetchComparedIds}
-                  />
-                ))}
-              </div>
-              <div className="flex justify-center mt-8">
-                <Link href="/our-properties-in-pune">
-                  <button className="bg-white text-[#172747] px-6 py-3 rounded hover:bg-gray-100 transition-colors duration-300 cursor-pointer flex items-center gap-2">
-                    View All Properties
-                    <ArrowRight size={16} />
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
+          savedIds={savedIds}
+          setSavedIds={setSavedIds}
+          savedLoadingId={savedLoadingId}
+          setSavedLoadingId={setSavedLoadingId}
+          savedIdMap={savedIdMap}
+          fetchSavedIds={fetchSavedIds}
+        />
+
+
+
+
+        <HomePageLoanBanks />
+
+
       </div>
 
 
 
 
-      {/* -------------------------------------------------------------- */}
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
+      <section className="bg-white text-[#172747] py-16  relative z-10 -mt-10" style={{
+        backgroundImage: `url(${main22.src})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }} >
+        <WhyPropertyDrone />
+        <HomePageWhyPropertyDrone />
+        <HomePageYoutube />
+        <HomePageNir />
 
-        <div >
+        <HomePageTestimonials />
 
-          <AnimatedLetters
-            text="TOP LOCALITIES"
-            as="h2"
-            className="uppercase text-[#172747] text-[16px] text-center sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
+        <HomePageBlogs />
+        <BottomPropertyDetails />
+      </section >
 
-          />
 
 
-          <h2 className="text-[#172747]  font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-          > Find homes in the most sought-after neighborhoods of Pune.</h2>
-        </div>
 
 
-        <div className="max-w-6xl mx-auto  py-8">
-          <h2 className="text-2xl text-[#172747] font-bold mb-6">Popular Locations</h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-            {locationCounts.map((locationData: { location: string; count: number; image: string }, index: number) => (
-              <Link
-                key={index}
-                href={`/our-properties-in-pune?${locationData.location}`}
-                className={`
-      ${index < 5 ? 'block' : 'hidden'}           // Show only first 3 by default (mobile)
-      lg:${index < 5 ? 'block' : 'hidden'}                               // Show all on lg and above
-      `.trim()}
-              >
-                <div className="relative grid h-52 w-full cursor-pointer place-content-center overflow-hidden rounded-[4px] bg-[#172747] shadow-md transition-transform duration-300 hover:scale-105 group">
-                  <div className="absolute right-6 top-6 p-1 z-50 rounded-full">
-                    <Building2 className="w-8 h-8 text-[#EEF1F5] transition-colors duration-300" />
-                  </div>
-                  <span className="absolute top-[20px] left-1/2 -translate-x-1/2 bg-[#172747] pr-9 pt-2 text-xl font-semibold uppercase text-[#EEF1F5] opacity-0 tracking-[6px] transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:tracking-[3px]">
-                    explore now
-                  </span>
-                  <div className="absolute inset-0 border-2 border-[#EEF1F5] opacity-0 rotate-[10deg] transition-all duration-500 ease-in-out group-hover:inset-[10px] group-hover:opacity-100 group-hover:rotate-0 rounded-[4px] pointer-events-none"></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-[#EEF1F5]">
-                    <h3 className="text-2xl font-semibold">{locationData.location}</h3>
-                    <p className="text-xl">
-                      {locationData.count} {locationData.count === 1 ? 'Property' : 'Properties'}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
 
-        </div>
-
-
-        <div className="flex justify-center">
-          <Link href="/our-properties-in-pune">
-            <button className="bg-[#172747] cursor-pointer text-white px-6 py-2 flex items-center gap-2 rounded hover:bg-[#172747] transition">
-              View All Locations
-              <ArrowRight size={16} />
-            </button>
-          </Link>
-        </div>
-      </div>
-
-      {/* ------------------------ */}
-
-      <div className="bg-[#EEF1F5] ">
-        <section className="max-w-6xl mx-auto px-4 py-12">
-          <div className="mb-2 animate-fade-in text-justify">
-
-            <AnimatedLetters
-              text="UPCOMING & LATEST LAUNCHES"
-              as="h2"
-              className="uppercase text-[#172747] text-[16px] sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-            />
-
-
-
-          </div>
-          <h2 className="text-[#172747] mb-4 font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-          > Be the first to discover the hottest launches in Pune.</h2>
-
-
-          {/* Latest Properties Slider */}
-          <div>
-            {/* <h3 className="text-xl font-light mb-6 animate-fade-in">Latest Launches</h3> */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {remainingProperties
-                .slice(currentSlide * 2, currentSlide * 2 + 2)
-                .map((property) => (
-                  <Link href={`/luxe-properties/${property.slug}`} passHref key={`property-${property.id}`}>
-                    <div
-                      key={property.id}
-                      className="flex flex-col hover:bg-[#EEF1F5] rounded-[4px] shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out transform hover:-translate-y-1"
-                    >
-                      <div className="relative h-64 w-full mb-4 overflow-hidden rounded-t-lg group">
-                        <Image
-                          src={property.multipleImages?.[0]?.path ? `https://api.propertydronerealty.com${property.multipleImages[0].path}` : main4}
-                          alt={property.propertyName}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
-                        />
-                      </div>
-                      <div className="px-4 pb-4">
-                        <h3 className="text-xl font-light">{property.propertyName}</h3>
-                        <p className="text-sm text-gray-600">{property.location}, {property.city}</p>
-                        <div className="flex justify-between items-center mt-2">
-                          <div className="flex gap-2">
-                            {property.beds && (
-                              <span className="text-sm text-gray-600">{property.beds} Beds</span>
-                            )}
-                            {property.baths && (
-                              <span className="text-sm text-gray-600">{property.baths} Baths</span>
-                            )}
-                            {property.carpetArea && (
-                              <span className="text-sm text-gray-600">{property.carpetArea} sq.ft</span>
-                            )}
-                          </div>
-                          <p className="text-sm font-medium">{property.tentativeBudget}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-            </div>
-
-            <div className="mt-12 flex items-center justify-between w-full relative animate-fade-in">
-              {/* Slide Indicator */}
-              <div className="text-lg font-medium flex-shrink-0 z-10 pr-2">
-                <span className="font-bold">
-                  {String(currentSlide + 1).padStart(2, '0')}
-                </span>
-                <span className="text-[#172747]">
-                  {' '}
-                  / {String(Math.max(1, totalSlides)).padStart(2, '0')}
-                </span>
-              </div>
-
-              {/* Horizontal Divider */}
-              <div className="flex-grow h-px bg-[#172747]"></div>
-
-              {/* Navigation Buttons */}
-              <div className="flex gap-2 flex-shrink-0 z-10 pl-2">
-                <button
-                  onClick={prevSlide}
-                  className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
-                  aria-label="Previous slide"
-                  disabled={remainingProperties.length <= 2}
-                >
-                  <ArrowLeft size={20} />
-                </button>
-                <button
-                  onClick={nextSlide}
-                  className="p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
-                  aria-label="Next slide"
-                  disabled={remainingProperties.length <= 2}
-                >
-                  <ArrowRight size={20} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div className="container mx-auto max-w-6xl px-4 py-8">
-
-
-        <div className="mb-8">
-
-
-          <AnimatedLetters
-            text="Featured Videos"
-            as="h2"
-            className="uppercase text-[#172747] text-[16px] text-center sm:text-[18px] font-lato tracking-[1px] leading-[100%] mb-2"
-
-          />
-
-          <h2 className="text-[#172747]  font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-          >Explore insightful YouTube videos handpicked for you </h2>
-        </div>
-
-
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
-        )}
-
-        {loading ? (
-          <div className="text-center py-10">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#172747] mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading amazing videos...</p>
-          </div>
-        ) : videos.length === 0 ? (
-          <div className="text-center py-16 bg-gray-100 rounded-lg">
-            <i className="fas fa-video text-gray-400 text-4xl mb-4"></i>
-            <p className="text-gray-500 text-lg">No videos found in the collection</p>
-          </div>
-        ) : (
-          <div className="mb-8">
-            <div
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6"
-              onMouseEnter={handlePause}
-              onMouseLeave={handleResume}
-            >
-              {displayVideos().map((video) => {
-                const videoId = getYoutubeVideoId(video.youtube_url);
-
-                return (
-                  <div key={video.id} className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl border border-gray-200">
-                    {videoId ? (
-                      <div className="relative pb-[56.25%] h-0">
-                        <iframe
-                          className="absolute top-0 left-0 w-full h-full"
-                          src={`https://www.youtube.com/embed/${videoId}`}
-                          title={video.title || "YouTube Video"}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
-                      </div>
-                    ) : (
-                      <div className="bg-gray-200 h-48 flex items-center justify-center">
-                        <p className="text-gray-500">Invalid YouTube URL</p>
-                      </div>
-                    )}
-
-                    <div className="p-5">
-                      <h2 className="text-xl font-bold mb-3 line-clamp-2 text-gray-800">{video.title || "Untitled"}</h2>
-                      {/* <p className="text-gray-600 mb-4 line-clamp-3">{video.description || "No description"}</p> */}
-
-                      {/* <div className="flex justify-between items-center text-sm">
-                      <div className="flex items-center">
-                        <i className="fas fa-user-circle mr-2 text-blue-500"></i>
-                        <span className="font-medium text-gray-700">{video.author || "Unknown"}</span>
-                      </div>
-                      <div className="flex items-center text-gray-500">
-                        <i className="far fa-calendar-alt mr-2"></i>
-                        {formatDate(video.date)}
-                      </div>
-                    </div> */}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Slider controls */}
-            <div className="flex justify-center items-center gap-4">
-              <button
-                onClick={() => setCurrentSlide((prev) => (prev - 1 + Math.ceil(videos.length / 3)) % Math.ceil(videos.length / 3))}
-                className=" text-[#172747]  w-10 h-10 flex items-center justify-center p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
-              >
-                <ArrowLeft size={20} />
-              </button>
-
-              <div className="flex gap-2">
-                {Array.from({ length: Math.ceil(videos.length / 3) }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleSlideChange(index)}
-                    className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-[#172747]' : 'bg-gray-300'}`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={() => setCurrentSlide((prev) => (prev + 1) % Math.ceil(videos.length / 3))}
-                className=" text-[#172747]  w-10 h-10 flex items-center justify-center p-2 border border-[#172747] rounded-full hover:bg-white transition duration-300 hover:shadow cursor-pointer"
-              >
-                <ArrowRight size={20} />
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-      {/* -------------------- */}
-      <section className="bg-white text-[#172747] py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="mb-8 text-center">
-            <AnimatedLetters
-              text="WHY CHOOSE US"
-              as="h2"
-              className="uppercase text-[#172747] text-base sm:text-lg font-lato tracking-[1px] leading-tight mb-2"
-            />
-            <h2 className="text-[#172747] mb-6 font-light text-2xl sm:text-4xl leading-tight tracking-[1px] font-ivy text-start">We're redefining how people explore and purchase property.</h2>
-          </div>
-          {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 overflow-visible">
-          {features.map((feature, index) => (
-            <div
-              key={feature.id}
-              className="relative flex flex-col justify-center items-center bg-white/90 backdrop-blur shadow-xl rounded-3xl pt-2 pb-6 px-6 h-[320px] transition-all duration-300 ease-in-out group hover:bg-blue-50 hover:scale-105 overflow-visible"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
-            >
-            
-              <h3 className="text-lg text-[#172747] font-bold mt-1 mb-2 text-center font-lato group-hover:text-blue-700 transition-all">{feature.title}</h3>
-              <p className="text-[#433f60] text-base text-center leading-relaxed font-lato group-hover:text-blue-600 transition-all">{feature.description}</p>
-            </div>
-          ))}
-        </div> */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-5 gap-2 overflow-visible">
-            {/* Feature 0 - Top-left, spans 3 rows */}
-            {(() => {
-              const feature = features[0];
-              const IconComponent = feature.icon;
-              return (
-                <div
-                  key={feature.id}
-                  className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:row-span-3 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
-                  data-aos="fade-up"
-                  data-aos-delay={0}
-                >
-                  <div className="flex justify-center mb-2">
-                    <div className="w-16 h-16 rounded-full border-2 border-gray-400 flex items-center justify-center group-hover:border-green-500 transition-all">
-                      <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
-                    </div>
-                  </div>
-                  <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
-                  <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
-                </div>
-              );
-            })()}
-
-            {/* Feature 1 - Top-center, spans 3 rows */}
-            {(() => {
-              const feature = features[1];
-              const IconComponent = feature.icon;
-              return (
-                <div
-                  key={feature.id}
-                  className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:row-span-3 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
-                  data-aos="fade-up"
-                  data-aos-delay={100}
-                >
-                  <div className="flex justify-center mb-2">
-                    <div className="w-16 h-16 rounded-full border-2 border-gray-400 flex items-center justify-center group-hover:border-green-500 transition-all">
-                      <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
-                    </div>
-                  </div>
-                  <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
-                  <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
-                </div>
-              );
-            })()}
-
-            {/* Feature 3 - Dark blue block on right, spans all 5 rows */}
-            {(() => {
-              const feature = features[3];
-              const IconComponent = feature.icon;
-              return (
-                <div
-                  key={feature.id}
-                  className="relative flex flex-col justify-between bg-[#172747] shadow-xl rounded-2xl pt-6 pb-4 px-4 lg:row-span-5 transition-all duration-300 ease-in-out overflow-visible"
-                  data-aos="fade-up"
-                  data-aos-delay={200}
-                >
-                  <div>
-                    <div className="flex justify-center mb-2">
-                      <div className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center">
-                        <IconComponent className="w-8 h-8 text-white" />
-                      </div>
-                    </div>
-                    <h3 className="text-lg text-white font-bold mb-2 text-center font-lato">{feature.title}</h3>
-                    <p className="text-white/90 text-lg text-center leading-relaxed font-lato mb-4">{feature.description}</p>
-                    <div className="flex justify-center mb-4">
-                      <Image
-                        src={main4}
-                        alt="Property"
-                        className="rounded-lg object-cover w-full max-w-xs h-64"
-                      />
-                    </div>
-                  </div>
-                  <div className="mt-4 flex justify-center">
-                    <button className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl">
-                      Start Free Trial
-                      <ArrowRight className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/* Feature 2 - Bottom, spans 2 columns and 2 rows, starts at row 4 */}
-            {(() => {
-              const feature = features[2];
-              const IconComponent = feature.icon;
-              return (
-                <div
-                  key={feature.id}
-                  className="relative flex flex-col bg-gray-200 border-2 border-gray-400 shadow-lg rounded-2xl pt-6 pb-4 px-4 lg:col-span-2 lg:row-span-2 lg:row-start-4 transition-all duration-300 ease-in-out group hover:shadow-xl overflow-visible"
-                  data-aos="fade-up"
-                  data-aos-delay={300}
-                >
-                  <div className="flex justify-center mb-2">
-                    <div className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center">
-                      <IconComponent className="w-8 h-8 text-[#172747] group-hover:text-green-500 transition-all" />
-                    </div>
-                  </div>
-                  <h3 className="text-lg text-[#172747] font-bold mb-2 text-center font-lato">{feature.title}</h3>
-                  <p className="text-[#433f60] text-lg text-center leading-relaxed font-lato">{feature.description}</p>
-                </div>
-              );
-            })()}
-          </div>
-        </div>
-      </section>
-      {/* ---------------------------------- */}
-      <div
-        className="mx-auto px-6 md:px-20 py-8 bg-cover bg-center relative bg-fixed "
-        style={{
-          backgroundImage: `url(${luxeImage2.src})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-        <div className=" py-8 px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col lg:flex-row gap-16 items-start">
-              {/* Left side - Text content */}
-              <div className="w-full lg:w-1/3 space-y-4">
-                <AnimatedLetters
-                  text="NRI Corner "
-                  as="h2"
-                  className="text-[#172747] text-center font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]"
-
-                />
-
-                <p className="text-[#172747] text-[18px] sm:text-[20px] font-lato leading-none"
-                  style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '150%', color: '#2a4073' }}>
-                  Why Invest in India  </p>
-                <p className="text-[#172747] text-[16px] sm:text-[18px] font-lato leading-none"
-                  style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '150%', color: '#2a4073' }}>
-                  India is set to remain as one of the world's fastest growing economies. There's never been a better time to invest in real estate in India. Let us help you throughout the pre-and-post purchase processes.
-                </p>
-
-              </div>
-
-              {/* Right side - Services grid */}
-
-              <div className="w-full lg:w-2/3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {services.map((service, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-col bg-[#172747] hover:border hover:border-[#172747] group shadow-sm items-center justify-center p-6 sm:p-8 text-center hover:bg-white rounded-lg transition-all duration-300"
-                    >
-                      <Link href="/nri-corner">
-                        <div className="flex items-center justify-center mb-2">
-                          <span className="w-16 sm:w-20 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                            {service.icon}
-                          </span>
-                        </div>
-                        <h4 className="text-white text-[20px] sm:text-[26px] group-hover:text-[#172747] font-medium text-sm leading-tight transition-colors duration-300">
-                          {service.title}
-                        </h4>
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* ------------ */}
-      <section className="relative w-full py-16 md:py-24">
-        {/* Background image */}
-        <div className="absolute inset-0 z-0 ">
-          <Image
-            src={main33}
-            alt="Background"
-            layout="fill"
-            objectFit="cover"
-            priority
-          />
-        </div>
-
-        <div className="relative z-10 container mx-auto max-w-4xl px-4">
-          {/* Quote section */}
-          <div className="text-center mb-12">
-            <h2
-              style={{
-                fontFamily: "'Ivy Mode'",
-                fontWeight: 300,
-                fontSize: '46px',
-                lineHeight: '140%',
-                letterSpacing: '1px'
-              }}
-              className="text-[#172747] mb-6 "
-            >
-              "Let the experts help you<br />
-              make the right investment"
-            </h2>
-
-            <div className="mt-4">
-              <h2
-                className="text-[24px] leading-[100%] text-[#172747] tracking-normal"
-                style={{ fontFamily: 'Lato', letterSpacing: '1px' }} >Mr.Nikhil Mawale</h2>
-              <h2
-                className="text-[20px] leading-[100%] text-[#172747] f mb-6 tracking-normal "
-                style={{ fontFamily: 'Lato', letterSpacing: '1px' }}
-              >Founder</h2>
-            </div>
-          </div>
-
-          {/* Form section */}
-          <div className="bg-white rounded-md shadow-sm p-6 max-w-3xl mx-auto">
-            <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center gap-4">
-              <div className="w-full md:flex-1">
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Name"
-                  className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
-                  required
-                />
-              </div>
-              <div className="w-full md:flex-1">
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  onInput={e => {
-                    const input = e.target as HTMLInputElement;
-                    input.value = input.value.replace(/\D/g, '');
-                  }}
-                  placeholder="Phone"
-                  className="w-full px-4 py-3 border-b border-gray-300 focus:border-gray-800 outline-none"
-                  required
-                  pattern="[0-9]{10}"
-                  maxLength={10}
-                  minLength={10}
-                  title="Please enter a valid 10-digit phone number"
-                  inputMode="numeric"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full cursor-pointer md:w-auto bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] px-6 py-3 bg-navy-800 text-white font-medium rounded flex items-center justify-center "
-              >
-                Get a Consultation
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </button>
-
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* ------------------ */}
-      <div
-        className="relative bg-fixed bg-center bg-cover bg-no-repeat"
-        style={{
-          backgroundImage: `url(${luxeImage1.src})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      >
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none"></div>
-
-        {/* Content */}
-        <section className="relative z-10 max-w-6xl mx-auto px-4 py-12">
-          <div className="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center">
-            <div>
-              <AnimatedLetters
-                text="TESTIMONIAL"
-                as="h2"
-                className="uppercase text-white text-[18px] tracking-[1px] leading-[100%] mb-2"
-              />
-              <h2 className="text-white font-[300] text-[32px] sm:text-[50px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
-                Your trust is our greatest award
-              </h2>
-            </div>
-          </div>
-
-          {/* Cards */}
-          <motion.div
-            className="flex flex-wrap justify-center gap-6"
-            style={{ padding: '20px' }}
-          >
-            {visibleTestimonials.map((item, index) => (
-              <div
-                key={index}
-                style={{
-                  border: '1px solid #ddd',
-                  borderRadius: '8px',
-                  padding: '20px',
-                  color: '#fff',
-                  width: '320px',
-                  background: 'rgba(255,255,255,0.05)',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                  fontFamily: 'Poppins, sans-serif',
-                }}
-              >
-                <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>{item.name}</h3>
-                <div style={{ marginBottom: '15px', color: '#f9b31e' }}>{'★'.repeat(5)}</div>
-                <p style={{ color: '#fff', fontSize: '15px', lineHeight: '1.6' }}>{item.text}</p>
-                <p style={{ marginTop: '10px', color: '#fff', fontSize: '13px' }}>{item.date}</p>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Pagination */}
-          <div className="flex justify-center items-center gap-4 mt-10 font-[Poppins,sans-serif]">
-            <div className="text-white text-[16px]">
-              <strong>{String(currentPage).padStart(2, '0')}</strong>
-              <span> / {String(totalPages).padStart(2, '0')}</span>
-            </div>
-            <div className="flex-grow h-px bg-white"></div>
-            <button
-              onClick={goToPreviousPage}
-              disabled={currentPage === 1}
-              className="w-9 h-9 flex items-center justify-center rounded-full border border-white bg-white text-black disabled:opacity-50"
-            >
-              ‹
-            </button>
-            <button
-              onClick={goToNextPage}
-              disabled={currentPage === totalPages}
-              className="w-9 h-9 flex items-center justify-center rounded-full border border-white bg-white text-black disabled:opacity-50"
-            >
-              ›
-            </button>
-          </div>
-        </section>
-      </div>
-
-      {/* ---- */}
-
-      {/* ----------------- */}
-
-      <section className="bg-[#172747] text-white py-16 px-4 md:px-8">
-        <div className="container ">
-          {/* Header Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 mx-auto max-w-6xl px-4">
-            <div>
-              <p
-                className="uppercase test-[16px] sm:text-[18px]  text-white leading-[100%] tracking-normal mb-2"
-                style={{ fontFamily: 'Lato' }}
-              >INSIGHTS & UPDATES</p>
-              <h2 style={{
-                fontFamily: "'Ivy Mode'",
-                fontWeight: 300,
-                // fontSize: '56px',
-                lineHeight: '140%',
-                letterSpacing: '0'
-              }}
-                className="text-white mb-0  text-[32px] sm:text-[50px]"
-              >
-                Make smarter decisions with expert-written blogs.
-              </h2>
-            </div>
-            <div className="items-baseline ">
-              <div className="items-center mt-0 md:mt-10">
-                <p className="text-gray-300">
-                  Get the latest on market trends, property tips, and expert insights. Our blog brings you quick, valuable reads to guide your real estate journey with confidence.
-                </p>
-                <Link href="/blog">
-                  <button className="bg-white cursor-pointer text-[#172747] border border-white mt-4 px-4 py-2 rounded hover:bg-[#172747] hover:text-white hover:border hover:border-white transition">
-                    Read Our Blog
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Call to Action */}
-
-
-          {/* Blog Posts Grid */}
-          {/* <div className="flex-grow h-px bg-gray-400"></div> */}
-          <div className="grid grid-cols-1 md:grid-cols-3 mx-auto max-w-6xl px-4 gap-6">
-            {lastThreePosts.map((post, i) => (
-              <motion.div
-                key={post.id}
-                className="border border-gray-300 hover:bg-white hover:text-[#172747] hover:border-0 rounded-[4px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 "
-                variants={fadeInUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                custom={i}
-              >
-                <Link href={`/blog/${post.slug}`} className="block group">
-                  <div className="relative cursor-pointer h-48 overflow-hidden ">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      className="object-cover transform transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  </div>
-                  <div className="p-4 ">
-                    <div className="text-gray-400 text-sm mb-2 group-hover:text-[#172747]">{post.date}</div>
-                    <h3 className="text-lg font-medium mb-4 group-hover:text-[#172747] transition-colors duration-300">
-                      {post.title}
-                    </h3>
-                    <div className="inline-flex items-center text-gray-500 group-hover:text-[#172747] transition-colors duration-300">
-                      <ArrowRight size={16} />
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-          {/* <div className="flex-grow h-px bg-gray-400"></div> */}
-        </div>
-      </section>
-
-      {/* ------------------------------------ */}
-
-
-      <section className="bg-gray-100 py-16">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Left Column - Heading */}
-            <div>
-              <p
-                className="uppercase text-[18px]  text-[#172747] leading-[100%] tracking-normal mb-2"
-                style={{ fontFamily: 'Lato' }}
-              >FAQ</p>
-              <h2 style={{
-                fontFamily: "'Ivy Mode'",
-                fontWeight: 300,
-                // fontSize: '56px',
-                lineHeight: '140%',
-                letterSpacing: '0'
-              }}
-                className="text-[#172747] mb-0 sm:mb-6 text-[32px] sm:text-[50px]"
-              >Have questions? <br /> We've got answers.</h2>
-            </div>
-
-            {/* Right Column - Accordion */}
-            <div className="space-y-3 py-4">
-              {faqData.map((faq, index) => {
-                const isOpen = openIndex === index;
-
-                return (
-                  <div
-                    key={faq.id}
-                    className={`rounded-[4px]  transition-all duration-300 ${isOpen ? 'bg-white shadow-md' : 'bg-[#F1EEFF] shadow-sm'
-                      }`}
-                  >
-                    <button
-                      onClick={() => toggleAccordion(index)}
-                      className="w-full flex justify-between cursor-pointer items-center px-6 py-5 text-left text-[#1C1C1C]  focus:outline-none"
-                    >
-                      <span className="sm:text-[16px]"
-                        style={{ fontFamily: 'Lato', letterSpacing: '1px' }}>
-                        {faq.question}
-                      </span>
-                      <span className={`transition-transform cursor-pointer duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-                        {isOpen ? (
-                          <ChevronUp size={20} className="text-[#6B6B6B]" />
-                        ) : (
-                          <ChevronDown size={20} className="text-[#6B6B6B]" />
-                        )}
-                      </span>
-                    </button>
-
-                    {isOpen && (
-                      <div className=" px-6 py-4 text-[#4B4B4B] text-sm sm:text-[15px] cursor-pointer bg-white border-t border-[#E0E0E0]   "
-                        style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '150%' }}>
-                        {faq.answer}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-
-          </div>
-        </div>
-      </section>
-      <div className="w-full py-16 px-4  md:px-8 bg-[#172747]">
-        <div className="max-w-6xl mx-auto gap-4  flex-col md:flex-row flex md:flex">
-          {/* Stats box*/}
-          <div className="flex flex-col md:flex-row gap-4 pl-2 w-full">
-            {/* Years in Market */}
-            <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-              <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full transition-transform duration-300 group-hover:animate-bounce">
-                <Zap className="w-6 h-6 text-indigo-500 group-hover:text-indigo-600 transition-colors duration-300" />
-              </div>
-              {(() => {
-                const { count, ref } = useCounter(5);
-                return (
-                  <div className="mt-8" ref={ref}>
-                    <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-                      {count} <span>Year</span>
-                    </h3>
-                    <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-                      In the market
-                    </p>
-                  </div>
-                );
-              })()}
-            </div>
-
-            {/* Properties Sold */}
-            <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-              <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-                <div className="w-6 h-6 flex items-center justify-center text-indigo-500 transition-transform duration-300 group-hover:animate-bounce">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                  </svg>
-                </div>
-              </div>
-              {(() => {
-                const { count, ref } = useCounter(500);
-                return (
-                  <div className="mt-8" ref={ref}>
-                    <h3 className="text-indigo-500 font-[200] tracking-[1px]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-                      {count} <span>+</span>
-                    </h3>
-                    <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode', letterSpacing: '1px' }}>
-                      Properties Sold
-                    </p>
-                  </div>
-                );
-              })()}
-            </div>
-
-            {/* Industry Awards */}
-            <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-              <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-                <Book className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
-              </div>
-              {(() => {
-                const { count, ref } = useCounter(25);
-                return (
-                  <div className="mt-8" ref={ref}>
-                    <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-                      {count} <span>+</span>
-                    </h3>
-                    <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-                      Industry awards
-                    </p>
-                  </div>
-                );
-              })()}
-            </div>
-
-            {/* Support */}
-            <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-              <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-                <Globe className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
-              </div>
-              {(() => {
-                const { count, ref } = useCounter(24);
-                return (
-                  <div className="mt-8" ref={ref}>
-                    <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-                      {count} / 7
-                    </h3>
-                    <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-                      Support
-                    </p>
-                  </div>
-                );
-              })()}
-            </div>
-
-            {/* Cities */}
-            <div className="bg-gray-50 w-full md:w-[220px] h-[200px] shadow-lg hover:bg-indigo-50 transition-all duration-300 p-6 rounded-[4px] relative hover:shadow-lg transform hover:scale-105">
-              <div className="absolute right-6 top-6 bg-indigo-100 p-3 rounded-full">
-                <Wallet className="w-6 h-6 text-indigo-500 transition-colors duration-300 group-hover:text-indigo-600" />
-              </div>
-              {(() => {
-                const { count, ref } = useCounter(9);
-                return (
-                  <div className="mt-8" ref={ref}>
-                    <h3 className="text-indigo-500 font-[200]" style={{ fontSize: '48px', fontFamily: 'Ivy Mode' }}>
-                      {count}
-                    </h3>
-                    <p className="text-gray-700 mt-2" style={{ fontSize: '20px', fontFamily: 'Ivy Mode' }}>
-                      Cities
-                    </p>
-                  </div>
-                );
-              })()}
-            </div>
-          </div>
-        </div>
-      </div>
-      <BottomPropertyDetails />
-    </div>
+    </div >
   );
 }
 function useMemo<T>(factory: () => T, dependencies: any[]): T {

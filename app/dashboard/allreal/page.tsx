@@ -33,7 +33,7 @@ export default function AllRealEstateBasics() {
 
   const fetchBasics = async () => {
     try {
-      const response = await fetch(`https://api.propertydronerealty.com/real-estate`);
+      const response = await fetch(`http://localhost:5000/real-estate`);
       if (!response.ok) throw new Error('Failed to fetch real estate basics');
       const data = await response.json();
       setBasics(data);
@@ -49,7 +49,7 @@ export default function AllRealEstateBasics() {
     if (!confirm('Are you sure you want to delete this real estate basic?')) return;
 
     try {
-      const response = await fetch(`https://api.propertydronerealty.com/real-estate/${id}`, {
+      const response = await fetch(`http://localhost:5000/real-estate/${id}`, {
         method: 'DELETE',
       });
 
@@ -101,14 +101,14 @@ export default function AllRealEstateBasics() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {basics.map((basic) => (
           <div key={basic.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-          
+
             <div className="p-4">
               <h2 className="text-xl font-semibold mb-2">{basic.title}</h2>
               <p className="text-gray-600 mb-2 line-clamp-2">{basic.description}</p>
-                <div
+              <div
                 className="text-gray-600 mb-2 line-clamp-2"
                 dangerouslySetInnerHTML={{ __html: basic.author }}
-                />
+              />
               <div className="flex flex-wrap gap-2 mb-2">
                 {basic.keywords && basic.keywords.split(',').map((keyword, index) => (
                   <span
@@ -119,7 +119,7 @@ export default function AllRealEstateBasics() {
                   </span>
                 ))}
               </div>
-             
+
               <p className="text-sm text-gray-500 mb-4">
                 {new Date(basic.createdAt).toLocaleDateString()}
               </p>

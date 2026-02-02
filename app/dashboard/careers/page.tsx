@@ -14,7 +14,7 @@ export default function CareersDashboard() {
   useEffect(() => {
     const fetchCareers = async () => {
       try {
-        const response = await fetch('https://api.propertydronerealty.com/careers');
+        const response = await fetch('http://localhost:5000/careers');
         const data = await response.json();
         setCareers(data);
         setLoading(false);
@@ -27,30 +27,30 @@ export default function CareersDashboard() {
     fetchCareers();
   }, []);
 
-interface Career {
+  interface Career {
     id: string;
     jobTitle: string;
     jobId: string;
     location: string;
     jobType: string;
     postedDate: string;
-}
+  }
 
-const handleDelete = async (id: string): Promise<void> => {
+  const handleDelete = async (id: string): Promise<void> => {
     if (confirm('Are you sure you want to delete this job posting?')) {
-        try {
-            const response = await fetch(`https://api.propertydronerealty.com/careers/${id}`, {
-                method: 'DELETE'
-            });
-            
-            if (response.ok) {
-                setCareers(careers.filter((career: Career) => career.id !== id));
-            }
-        } catch (error) {
-            console.error('Error deleting career:', error);
+      try {
+        const response = await fetch(`http://localhost:5000/careers/${id}`, {
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          setCareers(careers.filter((career: Career) => career.id !== id));
         }
+      } catch (error) {
+        console.error('Error deleting career:', error);
+      }
     }
-};
+  };
 
   const filteredCareers = careers.filter(career =>
     career.jobTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||

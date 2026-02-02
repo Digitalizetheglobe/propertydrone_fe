@@ -33,15 +33,15 @@ export default function ApplicationsDashboard() {
     const fetchData = async () => {
       try {
         // Fetch applications
-        const appsResponse = await fetch('https://api.propertydronerealty.com/applications');
+        const appsResponse = await fetch('http://localhost:5000/applications');
         const appsData = await appsResponse.json();
         setApplications(appsData);
-        
+
         // Fetch available jobs for filter
-        const jobsResponse = await fetch('https://api.propertydronerealty.com/careers');
+        const jobsResponse = await fetch('http://localhost:5000/careers');
         const jobsData = await jobsResponse.json();
         setAvailableJobs(jobsData);
-        
+
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -52,59 +52,59 @@ export default function ApplicationsDashboard() {
     fetchData();
   }, []);
 
-interface DeleteResponse {
+  interface DeleteResponse {
     ok: boolean;
-}
+  }
 
-const handleDelete = async (id: string): Promise<void> => {
+  const handleDelete = async (id: string): Promise<void> => {
     if (confirm('Are you sure you want to delete this application?')) {
-        try {
-            const response: Response = await fetch(`https://api.propertydronerealty.com/applications/${id}`, {
-                method: 'DELETE'
-            });
-            
-            if (response.ok) {
-                setApplications(applications.filter((app: Application) => app.id !== id));
-            }
-        } catch (error: unknown) {
-            console.error('Error deleting application:', error);
-        }
-    }
-};
-
-interface UpdateStatusResponse {
-    ok: boolean;
-}
-
-const updateStatus = async (id: string, newStatus: string): Promise<void> => {
-    try {
-        const response: Response = await fetch(`https://api.propertydronerealty.com/applications/${id}/status`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ status: newStatus })
+      try {
+        const response: Response = await fetch(`http://localhost:5000/applications/${id}`, {
+          method: 'DELETE'
         });
-        
+
         if (response.ok) {
-            setApplications(applications.map((app: Application) => 
-                app.id === id ? { ...app, status: newStatus } : app
-            ));
+          setApplications(applications.filter((app: Application) => app.id !== id));
         }
-    } catch (error: unknown) {
-        console.error('Error updating status:', error);
+      } catch (error: unknown) {
+        console.error('Error deleting application:', error);
+      }
     }
-};
+  };
+
+  interface UpdateStatusResponse {
+    ok: boolean;
+  }
+
+  const updateStatus = async (id: string, newStatus: string): Promise<void> => {
+    try {
+      const response: Response = await fetch(`http://localhost:5000/applications/${id}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+
+      if (response.ok) {
+        setApplications(applications.map((app: Application) =>
+          app.id === id ? { ...app, status: newStatus } : app
+        ));
+      }
+    } catch (error: unknown) {
+      console.error('Error updating status:', error);
+    }
+  };
 
   const filteredApplications = applications.filter(app => {
-    const matchesSearch = 
+    const matchesSearch =
       app.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       app.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       app.email.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesJob = filterJobId ? app.jobId === filterJobId : true;
     const matchesStatus = filterStatus ? app.status === filterStatus : true;
-    
+
     return matchesSearch && matchesJob && matchesStatus;
   });
 
@@ -130,7 +130,7 @@ const updateStatus = async (id: string, newStatus: string): Promise<void> => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          
+
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <FontAwesomeIcon icon={faFilter} className="text-gray-400" />
@@ -148,7 +148,7 @@ const updateStatus = async (id: string, newStatus: string): Promise<void> => {
               ))}
             </select>
           </div>
-          
+
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <FontAwesomeIcon icon={faFilter} className="text-gray-400" />

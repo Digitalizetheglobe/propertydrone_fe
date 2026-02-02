@@ -52,7 +52,7 @@ const YoutubeVideoForm = () => {
     }
 
     try {
-     const response = await axios.post('https://api.propertydronerealty.com/youtube-videos', formData);
+      const response = await axios.post('http://localhost:5000/youtube-videos', formData);
       setSuccess('Video added successfully!');
       setFormData({
         title: '',
@@ -61,7 +61,7 @@ const YoutubeVideoForm = () => {
         author: '',
         date: new Date().toISOString().split('T')[0]
       });
-      
+
       // Redirect to the detail page after 2 seconds
       setTimeout(() => {
         router.push('/dashboard/youtube');
@@ -76,19 +76,19 @@ const YoutubeVideoForm = () => {
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-6 text-center">Add New YouTube Video</h1>
-      
+
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           {error}
         </div>
       )}
-      
+
       {success && (
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
           {success}
         </div>
       )}
-      
+
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
@@ -104,7 +104,7 @@ const YoutubeVideoForm = () => {
             placeholder="Enter video title"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
             Description
@@ -119,7 +119,7 @@ const YoutubeVideoForm = () => {
             placeholder="Enter video description"
           ></textarea>
         </div>
-        
+
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="youtube_url">
             YouTube URL
@@ -134,7 +134,7 @@ const YoutubeVideoForm = () => {
             placeholder="https://www.youtube.com/watch?v=example"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="author">
             Author
@@ -149,7 +149,7 @@ const YoutubeVideoForm = () => {
             placeholder="Enter author name"
           />
         </div>
-        
+
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date">
             Date
@@ -163,7 +163,7 @@ const YoutubeVideoForm = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
-        
+
         <div className="flex items-center justify-between">
           <button
             type="submit"
@@ -174,7 +174,7 @@ const YoutubeVideoForm = () => {
           </button>
         </div>
       </form>
-      
+
       <div className="mt-4 text-center">
         <button
           onClick={() => router.push('/dashboard/youtube')}

@@ -28,7 +28,7 @@ const BottomPropertyDetails = () => {
     useEffect(() => {
         const fetchProperties = async () => {
             try {
-                const response = await fetch('https://api.propertydronerealty.com/properties');
+                const response = await fetch('http://localhost:5000/properties');
                 if (!response.ok) {
                     console.error('Failed to fetch properties:', response.status);
                     setTabData(getDefaultData()); // Fallback
@@ -134,18 +134,18 @@ const BottomPropertyDetails = () => {
     const currentTabContent = tabData[activeTab] || [];
 
     return (
-        <div className="w-full bg-white text-[#424242] py-8 text-xs font-sans border-t border-gray-100">
-            <div className="max-w-[1400px] mx-auto px-4">
+        <div className="w-full bg-transparent text-[#172747] py-8 text-xs font-sans border-t border-[#172747]/10">
+            <div className="max-w-6xl mx-auto px-4">
                 {/* Tabs */}
-                <div className="flex bg-[#f5f5f5] overflow-x-auto border-b border-gray-200 no-scrollbar">
+                <div className="flex bg-transparent overflow-x-auto border-b border-[#172747]/20 no-scrollbar">
                     {Object.keys(tabData).filter(key => tabData[key].length > 0).map((tab) => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
                             className={`px-4 py-3 whitespace-nowrap font-semibold border-b-2 transition-colors duration-200 text-[11px] sm:text-[12px] uppercase tracking-wide
                                 ${activeTab === tab
-                                    ? 'border-gray-800 text-gray-900 bg-white'
-                                    : 'border-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`}
+                                    ? 'border-[#172747] text-[#172747] bg-transparent'
+                                    : 'border-transparent text-[#172747] hover:text-[#172747] hover:bg-[#172747]/5'}`}
                         >
                             {tab}
                         </button>
@@ -155,20 +155,20 @@ const BottomPropertyDetails = () => {
                 {/* Content */}
                 <div className="mt-6 min-h-[200px]">
                     {loading ? (
-                        <div className="flex justify-center items-center h-32 text-gray-400">
+                        <div className="flex justify-center items-center h-32 text-[#172747]">
                             Loading...
                         </div>
                     ) : currentTabContent.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
                             {currentTabContent.map((section, idx) => (
                                 <div key={idx} className="flex flex-col space-y-2">
-                                    <h3 className="font-bold text-gray-800 text-[13px] mb-1">{section.title}</h3>
+                                    <h3 className="font-bold text-[#172747] text-[13px] mb-1">{section.title}</h3>
                                     <ul className="space-y-1.5">
                                         {section.links.map((link, linkIdx) => (
                                             <li key={linkIdx}>
                                                 <Link
                                                     href={link.url}
-                                                    className="text-gray-500 hover:text-[#172747] hover:underline transition-colors duration-200 block leading-tight text-[11px]"
+                                                    className="text-[#172747] hover:text-[#172747]/80 hover:underline transition-colors duration-200 block leading-tight text-[11px]"
                                                 >
                                                     {link.name}
                                                 </Link>

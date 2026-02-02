@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
         port: '5000',
         pathname: '/uploads/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+        pathname: '/**', // Allow all paths under img.youtube.com
+      },
     ],
   },
   webpack: (config, { isServer }) => {

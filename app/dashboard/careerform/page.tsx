@@ -17,21 +17,21 @@ function CareerFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
-  
+
   const [formData, setFormData] = useState<FormData>({
-      jobTitle: '',
-      jobId: '',
-      location: '',
-      jobType: 'Full-time',
-      experienceLevel: 'Entry Level',
-      salaryRange: '',
-      applicationDeadline: '',
-      jobDescription: '',
-      requirements: '',
-      benefits: '',
-      additionalDocFiles: []
-    });
-  
+    jobTitle: '',
+    jobId: '',
+    location: '',
+    jobType: 'Full-time',
+    experienceLevel: 'Entry Level',
+    salaryRange: '',
+    applicationDeadline: '',
+    jobDescription: '',
+    requirements: '',
+    benefits: '',
+    additionalDocFiles: []
+  });
+
   const [files, setFiles] = useState<File[]>([]);
   const [existingFiles, setExistingFiles] = useState<{ path: string; originalName: string }[]>([]);
   const [loading, setLoading] = useState(!!id);
@@ -41,13 +41,13 @@ function CareerFormContent() {
     if (id) {
       const fetchCareer = async () => {
         try {
-          const response = await fetch(`https://api.propertydronerealty.com/careers`);
+          const response = await fetch(`http://localhost:5000/careers`);
           const data = await response.json();
-          
+
           if (data.additionalDocFiles) {
             setExistingFiles(data.additionalDocFiles);
           }
-          
+
           setFormData({
             jobTitle: data.jobTitle,
             jobId: data.jobId,
@@ -55,7 +55,7 @@ function CareerFormContent() {
             jobType: data.jobType,
             experienceLevel: data.experienceLevel,
             salaryRange: data.salaryRange || '',
-            applicationDeadline: data.applicationDeadline ? 
+            applicationDeadline: data.applicationDeadline ?
               new Date(data.applicationDeadline).toISOString().split('T')[0] : '',
             jobDescription: data.jobDescription,
             requirements: data.requirements,
@@ -69,12 +69,12 @@ function CareerFormContent() {
           setLoading(false);
         }
       };
-      
+
       fetchCareer();
     }
   }, [id]);
 
-interface FormData {
+  interface FormData {
     jobTitle: string;
     jobId: string;
     location: string;
@@ -86,89 +86,89 @@ interface FormData {
     requirements: string;
     benefits: string;
     additionalDocFiles: any[];
-}
+  }
 
-interface ChangeEvent {
+  interface ChangeEvent {
     target: {
-        name: string;
-        value: string;
+      name: string;
+      value: string;
     };
-}
+  }
 
-const handleChange = (e: ChangeEvent): void => {
+  const handleChange = (e: ChangeEvent): void => {
     const { name, value } = e.target;
     setFormData((prev: FormData) => ({
-        ...prev,
-        [name]: value
+      ...prev,
+      [name]: value
     }));
-};
+  };
 
-interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {
+  interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {
     target: HTMLInputElement & EventTarget & { files: FileList };
-}
+  }
 
-const handleFileChange = (e: FileChangeEvent): void => {
+  const handleFileChange = (e: FileChangeEvent): void => {
     setFiles(Array.from(e.target.files));
-};
+  };
 
-const removeFile = (index: number): void => {
+  const removeFile = (index: number): void => {
     setFiles((prev: File[]) => prev.filter((_, i: number) => i !== index));
-};
+  };
 
-interface ExistingFile {
+  interface ExistingFile {
     path: string;
     originalName: string;
-}
+  }
 
-const removeExistingFile = (index: number): void => {
+  const removeExistingFile = (index: number): void => {
     setExistingFiles((prev: ExistingFile[]) => prev.filter((_, i: number) => i !== index));
-};
+  };
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
-        const formDataToSend = new FormData();
-        
-        // Append all form fields
-        Object.entries(formData).forEach(([key, value]) => {
-            if (key !== 'additionalDocFiles') {
-                formDataToSend.append(key, value as string);
-            }
-        });
-        
-        // Append existing files that haven't been removed
-        existingFiles.forEach((file: ExistingFile) => {
-            formDataToSend.append('existingFiles', JSON.stringify(file));
-        });
-        
-        // Append new files
-        files.forEach((file: File) => {
-            formDataToSend.append('additionalDocFiles', file);
-        });
-        
-        const url: string = id ? `https://api.propertydronerealty.com/careers/${id}` : 'https://api.propertydronerealty.com/careers';
-        const method: 'PUT' | 'POST' = id ? 'PUT' : 'POST';
-        
-        const response: Response = await fetch(url, {
-            method,
-            body: formDataToSend
-        });
-        
-        if (response.ok) {
-            router.push('/dashboard/careers');
-        } else {
-            const errorData: { message?: string } = await response.json();
-            setError(errorData.message || 'Failed to save job');
+      const formDataToSend = new FormData();
+
+      // Append all form fields
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key !== 'additionalDocFiles') {
+          formDataToSend.append(key, value as string);
         }
+      });
+
+      // Append existing files that haven't been removed
+      existingFiles.forEach((file: ExistingFile) => {
+        formDataToSend.append('existingFiles', JSON.stringify(file));
+      });
+
+      // Append new files
+      files.forEach((file: File) => {
+        formDataToSend.append('additionalDocFiles', file);
+      });
+
+      const url: string = id ? `http://localhost:5000/careers/${id}` : 'http://localhost:5000/careers';
+      const method: 'PUT' | 'POST' = id ? 'PUT' : 'POST';
+
+      const response: Response = await fetch(url, {
+        method,
+        body: formDataToSend
+      });
+
+      if (response.ok) {
+        router.push('/dashboard/careers');
+      } else {
+        const errorData: { message?: string } = await response.json();
+        setError(errorData.message || 'Failed to save job');
+      }
     } catch (error: unknown) {
-        console.error('Error saving career:', error);
-        setError('Failed to save job');
+      console.error('Error saving career:', error);
+      setError('Failed to save job');
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
+  };
 
   if (loading && id) {
     return (
@@ -212,7 +212,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
               required
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Job ID*</label>
             <input
@@ -224,7 +224,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
               required
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Location*</label>
             <input
@@ -236,7 +236,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
               required
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Job Type*</label>
             <select
@@ -253,7 +253,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
               <option value="Temporary">Temporary</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Experience Level*</label>
             <select
@@ -269,7 +269,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
               <option value="Executive">Executive</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Salary Range</label>
             <input
@@ -281,7 +281,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
               placeholder="e.g., $50,000 - $70,000"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Application Deadline</label>
             <input
@@ -293,7 +293,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
             />
           </div>
         </div>
-        
+
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">Job Description*</label>
           <textarea
@@ -305,7 +305,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
             required
           />
         </div>
-        
+
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">Requirements*</label>
           <textarea
@@ -317,7 +317,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
             required
           />
         </div>
-        
+
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">Benefits</label>
           <textarea
@@ -328,19 +328,19 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#224295]"
           />
         </div>
-        
+
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">Additional Documents</label>
-          
+
           {existingFiles.length > 0 && (
             <div className="mb-4">
               <h3 className="text-sm font-medium text-gray-700 mb-2">Existing Files:</h3>
               <ul className="space-y-2">
                 {existingFiles.map((file, index) => (
                   <li key={index} className="flex items-center justify-between bg-gray-100 p-2 rounded">
-                    <a 
-                      href={file.path} 
-                      target="_blank" 
+                    <a
+                      href={file.path}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline"
                     >
@@ -358,7 +358,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
               </ul>
             </div>
           )}
-          
+
           <div className="flex items-center">
             <input
               type="file"
@@ -378,7 +378,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
               {files.length > 0 ? `${files.length} file(s) selected` : 'No files selected'}
             </span>
           </div>
-          
+
           {files.length > 0 && (
             <div className="mt-4">
               <h3 className="text-sm font-medium text-gray-700 mb-2">Selected Files:</h3>
@@ -399,7 +399,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> 
             </div>
           )}
         </div>
-        
+
         <div className="flex justify-end">
           <button
             type="submit"

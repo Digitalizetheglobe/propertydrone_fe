@@ -21,7 +21,7 @@ export default function RealEstateBasicsPage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://api.propertydronerealty.com/real-estate', { cache: 'no-store' })
+    fetch('http://localhost:5000/real-estate', { cache: 'no-store' })
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch real estate basics');
         return res.json();
@@ -95,7 +95,7 @@ export default function RealEstateBasicsPage() {
             {realEstateBasics.map((basic) => (
               <Link href={`real_estate_basic/${basic.id}`} key={basic.id}>
                 <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                  
+
                   {(!basic.images || !basic.images[0] || !basic.images[0].startsWith('http')) && (
                     <div className="relative h-48 w-full bg-gray-200 flex items-center justify-center">
                       <span className="text-gray-500 text-sm">No image available</span>
