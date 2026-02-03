@@ -25,7 +25,7 @@ export default function HomePageBlogs() {
     ];
 
     useEffect(() => {
-        fetch('http://localhost:5000/blogs')
+        fetch('api.propertydronerealty.com/blogs')
             .then(res => res.json())
             .then(data => {
                 interface BlogApiImage {
@@ -61,7 +61,7 @@ export default function HomePageBlogs() {
 
                         if (imgPath) {
                             if (typeof imgPath === 'string') {
-                                return imgPath.startsWith('http') ? imgPath : `http://localhost:5000${imgPath}`;
+                                return imgPath.startsWith('http') ? imgPath : `api.propertydronerealty.com${imgPath}`;
                             }
                         }
                         return defaultImages[idx % 3];

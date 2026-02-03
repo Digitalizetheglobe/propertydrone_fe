@@ -136,7 +136,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Image handling
-  const baseUrl = "http://localhost:5000"; // For dev — ideally from env
+  const baseUrl = "api.propertydronerealty.com"; // For dev — ideally from env
   const propertyImages = property?.multipleImages?.map(img =>
     img.path.startsWith('http') ? img.path : `${baseUrl}${img.path}`
   ) || [];

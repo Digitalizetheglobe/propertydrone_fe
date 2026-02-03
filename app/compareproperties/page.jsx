@@ -43,7 +43,7 @@ const CompareProperties = () => {
   const fetchComparedProperties = async () => {
     setLoading(true);
     try {
-      let url = "http://localhost:5000/api/property-comparisons";
+      let url = "api.propertydronerealty.com/api/property-comparisons";
 
       // Get logged-in user
       const storedUser = localStorage.getItem('webuser');
@@ -111,7 +111,7 @@ const CompareProperties = () => {
 
   const handleRemove = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/property-comparisons/${id}`, {
+      const res = await fetch(`api.propertydronerealty.com/api/property-comparisons/${id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed to remove property");
@@ -130,7 +130,7 @@ const CompareProperties = () => {
     // For now, I'll just clear the UI and pretend, or loop delete? 
     // Loop delete for correctness:
     const promises = comparisons.map(c =>
-      fetch(`http://localhost:5000/api/property-comparisons/${c.id}`, { method: 'DELETE' })
+      fetch(`api.propertydronerealty.com/api/property-comparisons/${c.id}`, { method: 'DELETE' })
     );
     await Promise.all(promises);
     setComparisons([]);
@@ -255,7 +255,7 @@ const CompareProperties = () => {
                             const cleanPath = img.replace(/\\/g, '/');
                             const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
                             // If it's a relative path (e.g. from multer), prepend backend URL
-                            return `http://localhost:5000${finalPath}`;
+                            return `api.propertydronerealty.com${finalPath}`;
                           })()}
                           alt={data.propertyName}
                           fill

@@ -26,7 +26,7 @@ const EnquireSideButton = () => {
     useEffect(() => {
         const fetchExperts = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/experts');
+                const response = await fetch('api.propertydronerealty.com/api/experts');
                 if (response.ok) {
                     const data = await response.json();
                     setExperts(data);
@@ -47,7 +47,7 @@ const EnquireSideButton = () => {
 
     const getImageUrl = (image: { path: string } | null) => {
         if (!image || !image.path) return 'https://randomuser.me/api/portraits/men/32.jpg'; // Fallback
-        return `http://localhost:5000${image.path}`;
+        return `api.propertydronerealty.com${image.path}`;
     };
 
     return (
@@ -55,10 +55,10 @@ const EnquireSideButton = () => {
             {/* Side Button */}
             <button
                 onClick={toggleModal}
-                className="fixed right-0 top-1/2 -translate-y-1/2 z-[100] backdrop-blur-lg bg-[#1717B5]/90 hover:bg-[#1717B5] text-white font-bold py-8 px-2 rounded-l-lg shadow-[0_4px_14px_0_rgba(0,0,0,0.39)] transition-all cursor-pointer border-l border-t border-b border-white/10 group"
+                className="fixed right-0 top-1/2 -translate-y-1/2 z-[100] backdrop-blur-lg bg-[#1717B5]/90 hover:bg-[#1717B5] text-white font-bold py-6 md:py-8 px-1.5 md:px-2 rounded-l-lg shadow-[0_4px_14px_0_rgba(0,0,0,0.39)] transition-all cursor-pointer border-l border-t border-b border-white/10 group"
             >
                 <span
-                    className="block text-lg tracking-wider whitespace-nowrap group-hover:scale-105 transition-transform"
+                    className="block text-sm md:text-lg tracking-wider whitespace-nowrap group-hover:scale-105 transition-transform"
                     style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
                 >
                     Talk with Experts

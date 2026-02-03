@@ -25,7 +25,7 @@ export default function AllNews() {
 
     const fetchNews = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/news");
+            const response = await axios.get("api.propertydronerealty.com/news");
             setNews(response.data);
         } catch (error) {
             console.error("Error fetching news:", error);
@@ -35,7 +35,7 @@ export default function AllNews() {
     // Delete a news
     const handleDelete = async (id: number) => {
         try {
-            await axios.delete(`http://localhost:5000/news/${id}`);
+            await axios.delete(`api.propertydronerealty.com/news/${id}`);
             setNews(news.filter((item) => item.id !== id));
             if (selectedNews?.id === id) {
                 setSelectedNews(null);
@@ -49,7 +49,7 @@ export default function AllNews() {
     const handleUpdate = async () => {
         if (!editNews || !editNews.id) return;
         try {
-            await axios.put(`http://localhost:5000/news/${editNews.id}`, editNews);
+            await axios.put(`api.propertydronerealty.com/news/${editNews.id}`, editNews);
             fetchNews(); // Refresh after update
             setEditNews(null);
         } catch (error) {

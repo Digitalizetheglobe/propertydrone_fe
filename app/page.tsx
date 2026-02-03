@@ -291,7 +291,7 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch(`http://localhost:5000/api/property-comparisons?webUserId=${currentUserId}`);
+    const res = await fetch(`api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
 
@@ -336,7 +336,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/saved-properties?webUserId=${currentUserId}`);
+      const res = await fetch(`api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
       if (!res.ok) return;
       const all = await res.json();
 
@@ -435,7 +435,7 @@ export default function Home() {
           image: (() => {
             const path = property.multipleImages?.[0]?.path;
             if (path) {
-              return path.startsWith('http') ? path : `http://localhost:5000${path}`;
+              return path.startsWith('http') ? path : `api.propertydronerealty.com${path}`;
             }
             return "/api/placeholder/400/320";
           })()
@@ -490,7 +490,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/contacts", {
+      const response = await fetch("api.propertydronerealty.com/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -530,6 +530,7 @@ export default function Home() {
   const [transactionType, setTransactionType] = useState('Buy');
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [dropdownFilters, setDropdownFilters] = useState({
+    location: '',
     area: '',
     budget: '',
     possession: ''
@@ -544,8 +545,10 @@ export default function Home() {
   const handleDropdownSelect = (type: string, value: string) => {
     setDropdownFilters(prev => ({ ...prev, [type]: value }));
     setActiveDropdown(null);
-    // Here you would optimally trigger the main setFilters too, e.g.:
-    // setFilters(prev => ({ ...prev, [type]: value }));
+
+    if (type === 'location') {
+      setFilters(prev => ({ ...prev, locations: [value], search: '' }));
+    }
   };
 
   const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
@@ -568,7 +571,7 @@ export default function Home() {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:5000/properties');
+        const response = await fetch('api.propertydronerealty.com/properties');
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }
@@ -895,7 +898,7 @@ export default function Home() {
       )}
 
       <PropertyPopup />
-      <div className="relative h-[600px] bg-gray-800 overflow-hidden">
+      <div className="relative h-auto md:h-[600px] bg-gray-800 overflow-hidden">
         {/* Background Video with Overlay */}
 
         {/* Bhavik new */}
@@ -939,7 +942,7 @@ export default function Home() {
                     className="w-full backdrop-blur-lg bg-[#1717B5]/90  rounded-t-2xl  overflow-hidden"
                   >
                     {/* Navigation Tabs with Glass Effect - Top Locations */}
-                    <div className=" rounded-t-2xl px-2 py-2 flex items-center justify-center gap-3 md:gap-4 lg:gap-5 border-b border-white/10 overflow-x-auto ">
+                    <div className=" rounded-t-2xl px-2 py-2 flex items-center justify-start md:justify-center gap-3 md:gap-4 lg:gap-5 border-b border-white/10 overflow-x-auto scrollbar-hide">
                       {['Residential', 'Commercial', 'Plot'].map((type) => (
                         <button
                           key={type}
@@ -1030,7 +1033,7 @@ export default function Home() {
 
 
 
-                        {/* Buy / Lease Radio Buttons */}
+                        {/* Buy Radio Button */}
                         <div className="hidden md:flex items-center gap-3 px-4 border-l border-gray-300 h-8 flex-shrink-0">
                           <label className="flex items-center gap-2 cursor-pointer group">
                             <div className="relative flex items-center justify-center w-5 h-5">
@@ -1047,26 +1050,13 @@ export default function Home() {
                             <span className={`font-medium ${transactionType === 'Buy' ? 'text-[#6C5DD3]' : 'text-gray-600 group-hover:text-gray-800'}`}>Buy</span>
                           </label>
 
-                          <label className="flex items-center gap-2 cursor-pointer group">
-                            <div className="relative flex items-center justify-center w-5 h-5">
-                              <input
-                                type="radio"
-                                name="transactionType"
-                                value="Lease"
-                                checked={transactionType === 'Lease'}
-                                onChange={(e) => setTransactionType(e.target.value)}
-                                className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-full checked:border-[#6C5DD3] transition-all"
-                              />
-                              <div className="absolute w-2.5 h-2.5 bg-[#6C5DD3] rounded-full scale-0 peer-checked:scale-100 transition-transform"></div>
-                            </div>
-                            <span className={`font-medium ${transactionType === 'Lease' ? 'text-[#6C5DD3]' : 'text-gray-600 group-hover:text-gray-800'}`}>Lease</span>
-                          </label>
+
                         </div>
 
                         {/* Search Button */}
                         <button
                           type="submit"
-                          className="px-6 py-2 m-2 bg-[#1717B5] rounded-full text-white font-bold uppercase text-xs sm:text-sm md:text-base hover:bg-[#1a2f5a] transition-colors duration-200 flex-shrink-0"
+                          className="px-4 md:px-6 py-2 m-2 bg-[#1717B5] rounded-full text-white font-bold uppercase text-xs sm:text-sm md:text-base hover:bg-[#1a2f5a] transition-colors duration-200 flex-shrink-0"
                         >
                           Search
                         </button>
@@ -1104,7 +1094,27 @@ export default function Home() {
 
                   {/* Left: Additional Filters */}
                   {/* Left: Additional Filters - Interactive Dropdowns */}
-                  <div className="flex items-center gap-3 w-full md:w-auto overflow-visible pb-1 md:pb-0 scrollbar-hide z-50">
+                  <div className="flex flex-wrap md:flex-nowrap justify-center md:justify-start items-center gap-2 md:gap-3 w-full md:w-auto overflow-visible pb-1 md:pb-0 scrollbar-hide z-50">
+                    {/* Location */}
+                    <div className="relative" onMouseEnter={() => setActiveDropdown('location')} onMouseLeave={() => setActiveDropdown(null)}>
+                      <button
+                        type="button"
+                        className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border ${filters.locations.length > 0 ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
+                      >
+                        <span>{filters.locations.length > 0 ? filters.locations[0] : 'Location'}</span>
+                        <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'location' ? 'rotate-180' : ''}`} />
+                      </button>
+                      {activeDropdown === 'location' && (
+                        <div className="absolute bottom-full left-0 mb-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100] max-h-48 overflow-y-auto">
+                          {locationCounts.map((locData) => (
+                            <button key={locData.location} onClick={() => handleDropdownSelect('location', locData.location)} className="w-full text-left px-4 py-2 text-xs hover:bg-gray-50 text-gray-700 transition-colors">
+                              {locData.location}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
                     {/* Carpet Area */}
                     <div className="relative" onMouseEnter={() => setActiveDropdown('area')} onMouseLeave={() => setActiveDropdown(null)}>
                       <button
@@ -1167,7 +1177,7 @@ export default function Home() {
                   </div>
 
                   {/* Right: Property Owner Button */}
-                  <Link href="/post-property" className="flex-shrink-0 inline-flex items-center gap-2 bg-[#1717B5]/95 backdrop-blur-md px-4 py-2 rounded-full text-white hover:bg-[#191758] transition-all shadow-xl hover:shadow-2xl border border-white/10 group active:scale-95 whitespace-nowrap">
+                  <Link href="/post-property" className="flex-shrink-0 inline-flex items-center justify-center md:justify-start gap-2 bg-[#1717B5]/95 backdrop-blur-md px-4 py-2 rounded-full text-white hover:bg-[#191758] transition-all shadow-xl hover:shadow-2xl border border-white/10 group active:scale-95 whitespace-nowrap w-full md:w-auto">
                     <Zap className="w-3 h-3 text-yellow-400 fill-yellow-400" />
                     <span className="font-medium text-[10px] sm:text-xs tracking-wide text-white/90">Are you a Property Owner?</span>
                     <span className="font-bold text-[10px] sm:text-xs text-white decoration-yellow-400/50 underline underline-offset-2 decoration-2 group-hover:text-yellow-300 transition-colors">Sell / Rent for FREE</span>
@@ -1290,12 +1300,7 @@ export default function Home() {
 
 
 
-      <section className="bg-white text-[#172747] py-16  relative z-10 -mt-10" style={{
-        backgroundImage: `url(${main22.src})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }} >
+      <div className="bg-[#fafafa]">
         <WhyPropertyDrone />
         <HomePageWhyPropertyDrone />
         <HomePageYoutube />
@@ -1305,7 +1310,7 @@ export default function Home() {
 
         <HomePageBlogs />
         <BottomPropertyDetails />
-      </section >
+      </div>
 
 
 

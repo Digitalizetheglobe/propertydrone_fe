@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '@/app/components/Sidebar';
-import Image from 'next/image';
+
 
 interface Expert {
     id: number;
@@ -29,7 +29,7 @@ export default function AllExperts() {
 
     const fetchExperts = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/experts');
+            const response = await fetch('api.propertydronerealty.com/api/experts');
             if (response.ok) {
                 const data = await response.json();
                 setExperts(data);
@@ -47,7 +47,7 @@ export default function AllExperts() {
         if (!confirm("Are you sure you want to delete this expert?")) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/api/experts/${id}`, {
+            const response = await fetch(`api.propertydronerealty.com/api/experts/${id}`, {
                 method: 'DELETE',
             });
             if (response.ok) {
@@ -62,7 +62,7 @@ export default function AllExperts() {
 
     const getImageUrl = (image: { path: string } | null) => {
         if (!image || !image.path) return '/placeholder-user.jpg';
-        return `http://localhost:5000${image.path}`;
+        return `api.propertydronerealty.com${image.path}`;
     };
 
     return (

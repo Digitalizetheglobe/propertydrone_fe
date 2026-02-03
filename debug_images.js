@@ -3,7 +3,7 @@
 
 const http = require('http');
 
-http.get('http://localhost:5000/properties', (res) => {
+http.get('api.propertydronerealty.com/properties', (res) => {
     let data = '';
     res.on('data', (chunk) => {
         data += chunk;

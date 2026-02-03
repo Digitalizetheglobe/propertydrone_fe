@@ -23,7 +23,7 @@ export default function CookieConsentsPage() {
 
     const fetchConsents = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/cookie-consent/all');
+            const res = await fetch('api.propertydronerealty.com/api/cookie-consent/all');
             if (res.ok) {
                 const data = await res.json();
                 setConsents(data);
