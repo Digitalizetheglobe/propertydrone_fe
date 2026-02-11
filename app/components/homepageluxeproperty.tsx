@@ -581,7 +581,7 @@ export default function HomePageLuxeProperty({
         try {
             const message = `Property Type: ${inquiryForm.propertyType}\n\nInquiry: ${inquiryForm.inquiry}`;
 
-            const response = await fetch('http://localhost:5000/api/contacts', {
+            const response = await fetch('http://localhost:5000/contacts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

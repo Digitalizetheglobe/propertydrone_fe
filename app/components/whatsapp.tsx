@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { MessageCircle, X, Check, ChevronDown } from "lucide-react";
 import { FaWhatsapp } from 'react-icons/fa';
@@ -8,20 +8,59 @@ const WhatsAppPopup = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [phoneNumber] = useState("+91 9156123575"); // Default WhatsApp number
   const [isChecked, setIsChecked] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSendMessage = () => {
     // Just open WhatsApp with pre-filled message regardless of form for now, behaving like "Chat"
-    // Or should we validate form? The button says "Chat on WhatsApp".
-    // The image implies "Submit" is for internal lead, "Chat" is for WA.
     const formattedPhoneNumber = phoneNumber.replace(/\s+/g, "");
     const url = `https://wa.me/${formattedPhoneNumber}?text=${encodeURIComponent("Hi, I would like to consult nicely regarding a property.")}`;
     window.open(url, "_blank");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Consultation request submitted! (Demo)");
-    setShowPopup(false);
+
+    if (!isChecked) {
+      alert("Please accept the Terms & Privacy.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('http://localhost:5000/contacts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          mobile: `+91 ${formData.phone}`,
+          message: "Quick Consultation Request from WhatsApp Popup"
+        }),
+      });
+
+      if (response.ok) {
+        alert("Consultation request submitted successfully!");
+        setFormData({ name: "", phone: "", email: "" });
+        setIsChecked(false);
+        setShowPopup(false);
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to submit request: ${errorData.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -85,6 +124,8 @@ const WhatsAppPopup = () => {
                 placeholder="Full Name"
                 className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-xs outline-none focus:border-red-500 focus:ring-1 focus:ring-red-100 transition-all placeholder:text-gray-400"
                 required
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
 
               <div className="flex gap-2">
@@ -98,6 +139,8 @@ const WhatsAppPopup = () => {
                   placeholder="Phone"
                   className="flex-1 px-3 py-2 bg-white border border-gray-200 rounded text-xs outline-none focus:border-red-500 focus:ring-1 focus:ring-red-100 transition-all placeholder:text-gray-400"
                   required
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 />
               </div>
 
@@ -106,6 +149,8 @@ const WhatsAppPopup = () => {
                 placeholder="Email"
                 className="w-full px-3 py-2 bg-white border border-gray-200 rounded text-xs outline-none focus:border-red-500 focus:ring-1 focus:ring-red-100 transition-all placeholder:text-gray-400"
                 required
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
 
               <div className="flex gap-2 items-start py-1">
@@ -129,9 +174,10 @@ const WhatsAppPopup = () => {
 
               <button
                 type="submit"
-                className="w-full bg-[#DC2626] hover:bg-red-700 text-white font-medium py-2 rounded text-xs transition-colors shadow-sm"
+                disabled={isSubmitting}
+                className={`w-full bg-[#DC2626] hover:bg-red-700 text-white font-medium py-2 rounded text-xs transition-colors shadow-sm ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
-                Submit Request
+                {isSubmitting ? 'Submitting...' : 'Submit Request'}
               </button>
 
               <div className="relative flex items-center justify-center my-2">
