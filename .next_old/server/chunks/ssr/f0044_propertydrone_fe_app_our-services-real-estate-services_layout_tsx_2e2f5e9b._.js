@@ -1,0 +1,3 @@
+module.exports=[91234,a=>{"use strict";function b({children:a}){return a}a.s(["default",()=>b,"metadata",0,{title:"Best Real Estate Services",description:"Expert real estate services in Pune – property consulting, sales & marketing, exclusive mandates, and end-to-end property management solutions.",keywords:["real estate services Pune","property consulting Pune","sales and marketing real estate","property management Pune"],alternates:{canonical:"https://propertydronerealty.com/our-services-real-estate-services"},robots:{index:!0,follow:!0}}])}];
+
+//# sourceMappingURL=f0044_propertydrone_fe_app_our-services-real-estate-services_layout_tsx_2e2f5e9b._.js.map

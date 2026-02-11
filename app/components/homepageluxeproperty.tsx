@@ -136,7 +136,7 @@ const PropertyCardLuxe = ({
         const path = property?.multipleImages?.[0]?.path;
         if (!path) return main2.src;
         if (path.startsWith('http')) return path;
-        return `api.propertydronerealty.com${path}`;
+        return `http://localhost:5000${path}`;
     })();
 
     const toggleSave = async (e: React.MouseEvent) => {
@@ -169,7 +169,7 @@ const PropertyCardLuxe = ({
                 const recordId = savedIdMap[property.id];
                 if (recordId) {
                     setSavedIds(prev => prev.filter(id => id !== property.id));
-                    const resp = await fetch(`api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
+                    const resp = await fetch(`http://localhost:5000/api/saved-properties/${recordId}`, { method: 'DELETE' });
                     if (!resp.ok) {
                         // Rollback
                         setSavedIds(prev => [...prev, property.id]);
@@ -180,7 +180,7 @@ const PropertyCardLuxe = ({
             } else {
                 // Add
                 setSavedIds(prev => [...prev, property.id]);
-                const resp = await fetch(`api.propertydronerealty.com/api/saved-properties`, {
+                const resp = await fetch(`http://localhost:5000/api/saved-properties`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -473,7 +473,7 @@ const PropertyCardLuxe = ({
 
                                         setComparedIds(prev => [...prev, property.id]);
                                         try {
-                                            const resp = await fetch('api.propertydronerealty.com/api/property-comparisons', {
+                                            const resp = await fetch('http://localhost:5000/api/property-comparisons', {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({
@@ -500,7 +500,7 @@ const PropertyCardLuxe = ({
                                             setCompareLoadingId(null);
                                             return;
                                         }
-                                        const resp = await fetch(`api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                                        const resp = await fetch(`http://localhost:5000/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
                                         if (!resp.ok) {
                                             setComparedIds(prev => [...prev, property.id]);
                                         } else {

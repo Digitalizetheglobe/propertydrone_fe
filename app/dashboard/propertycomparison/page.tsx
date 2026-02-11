@@ -44,7 +44,7 @@ export default function PropertyComparisonPage() {
   const [userLoading, setUserLoading] = useState(false);
 
   useEffect(() => {
-    fetch("api.propertydronerealty.com/api/property-comparisons")
+    fetch("http://localhost:5000/api/property-comparisons")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch property comparisons");
         return res.json();
@@ -63,7 +63,7 @@ export default function PropertyComparisonPage() {
     setUserLoading(true);
     setIsModalOpen(true); // Open modal immediately to show loading state
     try {
-      const res = await fetch(`api.propertydronerealty.com/api/webusers/${userId}`);
+      const res = await fetch(`http://localhost:5000/api/webusers/${userId}`);
       if (!res.ok) throw new Error("Failed to fetch user details");
       const data = await res.json();
       setSelectedUser(data);

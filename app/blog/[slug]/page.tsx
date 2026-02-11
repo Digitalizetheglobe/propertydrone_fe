@@ -56,7 +56,7 @@ const BlogDetail = ({ params }: PageProps) => {
     const fetchBlog = async () => {
       try {
         console.log('Fetching blog for slug:', resolvedParams.slug);
-        const response = await fetch(`api.propertydronerealty.com/blogs/${resolvedParams.slug}`);
+        const response = await fetch(`http://localhost:5000/blogs/${resolvedParams.slug}`);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch blog data: ${response.status}`);
@@ -189,15 +189,22 @@ const BlogDetail = ({ params }: PageProps) => {
       <section id="blog-content" className="py-16 px-4">
         <div className="max-w-3xl mx-auto">
           {blog.blogImage && blog.blogImage.length > 0 ? (
-            <Image
-              src={`api.propertydronerealty.com${blog.blogImage[0].path}`}
+            <img
+              src={(() => {
+                const path = blog.blogImage[0].path;
+                if (path.startsWith('http')) return path;
+                const cleanPath = path.replace(/\\/g, '/');
+                return cleanPath.startsWith('/')
+                  ? `http://localhost:5000${cleanPath}`
+                  : `http://localhost:5000/${cleanPath}`;
+              })()}
               alt={blog.blogTitle}
-              fill
-              style={{ objectFit: "cover" }}
-              priority
+              width={800} // Add explicit width
+              height={500} // Add explicit height or use fill carefully with a container
+              className="object-cover rounded-lg mb-8 w-full h-auto"
             />
           ) : (
-            ""
+            null
           )}
           <h1 className="text-4xl md:text-5xl font-serif leading-tight mb-6">
             {blog.blogTitle}

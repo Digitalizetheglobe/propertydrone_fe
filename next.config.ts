@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Other config options
+  // Image configuration
   images: {
     remotePatterns: [
       {
@@ -12,11 +12,23 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'api.propertydronerealty.com',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'img.youtube.com',
         pathname: '/**', // Allow all paths under img.youtube.com
       },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+        pathname: '/**',
+      },
     ],
   },
+
+  // Webpack configuration
   webpack: (config, { isServer }) => {
     config.module.rules.push({
       test: /\.(mp4|mov|avi)$/,
@@ -32,6 +44,9 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+
+  // Other configurations
+  reactStrictMode: true,
 };
 
 export default nextConfig;

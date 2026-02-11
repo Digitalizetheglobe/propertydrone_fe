@@ -41,7 +41,7 @@ function CareerFormContent() {
     if (id) {
       const fetchCareer = async () => {
         try {
-          const response = await fetch(`api.propertydronerealty.com/careers`);
+          const response = await fetch(`http://localhost:5000/careers`);
           const data = await response.json();
 
           if (data.additionalDocFiles) {
@@ -148,7 +148,7 @@ function CareerFormContent() {
         formDataToSend.append('additionalDocFiles', file);
       });
 
-      const url: string = id ? `api.propertydronerealty.com/careers/${id}` : 'api.propertydronerealty.com/careers';
+      const url: string = id ? `http://localhost:5000/careers/${id}` : 'http://localhost:5000/careers';
       const method: 'PUT' | 'POST' = id ? 'PUT' : 'POST';
 
       const response: Response = await fetch(url, {

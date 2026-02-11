@@ -11,7 +11,7 @@ import heroBackground from '../../public/images/bgimage2.png';
 const BlogPage = () => {
   interface BlogPost {
     id: string;
-    blogImage: { url: string }[];
+    blogImage: { path: string }[];
     blogTitle: string;
     createdAt: string;
     tags: string[];
@@ -28,7 +28,7 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('api.propertydronerealty.com/blogs');
+        const response = await fetch('http://localhost:5000/blogs');
         if (!response.ok) {
           throw new Error('Failed to fetch blog data');
         }
@@ -155,13 +155,18 @@ const BlogPage = () => {
                 <Link href={`/blog/${post.slug}`} className="flex flex-col h-full">
                   {/* Blog Image Section */}
                   <div className="relative h-48 w-full">
-                    {post.blogImage?.[0]?.url ? (
-                      <Image
-                        src={post.blogImage[0].url}
+                    {post.blogImage?.[0]?.path ? (
+                      <img
+                        src={(() => {
+                          const path = post.blogImage[0].path;
+                          if (path.startsWith('http')) return path;
+                          const cleanPath = path.replace(/\\/g, '/');
+                          return cleanPath.startsWith('/')
+                            ? `http://localhost:5000${cleanPath}`
+                            : `http://localhost:5000/${cleanPath}`;
+                        })()}
                         alt={post.blogTitle}
-                        fill
-                        style={{ objectFit: "cover" }}
-                        className="rounded-t-lg"
+                        className="w-full h-full object-cover rounded-t-lg"
                       />
                     ) : (
                       <Image

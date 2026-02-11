@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/our-properties-in-pune/layout,_N_T_/our-properties-in-pune/page,_N_T_/our-properties-in-pune"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/our-properties-in-pune/__PAGE__",
+    "/our-properties-in-pune",
+    "/_index",
+    "/_head"
+  ]
+}

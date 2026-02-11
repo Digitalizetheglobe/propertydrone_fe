@@ -34,7 +34,7 @@ export default function HomePageYoutube() {
     const fetchVideos = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("api.propertydronerealty.com/youtube-videos");
+            const response = await axios.get("http://localhost:5000/youtube-videos");
             setVideos(response.data);
             setError("");
         } catch (err: any) {

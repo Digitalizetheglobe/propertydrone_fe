@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/about-us-real-estate-agency/layout,_N_T_/about-us-real-estate-agency/bhavik1/layout,_N_T_/about-us-real-estate-agency/bhavik1/page,_N_T_/about-us-real-estate-agency/bhavik1"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/about-us-real-estate-agency/bhavik1/__PAGE__",
+    "/about-us-real-estate-agency/bhavik1",
+    "/about-us-real-estate-agency",
+    "/_index",
+    "/_head"
+  ]
+}

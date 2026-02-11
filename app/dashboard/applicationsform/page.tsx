@@ -135,7 +135,7 @@ function ApplicationsFormContent() {
       });
 
       // Submit the form data
-      const response = await fetch('api.propertydronerealty.com/applications/submit', {
+      const response = await fetch('http://localhost:5000/applications/submit', {
         method: 'POST',
         body: submitData,
       });

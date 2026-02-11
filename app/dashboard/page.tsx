@@ -57,18 +57,18 @@ const sections = [
   //   icon: faEnvelopeOpenText,
   //   description: "Customize contact form fields and settings" 
   // },
-  // { 
-  //   name: "Project Detail", 
-  //   path: "/dashboard/projectdetail", 
-  //   icon: faFolderOpen,
-  //   description: "Manage existing project information" 
-  // },
-  // { 
-  //   name: "Add Project", 
-  //   path: "/dashboard/projectform", 
-  //   icon: faFolderPlus,
-  //   description: "Create new projects in the system" 
-  // },
+  {
+    name: "Project Detail",
+    path: "/dashboard/projectdetail",
+    icon: faFolderOpen,
+    description: "Manage existing project information"
+  },
+  {
+    name: "Add Project",
+    path: "/dashboard/projectform",
+    icon: faFolderPlus,
+    description: "Create new projects in the system"
+  },
   {
     name: "Property Detail",
     path: "/dashboard/propertydetail",
@@ -153,7 +153,19 @@ const sections = [
     name: "Add real estate basic",
     path: "/dashboard/addreal",
     icon: faFileAlt,
-    description: "Create new Youtube video"
+    description: "Create new real estate basic entry"
+  },
+  {
+    name: "Add Plots",
+    path: "/dashboard/add-plots",
+    icon: faFileCirclePlus,
+    description: "Create new plot listing"
+  },
+  {
+    name: "All Plots",
+    path: "/dashboard/showallplots",
+    icon: faBuilding,
+    description: "View and manage all plot listings"
   },
 ];
 
@@ -166,7 +178,7 @@ export default function DashboardPage() {
       try {
         const clientIdentifier = localStorage.getItem('clientIdentifier');
         if (clientIdentifier) {
-          const res = await fetch(`api.propertydronerealty.com/api/cookie-consent?clientIdentifier=${clientIdentifier}`);
+          const res = await fetch(`http://localhost:5000/api/cookie-consent?clientIdentifier=${clientIdentifier}`);
           const data = await res.json();
           if (data && data.consent !== undefined && data.consent !== null) {
             setCookieStatus(data.consent ? 'Accepted' : 'Rejected');
@@ -187,11 +199,7 @@ export default function DashboardPage() {
       <div className="min-h-screen bg-gray-50 p-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-[#224295]">Admin Dashboard</h1>
-          {cookieStatus && (
-            <div className="text-sm text-gray-600 bg-white px-3 py-1 rounded shadow-sm">
-              Cookie Consent: <span className={`font-semibold ${cookieStatus === 'Accepted' ? 'text-green-600' : 'text-red-600'}`}>{cookieStatus}</span>
-            </div>
-          )}
+
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -214,11 +222,11 @@ export default function DashboardPage() {
                   {section.name}
                 </h2>
 
-                <div className="border-t border-gray-200 my-3"></div>
+                {/* <div className="border-t border-gray-200 my-3"></div> */}
 
-                <p className="text-gray-600 text-sm text-center">
+                {/* <p className="text-gray-600 text-sm text-center">
                   {section.description}
-                </p>
+                </p> */}
               </div>
 
               <div

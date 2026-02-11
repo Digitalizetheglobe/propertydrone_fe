@@ -42,6 +42,10 @@ const sections = [
   { name: "Add real estate basic", path: "/dashboard/addreal", icon: faFileAlt },
   { name: "Experts", path: "/dashboard/experts", icon: faUserTie },
   { name: "Add Expert", path: "/dashboard/addexpert", icon: faFileCirclePlus },
+  { name: "Add Plots", path: "/dashboard/add-plots", icon: faFileCirclePlus },
+  { name: "All Plots", path: "/dashboard/showallplots", icon: faBuilding },
+  { name: "Add Commercial", path: "/dashboard/add-commercial-properties", icon: faFileCirclePlus },
+  { name: "All Commercial", path: "/dashboard/showallcommercial-properties", icon: faBuilding },
 ];
 
 const Sidebar = () => {

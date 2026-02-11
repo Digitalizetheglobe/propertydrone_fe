@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/luxe-properties/layout,_N_T_/luxe-properties/page,_N_T_/luxe-properties"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/luxe-properties/__PAGE__",
+    "/luxe-properties",
+    "/_index",
+    "/_head"
+  ]
+}

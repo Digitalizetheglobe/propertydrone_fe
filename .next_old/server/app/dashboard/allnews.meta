@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/allnews/layout,_N_T_/dashboard/allnews/page,_N_T_/dashboard/allnews"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/dashboard/allnews/__PAGE__",
+    "/dashboard/allnews",
+    "/dashboard",
+    "/_index",
+    "/_head"
+  ]
+}

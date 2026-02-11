@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":["file:///E:/DTG/propertydrone/propertydrone_fe/node_modules/%40excalidraw/excalidraw/main.js"],"sourcesContent":["if (process.env.IS_PREACT === \"true\") {\n  if (process.env.NODE_ENV === \"production\") {\n    module.exports = require(\"./dist/excalidraw-with-preact.production.min.js\");\n  } else {\n    module.exports = require(\"./dist/excalidraw-with-preact.development.js\");\n  }\n} else if (process.env.NODE_ENV === \"production\") {\n  module.exports = require(\"./dist/excalidraw.production.min.js\");\n} else {\n  module.exports = require(\"./dist/excalidraw.development.js\");\n}\n"],"names":[],"mappings":"AAAA,IAAI,QAAQ,GAAG,CAAC,SAAS,KAAK,QAAQ;IACpC;;SAEO;QACL,OAAO,OAAO;IAChB;AACF,OAAO;;KAEA;IACL,OAAO,OAAO;AAChB","ignoreList":[0]}}]
+}

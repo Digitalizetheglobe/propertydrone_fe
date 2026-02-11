@@ -110,6 +110,7 @@ const MainHeader: React.FC = () => {
         { name: 'Services', href: '/our-services-real-estate-services' },
         { name: 'NRI Corner', href: '/nri-corner' },
         { name: 'Properties', href: '/luxe-properties' },
+        { name: 'Plots', href: '/plots' },
     ];
 
     const moreDropdownItems = [

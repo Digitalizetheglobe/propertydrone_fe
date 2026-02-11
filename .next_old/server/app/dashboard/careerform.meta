@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/careerform/layout,_N_T_/dashboard/careerform/page,_N_T_/dashboard/careerform"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/dashboard/careerform/__PAGE__",
+    "/dashboard/careerform",
+    "/dashboard",
+    "/_index",
+    "/_head"
+  ]
+}

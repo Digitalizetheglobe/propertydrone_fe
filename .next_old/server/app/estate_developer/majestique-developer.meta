@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/estate_developer/layout,_N_T_/estate_developer/majestique-developer/layout,_N_T_/estate_developer/majestique-developer/page,_N_T_/estate_developer/majestique-developer"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/estate_developer/majestique-developer/__PAGE__",
+    "/estate_developer/majestique-developer",
+    "/estate_developer",
+    "/_index",
+    "/_head"
+  ]
+}

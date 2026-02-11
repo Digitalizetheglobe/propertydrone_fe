@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[29373,["/_next/static/chunks/917de06cf69a7f38.js","/_next/static/chunks/d9f8608fcd4efd9f.js","/_next/static/chunks/2299ad2a900c94c5.js","/_next/static/chunks/ee59bdd653da9eab.js"],""]
+3:I[34410,["/_next/static/chunks/2f66a4214aa908ca.js","/_next/static/chunks/4d364cd1826b2bea.js"],"default"]
+4:I[40440,["/_next/static/chunks/2f66a4214aa908ca.js","/_next/static/chunks/4d364cd1826b2bea.js"],"default"]
+0:{"buildId":"PTN43xt-dM7UOobQC4B-d","rsc":["$","$1","c",{"children":[null,[["$","$L2",null,{"id":"nri-corner-webpage-jsonld","type":"application/ld+json","strategy":"afterInteractive","children":"{\"@context\":\"https://schema.org\",\"@type\":\"WebPage\",\"name\":\"NRI Property Services India\",\"url\":\"https://propertydronerealty.com/nri-corner\",\"description\":\"Full-service NRI property management — POA, loans, documentation, and virtual tours by Property Drone Realty.\"}"}],["$","$L3",null,{"parallelRouterKey":"children","template":["$","$L4",null,{}]}]]]}],"loading":null,"isPartial":false}

@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 18, "column": 0}, "map": {"version":3,"sources":["file:///E:/DTG/propertydrone/propertydrone_fe/app/list-property/page.tsx"],"sourcesContent":["export default function ListPropertyPage() {\r\n    return <div>List Property Page</div>;\r\n}\r\n"],"names":[],"mappings":";;;;;;AAAe,SAAS;IACpB,qBAAO,mRAAC;kBAAI;;;;;;AAChB"}}]
+}

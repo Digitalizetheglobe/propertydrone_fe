@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/real_estate_basic/layout,_N_T_/real_estate_basic/page,_N_T_/real_estate_basic"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/real_estate_basic/__PAGE__",
+    "/real_estate_basic",
+    "/_index",
+    "/_head"
+  ]
+}

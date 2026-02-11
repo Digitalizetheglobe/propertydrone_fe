@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/estate_developer/layout,_N_T_/estate_developer/anp-corp/layout,_N_T_/estate_developer/anp-corp/page,_N_T_/estate_developer/anp-corp"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/estate_developer/anp-corp/__PAGE__",
+    "/estate_developer/anp-corp",
+    "/estate_developer",
+    "/_index",
+    "/_head"
+  ]
+}
