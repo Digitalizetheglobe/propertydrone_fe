@@ -33,7 +33,7 @@ const WhatsAppPopup = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:5000/contacts', {
+      const response = await fetch('http://api.propertydronerealty.com/contacts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -24,7 +24,7 @@ const CookieBanner = () => {
 
         try {
             const clientIdentifier = localStorage.getItem('clientIdentifier');
-            const response = await fetch('http://localhost:5000/api/cookie-consent', {
+            const response = await fetch('http://api.propertydronerealty.com/api/cookie-consent', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

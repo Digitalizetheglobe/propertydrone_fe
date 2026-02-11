@@ -291,7 +291,7 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch(`http://localhost:5000/api/property-comparisons?webUserId=${currentUserId}`);
+    const res = await fetch(`http://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
 
@@ -336,7 +336,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/saved-properties?webUserId=${currentUserId}`);
+      const res = await fetch(`http://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
       if (!res.ok) return;
       const all = await res.json();
 
@@ -435,7 +435,7 @@ export default function Home() {
           image: (() => {
             const path = property.multipleImages?.[0]?.path;
             if (path) {
-              return path.startsWith('http') ? path : `http://localhost:5000${path}`;
+              return path.startsWith('http') ? path : `http://api.propertydronerealty.com${path}`;
             }
             return "/api/placeholder/400/320";
           })()
@@ -490,7 +490,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/contacts", {
+      const response = await fetch("http://api.propertydronerealty.com/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -571,7 +571,7 @@ export default function Home() {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:5000/properties');
+        const response = await fetch('http://api.propertydronerealty.com/properties');
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }

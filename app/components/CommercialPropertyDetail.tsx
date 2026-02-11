@@ -68,7 +68,7 @@ export default function CommercialPropertyDetail({ property }: CommercialPropert
     const [qrCodeUrl, setQrCodeUrl] = useState('');
 
     // Helpers
-    const baseUrl = "http://localhost:5000";
+    const baseUrl = "http://api.propertydronerealty.com";
 
     const getImages = (): string[] => {
         if (Array.isArray(property.images)) return property.images;

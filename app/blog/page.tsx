@@ -28,7 +28,7 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('http://localhost:5000/blogs');
+        const response = await fetch('http://api.propertydronerealty.com/blogs');
         if (!response.ok) {
           throw new Error('Failed to fetch blog data');
         }
@@ -162,8 +162,8 @@ const BlogPage = () => {
                           if (path.startsWith('http')) return path;
                           const cleanPath = path.replace(/\\/g, '/');
                           return cleanPath.startsWith('/')
-                            ? `http://localhost:5000${cleanPath}`
-                            : `http://localhost:5000/${cleanPath}`;
+                            ? `http://api.propertydronerealty.com${cleanPath}`
+                            : `http://api.propertydronerealty.com/${cleanPath}`;
                         })()}
                         alt={post.blogTitle}
                         className="w-full h-full object-cover rounded-t-lg"

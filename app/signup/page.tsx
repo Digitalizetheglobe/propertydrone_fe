@@ -23,7 +23,7 @@ const Signup = () => {
     const onSubmit = async (data: any) => {
         setIsLoading(true);
         try {
-            const response = await axios.post('http://localhost:5000/api/webusers/register', {
+            const response = await axios.post('http://api.propertydronerealty.com/api/webusers/register', {
                 name: data.name,
                 email: data.email,
                 number: data.number,

@@ -63,7 +63,7 @@ function AddCommercialPropertyContent() {
         if (editId) {
             const fetchDetails = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:5000/api/commercial-properties/${editId}`);
+                    const response = await axios.get(`http://api.propertydronerealty.com/api/commercial-properties/${editId}`);
                     const data = response.data;
 
                     // Transform amenity array to string for form if needed
@@ -202,12 +202,12 @@ function AddCommercialPropertyContent() {
             submitData.set('amenities', formData.amenities);
 
             if (editId) {
-                await axios.put(`http://localhost:5000/api/commercial-properties/${editId}`, submitData, {
+                await axios.put(`http://api.propertydronerealty.com/api/commercial-properties/${editId}`, submitData, {
                     headers: { "Content-Type": "multipart/form-data" }
                 });
                 setMessage("Commercial Property updated successfully!");
             } else {
-                await axios.post("http://localhost:5000/api/commercial-properties", submitData, {
+                await axios.post("http://api.propertydronerealty.com/api/commercial-properties", submitData, {
                     headers: { "Content-Type": "multipart/form-data" }
                 });
                 setMessage("Commercial Property added successfully!");
@@ -360,7 +360,7 @@ function AddCommercialPropertyContent() {
                             {/* Existing Images */}
                             {formData.images && typeof formData.images === 'string' && formData.images.split(',').filter(Boolean).map((img, index) => {
                                 const trimmedImg = img.trim();
-                                const displayUrl = trimmedImg.startsWith('http') ? trimmedImg : `http://localhost:5000${trimmedImg.startsWith('/') ? '' : '/'}${trimmedImg}`;
+                                const displayUrl = trimmedImg.startsWith('http') ? trimmedImg : `http://api.propertydronerealty.com${trimmedImg.startsWith('/') ? '' : '/'}${trimmedImg}`;
                                 return (
                                     <div key={`existing-${index}`} className="relative w-24 h-24">
                                         <img src={displayUrl} alt="Existing" className="w-full h-full object-cover rounded border" />

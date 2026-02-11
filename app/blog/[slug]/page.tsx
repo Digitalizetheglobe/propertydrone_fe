@@ -56,7 +56,7 @@ const BlogDetail = ({ params }: PageProps) => {
     const fetchBlog = async () => {
       try {
         console.log('Fetching blog for slug:', resolvedParams.slug);
-        const response = await fetch(`http://localhost:5000/blogs/${resolvedParams.slug}`);
+        const response = await fetch(`http://api.propertydronerealty.com/blogs/${resolvedParams.slug}`);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch blog data: ${response.status}`);
@@ -195,8 +195,8 @@ const BlogDetail = ({ params }: PageProps) => {
                 if (path.startsWith('http')) return path;
                 const cleanPath = path.replace(/\\/g, '/');
                 return cleanPath.startsWith('/')
-                  ? `http://localhost:5000${cleanPath}`
-                  : `http://localhost:5000/${cleanPath}`;
+                  ? `http://api.propertydronerealty.com${cleanPath}`
+                  : `http://api.propertydronerealty.com/${cleanPath}`;
               })()}
               alt={blog.blogTitle}
               width={800} // Add explicit width

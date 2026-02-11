@@ -124,7 +124,7 @@ export default function AddBlog() {
         });
       }
 
-      const response = await axios.post("http://localhost:5000/blogs", formData, {
+      const response = await axios.post("http://api.propertydronerealty.com/blogs", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

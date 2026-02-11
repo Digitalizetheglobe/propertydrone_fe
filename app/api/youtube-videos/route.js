@@ -1,7 +1,7 @@
 // Proxy route for /api/youtube-videos
 export async function GET(req) {
   try {
-    const res = await fetch('http://localhost:5000/youtube-videos');
+    const res = await fetch('http://api.propertydronerealty.com/youtube-videos');
     if (!res.ok) {
       // Log the error status and text for debugging
       const errorText = await res.text();

@@ -32,7 +32,7 @@ export default function Profile() {
     const [compareCount, setCompareCount] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(true);
 
-    const baseUrl = "http://localhost:5000";
+    const baseUrl = "http://api.propertydronerealty.com";
 
     useEffect(() => {
         const storedUser = localStorage.getItem("webuser");
