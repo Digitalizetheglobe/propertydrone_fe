@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///E:/DTG/propertydrone/propertydrone_fe/app/our-services-real-estate-services/layout.tsx"],"sourcesContent":["\r\nimport type { Metadata } from 'next'\r\n\r\nexport const metadata: Metadata = {\r\n  title: 'Best Real Estate Services',\r\n  description:\r\n    'Expert real estate services in Pune – property consulting, sales & marketing, exclusive mandates, and end-to-end property management solutions.',\r\n  keywords: [\r\n    'real estate services Pune',\r\n    'property consulting Pune',\r\n    'sales and marketing real estate',\r\n    'property management Pune',\r\n  ],\r\n  alternates: {\r\n    canonical: 'https://propertydronerealty.com/our-services-real-estate-services',\r\n  },\r\n  robots: {\r\n    index: true,\r\n    follow: true,\r\n  },\r\n}\r\n\r\nexport default function ServicesLayout({\r\n  children,\r\n}: {\r\n  children: React.ReactNode\r\n}) {\r\n  return children\r\n}"],"names":[],"mappings":";;;;;;AAGO,MAAM,WAAqB;IAChC,OAAO;IACP,aACE;IACF,UAAU;QACR;QACA;QACA;QACA;KACD;IACD,YAAY;QACV,WAAW;IACb;IACA,QAAQ;QACN,OAAO;QACP,QAAQ;IACV;AACF;AAEe,SAAS,eAAe,EACrC,QAAQ,EAGT;IACC,OAAO;AACT"}}]
-}

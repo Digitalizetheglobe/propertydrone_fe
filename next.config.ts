@@ -28,6 +28,9 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // Minimal turbopack config to avoid Turbopack/webpack conflict when building
+  turbopack: {},
+
   // Webpack configuration
   webpack: (config, { isServer }) => {
     config.module.rules.push({

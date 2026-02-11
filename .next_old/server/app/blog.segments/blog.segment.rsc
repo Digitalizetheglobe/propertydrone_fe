@@ -1,5 +1,0 @@
-1:"$Sreact.fragment"
-2:I[34410,["/_next/static/chunks/2f66a4214aa908ca.js","/_next/static/chunks/4d364cd1826b2bea.js"],"default"]
-3:I[40440,["/_next/static/chunks/2f66a4214aa908ca.js","/_next/static/chunks/4d364cd1826b2bea.js"],"default"]
-4:I[29373,["/_next/static/chunks/917de06cf69a7f38.js","/_next/static/chunks/d9f8608fcd4efd9f.js","/_next/static/chunks/2299ad2a900c94c5.js","/_next/static/chunks/ee59bdd653da9eab.js"],""]
-0:{"buildId":"PTN43xt-dM7UOobQC4B-d","rsc":["$","$1","c",{"children":[null,[["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}],["$","$L4",null,{"id":"blog-json-ld","type":"application/ld+json","strategy":"afterInteractive","children":"{\"@context\":\"https://schema.org\",\"@type\":\"Blog\",\"name\":\"Real Estate Blog\",\"url\":\"https://propertydronerealty.com/blog\",\"description\":\"Real estate insights, market trends, and expert property advice from Pune’s top real estate agency.\",\"blogPost\":[]}"}]]]}],"loading":null,"isPartial":false}

@@ -1,3 +1,0 @@
-module.exports=[64679,a=>{"use strict";var b=a.i(61209);function c(a){return(0,b.GenIcon)({tag:"svg",attr:{viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round"},child:[{tag:"line",attr:{x1:"5",y1:"12",x2:"19",y2:"12"},child:[]},{tag:"polyline",attr:{points:"12 5 19 12 12 19"},child:[]}]})(a)}a.s(["FiArrowRight",()=>c])}];
-
-//# sourceMappingURL=f6976_react-icons_fi_index_mjs_fe3047c6._.js.map
