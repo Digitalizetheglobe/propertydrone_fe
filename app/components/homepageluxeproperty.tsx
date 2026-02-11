@@ -565,6 +565,57 @@ export default function HomePageLuxeProperty({
     savedIdMap: Record<number, number>;
     fetchSavedIds: () => Promise<void>;
 }) {
+    const [inquiryForm, setInquiryForm] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        propertyType: '',
+        inquiry: ''
+    });
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+    const handleInquirySubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setSubmitStatus('submitting');
+
+        try {
+            const message = `Property Type: ${inquiryForm.propertyType}\n\nInquiry: ${inquiryForm.inquiry}`;
+
+            const response = await fetch('http://localhost:5000/api/contacts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: inquiryForm.name,
+                    email: inquiryForm.email,
+                    mobile: inquiryForm.phone,
+                    message: message
+                }),
+            });
+
+            if (response.ok) {
+                setSubmitStatus('success');
+                setInquiryForm({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    propertyType: '',
+                    inquiry: ''
+                });
+                alert("Detailed requirement submitted successfully!");
+            } else {
+                setSubmitStatus('error');
+                alert("Failed to submit requirement. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error submitting inquiry:", error);
+            setSubmitStatus('error');
+            alert("An error occurred. Please try again.");
+        } finally {
+            setSubmitStatus('idle');
+        }
+    };
     return (
         <div
             className="mx-auto px-6 md:px-20 py-8 relative"
@@ -597,27 +648,52 @@ export default function HomePageLuxeProperty({
                             </p>
                         </div>
 
-                        <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); alert("Detailed requirement submitted!"); }}>
+                        <form className="space-y-5" onSubmit={handleInquirySubmit}>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div className="space-y-1.5 text-left">
                                     <label className="text-xs font-bold text-gray-700 ml-1">Name <span className="text-red-500">*</span></label>
-                                    <input type="text" placeholder="Your full name" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#172747]/20 focus:border-[#172747] outline-none transition-all placeholder:text-gray-400" required />
+                                    <input
+                                        type="text"
+                                        placeholder="Your full name"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#172747]/20 focus:border-[#172747] outline-none transition-all placeholder:text-gray-400"
+                                        required
+                                        value={inquiryForm.name}
+                                        onChange={(e) => setInquiryForm({ ...inquiryForm, name: e.target.value })}
+                                    />
                                 </div>
                                 <div className="space-y-1.5 text-left">
                                     <label className="text-xs font-bold text-gray-700 ml-1">Email Address <span className="text-red-500">*</span></label>
-                                    <input type="email" placeholder="your.email@example.com" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#172747]/20 focus:border-[#172747] outline-none transition-all placeholder:text-gray-400" required />
+                                    <input
+                                        type="email"
+                                        placeholder="your.email@example.com"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#172747]/20 focus:border-[#172747] outline-none transition-all placeholder:text-gray-400"
+                                        required
+                                        value={inquiryForm.email}
+                                        onChange={(e) => setInquiryForm({ ...inquiryForm, email: e.target.value })}
+                                    />
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div className="space-y-1.5 text-left">
                                     <label className="text-xs font-bold text-gray-700 ml-1">Phone Number <span className="text-red-500">*</span></label>
-                                    <input type="tel" placeholder="Your phone number" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#172747]/20 focus:border-[#172747] outline-none transition-all placeholder:text-gray-400" required />
+                                    <input
+                                        type="tel"
+                                        placeholder="Your phone number"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#172747]/20 focus:border-[#172747] outline-none transition-all placeholder:text-gray-400"
+                                        required
+                                        value={inquiryForm.phone}
+                                        onChange={(e) => setInquiryForm({ ...inquiryForm, phone: e.target.value })}
+                                    />
                                 </div>
                                 <div className="space-y-1.5 text-left">
                                     <label className="text-xs font-bold text-gray-700 ml-1">Property Type</label>
                                     <div className="relative">
-                                        <select className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-500 focus:ring-2 focus:ring-[#172747]/20 focus:border-[#172747] outline-none transition-all appearance-none cursor-pointer">
+                                        <select
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-500 focus:ring-2 focus:ring-[#172747]/20 focus:border-[#172747] outline-none transition-all appearance-none cursor-pointer"
+                                            value={inquiryForm.propertyType}
+                                            onChange={(e) => setInquiryForm({ ...inquiryForm, propertyType: e.target.value })}
+                                        >
                                             <option value="">Select Property Type</option>
                                             <option value="residential">Residential</option>
                                             <option value="commercial">Commercial</option>
@@ -630,17 +706,24 @@ export default function HomePageLuxeProperty({
                                 </div>
                             </div>
 
-
-
-
                             <div className="space-y-1.5 text-left">
                                 <label className="text-xs font-bold text-gray-700 ml-1">Inquiry</label>
-                                <textarea rows={2} placeholder="Tell us about your inquiry or specific requirements..." className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#172747]/20 focus:border-[#172747] outline-none transition-all resize-none placeholder:text-gray-400"></textarea>
+                                <textarea
+                                    rows={2}
+                                    placeholder="Tell us about your inquiry or specific requirements..."
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#172747]/20 focus:border-[#172747] outline-none transition-all resize-none placeholder:text-gray-400"
+                                    value={inquiryForm.inquiry}
+                                    onChange={(e) => setInquiryForm({ ...inquiryForm, inquiry: e.target.value })}
+                                ></textarea>
                             </div>
 
                             <div className="flex items-center gap-4 pt-4">
-                                <button type="submit" className="bg-[#246BFD] hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/30 text-sm cursor-pointer transform active:scale-95">
-                                    Submit Requirement
+                                <button
+                                    type="submit"
+                                    disabled={submitStatus === 'submitting'}
+                                    className={`bg-[#246BFD] hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/30 text-sm cursor-pointer transform active:scale-95 ${submitStatus === 'submitting' ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                >
+                                    {submitStatus === 'submitting' ? 'Submitting...' : 'Submit Requirement'}
                                 </button>
                                 <button type="button" onClick={resetFilters} className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg transition-all duration-300 text-sm cursor-pointer transform active:scale-95">
                                     Cancel

@@ -205,25 +205,21 @@ const MainHeader: React.FC = () => {
                     <div className="space-y-6">
                         <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Property Type</h3>
                         <div className="space-y-3">
-                            <Link href="/our-properties-in-pune?category=Apartments" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Flats / Apartments</Link>
-                            <Link href="/our-properties-in-pune?category=Houses" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Houses & Villas</Link>
-                            <Link href="/our-properties-in-pune?category=Floors" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Builder Floors</Link>
-                            <Link href="/our-properties-in-pune?category=Land" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Plots & Land</Link>
-                            <Link href="/our-properties-in-pune?category=Retail" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Commercial Space</Link>
-                            <Link href="/our-properties-in-pune?category=Offices" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Co-working</Link>
+                            <Link href="/our-properties-in-pune" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Residential</Link>
+                            <Link href="/commercial-properties" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Commercial Properties</Link>
+                            <Link href="/plots" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Plots</Link>
                         </div>
                     </div>
 
-                    {/* Column 2: Popular Areas */}
+                    {/* Column 2: Top Locations */}
                     <div className="space-y-6">
-                        <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Popular Areas</h3>
+                        <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Top Locations</h3>
                         <div className="space-y-3">
-                            <Link href="/our-properties-in-pune?location=Ravet" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Ravet</Link>
-                            <Link href="/our-properties-in-pune?location=Wakad" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Wakad</Link>
-                            <Link href="/our-properties-in-pune?location=Baner" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Baner</Link>
-                            <Link href="/our-properties-in-pune?location=Kharadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Kharadi</Link>
                             <Link href="/our-properties-in-pune?location=Hinjewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Hinjewadi</Link>
-                            <Link href="/our-properties-in-pune?location=Viman Nagar" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Viman Nagar</Link>
+                            <Link href="/our-properties-in-pune?location=Bandra West" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Bandra West</Link>
+                            <Link href="/our-properties-in-pune?location=Baner" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Baner</Link>
+                            <Link href="/our-properties-in-pune?location=Balewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Balewadi</Link>
+                            <Link href="/our-properties-in-pune?location=Ravet" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Ravet</Link>
                         </div>
                     </div>
 
