@@ -74,7 +74,7 @@ function CommercialPropertiesContent() {
         try {
             const message = `Property Type: ${inquiryForm.propertyType}\n\nInquiry: ${inquiryForm.inquiry}`;
 
-            const response = await fetch('https://api.propertydronerealty.com/api/contacts', {
+            const response = await fetch('http://localhost:9000/api/contacts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ function CommercialPropertiesContent() {
         const fetchProperties = async () => {
             try {
                 setLoading(true);
-                const response = await fetch("https://api.propertydronerealty.com/api/commercial-properties");
+                const response = await fetch("http://localhost:9000/api/commercial-properties");
                 if (!response.ok) throw new Error("Failed to fetch properties");
                 const data = await response.json();
 

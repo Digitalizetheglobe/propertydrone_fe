@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
         pathname: '/uploads/**',
       },
       {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '9000',
+        pathname: '/uploads/**',
+      },
+      {
         protocol: 'https',
         hostname: 'api.propertydronerealty.com',
         pathname: '/uploads/**',
