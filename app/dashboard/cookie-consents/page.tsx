@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faEye, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -23,7 +23,7 @@ export default function CookieConsentsPage() {
 
     const fetchConsents = async () => {
         try {
-            const res = await fetch('http://api.propertydronerealty.com/api/cookie-consent/all');
+            const res = await fetch('https://api.propertydronerealty.com/api/cookie-consent/all');
             if (res.ok) {
                 const data = await res.json();
                 setConsents(data);

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 
 interface Testimonial {
@@ -19,7 +19,7 @@ export default function TestimonialsPage() {
   const [editId, setEditId] = useState<string | number | null>(null);
 
   useEffect(() => {
-    fetch("http://api.propertydronerealty.com/api/testimonials")
+    fetch("https://api.propertydronerealty.com/api/testimonials")
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch testimonials");
         return res.json();
@@ -50,7 +50,7 @@ export default function TestimonialsPage() {
       let newTestimonial: Testimonial;
       if (editId !== null) {
         // Update
-        res = await fetch(`http://api.propertydronerealty.com/api/testimonials/${editId}`, {
+        res = await fetch(`https://api.propertydronerealty.com/api/testimonials/${editId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
@@ -60,7 +60,7 @@ export default function TestimonialsPage() {
         setTestimonials(t => t.map(test => test.id === editId ? newTestimonial : test));
       } else {
         // Create
-        res = await fetch("http://api.propertydronerealty.com/api/testimonials", {
+        res = await fetch("https://api.propertydronerealty.com/api/testimonials", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
@@ -80,7 +80,7 @@ export default function TestimonialsPage() {
   const handleDelete = async (id: string | number) => {
     if (!window.confirm("Are you sure you want to delete this testimonial?")) return;
     try {
-      const res = await fetch(`http://api.propertydronerealty.com/api/testimonials/${id}`, {
+      const res = await fetch(`https://api.propertydronerealty.com/api/testimonials/${id}`, {
         method: "DELETE"
       });
       if (!res.ok) throw new Error("Delete failed");
@@ -117,7 +117,7 @@ export default function TestimonialsPage() {
                 </div>
                 <div className="flex items-center mb-2">
                   {[1, 2, 3, 4, 5].map(star => (
-                    <span key={star} className={"text-xl " + (item.rating && item.rating >= star ? "text-yellow-400" : "text-gray-300")}>★</span>
+                    <span key={star} className={"text-xl " + (item.rating && item.rating >= star ? "text-yellow-400" : "text-gray-300")}>â˜…</span>
                   ))}
                 </div>
                 <div className="mb-2 text-gray-700">{item.testimonial}</div>
@@ -158,7 +158,7 @@ export default function TestimonialsPage() {
               <div className="mb-2 flex items-center">
                 <label className="mr-2">Rating:</label>
                 {[1, 2, 3, 4, 5].map(star => (
-                  <span key={star} onClick={() => setFormData(fd => ({ ...fd, rating: star }))} className="cursor-pointer text-xl text-yellow-500">{formData.rating >= star ? '★' : '☆'}</span>
+                  <span key={star} onClick={() => setFormData(fd => ({ ...fd, rating: star }))} className="cursor-pointer text-xl text-yellow-500">{formData.rating >= star ? 'â˜…' : 'â˜†'}</span>
                 ))}
               </div>
               <div className="mb-2">

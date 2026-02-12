@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -21,7 +21,7 @@ export default function RealEstateBasicsPage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://api.propertydronerealty.com/real-estate', { cache: 'no-store' })
+    fetch('https://api.propertydronerealty.com/real-estate', { cache: 'no-store' })
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch real estate basics');
         return res.json();
@@ -69,7 +69,7 @@ export default function RealEstateBasicsPage() {
             </h2>
             <p className=" tracking-wider text-gray-300 mb-4"
               style={{ fontSize: '20px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
-            > Browse a curated selection of residential and commercial spaces with detailed insights, drone views, and zero-brokerage listings—making your search smarter and faster.
+            > Browse a curated selection of residential and commercial spaces with detailed insights, drone views, and zero-brokerage listingsâ€”making your search smarter and faster.
             </p>
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4">

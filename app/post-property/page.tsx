@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import Image from 'next/image';
@@ -218,7 +218,7 @@ const PropertyFormCard = () => {
                 shareWithAgents: formData.shareWithAgents
             };
 
-            await axios.post('http://api.propertydronerealty.com/api/user-properties', payload);
+            await axios.post('https://api.propertydronerealty.com/api/user-properties', payload);
             alert('Property posted successfully!');
             // Reset form or redirect
             setFormData({

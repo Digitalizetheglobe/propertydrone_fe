@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import * as XLSX from 'xlsx';
@@ -18,7 +18,7 @@ const ContactDetails = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch("http://api.propertydronerealty.com/contacts");
+        const response = await fetch("https://api.propertydronerealty.com/contacts");
         const data = await response.json();
         setContacts(data);
       } catch (error) {

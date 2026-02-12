@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
@@ -34,7 +34,7 @@ export default function HomePageYoutube() {
     const fetchVideos = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("http://api.propertydronerealty.com/youtube-videos");
+            const response = await axios.get("https://api.propertydronerealty.com/youtube-videos");
             setVideos(response.data);
             setError("");
         } catch (err: any) {

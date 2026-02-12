@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 
@@ -23,7 +23,7 @@ const ContactForm = () => {
     setSuccess(false);
 
     try {
-      const response = await fetch("http://api.propertydronerealty.com/contacts", {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

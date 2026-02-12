@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -52,7 +52,7 @@ export default function RegisterPage() {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://api.propertydronerealty.com/admin/register", {
+      const response = await axios.post("https://api.propertydronerealty.com/admin/register", {
         userName: formData.userName,
         email: formData.email,
         password: formData.password,

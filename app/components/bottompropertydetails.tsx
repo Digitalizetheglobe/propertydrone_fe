@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
@@ -28,7 +28,7 @@ const BottomPropertyDetails = () => {
     useEffect(() => {
         const fetchProperties = async () => {
             try {
-                const response = await fetch('http://api.propertydronerealty.com/properties');
+                const response = await fetch('https://api.propertydronerealty.com/properties');
                 if (!response.ok) {
                     console.error('Failed to fetch properties:', response.status);
                     setTabData(getDefaultData()); // Fallback

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import bg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
@@ -74,7 +74,7 @@ function CommercialPropertiesContent() {
         try {
             const message = `Property Type: ${inquiryForm.propertyType}\n\nInquiry: ${inquiryForm.inquiry}`;
 
-            const response = await fetch('http://api.propertydronerealty.com/api/contacts', {
+            const response = await fetch('https://api.propertydronerealty.com/api/contacts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ function CommercialPropertiesContent() {
         const fetchProperties = async () => {
             try {
                 setLoading(true);
-                const response = await fetch("http://api.propertydronerealty.com/api/commercial-properties");
+                const response = await fetch("https://api.propertydronerealty.com/api/commercial-properties");
                 if (!response.ok) throw new Error("Failed to fetch properties");
                 const data = await response.json();
 
@@ -307,10 +307,10 @@ function CommercialPropertiesContent() {
                                                             {property.propertyType}
                                                         </span>
                                                         <div className="text-2xl font-bold text-[#172747]">
-                                                            {property.totalPrice ? `₹${(property.totalPrice / 10000000).toFixed(2)} Cr` : 'Price on Request'}
+                                                            {property.totalPrice ? `â‚¹${(property.totalPrice / 10000000).toFixed(2)} Cr` : 'Price on Request'}
                                                         </div>
                                                         <div className="text-sm text-gray-500">
-                                                            ₹{property.pricePerSqFt} / sq.ft
+                                                            â‚¹{property.pricePerSqFt} / sq.ft
                                                         </div>
                                                     </div>
                                                 </div>
@@ -342,7 +342,7 @@ function CommercialPropertiesContent() {
                                     <div className="col-span-full flex flex-col items-center justify-center py-12 px-4 w-full">
                                         <div className="bg-white/95 backdrop-blur-sm p-6 md:p-10 rounded-2xl shadow-xl max-w-3xl w-full border border-gray-100">
                                             <div className="text-center mb-8">
-                                                <div className="text-5xl mb-4">🤔</div>
+                                                <div className="text-5xl mb-4">ðŸ¤”</div>
                                                 <h3 className="text-2xl font-bold text-[#172747] mb-3">
                                                     Oooops! Seems like your requirement is rare/specific
                                                 </h3>

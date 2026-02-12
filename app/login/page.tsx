@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -38,7 +38,7 @@ function LoginContent() {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://api.propertydronerealty.com/admin/login", formData);
+      const response = await axios.post("https://api.propertydronerealty.com/admin/login", formData);
 
       if (response.data?.token) {
         Cookies.set("adminToken", response.data.token, { expires: 7 });

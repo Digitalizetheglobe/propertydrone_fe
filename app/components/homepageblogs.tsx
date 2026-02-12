@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
@@ -25,7 +25,7 @@ export default function HomePageBlogs() {
     ];
 
     useEffect(() => {
-        fetch('http://api.propertydronerealty.com/blogs')
+        fetch('https://api.propertydronerealty.com/blogs')
             .then(res => res.json())
             .then(data => {
                 interface BlogApiImage {
@@ -61,7 +61,7 @@ export default function HomePageBlogs() {
 
                         if (imgPath) {
                             if (typeof imgPath === 'string') {
-                                return imgPath.startsWith('http') ? imgPath : `http://api.propertydronerealty.com${imgPath}`;
+                                return imgPath.startsWith('http') ? imgPath : `https://api.propertydronerealty.com${imgPath}`;
                             }
                         }
                         return defaultImages[idx % 3];

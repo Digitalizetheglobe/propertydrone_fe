@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -83,7 +83,7 @@ export default function AddPlots() {
                 images: formData.images.split(",").map((item) => item.trim()).filter(Boolean),
             };
 
-            const response = await axios.post("http://api.propertydronerealty.com/api/plots", payload);
+            const response = await axios.post("https://api.propertydronerealty.com/api/plots", payload);
 
             console.log("Response:", response.data);
             setMessage("Plot added successfully!");

@@ -1,4 +1,4 @@
-
+﻿
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -28,7 +28,7 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('http://api.propertydronerealty.com/blogs');
+        const response = await fetch('https://api.propertydronerealty.com/blogs');
         if (!response.ok) {
           throw new Error('Failed to fetch blog data');
         }
@@ -162,8 +162,8 @@ const BlogPage = () => {
                           if (path.startsWith('http')) return path;
                           const cleanPath = path.replace(/\\/g, '/');
                           return cleanPath.startsWith('/')
-                            ? `http://api.propertydronerealty.com${cleanPath}`
-                            : `http://api.propertydronerealty.com/${cleanPath}`;
+                            ? `https://api.propertydronerealty.com${cleanPath}`
+                            : `https://api.propertydronerealty.com/${cleanPath}`;
                         })()}
                         alt={post.blogTitle}
                         className="w-full h-full object-cover rounded-t-lg"
@@ -208,7 +208,7 @@ const BlogPage = () => {
                     {/* Read More Button */}
                     <div className="mt-auto">
                       <button className="bg-[#172747] hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] text-white p-1 px-3 cursor-pointer rounded-md flex items-center justify-center">
-                        <span>→</span>
+                        <span>â†’</span>
                       </button>
                     </div>
                   </div>

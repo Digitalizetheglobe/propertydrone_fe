@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,8 +24,8 @@ const CompareProperties = () => {
     { label: "Availability Time", key: "possession", format: (v) => v || "--" },
     { label: "Chargeable Area", key: "chargeableArea", format: (v) => v || "--" },
     { label: "Efficiency", key: "efficiency", format: (v) => v || "--" },
-    { label: "Quoted Renting / Towards", key: "price", format: (v) => v ? `₹ ${Number(v).toLocaleString('en-IN')}` : "--" },
-    { label: "Maintenance", key: "maintenance", format: (v) => v ? `₹ ${v}` : "--" },
+    { label: "Quoted Renting / Towards", key: "price", format: (v) => v ? `â‚¹ ${Number(v).toLocaleString('en-IN')}` : "--" },
+    { label: "Maintenance", key: "maintenance", format: (v) => v ? `â‚¹ ${v}` : "--" },
     { label: "Taxes", key: "taxes", format: (v) => v || "--" },
   ];
 
@@ -43,7 +43,7 @@ const CompareProperties = () => {
   const fetchComparedProperties = async () => {
     setLoading(true);
     try {
-      let url = "http://api.propertydronerealty.com/api/property-comparisons";
+      let url = "https://api.propertydronerealty.com/api/property-comparisons";
 
       // Get logged-in user
       const storedUser = localStorage.getItem('webuser');
@@ -111,7 +111,7 @@ const CompareProperties = () => {
 
   const handleRemove = async (id) => {
     try {
-      const res = await fetch(`http://api.propertydronerealty.com/api/property-comparisons/${id}`, {
+      const res = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed to remove property");
@@ -130,7 +130,7 @@ const CompareProperties = () => {
     // For now, I'll just clear the UI and pretend, or loop delete? 
     // Loop delete for correctness:
     const promises = comparisons.map(c =>
-      fetch(`http://api.propertydronerealty.com/api/property-comparisons/${c.id}`, { method: 'DELETE' })
+      fetch(`https://api.propertydronerealty.com/api/property-comparisons/${c.id}`, { method: 'DELETE' })
     );
     await Promise.all(promises);
     setComparisons([]);
@@ -255,7 +255,7 @@ const CompareProperties = () => {
                             const cleanPath = img.replace(/\\/g, '/');
                             const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
                             // If it's a relative path (e.g. from multer), prepend backend URL
-                            return `http://api.propertydronerealty.com${finalPath}`;
+                            return `https://api.propertydronerealty.com${finalPath}`;
                           })()}
                           alt={data.propertyName}
                           fill
@@ -268,7 +268,7 @@ const CompareProperties = () => {
                         <div className="flex justify-between items-end mb-3">
                           <div>
                             <div className="text-xl font-bold text-[#172747]">
-                              {data.price ? `₹ ${Number(data.price).toLocaleString('en-IN')}` : "Price TBD"}
+                              {data.price ? `â‚¹ ${Number(data.price).toLocaleString('en-IN')}` : "Price TBD"}
                             </div>
                             <div className="text-[10px] text-[#172747] font-medium opacity-80">
                               rent/month

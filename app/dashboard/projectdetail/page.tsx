@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 
@@ -30,7 +30,7 @@ export default function ProjectDetail() {
   }, []);
 
   const fetchProjects = () => {
-    fetch("http://api.propertydronerealty.com/projects")
+    fetch("https://api.propertydronerealty.com/projects")
       .then((res) => res.json())
       .then((data) => {
         setProjects(data);
@@ -45,7 +45,7 @@ export default function ProjectDetail() {
   const handleDelete = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this project?")) {
       try {
-        const response = await fetch(`http://api.propertydronerealty.com/projects/${id}`, {
+        const response = await fetch(`https://api.propertydronerealty.com/projects/${id}`, {
           method: "DELETE",
         });
 
@@ -80,7 +80,7 @@ export default function ProjectDetail() {
     if (!formData || !currentProject) return;
 
     try {
-      const response = await fetch(`http://api.propertydronerealty.com/projects/${currentProject.id}`, {
+      const response = await fetch(`https://api.propertydronerealty.com/projects/${currentProject.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

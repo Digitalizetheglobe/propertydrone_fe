@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -32,7 +32,7 @@ export default function Profile() {
     const [compareCount, setCompareCount] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(true);
 
-    const baseUrl = "http://api.propertydronerealty.com";
+    const baseUrl = "https://api.propertydronerealty.com";
 
     useEffect(() => {
         const storedUser = localStorage.getItem("webuser");

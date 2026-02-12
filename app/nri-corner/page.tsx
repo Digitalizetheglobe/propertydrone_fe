@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Image from 'next/image';
 import heroBackground from '../../public/images/bgimage2.png';
 import Link from 'next/link';
@@ -31,7 +31,7 @@ export default function BlogHeroSection() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://api.propertydronerealty.com/contacts", {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -52,32 +52,32 @@ export default function BlogHeroSection() {
 
   const offerings = [
     {
-      icon: "🏢",
+      icon: "ðŸ¢",
       title: "Exclusive Property Listings",
       description: "Gain access to a handpicked selection of premium properties across India. Whether you're looking for residential, commercial, or investment-grade real estate, our listings are tailored specifically for Non-Resident Indians (NRIs), ensuring you find the perfect property that matches your goals and preferences."
     },
     {
-      icon: "📝",
+      icon: "ðŸ“",
       title: "Power of Attorney (POA) Assistance",
-      description: "Navigating legal processes from abroad can be challenging. We provide end-to-end support in drafting, notarizing, and registering a Power of Attorney (POA) so you can authorize a trusted person in India to complete transactions on your behalf—legally and smoothly."
+      description: "Navigating legal processes from abroad can be challenging. We provide end-to-end support in drafting, notarizing, and registering a Power of Attorney (POA) so you can authorize a trusted person in India to complete transactions on your behalfâ€”legally and smoothly."
     },
     {
-      icon: "⏰",
+      icon: "â°",
       title: "24/7 Availability",
       description: "Time zones shouldn't be a barrier. Our dedicated NRI service team is available 24/7 to accommodate your schedule and answer any queries you may have, ensuring a seamless communication experience no matter where you are."
     },
     {
-      icon: "💸",
+      icon: "ðŸ’¸",
       title: "Easy Loan Assistance",
-      description: "Our financial consultants help you connect with trusted Indian banks and financial institutions that offer NRI home loans. We guide you through documentation, eligibility criteria, and approval processes—making financing easy and stress-free."
+      description: "Our financial consultants help you connect with trusted Indian banks and financial institutions that offer NRI home loans. We guide you through documentation, eligibility criteria, and approval processesâ€”making financing easy and stress-free."
     },
     {
-      icon: "🖥️",
+      icon: "ðŸ–¥ï¸",
       title: "Virtual Property Tours",
       description: "Can't visit in person? No problem. Experience real-time video walkthroughs and 360-degree virtual tours of shortlisted properties from the comfort of your home. We bring the property experience to your screen so you can make confident decisions remotely."
     },
     {
-      icon: "👥",
+      icon: "ðŸ‘¥",
       title: "Dedicated NRI Support Team",
       description: "From property search to paperwork, our NRI support team is with you every step of the way. With in-depth knowledge of NRI-specific concerns, taxation, legalities, and investment trends, we ensure a customized and informed experience."
     }
@@ -87,7 +87,7 @@ export default function BlogHeroSection() {
     <>
       <Head>
         <title>Complete NRI Property Services in India | Property Drone Realty</title>
-        <meta name="description" content="From exclusive listings to POA, loans & virtual tours — we offer complete NRI property services in India with 24/7 support & expert legal guidance." />
+        <meta name="description" content="From exclusive listings to POA, loans & virtual tours â€” we offer complete NRI property services in India with 24/7 support & expert legal guidance." />
         <meta name="keywords" content="NRI property services, NRI real estate India, power of attorney NRI, virtual tour property India, invest in India NRI" />
         <link rel="canonical" href="https://propertydronerealty.com/nri-corner" />
         <meta name="robots" content="index, follow" />
@@ -99,7 +99,7 @@ export default function BlogHeroSection() {
               "@type": "WebPage",
               "name": "NRI Property Services India",
               "url": "https://propertydronerealty.com/nri-corner",
-              "description": "Full-service NRI property management — POA, loans, documentation, and virtual tours by Property Drone Realty."
+              "description": "Full-service NRI property management â€” POA, loans, documentation, and virtual tours by Property Drone Realty."
             })
           }}
         />
@@ -140,7 +140,7 @@ export default function BlogHeroSection() {
           {/* Section Header */}
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 mb-4">
-              <span className="text-3xl">💼</span>
+              <span className="text-3xl">ðŸ’¼</span>
               <h2
                 className="text-3xl md:text-4xl"
                 style={{

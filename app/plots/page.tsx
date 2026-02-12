@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
@@ -76,7 +76,7 @@ function PlotsContent() {
     const [availableLocations, setAvailableLocations] = useState<string[]>([]);
 
     // API base URL
-    const baseUrl = "http://api.propertydronerealty.com";
+    const baseUrl = "https://api.propertydronerealty.com";
 
     // Framer Motion variants
     const containerVariants: Variants = {
@@ -330,13 +330,13 @@ function PlotsContent() {
                                 {activeLocation !== 'all' && (
                                     <span className="bg-blue-100 text-[#172747] px-3 py-1 rounded-full text-xs font-medium flex items-center">
                                         Location: {activeLocation}
-                                        <button onClick={() => setActiveLocation('all')} className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700">×</button>
+                                        <button onClick={() => setActiveLocation('all')} className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700">Ã—</button>
                                     </span>
                                 )}
                                 {projectFilter && (
                                     <span className="bg-blue-100 text-[#172747] px-3 py-1 rounded-full text-xs font-medium flex items-center">
                                         Search: {projectFilter}
-                                        <button onClick={() => setProjectFilter('')} className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700">×</button>
+                                        <button onClick={() => setProjectFilter('')} className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700">Ã—</button>
                                     </span>
                                 )}
                                 <button onClick={resetFilters} className="ml-auto text-sm text-[#172747] hover:underline">Clear All</button>
@@ -419,7 +419,7 @@ function PlotsContent() {
                                                             <Share2 size={12} className="mr-1" /> {plot.plotDetails?.areaSqFt} Sq.Ft
                                                         </span>
                                                         <span className="font-bold text-[#172747]">
-                                                            Price: ₹{plot.priceDetails?.totalPrice}
+                                                            Price: â‚¹{plot.priceDetails?.totalPrice}
                                                         </span>
                                                     </div>
 

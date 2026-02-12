@@ -1,4 +1,4 @@
-// app/projects/add/page.tsx
+﻿// app/projects/add/page.tsx
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
@@ -89,7 +89,7 @@ export default function AddProject() {
       });
 
       // Send POST request to API
-      const response = await fetch("http://api.propertydronerealty.com/projects", {
+      const response = await fetch("https://api.propertydronerealty.com/projects", {
         method: "POST",
         body: submitData,
         // Don't set Content-Type header when sending FormData
@@ -332,7 +332,7 @@ export default function AddProject() {
                       className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 focus:outline-none"
                       aria-label="Remove image"
                     >
-                      ×
+                      Ã—
                     </button>
                   </div>
                 ))}

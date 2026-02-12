@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -70,7 +70,7 @@ const PropertyCard = ({
         // Normalize path: replace backslashes with forward slashes and ensure leading slash
         const cleanPath = imgPath.replace(/\\/g, '/');
         const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
-        return `http://api.propertydronerealty.com${finalPath}`;
+        return `https://api.propertydronerealty.com${finalPath}`;
     })();
 
     const toggleSave = async (e: React.MouseEvent) => {
@@ -103,7 +103,7 @@ const PropertyCard = ({
                 const recordId = savedIdMap[property.id];
                 if (recordId) {
                     setSavedIds(prev => prev.filter(id => id !== property.id));
-                    const resp = await fetch(`http://api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
+                    const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
                     if (!resp.ok) {
                         // Rollback
                         setSavedIds(prev => [...prev, property.id]);
@@ -114,7 +114,7 @@ const PropertyCard = ({
             } else {
                 // Add
                 setSavedIds(prev => [...prev, property.id]);
-                const resp = await fetch(`http://api.propertydronerealty.com/api/saved-properties`, {
+                const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -410,7 +410,7 @@ const PropertyCard = ({
                                         setComparedIds((prev) => [...prev, property.id]);
                                         try {
                                             const resp = await fetch(
-                                                "http://api.propertydronerealty.com/api/property-comparisons",
+                                                "https://api.propertydronerealty.com/api/property-comparisons",
                                                 {
                                                     method: "POST",
                                                     headers: { "Content-Type": "application/json" },
@@ -442,7 +442,7 @@ const PropertyCard = ({
                                             return;
                                         }
                                         const resp = await fetch(
-                                            `http://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`,
+                                            `https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`,
                                             { method: "DELETE" }
                                         );
                                         if (!resp.ok) {

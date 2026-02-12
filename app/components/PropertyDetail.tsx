@@ -1,4 +1,4 @@
-// components/PropertyDetail.tsx
+﻿// components/PropertyDetail.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -136,7 +136,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Image handling
-  const baseUrl = "http://api.propertydronerealty.com"; // For dev — ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev â€” ideally from env
   const propertyImages = property?.multipleImages?.map(img =>
     img.path.startsWith('http') ? img.path : `${baseUrl}${img.path}`
   ) || [];
@@ -354,8 +354,8 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                     property.configurationTypology.map((config, idx) => (
                       <div key={idx} className="border border-gray-200 rounded-lg p-4 text-center shadow-sm">
                         <h4 className="text-md font-bold mb-2">{config.flat_available}</h4>
-                        <p className="text-sm text-gray-600 mb-1">{config.area_sqft} ft²</p>
-                        <p className="text-green-600 font-bold">₹{config.price}</p>
+                        <p className="text-sm text-gray-600 mb-1">{config.area_sqft} ftÂ²</p>
+                        <p className="text-green-600 font-bold">â‚¹{config.price}</p>
                         {config.note && (
                           <p className="text-xs text-gray-500 mt-1">{config.note}</p>
                         )}
@@ -464,7 +464,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                     }}
                     className="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-green-700 transition-colors"
                   >
-                    📍 View on Map
+                    ðŸ“ View on Map
                   </button>
                 </div>
 
@@ -488,7 +488,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                     <div className="bg-green-50 rounded-lg p-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
-                          <span className="text-green-600 font-medium">👍 Pros</span>
+                          <span className="text-green-600 font-medium">ðŸ‘ Pros</span>
                         </div>
                         <button
                           onClick={handleDropdownClick}
@@ -503,7 +503,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                     <div className="bg-red-50 rounded-lg p-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
-                          <span className="text-red-600 font-medium">👎 Cons</span>
+                          <span className="text-red-600 font-medium">ðŸ‘Ž Cons</span>
                         </div>
                         <button
                           onClick={handleDropdownClick}
@@ -736,9 +736,9 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                       <h4 className="font-medium text-[#172747] mb-2">How to Use:</h4>
                       <ul className="text-sm text-[#172747] space-y-1">
-                        <li>• Scan QR code with your phone</li>
-                        <li>• Click QR code to open link</li>
-                        <li>• Use buttons to copy/download</li>
+                        <li>â€¢ Scan QR code with your phone</li>
+                        <li>â€¢ Click QR code to open link</li>
+                        <li>â€¢ Use buttons to copy/download</li>
                       </ul>
                     </div>
 

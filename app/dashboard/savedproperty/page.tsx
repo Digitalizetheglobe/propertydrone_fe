@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 
 interface SavedProperty {
@@ -13,7 +13,7 @@ export default function SavedPropertyPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://api.propertydronerealty.com/api/saved-properties")
+    fetch("https://api.propertydronerealty.com/api/saved-properties")
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch saved properties");
         return res.json();

@@ -1,4 +1,4 @@
-// components/CommercialPropertyDetail.tsx
+﻿// components/CommercialPropertyDetail.tsx
 'use client';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -68,7 +68,7 @@ export default function CommercialPropertyDetail({ property }: CommercialPropert
     const [qrCodeUrl, setQrCodeUrl] = useState('');
 
     // Helpers
-    const baseUrl = "http://api.propertydronerealty.com";
+    const baseUrl = "https://api.propertydronerealty.com";
 
     const getImages = (): string[] => {
         if (Array.isArray(property.images)) return property.images;
@@ -184,7 +184,7 @@ export default function CommercialPropertyDetail({ property }: CommercialPropert
                     />
                     <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center p-4">
                         <span className="bg-[#172747] text-white px-3 py-1 rounded-full text-sm font-semibold mb-4 tracking-wider uppercase">
-                            {property.propertyType} • {property.propertyStatus}
+                            {property.propertyType} â€¢ {property.propertyStatus}
                         </span>
                         <h1 className="text-4xl md:text-6xl font-bold mb-4 font-['Rubik'] drop-shadow-lg">
                             {property.title || property.buildingName}
@@ -193,7 +193,7 @@ export default function CommercialPropertyDetail({ property }: CommercialPropert
                             <MapPin size={24} /> {property.location}, {property.city}
                         </p>
                         <p className="mt-4 text-yellow-300 font-bold text-2xl">
-                            Price: ₹{property.totalPrice ? (property.totalPrice / 10000000).toFixed(2) + ' Cr' : 'Contact for Price'}
+                            Price: â‚¹{property.totalPrice ? (property.totalPrice / 10000000).toFixed(2) + ' Cr' : 'Contact for Price'}
                         </p>
                     </div>
                 </div>
@@ -272,7 +272,7 @@ export default function CommercialPropertyDetail({ property }: CommercialPropert
                                     </div>
                                     <div className="flex justify-between items-center border-b border-dashed pb-2">
                                         <span className="text-gray-600">Price Per Sq.Ft</span>
-                                        <span className="font-semibold text-gray-900">₹{property.pricePerSqFt}</span>
+                                        <span className="font-semibold text-gray-900">â‚¹{property.pricePerSqFt}</span>
                                     </div>
                                     <div className="flex justify-between items-center border-b border-dashed pb-2">
                                         <span className="text-gray-600">Building Name</span>

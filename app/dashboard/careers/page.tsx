@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -14,7 +14,7 @@ export default function CareersDashboard() {
   useEffect(() => {
     const fetchCareers = async () => {
       try {
-        const response = await fetch('http://api.propertydronerealty.com/careers');
+        const response = await fetch('https://api.propertydronerealty.com/careers');
         const data = await response.json();
         setCareers(data);
         setLoading(false);
@@ -39,7 +39,7 @@ export default function CareersDashboard() {
   const handleDelete = async (id: string): Promise<void> => {
     if (confirm('Are you sure you want to delete this job posting?')) {
       try {
-        const response = await fetch(`http://api.propertydronerealty.com/careers/${id}`, {
+        const response = await fetch(`https://api.propertydronerealty.com/careers/${id}`, {
           method: 'DELETE'
         });
 

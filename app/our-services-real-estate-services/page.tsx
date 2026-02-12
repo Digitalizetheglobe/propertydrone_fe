@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -58,7 +58,7 @@ export default function Home() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://api.propertydronerealty.com/contacts", {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -81,7 +81,7 @@ export default function Home() {
     <>
       <Head>
         <title>Best Real Estate Services</title>
-        <meta name="description" content="Expert real estate services in Pune – property consulting, sales & marketing, exclusive mandates, and end-to-end property management solutions." />
+        <meta name="description" content="Expert real estate services in Pune â€“ property consulting, sales & marketing, exclusive mandates, and end-to-end property management solutions." />
         <meta name="keywords" content="real estate services Pune, property consulting Pune, sales and marketing real estate, property management Pune" />
         <link rel="canonical" href="https://propertydronerealty.com/our-services-real-estate-services" />
         <meta name="robots" content="index, follow" />
@@ -162,7 +162,7 @@ export default function Home() {
 
                 style={{ fontSize: '20px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
 
-              > At PropertyDrone Realty, we offer more than listings—we offer complete solutions.
+              > At PropertyDrone Realty, we offer more than listingsâ€”we offer complete solutions.
                 From stunning drone views to personalized consultations, we&apos;re here to make your
                 real estate experience effortless and rewarding.
               </p>

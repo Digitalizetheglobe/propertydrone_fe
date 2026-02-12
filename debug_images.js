@@ -1,9 +1,9 @@
 
 
 
-const http = require('http');
+const https = require('https');
 
-http.get('api.propertydronerealty.com/properties', (res) => {
+https.get('https://api.propertydronerealty.com/properties', (res) => {
     let data = '';
     res.on('data', (chunk) => {
         data += chunk;

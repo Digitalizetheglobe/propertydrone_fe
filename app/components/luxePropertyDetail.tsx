@@ -1,4 +1,4 @@
-// components/PropertyDetail.tsx
+﻿// components/PropertyDetail.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -227,7 +227,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Set up the base URL for images
-  const baseUrl = "http://api.propertydronerealty.com"; // For dev — ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev â€” ideally from env
 
   // Process the image paths
   const propertyImages =
@@ -517,10 +517,10 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                           {config.flat_available}
                         </h4>
                         <p className="text-sm text-gray-600 mb-1">
-                          {config.area_sqft} ft²
+                          {config.area_sqft} ftÂ²
                         </p>
                         <p className="text-green-600 font-bold">
-                          ₹{config.price}
+                          â‚¹{config.price}
                         </p>
                         {config.note && (
                           <p className="text-xs text-gray-500 mt-1">
@@ -665,7 +665,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                     }}
                     className="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-green-700 transition-colors"
                   >
-                    📍 View on Map
+                    ðŸ“ View on Map
                   </button>
                 </div>
 
@@ -700,7 +700,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           <span className="text-green-600 font-medium">
-                            👍 Pros
+                            ðŸ‘ Pros
                           </span>
                         </div>
                         <button
@@ -717,7 +717,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           <span className="text-red-600 font-medium">
-                            👎 Cons
+                            ðŸ‘Ž Cons
                           </span>
                         </div>
                         <button
@@ -1158,9 +1158,9 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                         How to Use:
                       </h4>
                       <ul className="text-sm text-[#172747] space-y-1">
-                        <li>• Scan QR code with your phone</li>
-                        <li>• Click QR code to open link</li>
-                        <li>• Use buttons to copy/download</li>
+                        <li>â€¢ Scan QR code with your phone</li>
+                        <li>â€¢ Click QR code to open link</li>
+                        <li>â€¢ Use buttons to copy/download</li>
                       </ul>
                     </div>
                   </div>
@@ -1407,7 +1407,7 @@ export async function getServerSideProps(context: {
 
   try {
     const res = await fetch(
-      `http://api.propertydronerealty.com/properties/${slug}`
+      `https://api.propertydronerealty.com/properties/${slug}`
     );
     if (!res.ok) {
       throw new Error("Failed to fetch property");

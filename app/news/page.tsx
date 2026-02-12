@@ -1,4 +1,4 @@
-
+﻿
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -28,7 +28,7 @@ const NewsPage = () => {
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const response = await fetch('http://api.propertydronerealty.com/news');
+                const response = await fetch('https://api.propertydronerealty.com/news');
                 if (!response.ok) {
                     throw new Error('Failed to fetch news data');
                 }
@@ -194,7 +194,7 @@ const NewsPage = () => {
                                         {/* Read More Button */}
                                         <div className="mt-auto">
                                             <button className="bg-[#172747] hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] text-white p-1 px-3 cursor-pointer rounded-md flex items-center justify-center">
-                                                <span>→</span>
+                                                <span>â†’</span>
                                             </button>
                                         </div>
                                     </div>

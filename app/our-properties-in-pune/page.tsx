@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
@@ -62,7 +62,7 @@ function LuxePropertiesContent() {
     try {
       const message = `Property Type: ${inquiryForm.propertyType}\n\nInquiry: ${inquiryForm.inquiry}`;
 
-      const response = await fetch('http://api.propertydronerealty.com/api/contacts', {
+      const response = await fetch('https://api.propertydronerealty.com/api/contacts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ function LuxePropertiesContent() {
       return;
     }
 
-    const res = await fetch(`http://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
+    const res = await fetch(`https://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
     setComparedIds(
@@ -204,7 +204,7 @@ function LuxePropertiesContent() {
     }
 
     try {
-      const res = await fetch(`http://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
+      const res = await fetch(`https://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
       if (!res.ok) return;
       const all = await res.json();
 
@@ -257,7 +257,7 @@ function LuxePropertiesContent() {
         const recordId = savedIdMap[property.id];
         if (recordId) {
           setSavedIds(prev => prev.filter(id => id !== property.id));
-          const resp = await fetch(`http://api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
+          const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
           if (!resp.ok) {
             // Rollback
             setSavedIds(prev => [...prev, property.id]);
@@ -268,7 +268,7 @@ function LuxePropertiesContent() {
       } else {
         // Add
         setSavedIds(prev => [...prev, property.id]);
-        const resp = await fetch(`http://api.propertydronerealty.com/api/saved-properties`, {
+        const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -313,7 +313,7 @@ function LuxePropertiesContent() {
   }, [searchParams]);
 
   // API base URL - ideally from environment variables
-  const baseUrl = "http://api.propertydronerealty.com";
+  const baseUrl = "https://api.propertydronerealty.com";
 
   const propertyCategories = [
     { id: 'all', name: 'All', icon: '/icons/home.svg' },
@@ -478,7 +478,7 @@ function LuxePropertiesContent() {
   const getBudgetValue = (budget: any) => {
     if (typeof budget === 'number') return budget;
     if (typeof budget === 'string') {
-      // Extract digits from string, e.g. "₹ 90 Lacs" => 9000000
+      // Extract digits from string, e.g. "â‚¹ 90 Lacs" => 9000000
       const match = budget.replace(/,/g, '').match(/(\d+(\.\d+)?)/);
       if (match) {
         let value = parseFloat(match[1]);
@@ -616,7 +616,7 @@ function LuxePropertiesContent() {
 
               style={{ fontSize: '20px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
 
-            > Browse a curated selection of residential and commercial spaces with detailed insights, drone views, and zero-brokerage listings—making your search smarter and faster.
+            > Browse a curated selection of residential and commercial spaces with detailed insights, drone views, and zero-brokerage listingsâ€”making your search smarter and faster.
             </p>
 
             {/* CTA Buttons */}
@@ -799,7 +799,7 @@ function LuxePropertiesContent() {
                       onClick={() => setActiveCategory('all')}
                       className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700"
                     >
-                      ×
+                      Ã—
                     </button>
                   </span>
                 )}
@@ -811,7 +811,7 @@ function LuxePropertiesContent() {
                       onClick={() => setActiveLocation('all')}
                       className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700"
                     >
-                      ×
+                      Ã—
                     </button>
                   </span>
                 )}
@@ -823,7 +823,7 @@ function LuxePropertiesContent() {
                       onClick={() => setFeaturedOnly(false)}
                       className="ml-2  cursor-pointer text-[#172747] hover:text-blue-700"
                     >
-                      ×
+                      Ã—
                     </button>
                   </span>
                 )}
@@ -1098,7 +1098,7 @@ function LuxePropertiesContent() {
                                       // Compare (add)
                                       setComparedIds(prev => [...prev, property.id]);
                                       try {
-                                        const resp = await fetch('http://api.propertydronerealty.com/api/property-comparisons', {
+                                        const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
                                           method: 'POST',
                                           headers: { 'Content-Type': 'application/json' },
                                           body: JSON.stringify({ webUserId: userId, propertyId: property.id, propertyData: property })
@@ -1120,7 +1120,7 @@ function LuxePropertiesContent() {
                                         setCompareLoadingId(null);
                                         return;
                                       }
-                                      const resp = await fetch(`http://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                                      const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
                                       if (!resp.ok) {
                                         setComparedIds(prev => [...prev, property.id]);
                                       } else {
@@ -1152,7 +1152,7 @@ function LuxePropertiesContent() {
                   <div className="col-span-full flex flex-col items-center justify-center py-12 px-4 w-full">
                     <div className="bg-white/95 backdrop-blur-sm p-6 md:p-10 rounded-2xl shadow-xl max-w-3xl w-full border border-gray-100">
                       <div className="text-center mb-8">
-                        <div className="text-5xl mb-4">🤔</div>
+                        <div className="text-5xl mb-4">ðŸ¤”</div>
                         <h3 className="text-2xl font-bold text-[#172747] mb-3">
                           Oooops! Seems like your requirement is rare/specific
                         </h3>

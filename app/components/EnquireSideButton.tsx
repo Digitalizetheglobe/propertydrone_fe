@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import { X, MapPin, Building2, Star } from 'lucide-react';
@@ -26,7 +26,7 @@ const EnquireSideButton = () => {
     useEffect(() => {
         const fetchExperts = async () => {
             try {
-                const response = await fetch('http://api.propertydronerealty.com/api/experts');
+                const response = await fetch('https://api.propertydronerealty.com/api/experts');
                 if (response.ok) {
                     const data = await response.json();
                     setExperts(data);
@@ -47,7 +47,7 @@ const EnquireSideButton = () => {
 
     const getImageUrl = (image: { path: string } | null) => {
         if (!image || !image.path) return 'https://randomuser.me/api/portraits/men/32.jpg'; // Fallback
-        return `http://api.propertydronerealty.com${image.path}`;
+        return `https://api.propertydronerealty.com${image.path}`;
     };
 
     return (

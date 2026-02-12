@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
@@ -88,7 +88,7 @@ function PropertiesContent() {
       return;
     }
 
-    const res = await fetch(`http://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
+    const res = await fetch(`https://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
     setComparedIds(
@@ -151,7 +151,7 @@ function PropertiesContent() {
     }
 
     try {
-      const res = await fetch(`http://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
+      const res = await fetch(`https://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
       if (!res.ok) return;
       const all = await res.json();
 
@@ -204,7 +204,7 @@ function PropertiesContent() {
         const recordId = savedIdMap[property.id];
         if (recordId) {
           setSavedIds(prev => prev.filter(id => id !== property.id));
-          const resp = await fetch(`http://api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
+          const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
           if (!resp.ok) {
             // Rollback
             setSavedIds(prev => [...prev, property.id]);
@@ -215,7 +215,7 @@ function PropertiesContent() {
       } else {
         // Add
         setSavedIds(prev => [...prev, property.id]);
-        const resp = await fetch(`http://api.propertydronerealty.com/api/saved-properties`, {
+        const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -244,7 +244,7 @@ function PropertiesContent() {
   const [searchLocation, setSearchLocation] = useState('');
 
   // API base URL - ideally from environment variables
-  const baseUrl = "http://api.propertydronerealty.com";
+  const baseUrl = "https://api.propertydronerealty.com";
 
   const propertyCategories = [
     { id: 'all', name: 'All', icon: '/icons/home.svg' },
@@ -393,7 +393,7 @@ function PropertiesContent() {
   const getBudgetValue = (budget: any) => {
     if (typeof budget === 'number') return budget;
     if (typeof budget === 'string') {
-      // Extract digits from string, e.g. "₹ 90 Lacs" => 9000000
+      // Extract digits from string, e.g. "â‚¹ 90 Lacs" => 9000000
       const match = budget.replace(/,/g, '').match(/(\d+(\.\d+)?)/);
       if (match) {
         let value = parseFloat(match[1]);
@@ -642,7 +642,7 @@ function PropertiesContent() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-jakarta">
       <EnquireSideButton />
-      {/* 🔹 HERO SECTION */}
+      {/* ðŸ”¹ HERO SECTION */}
       <div className="relative h-[250px] md:h-[350px] w-full bg-[#1e1b4b] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <video
@@ -684,7 +684,7 @@ function PropertiesContent() {
               className=" tracking-wider text-gray-300 mb-4"
               style={{ fontSize: '20px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
             >
-              Browse a curated selection of residential and commercial spaces with detailed insights, drone views, and zero-brokerage listings—making your search smarter and faster.
+              Browse a curated selection of residential and commercial spaces with detailed insights, drone views, and zero-brokerage listingsâ€”making your search smarter and faster.
             </p>
 
             {/* CTA Buttons */}
@@ -875,7 +875,7 @@ function PropertiesContent() {
                       onClick={() => setActiveCategory('all')}
                       className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700"
                     >
-                      ×
+                      Ã—
                     </button>
                   </span>
                 )}
@@ -887,7 +887,7 @@ function PropertiesContent() {
                       onClick={() => setActiveLocation('all')}
                       className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700"
                     >
-                      ×
+                      Ã—
                     </button>
                   </span>
                 )}
@@ -899,7 +899,7 @@ function PropertiesContent() {
                       onClick={() => setFeaturedOnly(false)}
                       className="ml-2  cursor-pointer text-[#172747] hover:text-blue-700"
                     >
-                      ×
+                      Ã—
                     </button>
                   </span>
                 )}
@@ -1082,7 +1082,7 @@ function PropertiesContent() {
                           </div>
                           {/* {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
                                 <div className="font-bold text-lg lg:text-xl text-[#172747]">
-                                  ₹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
+                                  â‚¹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
                                 </div>
                               )} */}
 
@@ -1175,7 +1175,7 @@ function PropertiesContent() {
                                         // Compare (add)
                                         setComparedIds(prev => [...prev, property.id]);
                                         try {
-                                          const resp = await fetch('http://api.propertydronerealty.com/api/property-comparisons', {
+                                          const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ webUserId: userId, propertyId: property.id, propertyData: property })
@@ -1197,7 +1197,7 @@ function PropertiesContent() {
                                           setCompareLoadingId(null);
                                           return;
                                         }
-                                        const resp = await fetch(`http://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                                        const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
                                         if (!resp.ok) {
                                           setComparedIds(prev => [...prev, property.id]);
                                         } else {

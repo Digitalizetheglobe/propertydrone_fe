@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import React, { useState, useEffect } from 'react';
 
 const CookieBanner = () => {
@@ -24,7 +24,7 @@ const CookieBanner = () => {
 
         try {
             const clientIdentifier = localStorage.getItem('clientIdentifier');
-            const response = await fetch('http://api.propertydronerealty.com/api/cookie-consent', {
+            const response = await fetch('https://api.propertydronerealty.com/api/cookie-consent', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 
 import { User, Building, ExternalLink, X, Phone, Mail, Calendar } from "lucide-react";
@@ -44,7 +44,7 @@ export default function PropertyComparisonPage() {
   const [userLoading, setUserLoading] = useState(false);
 
   useEffect(() => {
-    fetch("http://api.propertydronerealty.com/api/property-comparisons")
+    fetch("https://api.propertydronerealty.com/api/property-comparisons")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch property comparisons");
         return res.json();
@@ -63,7 +63,7 @@ export default function PropertyComparisonPage() {
     setUserLoading(true);
     setIsModalOpen(true); // Open modal immediately to show loading state
     try {
-      const res = await fetch(`http://api.propertydronerealty.com/api/webusers/${userId}`);
+      const res = await fetch(`https://api.propertydronerealty.com/api/webusers/${userId}`);
       if (!res.ok) throw new Error("Failed to fetch user details");
       const data = await res.json();
       setSelectedUser(data);
@@ -132,7 +132,7 @@ export default function PropertyComparisonPage() {
               const colorClass = getUserColor(userId);
               const user = userComparisons[0]?.WebUser;
               const displayName = user?.name || `User #${userId}`;
-              const displayPhone = user?.number ? `• ${user.number}` : '';
+              const displayPhone = user?.number ? `â€¢ ${user.number}` : '';
 
               // Sort comparisons within user group by recently added
               const sortedComparisons = [...userComparisons].sort((a, b) =>

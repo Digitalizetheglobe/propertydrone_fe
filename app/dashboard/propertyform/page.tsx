@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import Image from 'next/image';
@@ -178,7 +178,7 @@ export default function PropertyForm() {
         });
       }
 
-      const response = await fetch('http://api.propertydronerealty.com/properties', {
+      const response = await fetch('https://api.propertydronerealty.com/properties', {
         method: 'POST',
         body: formDataToSend, // No content-type header; browser sets it with correct boundary
       });
@@ -330,7 +330,7 @@ export default function PropertyForm() {
               value={formData.tentativeBudget}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              placeholder="e.g., ₹85L - ₹1.2Cr"
+              placeholder="e.g., â‚¹85L - â‚¹1.2Cr"
             />
           </div>
 

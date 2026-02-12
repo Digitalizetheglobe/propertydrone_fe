@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from 'react';
 import axios from 'axios';
 // ...existing code...
@@ -52,7 +52,7 @@ const YoutubeVideoForm = () => {
     }
 
     try {
-      const response = await axios.post('http://api.propertydronerealty.com/youtube-videos', formData);
+      const response = await axios.post('https://api.propertydronerealty.com/youtube-videos', formData);
       setSuccess('Video added successfully!');
       setFormData({
         title: '',

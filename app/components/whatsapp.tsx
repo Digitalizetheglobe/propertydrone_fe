@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import Image from "next/image";
 import { MessageCircle, X, Check, ChevronDown } from "lucide-react";
@@ -33,7 +33,7 @@ const WhatsAppPopup = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://api.propertydronerealty.com/contacts', {
+      const response = await fetch('https://api.propertydronerealty.com/contacts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

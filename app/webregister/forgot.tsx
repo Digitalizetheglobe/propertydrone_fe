@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 export default function ForgotPassword() {
@@ -13,7 +13,7 @@ export default function ForgotPassword() {
     setError("");
     setSuccess("");
     try {
-      const res = await fetch("http://api.propertydronerealty.com/api/webusers/forgot-password", {
+      const res = await fetch("https://api.propertydronerealty.com/api/webusers/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email })

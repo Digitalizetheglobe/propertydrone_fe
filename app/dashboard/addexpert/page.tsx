@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -36,7 +36,7 @@ function AddExpertContent() {
 
     const fetchExpertDetails = async (id: string) => {
         try {
-            const response = await fetch(`http://api.propertydronerealty.com/api/experts/${id}`);
+            const response = await fetch(`https://api.propertydronerealty.com/api/experts/${id}`);
             if (response.ok) {
                 const data = await response.json();
                 setFormData({
@@ -50,7 +50,7 @@ function AddExpertContent() {
                     contactNumber: data.contactNumber || ''
                 });
                 if (data.image && data.image.path) {
-                    setImagePreview(`http://api.propertydronerealty.com${data.image.path}`);
+                    setImagePreview(`https://api.propertydronerealty.com${data.image.path}`);
                 }
             }
         } catch (error) {
@@ -101,8 +101,8 @@ function AddExpertContent() {
 
         try {
             const url = isEditMode
-                ? `http://api.propertydronerealty.com/api/experts/${expertId}`
-                : 'http://api.propertydronerealty.com/api/experts';
+                ? `https://api.propertydronerealty.com/api/experts/${expertId}`
+                : 'https://api.propertydronerealty.com/api/experts';
 
             const method = isEditMode ? 'PUT' : 'POST';
 

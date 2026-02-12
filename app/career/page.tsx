@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 // BenefitsSection.jsx
 import React, { useState, useEffect } from 'react';
@@ -107,7 +107,7 @@ const BenefitsSection = () => {
       }
 
       // Send to API endpoint
-      const response = await fetch('http://api.propertydronerealty.com/applications/submit', {
+      const response = await fetch('https://api.propertydronerealty.com/applications/submit', {
         method: 'POST',
         body: submissionData,
         // Don't set Content-Type header when sending FormData
@@ -153,7 +153,7 @@ const BenefitsSection = () => {
     const fetchJobs = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('http://api.propertydronerealty.com/careers');
+        const response = await fetch('https://api.propertydronerealty.com/careers');
 
         if (!response.ok) {
           throw new Error(`Failed to fetch: ${response.status}`);
@@ -277,7 +277,7 @@ const BenefitsSection = () => {
               },
               {
                 title: 'Equity for All',
-                desc: 'Everyone should feel ownership over their work—literally',
+                desc: 'Everyone should feel ownership over their workâ€”literally',
               },
               {
                 title: 'Collaborative Team',

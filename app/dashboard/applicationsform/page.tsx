@@ -1,4 +1,4 @@
-// app/dashboard/applicationsform/page.tsx
+﻿// app/dashboard/applicationsform/page.tsx
 'use client';
 
 import { useState, FormEvent, ChangeEvent, Suspense } from 'react';
@@ -135,7 +135,7 @@ function ApplicationsFormContent() {
       });
 
       // Submit the form data
-      const response = await fetch('http://api.propertydronerealty.com/applications/submit', {
+      const response = await fetch('https://api.propertydronerealty.com/applications/submit', {
         method: 'POST',
         body: submitData,
       });

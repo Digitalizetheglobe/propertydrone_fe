@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 import RichTextEditor, {
@@ -101,7 +101,7 @@ export default function AddNews() {
                 });
             }
 
-            const response = await axios.post("http://api.propertydronerealty.com/news", formData, {
+            const response = await axios.post("https://api.propertydronerealty.com/news", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

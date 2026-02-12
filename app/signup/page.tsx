@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -23,7 +23,7 @@ const Signup = () => {
     const onSubmit = async (data: any) => {
         setIsLoading(true);
         try {
-            const response = await axios.post('http://api.propertydronerealty.com/api/webusers/register', {
+            const response = await axios.post('https://api.propertydronerealty.com/api/webusers/register', {
                 name: data.name,
                 email: data.email,
                 number: data.number,
@@ -106,7 +106,7 @@ const Signup = () => {
                         </div>
 
                         <div className="text-sm text-gray-300 mt-12">
-                            © {new Date().getFullYear()} Property Drone Realty. All rights reserved.
+                            Â© {new Date().getFullYear()} Property Drone Realty. All rights reserved.
                         </div>
                     </div>
                 </div>

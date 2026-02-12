@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -29,7 +29,7 @@ export default function AllExperts() {
 
     const fetchExperts = async () => {
         try {
-            const response = await fetch('http://api.propertydronerealty.com/api/experts');
+            const response = await fetch('https://api.propertydronerealty.com/api/experts');
             if (response.ok) {
                 const data = await response.json();
                 setExperts(data);
@@ -47,7 +47,7 @@ export default function AllExperts() {
         if (!confirm("Are you sure you want to delete this expert?")) return;
 
         try {
-            const response = await fetch(`http://api.propertydronerealty.com/api/experts/${id}`, {
+            const response = await fetch(`https://api.propertydronerealty.com/api/experts/${id}`, {
                 method: 'DELETE',
             });
             if (response.ok) {
@@ -62,7 +62,7 @@ export default function AllExperts() {
 
     const getImageUrl = (image: { path: string } | null) => {
         if (!image || !image.path) return '/placeholder-user.jpg';
-        return `http://api.propertydronerealty.com${image.path}`;
+        return `https://api.propertydronerealty.com${image.path}`;
     };
 
     return (

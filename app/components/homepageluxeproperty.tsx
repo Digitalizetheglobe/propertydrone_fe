@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, Dispatch, SetStateAction } from "react";
 import Link from "next/link";
@@ -136,7 +136,7 @@ const PropertyCardLuxe = ({
         const path = property?.multipleImages?.[0]?.path;
         if (!path) return main2.src;
         if (path.startsWith('http')) return path;
-        return `http://api.propertydronerealty.com${path}`;
+        return `https://api.propertydronerealty.com${path}`;
     })();
 
     const toggleSave = async (e: React.MouseEvent) => {
@@ -169,7 +169,7 @@ const PropertyCardLuxe = ({
                 const recordId = savedIdMap[property.id];
                 if (recordId) {
                     setSavedIds(prev => prev.filter(id => id !== property.id));
-                    const resp = await fetch(`http://api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
+                    const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
                     if (!resp.ok) {
                         // Rollback
                         setSavedIds(prev => [...prev, property.id]);
@@ -180,7 +180,7 @@ const PropertyCardLuxe = ({
             } else {
                 // Add
                 setSavedIds(prev => [...prev, property.id]);
-                const resp = await fetch(`http://api.propertydronerealty.com/api/saved-properties`, {
+                const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -473,7 +473,7 @@ const PropertyCardLuxe = ({
 
                                         setComparedIds(prev => [...prev, property.id]);
                                         try {
-                                            const resp = await fetch('http://api.propertydronerealty.com/api/property-comparisons', {
+                                            const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({
@@ -500,7 +500,7 @@ const PropertyCardLuxe = ({
                                             setCompareLoadingId(null);
                                             return;
                                         }
-                                        const resp = await fetch(`http://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                                        const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
                                         if (!resp.ok) {
                                             setComparedIds(prev => [...prev, property.id]);
                                         } else {
@@ -581,7 +581,7 @@ export default function HomePageLuxeProperty({
         try {
             const message = `Property Type: ${inquiryForm.propertyType}\n\nInquiry: ${inquiryForm.inquiry}`;
 
-            const response = await fetch('http://api.propertydronerealty.com/contacts', {
+            const response = await fetch('https://api.propertydronerealty.com/contacts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -639,7 +639,7 @@ export default function HomePageLuxeProperty({
                 <div className="flex flex-col items-center justify-center py-12 px-4 w-full">
                     <div className="bg-white/95 backdrop-blur-sm p-6 md:p-10 rounded-2xl shadow-xl max-w-3xl w-full">
                         <div className="text-center mb-8">
-                            <div className="text-5xl mb-4">🤔</div>
+                            <div className="text-5xl mb-4">ðŸ¤”</div>
                             <h3 className="text-2xl font-bold text-[#172747] mb-3">
                                 Oooops! Seems like your requirement is rare/specific
                             </h3>

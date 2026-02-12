@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useAuth } from '../context/AuthContext';
 import { usePathname } from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import logo from "@/app/images/PropertyDrone-Logo.png";
@@ -48,8 +49,11 @@ const sections = [
   { name: "All Commercial", path: "/dashboard/showallcommercial-properties", icon: faBuilding },
 ];
 
+
 const Sidebar = () => {
   const pathname = usePathname();
+  const { logout } = useAuth();
+
   return (
     <aside className="bg-white border-r h-screen w-60 flex flex-col shadow fixed left-0 top-0 z-30">
       {/* Logo Sticky Top */}
@@ -96,7 +100,7 @@ const Sidebar = () => {
             <div className="text-xs text-gray-400 truncate">Administrator</div>
           </div>
         </div>
-        <button className="w-full flex items-center gap-2 text-red-600 hover:text-red-700 font-medium py-2 bg-red-50 hover:bg-red-100 border border-red-100 rounded justify-center mt-1 mb-1.5">
+        <button onClick={logout} className="w-full flex items-center gap-2 text-red-600 hover:text-red-700 font-medium py-2 bg-red-50 hover:bg-red-100 border border-red-100 rounded justify-center mt-1 mb-1.5">
           <svg width="22" height="22" fill="currentColor" className="inline"><circle cx="11" cy="11" r="10" stroke="red" strokeWidth="2" fill="none" /><path d="M8 12l2 2 4-4" stroke="red" strokeWidth="2" fill="none" /></svg> Logout
         </button>
       </div>

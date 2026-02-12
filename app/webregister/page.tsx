@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 export default function WebRegister() {
@@ -17,7 +17,7 @@ export default function WebRegister() {
     setError("");
     setSuccess("");
     try {
-      const res = await fetch("http://api.propertydronerealty.com/api/webusers/register", {
+      const res = await fetch("https://api.propertydronerealty.com/api/webusers/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)

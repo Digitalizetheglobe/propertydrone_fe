@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -14,7 +14,7 @@ export default function ShowAllPlots() {
     const fetchPlots = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("http://api.propertydronerealty.com/api/plots");
+            const response = await axios.get("https://api.propertydronerealty.com/api/plots");
             setPlots(response.data);
         } catch (err: any) {
             setError(err.message || "Failed to fetch plots");
@@ -31,7 +31,7 @@ export default function ShowAllPlots() {
     const handleDelete = async (id: number) => {
         if (!confirm("Are you sure you want to delete this plot?")) return;
         try {
-            await axios.delete(`http://api.propertydronerealty.com/api/plots/${id}`);
+            await axios.delete(`https://api.propertydronerealty.com/api/plots/${id}`);
             setPlots(plots.filter((plot) => plot.id !== id));
         } catch (err: any) {
             alert("Failed to delete plo: " + err.message);
@@ -59,7 +59,7 @@ export default function ShowAllPlots() {
                 images: typeof editingPlot.images === 'string' ? editingPlot.images.split(",").map((s: string) => s.trim()) : editingPlot.images,
             };
 
-            await axios.put(`http://api.propertydronerealty.com/api/plots/${editingPlot.id}`, payload);
+            await axios.put(`https://api.propertydronerealty.com/api/plots/${editingPlot.id}`, payload);
             alert("Plot updated successfully!");
             setEditingPlot(null);
             fetchPlots(); // Refresh list
@@ -134,7 +134,7 @@ export default function ShowAllPlots() {
                                     <p className="text-gray-600 text-xs">{plot.location?.area || '-'}</p>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p className="text-gray-900 whitespace-no-wrap">₹{plot.priceDetails?.totalPrice || '-'}</p>
+                                    <p className="text-gray-900 whitespace-no-wrap">â‚¹{plot.priceDetails?.totalPrice || '-'}</p>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                     <button

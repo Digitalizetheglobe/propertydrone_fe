@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -12,7 +12,7 @@ export default function ShowAllCommercialProperties() {
     const fetchProperties = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("http://api.propertydronerealty.com/api/commercial-properties");
+            const response = await axios.get("https://api.propertydronerealty.com/api/commercial-properties");
             setProperties(response.data);
         } catch (err: any) {
             setError(err.message || "Failed to fetch properties");
@@ -28,7 +28,7 @@ export default function ShowAllCommercialProperties() {
     const handleDelete = async (id: number) => {
         if (!confirm("Are you sure you want to delete this property?")) return;
         try {
-            await axios.delete(`http://api.propertydronerealty.com/api/commercial-properties/${id}`);
+            await axios.delete(`https://api.propertydronerealty.com/api/commercial-properties/${id}`);
             setProperties(properties.filter((p) => p.id !== id));
         } catch (err: any) {
             alert("Failed to delete: " + err.message);
@@ -67,7 +67,7 @@ export default function ShowAllCommercialProperties() {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{prop.propertyType}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{prop.title || prop.buildingName || '-'}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{prop.location}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₹{prop.pricePerSqFt}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">â‚¹{prop.pricePerSqFt}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${prop.propertyStatus === 'Available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                                         }`}>

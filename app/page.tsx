@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
@@ -104,7 +104,7 @@ const features = [
   {
     id: '01',
     title: 'Verified Listings Only',
-    description: 'Every property on our platform is verified for accuracy. Inquiry with confidence knowing whats real—and nothing less.',
+    description: 'Every property on our platform is verified for accuracy. Inquiry with confidence knowing whats realâ€”and nothing less.',
     icon: Eye
   },
   {
@@ -133,42 +133,42 @@ const propertyData = [
     id: 1,
     title: "Prime Business Hub",
     location: "Location",
-    price: "₹4.53 Cr",
+    price: "â‚¹4.53 Cr",
     imageUrl: bg1
   },
   {
     id: 2,
     title: "Prime Business Hub",
     location: "Location",
-    price: "₹4.53 Cr",
+    price: "â‚¹4.53 Cr",
     imageUrl: main2
   },
   {
     id: 3,
     title: "bhavik Business Hub",
     location: "Location",
-    price: "₹4.53 Cr",
+    price: "â‚¹4.53 Cr",
     imageUrl: main2
   },
   {
     id: 4,
     title: "Phajhi Business Hub",
     location: "Location",
-    price: "₹4.53 Cr",
+    price: "â‚¹4.53 Cr",
     imageUrl: bg1
   },
   {
     id: 5,
     title: "abjh Business Hub",
     location: "Location",
-    price: "₹4.53 Cr",
+    price: "â‚¹4.53 Cr",
     imageUrl: bg1
   },
   {
     id: 6,
     title: "pppp Business Hub",
     location: "Location",
-    price: "₹4.53 Cr",
+    price: "â‚¹4.53 Cr",
     imageUrl: main2
   },
   // Add more items as needed
@@ -291,7 +291,7 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch(`http://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
+    const res = await fetch(`https://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
 
@@ -336,7 +336,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch(`http://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
+      const res = await fetch(`https://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
       if (!res.ok) return;
       const all = await res.json();
 
@@ -435,7 +435,7 @@ export default function Home() {
           image: (() => {
             const path = property.multipleImages?.[0]?.path;
             if (path) {
-              return path.startsWith('http') ? path : `http://api.propertydronerealty.com${path}`;
+              return path.startsWith('http') ? path : `https://api.propertydronerealty.com${path}`;
             }
             return "/api/placeholder/400/320";
           })()
@@ -490,7 +490,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      const response = await fetch("http://api.propertydronerealty.com/contacts", {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -571,7 +571,7 @@ export default function Home() {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://api.propertydronerealty.com/properties');
+        const response = await fetch('https://api.propertydronerealty.com/properties');
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }
