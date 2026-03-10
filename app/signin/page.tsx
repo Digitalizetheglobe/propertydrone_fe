@@ -150,23 +150,20 @@ const Signin = () => {
                                 {errors.password && <p className="text-red-500 text-xs">{errors.password.message as string}</p>}
                             </div>
 
-                            <div className="flex items-center justify-between pt-2">
-                                <div className="flex items-center">
+                            <div className="flex items-start pt-2">
+                                <div className="flex items-center h-5">
                                     <input
                                         id="terms"
                                         type="checkbox"
-                                        {...register('terms', { required: 'Required' })}
-                                        className="h-4 w-4 text-[#0066FF] border-gray-300 rounded focus:ring-[#0066FF]"
+                                        {...register('terms', { required: 'You must consent to proceed' })}
+                                        className="w-4 h-4 text-[#0066FF] border-gray-300 rounded focus:ring-[#0066FF]"
                                     />
-                                    <label htmlFor="terms" className="ml-2 block text-sm text-gray-500">
-                                        I agree to the <Link href="/terms" className="text-[#0066FF] hover:underline">Terms of Service</Link>
-                                    </label>
                                 </div>
-                                {/* <button type="button" onClick={() => toast.success('Password reset link sent')} className="text-sm font-medium text-gray-500 hover:text-[#0066FF]">
-                                    Forgot password?
-                                </button> */}
+                                <div className="ml-3 text-sm">
+                                    <label htmlFor="terms" className="text-gray-500">I consent to the processing of my personal data in accordance with the <Link href="/privacy-policy" className="text-[#0066FF] font-semibold hover:underline">Privacy Policy</Link> and <Link href="/terms-and-condition" className="text-[#0066FF] font-semibold hover:underline">Terms & Conditions</Link>.</label>
+                                </div>
                             </div>
-                            {errors.terms && <p className="text-red-500 text-xs mt-0">You must accept the terms.</p>}
+                            {errors.terms && <p className="text-red-500 text-xs mt-0">{errors.terms.message as string}</p>}
 
                             <button
                                 type="submit"

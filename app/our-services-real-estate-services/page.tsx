@@ -25,6 +25,10 @@ export default function Home() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string } | null>(null);
+  const [errors, setErrors] = useState({
+    email: '',
+    mobile: ''
+  });
 
   useEffect(() => {
     AOS.init({
@@ -47,14 +51,80 @@ export default function Home() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    
+    // Clear previous errors
+    setErrors((prev) => ({
       ...prev,
-      [name]: value
+      [name]: ''
     }));
+    
+    // Email validation
+    if (name === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (value && !emailRegex.test(value)) {
+        setErrors((prev) => ({
+          ...prev,
+          email: 'Please enter a valid email address'
+        }));
+      }
+    }
+    
+    // Mobile validation
+    if (name === 'mobile') {
+      const mobileValue = value.replace(/\D/g, ''); // Remove non-digits
+      if (value && mobileValue.length !== 10) {
+        setErrors((prev) => ({
+          ...prev,
+          mobile: 'Mobile number must be exactly 10 digits'
+        }));
+      }
+      // Only allow digits and limit to 10 digits
+      if (mobileValue.length <= 10) {
+        setFormData((prev) => ({
+          ...prev,
+          [name]: mobileValue
+        }));
+      }
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors = {
+      email: '',
+      mobile: ''
+    };
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    
+    // Mobile validation
+    if (!formData.mobile) {
+      newErrors.mobile = 'Mobile number is required';
+    } else if (formData.mobile.length !== 10) {
+      newErrors.mobile = 'Mobile number must be exactly 10 digits';
+    }
+    
+    setErrors(newErrors);
+    return !newErrors.email && !newErrors.mobile;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsSubmitting(true);
 
     try {
@@ -67,6 +137,7 @@ export default function Home() {
       if (response.ok) {
         setSubmitStatus({ success: true, message: 'We will contact you soon!' });
         setFormData({ name: '', email: '', mobile: '', message: '' });
+        setErrors({ email: '', mobile: '' });
       } else {
         setSubmitStatus({ success: false, message: 'Something went wrong. Please try again.' });
       }
@@ -174,7 +245,7 @@ export default function Home() {
                   </button>
                 </Link>
                 <Link href="/contact-us-propertydrone-realty">
-                  <button className="border border-gray-300 bg-white text-gray-800 px-6 py-3 hover:bg-gray-50 transition-colors">
+                  <button className="border border-[#172747] bg-white text-[#172747] px-6 py-3 hover:bg-[#172747] hover:text-white transition-all duration-300 font-medium">
                     Book Consultation
                   </button>
                 </Link>
@@ -399,9 +470,14 @@ export default function Home() {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="Email"
-                          className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                            errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                          }`}
                           required
                         />
+                        {errors.email && (
+                          <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                        )}
                       </div>
                       <div className="mb-4">
                         <input
@@ -410,9 +486,15 @@ export default function Home() {
                           value={formData.mobile}
                           onChange={handleChange}
                           placeholder="Mobile Number"
-                          className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                            errors.mobile ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                          }`}
+                          maxLength={10}
                           required
                         />
+                        {errors.mobile && (
+                          <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>
+                        )}
                       </div>
                       <div className="mb-6">
                         <textarea

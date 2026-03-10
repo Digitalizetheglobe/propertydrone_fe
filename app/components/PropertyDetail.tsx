@@ -354,8 +354,8 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                     property.configurationTypology.map((config, idx) => (
                       <div key={idx} className="border border-gray-200 rounded-lg p-4 text-center shadow-sm">
                         <h4 className="text-md font-bold mb-2">{config.flat_available}</h4>
-                        <p className="text-sm text-gray-600 mb-1">{config.area_sqft} ftÂ²</p>
-                        <p className="text-green-600 font-bold">â‚¹{config.price}</p>
+                        <p className="text-sm text-gray-600 mb-1">{config.area_sqft} ft²</p>
+                        <p className="text-green-600 font-bold">₹{config.price}</p>
                         {config.note && (
                           <p className="text-xs text-gray-500 mt-1">{config.note}</p>
                         )}
@@ -464,7 +464,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                     }}
                     className="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-green-700 transition-colors"
                   >
-                    ðŸ“ View on Map
+                    📍 View on Map
                   </button>
                 </div>
 
@@ -488,7 +488,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                     <div className="bg-green-50 rounded-lg p-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
-                          <span className="text-green-600 font-medium">ðŸ‘ Pros</span>
+                          <span className="text-green-600 font-medium">👍 Pros</span>
                         </div>
                         <button
                           onClick={handleDropdownClick}
@@ -503,7 +503,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                     <div className="bg-red-50 rounded-lg p-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
-                          <span className="text-red-600 font-medium">ðŸ‘Ž Cons</span>
+                          <span className="text-red-600 font-medium">👎 Cons</span>
                         </div>
                         <button
                           onClick={handleDropdownClick}

@@ -11,23 +11,117 @@ export default function BlogHeroSection() {
     name: '',
     email: '',
     mobile: '',
-    message: ''
+    message: '',
+    consent: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string } | null>(null);
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    mobile: '',
+    consent: ''
+  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
+    const { name, value, type } = e.target;
+    
+    // Clear previous errors
+    setErrors((prev) => ({
       ...prev,
-      [name]: value
+      [name]: ''
     }));
+    
+    // Handle checkbox
+    if (type === 'checkbox') {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: (e.target as HTMLInputElement).checked
+      }));
+      return;
+    }
+    
+    // Email validation
+    if (name === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (value && !emailRegex.test(value)) {
+        setErrors((prev) => ({
+          ...prev,
+          email: 'Please enter a valid email address'
+        }));
+      }
+    }
+    
+    // Mobile validation
+    if (name === 'mobile') {
+      const mobileValue = value.replace(/\D/g, ''); // Remove non-digits
+      if (value && mobileValue.length !== 10) {
+        setErrors((prev) => ({
+          ...prev,
+          mobile: 'Mobile number must be exactly 10 digits'
+        }));
+      }
+      // Only allow digits and limit to 10 digits
+      if (mobileValue.length <= 10) {
+        setFormData((prev) => ({
+          ...prev,
+          [name]: mobileValue
+        }));
+      }
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors = {
+      name: '',
+      email: '',
+      mobile: '',
+      consent: ''
+    };
+    
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    
+    // Mobile validation
+    if (!formData.mobile) {
+      newErrors.mobile = 'Mobile number is required';
+    } else if (formData.mobile.length !== 10) {
+      newErrors.mobile = 'Mobile number must be exactly 10 digits';
+    }
+    
+    // Consent validation
+    if (!formData.consent) {
+      newErrors.consent = 'Please consent to the terms and conditions';
+    }
+    
+    setErrors(newErrors);
+    return !newErrors.name && !newErrors.email && !newErrors.mobile && !newErrors.consent;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsSubmitting(true);
 
     try {
@@ -39,7 +133,8 @@ export default function BlogHeroSection() {
 
       if (response.ok) {
         setSubmitStatus({ success: true, message: 'We will contact you soon!' });
-        setFormData({ name: '', email: '', mobile: '', message: '' });
+        setFormData({ name: '', email: '', mobile: '', message: '', consent: false });
+        setErrors({ name: '', email: '', mobile: '', consent: '' });
       } else {
         setSubmitStatus({ success: false, message: 'Something went wrong. Please try again.' });
       }
@@ -52,32 +147,32 @@ export default function BlogHeroSection() {
 
   const offerings = [
     {
-      icon: "ðŸ¢",
+      icon: "🏢",
       title: "Exclusive Property Listings",
       description: "Gain access to a handpicked selection of premium properties across India. Whether you're looking for residential, commercial, or investment-grade real estate, our listings are tailored specifically for Non-Resident Indians (NRIs), ensuring you find the perfect property that matches your goals and preferences."
     },
     {
-      icon: "ðŸ“",
+      icon: "📝",
       title: "Power of Attorney (POA) Assistance",
-      description: "Navigating legal processes from abroad can be challenging. We provide end-to-end support in drafting, notarizing, and registering a Power of Attorney (POA) so you can authorize a trusted person in India to complete transactions on your behalfâ€”legally and smoothly."
+      description: "Navigating legal processes from abroad can be challenging. We provide end-to-end support in drafting, notarizing, and registering a Power of Attorney (POA) so you can authorize a trusted person in India to complete transactions on your behalf—legally and smoothly."
     },
     {
-      icon: "â°",
+      icon: "⏰",
       title: "24/7 Availability",
       description: "Time zones shouldn't be a barrier. Our dedicated NRI service team is available 24/7 to accommodate your schedule and answer any queries you may have, ensuring a seamless communication experience no matter where you are."
     },
     {
-      icon: "ðŸ’¸",
+      icon: "💰",
       title: "Easy Loan Assistance",
-      description: "Our financial consultants help you connect with trusted Indian banks and financial institutions that offer NRI home loans. We guide you through documentation, eligibility criteria, and approval processesâ€”making financing easy and stress-free."
+      description: "Our financial consultants help you connect with trusted Indian banks and financial institutions that offer NRI home loans. We guide you through documentation, eligibility criteria, and approval processes—making financing easy and stress-free."
     },
     {
-      icon: "ðŸ–¥ï¸",
+      icon: "🖥️",
       title: "Virtual Property Tours",
       description: "Can't visit in person? No problem. Experience real-time video walkthroughs and 360-degree virtual tours of shortlisted properties from the comfort of your home. We bring the property experience to your screen so you can make confident decisions remotely."
     },
     {
-      icon: "ðŸ‘¥",
+      icon: "👥",
       title: "Dedicated NRI Support Team",
       description: "From property search to paperwork, our NRI support team is with you every step of the way. With in-depth knowledge of NRI-specific concerns, taxation, legalities, and investment trends, we ensure a customized and informed experience."
     }
@@ -140,7 +235,7 @@ export default function BlogHeroSection() {
           {/* Section Header */}
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 mb-4">
-              <span className="text-3xl">ðŸ’¼</span>
+              <span className="text-3xl">💼</span>
               <h2
                 className="text-3xl md:text-4xl"
                 style={{
@@ -216,13 +311,13 @@ export default function BlogHeroSection() {
           <div className="text-center mt-16">
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/luxe-properties">
-                <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-colors">
+                <button className="bg-[#172747] rounded-[4px] text-white hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] px-6 py-3 flex items-center justify-center gap-2 transition-all duration-300">
                   Explore Properties
                   {/* <FiArrowRight size={18} /> */}
                 </button>
               </Link>
               <Link href="/contact-us-propertydrone-realty">
-                <button className="border border-gray-300 bg-white text-gray-800 px-6 py-3 hover:bg-gray-50 transition-colors">
+                <button className="border border-gray-300 bg-white text-gray-800 px-6 py-3 hover:bg-[#172747] hover:text-white hover:border-[#172747] transition-all duration-300">
                   Book Consultation
                 </button>
               </Link>
@@ -283,9 +378,14 @@ export default function BlogHeroSection() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Email"
-                      className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                        errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                      }`}
                       required
                     />
+                    {errors.email && (
+                      <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                    )}
                   </div>
                   <div className="mb-4">
                     <input
@@ -294,9 +394,15 @@ export default function BlogHeroSection() {
                       value={formData.mobile}
                       onChange={handleChange}
                       placeholder="Mobile Number"
-                      className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                        errors.mobile ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                      }`}
+                      maxLength={10}
                       required
                     />
+                    {errors.mobile && (
+                      <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>
+                    )}
                   </div>
                   <div className="mb-6">
                     <textarea
@@ -307,6 +413,27 @@ export default function BlogHeroSection() {
                       className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-32 resize-none"
                       required
                     />
+                  </div>
+                  <div className="mb-4">
+                    <label className="flex items-start text-sm text-gray-600">
+                      <input
+                        type="checkbox"
+                        name="consent"
+                        checked={formData.consent}
+                        onChange={handleChange}
+                        className="mr-2 mt-1 border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                      />
+                      <span className="text-xs leading-relaxed">
+                        I consent to the processing of my personal data in accordance with the 
+                        <a href="/privacy-policy" className="text-blue-600 hover:underline ml-1">Privacy Policy</a> 
+                        and 
+                        <a href="/terms-and-condition" className="text-blue-600 hover:underline ml-1">Terms & Conditions</a>. 
+                        I agree to be contacted for property-related communications.
+                      </span>
+                    </label>
+                    {errors.consent && (
+                      <p className="text-red-500 text-sm mt-1">{errors.consent}</p>
+                    )}
                   </div>
                   <button
                     type="submit"

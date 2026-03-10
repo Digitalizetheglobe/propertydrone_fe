@@ -115,11 +115,40 @@ export default function PropertyDeveloperShowcase() {
           className="text-gray-200 max-w-3xl pt-6 text-base leading-none"
           style={{ fontFamily: 'Lato', letterSpacing: '1px', lineHeight: '1.5' }}
         >
-          <strong>Address:</strong> 9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045<br />
-          <strong>Email:</strong> info@propertydronerealty.com<br />
-          <strong>Mobile:</strong> +91 9175992110<br />
-          <strong>Phone:</strong> +91 9175992110<br />
-          <strong>Location:</strong> Maharashtra, India – Pune City
+          <strong>Address:</strong> <a 
+            href="https://maps.google.com/?q=9th+Floor,+Shivom+Regency+Baner+showroom,+Baner,+Pune,+Maharashtra+411045" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-white hover:text-gray-200 underline transition-colors"
+          >
+            9th Floor, Shivom Regency Baner showroom, Baner, Pune, Maharashtra 411045
+          </a><br />
+          <strong>Email:</strong> <a 
+            href="mailto:info@propertydronerealty.com" 
+            className="text-white hover:text-gray-200 underline transition-colors"
+          >
+            info@propertydronerealty.com
+          </a><br />
+          <strong>Mobile:</strong> <a 
+            href="tel:+919175992110" 
+            className="text-white hover:text-gray-200 underline transition-colors"
+          >
+            +91 9175992110
+          </a><br />
+          <strong>Phone:</strong> <a 
+            href="tel:+919175992110" 
+            className="text-white hover:text-gray-200 underline transition-colors"
+          >
+            +91 9175992110
+          </a><br />
+          <strong>Location:</strong> <a 
+            href="https://maps.google.com/?q=Pune,+Maharashtra,+India" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-white hover:text-gray-200 underline transition-colors"
+          >
+            Maharashtra, India – Pune City
+          </a>
         </p>
       </motion.div>
     </div>

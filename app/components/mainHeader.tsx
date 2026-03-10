@@ -132,12 +132,12 @@ const MainHeader: React.FC = () => {
             {/* Left Column: Services */}
             <div className="w-1/2 p-2 relative">
                 <div className="text-gray-400 text-[10px] font-bold px-4 py-2 uppercase tracking-wider">Services</div>
-                <Link href="/our-services-real-estate-services#residential-consulting" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Residential Property Consulting</Link>
-                <Link href="/our-services-real-estate-services#commercial-consulting" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Commercial Property Consulting</Link>
-                <Link href="/our-services-real-estate-services#sales-marketing" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Real Estate Sales and Marketing</Link>
-                <Link href="/our-services-real-estate-services#projects-contract" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Projects Under Contract</Link>
-                <Link href="/our-services-real-estate-services#projects-mandate" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Projects on Mandate</Link>
-                <Link href="/our-services-real-estate-services#property-management" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Property Management</Link>
+                <Link href="/our-services-real-estate-services#residential-consulting" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium" onClick={() => setIsServicesDropdownOpen(false)}>Residential Property Consulting</Link>
+                <Link href="/our-services-real-estate-services#commercial-consulting" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium" onClick={() => setIsServicesDropdownOpen(false)}>Commercial Property Consulting</Link>
+                <Link href="/our-services-real-estate-services#sales-marketing" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium" onClick={() => setIsServicesDropdownOpen(false)}>Real Estate Sales and Marketing</Link>
+                <Link href="/our-services-real-estate-services#projects-contract" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium" onClick={() => setIsServicesDropdownOpen(false)}>Projects Under Contract</Link>
+                <Link href="/our-services-real-estate-services#projects-mandate" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium" onClick={() => setIsServicesDropdownOpen(false)}>Projects on Mandate</Link>
+                <Link href="/our-services-real-estate-services#property-management" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium" onClick={() => setIsServicesDropdownOpen(false)}>Property Management</Link>
                 {/* Vertical Divider Line */}
                 <div className="absolute top-2 bottom-2 right-0 w-[1px] bg-gray-100"></div>
             </div>
@@ -146,10 +146,10 @@ const MainHeader: React.FC = () => {
             <div className="w-1/2 p-2 bg-gray-50/50">
                 <div className="text-gray-400 text-[10px] font-bold px-4 py-2 uppercase tracking-wider">Tools</div>
                 <div className="space-y-1">
-                    <Link href="/emi-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium">EMI Calculator</Link>
-                    <Link href="/roi-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium">ROI Calculator</Link>
-                    <Link href="/lrd-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium">LRD Calculator</Link>
-                    <Link href="/irr-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium">IRR Calculator</Link>
+                    <Link href="/emi-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium" onClick={() => setIsServicesDropdownOpen(false)}>EMI Calculator</Link>
+                    <Link href="/roi-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium" onClick={() => setIsServicesDropdownOpen(false)}>ROI Calculator</Link>
+                    <Link href="/lrd-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium" onClick={() => setIsServicesDropdownOpen(false)}>LRD Calculator</Link>
+                    <Link href="/irr-calculator" className="block px-4 py-2 text-sm text-[#172747] hover:bg-white hover:shadow-sm transition-all rounded-lg font-medium" onClick={() => setIsServicesDropdownOpen(false)}>IRR Calculator</Link>
                 </div>
             </div>
         </div>
@@ -157,9 +157,9 @@ const MainHeader: React.FC = () => {
 
     const renderProfileDropdown = () => (
         <div className="absolute top-full right-0 w-[220px] bg-white rounded-xl shadow-xl overflow-hidden z-50 animate-fadeIn border border-gray-100 mt-2 p-2">
-            <Link href="/profile" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">My Profile</Link>
-            <Link href="/saved-properties" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Saved Properties</Link>
-            <Link href="/compareproperties" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium">Compare Properties</Link>
+            <Link href="/profile" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium" onClick={() => setIsProfileDropdownOpen(false)}>My Profile</Link>
+            <Link href="/saved-properties" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium" onClick={() => setIsProfileDropdownOpen(false)}>Saved Properties</Link>
+            <Link href="/compareproperties" className="block px-4 py-2 text-sm text-[#172747] hover:bg-gray-50 rounded-lg font-medium" onClick={() => setIsProfileDropdownOpen(false)}>Compare Properties</Link>
             <div className="h-[1px] bg-gray-100 my-1"></div>
             <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg font-medium">Logout</button>
         </div>
@@ -174,7 +174,7 @@ const MainHeader: React.FC = () => {
             {/* Left Sidebar - Visual Calls to Action */}
             <div className="w-[30%] flex flex-col border-r border-gray-100">
                 {/* Premium Block */}
-                <Link href="/luxe-properties" className="flex-1 bg-[#172747] p-8 group/luxe flex flex-col justify-center relative overflow-hidden text-decoration-none">
+                <Link href="/luxe-properties" className="flex-1 bg-[#172747] p-8 group/luxe flex flex-col justify-center relative overflow-hidden text-decoration-none" onClick={() => setIsPropertiesDropdownOpen(false)}>
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover/luxe:opacity-20 transition-opacity">
                         <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
                     </div>
@@ -186,7 +186,7 @@ const MainHeader: React.FC = () => {
                 </Link>
 
                 {/* All Properties Block */}
-                <Link href="/our-properties-in-pune" className="flex-1 bg-gray-50 p-8 group/all flex flex-col justify-center relative overflow-hidden hover:bg-gray-100 transition-colors text-decoration-none">
+                <Link href="/our-properties-in-pune" className="flex-1 bg-gray-50 p-8 group/all flex flex-col justify-center relative overflow-hidden hover:bg-gray-100 transition-colors text-decoration-none" onClick={() => setIsPropertiesDropdownOpen(false)}>
                     <div className="absolute bottom-0 right-0 p-4 opacity-5 group-hover/all:opacity-10 transition-opacity text-[#172747]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     </div>
@@ -205,9 +205,9 @@ const MainHeader: React.FC = () => {
                     <div className="space-y-6">
                         <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Property Type</h3>
                         <div className="space-y-3">
-                            <Link href="/our-properties-in-pune" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Residential</Link>
-                            <Link href="/commercial-properties" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Commercial Properties</Link>
-                            <Link href="/plots" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Plots</Link>
+                            <Link href="/our-properties-in-pune" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Residential</Link>
+                            <Link href="/commercial-properties" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Commercial Properties</Link>
+                            <Link href="/plots" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Plots</Link>
                         </div>
                     </div>
 
@@ -215,11 +215,11 @@ const MainHeader: React.FC = () => {
                     <div className="space-y-6">
                         <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Top Locations</h3>
                         <div className="space-y-3">
-                            <Link href="/our-properties-in-pune?location=Hinjewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Hinjewadi</Link>
-                            <Link href="/our-properties-in-pune?location=Bandra West" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Bandra West</Link>
-                            <Link href="/our-properties-in-pune?location=Baner" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Baner</Link>
-                            <Link href="/our-properties-in-pune?location=Balewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Balewadi</Link>
-                            <Link href="/our-properties-in-pune?location=Ravet" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Ravet</Link>
+                            <Link href="/our-properties-in-pune?location=Hinjewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Hinjewadi</Link>
+                            <Link href="/our-properties-in-pune?location=Bandra West" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Bandra West</Link>
+                            <Link href="/our-properties-in-pune?location=Baner" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Baner</Link>
+                            <Link href="/our-properties-in-pune?location=Balewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Balewadi</Link>
+                            <Link href="/our-properties-in-pune?location=Ravet" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Ravet</Link>
                         </div>
                     </div>
 
@@ -227,12 +227,12 @@ const MainHeader: React.FC = () => {
                     <div className="space-y-6">
                         <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Search by BHK</h3>
                         <div className="space-y-3">
-                            <Link href="/our-properties-in-pune?topology=1" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">1 RK / Studio</Link>
-                            <Link href="/our-properties-in-pune?topology=1" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">1 BHK Flats</Link>
-                            <Link href="/our-properties-in-pune?topology=2" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">2 BHK Flats</Link>
-                            <Link href="/our-properties-in-pune?topology=3" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">3 BHK Flats</Link>
-                            <Link href="/our-properties-in-pune?topology=4" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">4+ BHK Flats</Link>
-                            <Link href="/our-properties-in-pune?category=Offices" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors">Commercial Office</Link>
+                            <Link href="/our-properties-in-pune?topology=1" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>1 RK / Studio</Link>
+                            <Link href="/our-properties-in-pune?topology=1" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>1 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune?topology=2" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>2 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune?topology=3" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>3 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune?topology=4" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>4+ BHK Flats</Link>
+                            <Link href="/our-properties-in-pune?category=Offices" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Commercial Office</Link>
                         </div>
                     </div>
                 </div>
@@ -361,7 +361,7 @@ const MainHeader: React.FC = () => {
                                             <div className="absolute -top-4 left-0 w-full h-4 bg-transparent"></div>
                                             {moreDropdownItems.map((item, index) => (
                                                 <React.Fragment key={item.name}>
-                                                    <Link href={item.href} className="text-[#172747] font-bold text-sm hover:text-blue-600 px-4 whitespace-nowrap">
+                                                    <Link href={item.href} className="text-[#172747] font-bold text-sm hover:text-blue-600 px-4 whitespace-nowrap" onClick={() => setIsDropdownOpen(false)}>
                                                         {item.name}
                                                     </Link>
                                                     {index < moreDropdownItems.length - 1 && <div className="h-4 w-[1px] bg-gray-300 mx-1"></div>}
@@ -493,7 +493,7 @@ const MainHeader: React.FC = () => {
                                                 <div className="absolute -top-4 left-0 w-full h-4 bg-transparent"></div>
                                                 {moreDropdownItems.map((item, index) => (
                                                     <React.Fragment key={item.name}>
-                                                        <Link href={item.href} className="text-[#172747] font-bold text-sm hover:text-blue-600 px-4 whitespace-nowrap">
+                                                        <Link href={item.href} className="text-[#172747] font-bold text-sm hover:text-blue-600 px-4 whitespace-nowrap" onClick={() => setIsDropdownOpen(false)}>
                                                             {item.name}
                                                         </Link>
                                                         {index < moreDropdownItems.length - 1 && <div className="h-4 w-[1px] bg-gray-300 mx-1"></div>}

@@ -55,7 +55,7 @@ const EnquireSideButton = () => {
             {/* Side Button */}
             <button
                 onClick={toggleModal}
-                className="fixed right-0 top-1/2 -translate-y-1/2 z-[100] backdrop-blur-lg bg-[#1717B5]/90 hover:bg-[#1717B5] text-white font-bold py-6 md:py-8 px-1.5 md:px-2 rounded-l-lg shadow-[0_4px_14px_0_rgba(0,0,0,0.39)] transition-all cursor-pointer border-l border-t border-b border-white/10 group"
+                className="fixed right-0 top-1/2 -translate-y-1/2 z-[100] backdrop-blur-lg bg-[#1717B5]/90 hover:bg-[#1717B5] text-white font-bold py-4 md:py-8 px-0.5 md:px-2 rounded-l-lg shadow-[0_4px_14px_0_rgba(0,0,0,0.39)] transition-all cursor-pointer border-l border-t border-b border-white/10 group"
             >
                 <span
                     className="block text-sm md:text-lg tracking-wider whitespace-nowrap group-hover:scale-105 transition-transform"

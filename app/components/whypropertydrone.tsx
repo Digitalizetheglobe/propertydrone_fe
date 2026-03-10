@@ -182,7 +182,7 @@ export default function WhyPropertyDrone() {
                                     Transparent Information
                                 </h3>
                                 <p className="text-[#172747] text-sm font-medium leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity">
-                                    No hidden details — just honest, clear property data.
+                                    No hidden details - just honest, clear property data.
                                 </p>
                             </div>
                         </div>
@@ -220,7 +220,7 @@ export default function WhyPropertyDrone() {
                                     Diverse Inventory
                                 </h3>
                                 <p className="text-[#172747] text-sm font-medium leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity">
-                                    From cozy apartments to sprawling commercial spaces — all in one place.
+                                    From cozy apartments to sprawling commercial spaces - all in one place.
                                 </p>
                             </div>
                         </div>

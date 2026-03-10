@@ -330,7 +330,7 @@ export default function PropertyForm() {
               value={formData.tentativeBudget}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              placeholder="e.g., â‚¹85L - â‚¹1.2Cr"
+              placeholder="e.g., ₹85L - ₹1.2Cr"
             />
           </div>
 

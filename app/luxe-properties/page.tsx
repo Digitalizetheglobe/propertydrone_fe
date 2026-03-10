@@ -393,7 +393,7 @@ function PropertiesContent() {
   const getBudgetValue = (budget: any) => {
     if (typeof budget === 'number') return budget;
     if (typeof budget === 'string') {
-      // Extract digits from string, e.g. "â‚¹ 90 Lacs" => 9000000
+      // Extract digits from string, e.g. "₹ 90 Lacs" => 9000000
       const match = budget.replace(/,/g, '').match(/(\d+(\.\d+)?)/);
       if (match) {
         let value = parseFloat(match[1]);
@@ -642,8 +642,8 @@ function PropertiesContent() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-jakarta">
       <EnquireSideButton />
-      {/* ðŸ”¹ HERO SECTION */}
-      <div className="relative h-[250px] md:h-[350px] w-full bg-[#1e1b4b] overflow-hidden">
+      {/* 🔹 HERO SECTION */}
+      <div className="relative h-[250px] md:h-[550px] w-full bg-[#1e1b4b] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <video
             autoPlay
@@ -684,7 +684,7 @@ function PropertiesContent() {
               className=" tracking-wider text-gray-300 mb-4"
               style={{ fontSize: '20px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
             >
-              Browse a curated selection of residential and commercial spaces with detailed insights, drone views, and zero-brokerage listingsâ€”making your search smarter and faster.
+              Browse a curated selection of residential and commercial spaces with detailed insights, drone views, and zero-brokerage listings—making your search smarter and faster.
             </p>
 
             {/* CTA Buttons */}
@@ -875,7 +875,7 @@ function PropertiesContent() {
                       onClick={() => setActiveCategory('all')}
                       className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700"
                     >
-                      Ã—
+                      ×
                     </button>
                   </span>
                 )}
@@ -887,7 +887,7 @@ function PropertiesContent() {
                       onClick={() => setActiveLocation('all')}
                       className="ml-2 cursor-pointer text-[#172747] hover:text-blue-700"
                     >
-                      Ã—
+                      ×
                     </button>
                   </span>
                 )}
@@ -899,7 +899,7 @@ function PropertiesContent() {
                       onClick={() => setFeaturedOnly(false)}
                       className="ml-2  cursor-pointer text-[#172747] hover:text-blue-700"
                     >
-                      Ã—
+                      ×
                     </button>
                   </span>
                 )}
@@ -1082,7 +1082,7 @@ function PropertiesContent() {
                           </div>
                           {/* {property.tentativeBudget && !isNaN(Number(property.tentativeBudget)) && Number(property.tentativeBudget) !== 0 && (
                                 <div className="font-bold text-lg lg:text-xl text-[#172747]">
-                                  â‚¹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
+                                  ₹ {Number(property.tentativeBudget).toLocaleString('en-IN')}
                                 </div>
                               )} */}
 

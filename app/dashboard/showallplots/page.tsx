@@ -134,7 +134,7 @@ export default function ShowAllPlots() {
                                     <p className="text-gray-600 text-xs">{plot.location?.area || '-'}</p>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p className="text-gray-900 whitespace-no-wrap">â‚¹{plot.priceDetails?.totalPrice || '-'}</p>
+                                    <p className="text-gray-900 whitespace-no-wrap">₹{plot.priceDetails?.totalPrice || '-'}</p>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                     <button

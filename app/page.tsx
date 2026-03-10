@@ -133,42 +133,42 @@ const propertyData = [
     id: 1,
     title: "Prime Business Hub",
     location: "Location",
-    price: "â‚¹4.53 Cr",
+    price: "₹4.53 Cr",
     imageUrl: bg1
   },
   {
     id: 2,
     title: "Prime Business Hub",
     location: "Location",
-    price: "â‚¹4.53 Cr",
+    price: "₹4.53 Cr",
     imageUrl: main2
   },
   {
     id: 3,
     title: "bhavik Business Hub",
     location: "Location",
-    price: "â‚¹4.53 Cr",
+    price: "₹4.53 Cr",
     imageUrl: main2
   },
   {
     id: 4,
     title: "Phajhi Business Hub",
     location: "Location",
-    price: "â‚¹4.53 Cr",
+    price: "₹4.53 Cr",
     imageUrl: bg1
   },
   {
     id: 5,
     title: "abjh Business Hub",
     location: "Location",
-    price: "â‚¹4.53 Cr",
+    price: "₹4.53 Cr",
     imageUrl: bg1
   },
   {
     id: 6,
     title: "pppp Business Hub",
     location: "Location",
-    price: "â‚¹4.53 Cr",
+    price: "₹4.53 Cr",
     imageUrl: main2
   },
   // Add more items as needed
@@ -453,6 +453,19 @@ export default function Home() {
     return Array.from(locationMap.values());
   }, [properties]);
 
+  const propertyNames = useMemo<string[]>(() => {
+    if (!properties.length) return [];
+    
+    const nameSet = new Set<string>();
+    properties.forEach(property => {
+      if (property.propertyName) {
+        nameSet.add(property.propertyName);
+      }
+    });
+    
+    return Array.from(nameSet).sort();
+  }, [properties]);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -533,13 +546,16 @@ export default function Home() {
     location: '',
     area: '',
     budget: '',
-    possession: ''
+    possession: '',
+    propertyName: '',
+    typology: ''
   });
 
   const filterOptions = {
     area: ['500+ sq.ft', '1000+ sq.ft', '1500+ sq.ft', '2000+ sq.ft'],
     budget: ['Under 50L', '50L - 1Cr', '1Cr - 2Cr', 'Above 2Cr'],
-    possession: ['Ready to Move', 'In 1 Year', 'In 2 Years', 'In 3+ Years']
+    possession: ['Ready to Move', 'In 1 Year', 'In 2 Years', 'In 3+ Years'],
+    typology: ['1 RK', '1 BHK', '2 BHK', '3 BHK', '4 BHK', '5+ BHK']
   };
 
   const handleDropdownSelect = (type: string, value: string) => {
@@ -548,6 +564,8 @@ export default function Home() {
 
     if (type === 'location') {
       setFilters(prev => ({ ...prev, locations: [value], search: '' }));
+    } else if (type === 'propertyName') {
+      setFilters(prev => ({ ...prev, search: value }));
     }
   };
 
@@ -707,6 +725,57 @@ export default function Home() {
       filtered = filtered.filter(property => {
         const budget = parseInt(property.tentativeBudget.replace(/[^0-9]/g, ''));
         return budget <= parseInt(filters.maxPrice, 10);
+      });
+    }
+
+    // Dropdown filters
+    if (dropdownFilters.area) {
+      filtered = filtered.filter(property => {
+        const area = parseInt(property.carpetArea?.replace(/[^0-9]/g, '') || '0');
+        const minArea = parseInt(dropdownFilters.area.replace(/[^0-9]/g, '') || '0');
+        return area >= minArea;
+      });
+    }
+
+    if (dropdownFilters.possession) {
+      filtered = filtered.filter(property => {
+        const possession = property.possession || '';
+        if (dropdownFilters.possession === 'Ready to Move') {
+          return possession.toLowerCase().includes('ready') || possession.toLowerCase().includes('immediate');
+        } else if (dropdownFilters.possession === 'In 1 Year') {
+          return possession.includes('1') || possession.toLowerCase().includes('12 months');
+        } else if (dropdownFilters.possession === 'In 2 Years') {
+          return possession.includes('2') || possession.toLowerCase().includes('24 months');
+        } else if (dropdownFilters.possession === 'In 3+ Years') {
+          return possession.includes('3') || possession.includes('4') || possession.includes('5') || 
+                 possession.toLowerCase().includes('36 months') || possession.toLowerCase().includes('48 months');
+        }
+        return true;
+      });
+    }
+
+    if (dropdownFilters.typology) {
+      filtered = filtered.filter(property => {
+        const bedroom = property.bedroom || '';
+        const filterValue = dropdownFilters.typology.toLowerCase();
+        
+        // Handle different formats: "4 BHK", "4bhk", "4", "4 Bedroom", etc.
+        if (filterValue.includes('4')) {
+          return bedroom.toLowerCase().includes('4') || bedroom.toLowerCase().includes('four');
+        } else if (filterValue.includes('3')) {
+          return bedroom.toLowerCase().includes('3') || bedroom.toLowerCase().includes('three');
+        } else if (filterValue.includes('2')) {
+          return bedroom.toLowerCase().includes('2') || bedroom.toLowerCase().includes('two');
+        } else if (filterValue.includes('1')) {
+          if (filterValue.includes('rk')) {
+            return bedroom.toLowerCase().includes('1 rk') || bedroom.toLowerCase().includes('1rk');
+          }
+          return bedroom.toLowerCase().includes('1') || bedroom.toLowerCase().includes('one');
+        } else if (filterValue.includes('5')) {
+          return bedroom.toLowerCase().includes('5') || bedroom.toLowerCase().includes('five');
+        }
+        
+        return bedroom.toLowerCase() === filterValue;
       });
     }
 
@@ -986,7 +1055,7 @@ export default function Home() {
                       <div className="backdrop-blur-md bg-white rounded-t-2xl flex items-center overflow-hidden ">
                         {/* Search Icon */}
                         <div className="pl-4 pr-3 flex-shrink-0">
-                          <Search className="w-5 h-5 text-gray-400" />
+                          <Search className="w-5 h-5 text-gray-400" /> 
                         </div>
 
                         {/* Input Field */}
@@ -1035,7 +1104,7 @@ export default function Home() {
 
                         {/* Buy Radio Button */}
                         <div className="hidden md:flex items-center gap-3 px-4 border-l border-gray-300 h-8 flex-shrink-0">
-                          <label className="flex items-center gap-2 cursor-pointer group">
+                          <label className="flex items-center gap-2  group">
                             <div className="relative flex items-center justify-center w-5 h-5">
                               <input
                                 type="radio"
@@ -1056,7 +1125,7 @@ export default function Home() {
                         {/* Search Button */}
                         <button
                           type="submit"
-                          className="px-4 md:px-6 py-2 m-2 bg-[#1717B5] rounded-full text-white font-bold uppercase text-xs sm:text-sm md:text-base hover:bg-[#1a2f5a] transition-colors duration-200 flex-shrink-0"
+                          className="px-4 md:px-6 py-2 m-2 bg-[#1717B5] cursor-pointer rounded-full text-white font-bold uppercase text-xs sm:text-sm md:text-base hover:bg-[#1a2f5a] transition-colors duration-200 flex-shrink-0"
                         >
                           Search
                         </button>
@@ -1094,20 +1163,20 @@ export default function Home() {
 
                   {/* Left: Additional Filters */}
                   {/* Left: Additional Filters - Interactive Dropdowns */}
-                  <div className="flex flex-wrap md:flex-nowrap justify-center md:justify-start items-center gap-2 md:gap-3 w-full md:w-auto overflow-visible pb-1 md:pb-0 scrollbar-hide z-50">
+                  <div className="flex flex-wrap cursor-pointer md:flex-nowrap justify-center md:justify-start items-center gap-2 md:gap-3 w-full md:w-auto overflow-visible pb-1 md:pb-0 scrollbar-hide z-50">
                     {/* Location */}
                     <div className="relative" onMouseEnter={() => setActiveDropdown('location')} onMouseLeave={() => setActiveDropdown(null)}>
                       <button
                         type="button"
-                        className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border ${filters.locations.length > 0 ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
+                        className={`flex-shrink-0 flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-full border ${dropdownFilters.location ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
                       >
-                        <span>{filters.locations.length > 0 ? filters.locations[0] : 'Location'}</span>
+                        <span>{dropdownFilters.location || 'Location'}</span>
                         <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'location' ? 'rotate-180' : ''}`} />
                       </button>
                       {activeDropdown === 'location' && (
-                        <div className="absolute bottom-full left-0 mb-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100] max-h-48 overflow-y-auto">
+                        <div className="absolute bottom-full cursor-pointer left-0 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100]">
                           {locationCounts.map((locData) => (
-                            <button key={locData.location} onClick={() => handleDropdownSelect('location', locData.location)} className="w-full text-left px-4 py-2 text-xs hover:bg-gray-50 text-gray-700 transition-colors">
+                            <button key={locData.location} onClick={() => handleDropdownSelect('location', locData.location)} className="w-full text-left px-4  text-xs hover:bg-gray-50 text-gray-700 transition-colors">
                               {locData.location}
                             </button>
                           ))}
@@ -1119,13 +1188,13 @@ export default function Home() {
                     <div className="relative" onMouseEnter={() => setActiveDropdown('area')} onMouseLeave={() => setActiveDropdown(null)}>
                       <button
                         type="button"
-                        className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border ${dropdownFilters.area ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
+                        className={`flex-shrink-0 flex items-center cursor-pointer gap-1.5 px-3 py-1.5 rounded-full border ${dropdownFilters.area ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
                       >
                         <span>{dropdownFilters.area || 'Carpet Area'}</span>
                         <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'area' ? 'rotate-180' : ''}`} />
                       </button>
                       {activeDropdown === 'area' && (
-                        <div className="absolute bottom-full left-0 mb-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100]">
+                        <div className="absolute bottom-full left-0 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100]">
                           {filterOptions.area.map((opt) => (
                             <button key={opt} onClick={() => handleDropdownSelect('area', opt)} className="w-full text-left px-4 py-2 text-xs hover:bg-gray-50 text-gray-700 transition-colors">
                               {opt}
@@ -1139,13 +1208,13 @@ export default function Home() {
                     <div className="relative" onMouseEnter={() => setActiveDropdown('budget')} onMouseLeave={() => setActiveDropdown(null)}>
                       <button
                         type="button"
-                        className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border ${dropdownFilters.budget ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
+                        className={`flex-shrink-0 flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-full border ${dropdownFilters.budget ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
                       >
                         <span>{dropdownFilters.budget || 'Budget'}</span>
                         <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'budget' ? 'rotate-180' : ''}`} />
                       </button>
                       {activeDropdown === 'budget' && (
-                        <div className="absolute bottom-full left-0 mb-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100]">
+                        <div className="absolute bottom-full left-0 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100]">
                           {filterOptions.budget.map((opt) => (
                             <button key={opt} onClick={() => handleDropdownSelect('budget', opt)} className="w-full text-left px-4 py-2 text-xs hover:bg-gray-50 text-gray-700 transition-colors">
                               {opt}
@@ -1159,15 +1228,37 @@ export default function Home() {
                     <div className="relative" onMouseEnter={() => setActiveDropdown('possession')} onMouseLeave={() => setActiveDropdown(null)}>
                       <button
                         type="button"
-                        className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border ${dropdownFilters.possession ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
+                        className={`flex-shrink-0 flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-full border ${dropdownFilters.possession ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
                       >
                         <span>{dropdownFilters.possession || 'Possession'}</span>
                         <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'possession' ? 'rotate-180' : ''}`} />
                       </button>
                       {activeDropdown === 'possession' && (
-                        <div className="absolute bottom-full left-0 mb-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100]">
+                        <div className="absolute bottom-full left-0 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100]">
                           {filterOptions.possession.map((opt) => (
                             <button key={opt} onClick={() => handleDropdownSelect('possession', opt)} className="w-full text-left px-4 py-2 text-xs hover:bg-gray-50 text-gray-700 transition-colors">
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    
+
+                    {/* Typology */}
+                    <div className="relative" onMouseEnter={() => setActiveDropdown('typology')} onMouseLeave={() => setActiveDropdown(null)}>
+                      <button
+                        type="button"
+                        className={`flex-shrink-0 flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-full border ${dropdownFilters.typology ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
+                      >
+                        <span>{dropdownFilters.typology || 'Typology'}</span>
+                        <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'typology' ? 'rotate-180' : ''}`} />
+                      </button>
+                      {activeDropdown === 'typology' && (
+                        <div className="absolute bottom-full left-0 w-40 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100]">
+                          {filterOptions.typology.map((opt) => (
+                            <button key={opt} onClick={() => handleDropdownSelect('typology', opt)} className="w-full text-left px-4 py-2 text-xs hover:bg-gray-50 text-gray-700 transition-colors">
                               {opt}
                             </button>
                           ))}
@@ -1180,7 +1271,7 @@ export default function Home() {
                   <Link href="/post-property" className="flex-shrink-0 inline-flex items-center justify-center md:justify-start gap-2 bg-[#1717B5]/95 backdrop-blur-md px-4 py-2 rounded-full text-white hover:bg-[#191758] transition-all shadow-xl hover:shadow-2xl border border-white/10 group active:scale-95 whitespace-nowrap w-full md:w-auto">
                     <Zap className="w-3 h-3 text-yellow-400 fill-yellow-400" />
                     <span className="font-medium text-[10px] sm:text-xs tracking-wide text-white/90">Are you a Property Owner?</span>
-                    <span className="font-bold text-[10px] sm:text-xs text-white decoration-yellow-400/50 underline underline-offset-2 decoration-2 group-hover:text-yellow-300 transition-colors">Sell / Rent for FREE</span>
+                    {/* <span className="font-bold text-[10px] sm:text-xs text-white decoration-yellow-400/50 underline underline-offset-2 decoration-2 group-hover:text-yellow-300 transition-colors">Sell / Rent for FREE</span> */}
                     <ChevronRight className="w-3 h-3 text-white/60 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
                   </Link>
                 </div>

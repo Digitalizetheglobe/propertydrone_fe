@@ -214,21 +214,21 @@ const Signup = () => {
                             </div>
 
 
-                            {/* Terms */}
+                            {/* Terms and Consent */}
                             <div className="flex items-start pt-2">
                                 <div className="flex items-center h-5">
                                     <input
                                         id="terms"
                                         type="checkbox"
-                                        {...register('terms', { required: 'Required' })}
+                                        {...register('terms', { required: 'You must consent to proceed' })}
                                         className="w-4 h-4 text-[#172747] border-gray-300 rounded focus:ring-[#172747]"
                                     />
                                 </div>
                                 <div className="ml-3 text-sm">
-                                    <label htmlFor="terms" className="text-gray-500">I agree to the <Link href="/terms" className="text-[#172747] font-semibold hover:underline">Terms of Service</Link> and <Link href="/privacy" className="text-[#172747] font-semibold hover:underline">Privacy Policy</Link>.</label>
+                                    <label htmlFor="terms" className="text-gray-500">I consent to the processing of my personal data in accordance with the <Link href="/privacy-policy" className="text-[#172747] font-semibold hover:underline">Privacy Policy</Link> and <Link href="/terms-and-condition" className="text-[#172747] font-semibold hover:underline">Terms & Conditions</Link>. I agree to receive property-related communications and marketing materials.</label>
                                 </div>
                             </div>
-                            {errors.terms && <p className="text-red-500 text-xs mt-0">You must accept the terms.</p>}
+                            {errors.terms && <p className="text-red-500 text-xs mt-0">{errors.terms.message as string}</p>}
 
                             <button
                                 type="submit"

@@ -45,7 +45,8 @@ export default function ContactUs() {
     subject: '',
     message: '',
     phone: '', // Added phone property
-    mobile: '' // Added mobile property for API consistency
+    mobile: '', // Added mobile property for API consistency
+    consent: false // Added consent checkbox
   });
 
   // Added states for form submission feedback
@@ -55,10 +56,10 @@ export default function ContactUs() {
   interface ChangeEvent extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> { }
 
   const handleChange = (e: ChangeEvent): void => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
     }));
   };
 
@@ -69,14 +70,47 @@ export default function ContactUs() {
     message: string;
     phone: string;
     mobile: string;
+    consent: boolean;
   }
 
   interface FormEvent extends React.FormEvent<HTMLFormElement> { }
+
+  const validateForm = (): boolean => {
+    if (!formData.name.trim()) {
+      setError("Name is required");
+      return false;
+    }
+    if (!formData.email.trim()) {
+      setError("Email is required");
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+    if (!formData.phone.trim()) {
+      setError("Phone number is required");
+      return false;
+    }
+    if (!/^[0-9]{10}$/.test(formData.phone)) {
+      setError("Please enter a valid 10-digit phone number");
+      return false;
+    }
+    if (!formData.consent) {
+      setError("Please consent to the terms and conditions");
+      return false;
+    }
+    return true;
+  };
 
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
     setError("");
     setSuccess(false);
+
+    if (!validateForm()) {
+      return;
+    }
 
     try {
       const response = await fetch("http://localhost:9000/contacts", {
@@ -103,7 +137,8 @@ export default function ContactUs() {
         subject: '',
         message: '',
         phone: '',
-        mobile: ''
+        mobile: '',
+        consent: false
       });
     } catch (err) {
       console.error('Error submitting form:', err);
@@ -222,6 +257,25 @@ export default function ContactUs() {
                 rows={3}
                 className="w-full bg-transparent font-lato border-b border-gray-400 py-2 focus:outline-none focus:border-white resize-none"
               />
+            </div>
+
+            <div className="mb-6">
+              <label className="flex items-start text-sm text-gray-300">
+                <input
+                  type="checkbox"
+                  name="consent"
+                  checked={formData.consent}
+                  onChange={handleChange}
+                  className="mr-2 mt-1 bg-transparent border-gray-400 rounded focus:ring-white focus:border-white"
+                />
+                <span className="text-xs leading-relaxed">
+                  I consent to the processing of my personal data in accordance with the 
+                  <a href="/privacy-policy" className="underline hover:text-white ml-1">Privacy Policy</a> 
+                  and 
+                  <a href="/terms-and-condition" className="underline hover:text-white ml-1">Terms & Conditions</a>. 
+                  I agree to be contacted for property-related communications.
+                </span>
+              </label>
             </div>
 
             <button

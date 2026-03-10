@@ -227,7 +227,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Set up the base URL for images
-  const baseUrl = "http://localhost:9000"; // For dev â€” ideally from env
+  const baseUrl = "http://localhost:9000"; // For dev — ideally from env
 
   // Process the image paths
   const propertyImages =
@@ -313,22 +313,20 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
               }}
             >
               <Link href="/">
-                <button className="bg-transparent text-white hover:text-red-700 rounded">
+                <button className="bg-transparent text-white hover:text-red-700 rounded transition-colors duration-200">
                   Home
                 </button>
               </Link>{" "}
               /{" "}
-              <Link href="/properties">
-                <button className="bg-transparent text-white hover:text-red-700 rounded">
-                  Properties
+              <Link href="/luxe-properties">
+                <button className="bg-transparent text-white hover:text-red-700 rounded transition-colors duration-200">
+                  Luxury Properties
                 </button>
               </Link>{" "}
               /{" "}
-              <Link href={`/properties/${property.slug}`}>
-                <button className="text-[#FEEB8F]">
-                  {property.propertyName}
-                </button>
-              </Link>
+              <span className="text-[#FEEB8F] font-medium">
+                {property.propertyName}
+              </span>
             </p>
           </div>
         </section>
@@ -517,10 +515,10 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                           {config.flat_available}
                         </h4>
                         <p className="text-sm text-gray-600 mb-1">
-                          {config.area_sqft} ftÂ²
+                          {config.area_sqft} ft²
                         </p>
                         <p className="text-green-600 font-bold">
-                          â‚¹{config.price}
+                          ₹{config.price}
                         </p>
                         {config.note && (
                           <p className="text-xs text-gray-500 mt-1">
@@ -665,7 +663,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                     }}
                     className="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-green-700 transition-colors"
                   >
-                    ðŸ“ View on Map
+                    📍 View on Map
                   </button>
                 </div>
 
@@ -700,7 +698,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           <span className="text-green-600 font-medium">
-                            ðŸ‘ Pros
+                            👍 Pros
                           </span>
                         </div>
                         <button
@@ -717,7 +715,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           <span className="text-red-600 font-medium">
-                            ðŸ‘Ž Cons
+                            👎 Cons
                           </span>
                         </div>
                         <button
@@ -1158,9 +1156,9 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                         How to Use:
                       </h4>
                       <ul className="text-sm text-[#172747] space-y-1">
-                        <li>â€¢ Scan QR code with your phone</li>
-                        <li>â€¢ Click QR code to open link</li>
-                        <li>â€¢ Use buttons to copy/download</li>
+                        <li>• Scan QR code with your phone</li>
+                        <li>• Click QR code to open link</li>
+                        <li>• Use buttons to copy/download</li>
                       </ul>
                     </div>
                   </div>

@@ -193,7 +193,7 @@ export default function CommercialPropertyDetail({ property }: CommercialPropert
                             <MapPin size={24} /> {property.location}, {property.city}
                         </p>
                         <p className="mt-4 text-yellow-300 font-bold text-2xl">
-                            Price: â‚¹{property.totalPrice ? (property.totalPrice / 10000000).toFixed(2) + ' Cr' : 'Contact for Price'}
+                            Price: ₹{property.totalPrice ? (property.totalPrice / 10000000).toFixed(2) + ' Cr' : 'Contact for Price'}
                         </p>
                     </div>
                 </div>
@@ -272,7 +272,7 @@ export default function CommercialPropertyDetail({ property }: CommercialPropert
                                     </div>
                                     <div className="flex justify-between items-center border-b border-dashed pb-2">
                                         <span className="text-gray-600">Price Per Sq.Ft</span>
-                                        <span className="font-semibold text-gray-900">â‚¹{property.pricePerSqFt}</span>
+                                        <span className="font-semibold text-gray-900">₹{property.pricePerSqFt}</span>
                                     </div>
                                     <div className="flex justify-between items-center border-b border-dashed pb-2">
                                         <span className="text-gray-600">Building Name</span>

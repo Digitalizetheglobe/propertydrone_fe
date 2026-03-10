@@ -67,7 +67,7 @@ export default function ShowAllCommercialProperties() {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{prop.propertyType}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{prop.title || prop.buildingName || '-'}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{prop.location}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">â‚¹{prop.pricePerSqFt}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₹{prop.pricePerSqFt}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${prop.propertyStatus === 'Available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                                         }`}>

@@ -245,11 +245,11 @@ export default function PlotDetail({ plot }: PlotDetailProps) {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <div className="text-sm text-gray-600">Total Price</div>
-                                        <div className="text-lg font-bold text-[#172747]">â‚¹{plot.priceDetails?.totalPrice || 'Contact'}</div>
+                                        <div className="text-lg font-bold text-[#172747]">₹{plot.priceDetails?.totalPrice || 'Contact'}</div>
                                     </div>
                                     <div>
                                         <div className="text-sm text-gray-600">Rate / Sq.Ft</div>
-                                        <div className="text-lg font-bold">â‚¹{plot.priceDetails?.pricePerSqFt || '-'}</div>
+                                        <div className="text-lg font-bold">₹{plot.priceDetails?.pricePerSqFt || '-'}</div>
                                     </div>
                                     <div>
                                         <div className="text-sm text-gray-600">Plot Area</div>
@@ -285,7 +285,7 @@ export default function PlotDetail({ plot }: PlotDetailProps) {
                                         }}
                                         className="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-green-700 transition"
                                     >
-                                        ðŸ“ View on Map
+                                        📍 View on Map
                                     </button>
                                 </div>
                                 <div className="text-gray-700 bg-gray-50 p-3 rounded">

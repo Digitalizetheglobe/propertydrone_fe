@@ -639,7 +639,7 @@ export default function HomePageLuxeProperty({
                 <div className="flex flex-col items-center justify-center py-12 px-4 w-full">
                     <div className="bg-white/95 backdrop-blur-sm p-6 md:p-10 rounded-2xl shadow-xl max-w-3xl w-full">
                         <div className="text-center mb-8">
-                            <div className="text-5xl mb-4">ðŸ¤”</div>
+                            <div className="text-5xl mb-4">🤔</div>
                             <h3 className="text-2xl font-bold text-[#172747] mb-3">
                                 Oooops! Seems like your requirement is rare/specific
                             </h3>

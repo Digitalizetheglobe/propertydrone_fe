@@ -419,7 +419,7 @@ function PlotsContent() {
                                                             <Share2 size={12} className="mr-1" /> {plot.plotDetails?.areaSqFt} Sq.Ft
                                                         </span>
                                                         <span className="font-bold text-[#172747]">
-                                                            Price: â‚¹{plot.priceDetails?.totalPrice}
+                                                            Price: ₹{plot.priceDetails?.totalPrice}
                                                         </span>
                                                     </div>
 

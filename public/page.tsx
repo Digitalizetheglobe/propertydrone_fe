@@ -262,11 +262,11 @@ export default function WhoWeAre() {
             <div className="bg-white p-6 flex flex-col justify-center h-[600px] broder border-[#172747]">
               <div className="text-2xl text-gray-300 font-serif">"</div>
               <p className="text-gray-800 text-[32px] font-light leading-[140%] tracking-normal font-['Ivy Mode'] mb-4">
-                At PropertyOnline Realty, we're not just listing properties—we're elevating how people experience real estate.
+                At PropertyOnline Realty, we're not just listing properties - we're elevating how people experience real estate.
               </p>
               <div>
                 <p className="font-medium text-sm">Nikhil Manocha</p>
-                <p className="text-gray-600 text-xs">— Founder and CEO</p>
+                <p className="text-gray-600 text-xs">  Founder and CEO</p>
               </div>
             </div>
 
@@ -274,11 +274,11 @@ export default function WhoWeAre() {
             <div className="bg-white p-6 flex flex-col justify-center h-[600px] width-[600px] broder-2 border-[#172747]">
               <div className="text-2xl text-gray-300 font-serif">"</div>
               <p className="text-gray-800 text-[32px] font-light leading-[140%] tracking-normal font-['Ivy Mode'] mb-4">
-                We're building more than a platform—we're creating a trusted space where investors, sellers, and developers connect with confidence and clarity.
+                We're building more than a platform - we're creating a trusted space where investors, sellers, and developers connect with confidence and clarity.
               </p>
               <div>
                 <p className="font-medium text-sm">Ayush Thakur</p>
-                <p className="text-gray-600 text-xs">— Co-Founder</p>
+                <p className="text-gray-600 text-xs"> Co-Founder</p>
               </div>
             </div>
 
@@ -315,7 +315,7 @@ export default function WhoWeAre() {
               </div>
               <div className="p-4">
                 <p className="font-medium text-sm">Name</p>
-                <p className="text-gray-600 text-xs">—Designation</p>
+                <p className="text-gray-600 text-xs">Designation</p>
               </div>
             </div>
             
@@ -330,7 +330,7 @@ export default function WhoWeAre() {
               </div>
               <div className="p-4">
                 <p className="font-medium text-sm">Name</p>
-                <p className="text-gray-600 text-xs">—Designation</p>
+                <p className="text-gray-600 text-xs">Designation</p>
               </div>
             </div>
             
@@ -345,7 +345,7 @@ export default function WhoWeAre() {
               </div>
               <div className="p-4">
                 <p className="font-medium text-sm">Name</p>
-                <p className="text-gray-600 text-xs">—Designation</p>
+                <p className="text-gray-600 text-xs">Designation</p>
               </div>
             </div>
           </div>

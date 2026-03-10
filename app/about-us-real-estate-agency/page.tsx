@@ -686,7 +686,7 @@ useEffect(() => {
                 
                 {/* Quote text - smaller, refined */}
                 <p className="text-[#172747] text-xl lg:text-2xl leading-relaxed font-light mb-6" style={{ fontFamily: 'Ivy Mode', letterSpacing: '0.3px' }}>
-                  At Property Drone Realty, we're not just listing properties—we're elevating how people experience real estate.
+                  At Property Drone Realty, we're not just listing properties we're elevating how people experience real estate.
                 </p>
                 
                 {/* Signature - compact */}
@@ -718,7 +718,7 @@ useEffect(() => {
                 
                 {/* Quote text - smaller, refined */}
                 <p className="text-[#172747] text-xl lg:text-2xl leading-relaxed font-light mb-6" style={{ fontFamily: 'Ivy Mode', letterSpacing: '0.3px' }}>
-                  We're building more than a platform—we're creating a trusted space where property seekers and developers connect with confidence and clarity.
+                  We're building more than a platform - we're creating a trusted space where property seekers and developers connect with confidence and clarity.
                 </p>
                 
                 {/* Signature - compact */}

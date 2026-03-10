@@ -24,8 +24,8 @@ const CompareProperties = () => {
     { label: "Availability Time", key: "possession", format: (v) => v || "--" },
     { label: "Chargeable Area", key: "chargeableArea", format: (v) => v || "--" },
     { label: "Efficiency", key: "efficiency", format: (v) => v || "--" },
-    { label: "Quoted Renting / Towards", key: "price", format: (v) => v ? `â‚¹ ${Number(v).toLocaleString('en-IN')}` : "--" },
-    { label: "Maintenance", key: "maintenance", format: (v) => v ? `â‚¹ ${v}` : "--" },
+    { label: "Quoted Renting / Towards", key: "price", format: (v) => v ? `₹ ${Number(v).toLocaleString('en-IN')}` : "--" },
+    { label: "Maintenance", key: "maintenance", format: (v) => v ? `₹ ${v}` : "--" },
     { label: "Taxes", key: "taxes", format: (v) => v || "--" },
   ];
 
@@ -268,7 +268,7 @@ const CompareProperties = () => {
                         <div className="flex justify-between items-end mb-3">
                           <div>
                             <div className="text-xl font-bold text-[#172747]">
-                              {data.price ? `â‚¹ ${Number(data.price).toLocaleString('en-IN')}` : "Price TBD"}
+                              {data.price ? `₹ ${Number(data.price).toLocaleString('en-IN')}` : "Price TBD"}
                             </div>
                             <div className="text-[10px] text-[#172747] font-medium opacity-80">
                               rent/month

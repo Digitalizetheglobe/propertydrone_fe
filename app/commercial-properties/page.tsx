@@ -181,7 +181,7 @@ function CommercialPropertiesContent() {
             <section className="relative h-[400px] flex items-center justify-center bg-[#172747] text-white">
                 <div className="absolute inset-0 overflow-hidden">
                     {/* Placeholder video or image */}
-                    <div className="absolute inset-0 bg-black/60 z-10"></div>
+                    <div className="absolute inset-0 bg-black/20 z-10"></div>
                     <Image src={bg} alt="Commercial Properties" fill className="object-cover opacity-50" />
                 </div>
                 <div className="relative z-20 text-center px-4">
@@ -307,10 +307,10 @@ function CommercialPropertiesContent() {
                                                             {property.propertyType}
                                                         </span>
                                                         <div className="text-2xl font-bold text-[#172747]">
-                                                            {property.totalPrice ? `â‚¹${(property.totalPrice / 10000000).toFixed(2)} Cr` : 'Price on Request'}
+                                                            {property.totalPrice ? `₹${(property.totalPrice / 10000000).toFixed(2)} Cr` : 'Price on Request'}
                                                         </div>
                                                         <div className="text-sm text-gray-500">
-                                                            â‚¹{property.pricePerSqFt} / sq.ft
+                                                            ₹{property.pricePerSqFt} / sq.ft
                                                         </div>
                                                     </div>
                                                 </div>
@@ -342,7 +342,7 @@ function CommercialPropertiesContent() {
                                     <div className="col-span-full flex flex-col items-center justify-center py-12 px-4 w-full">
                                         <div className="bg-white/95 backdrop-blur-sm p-6 md:p-10 rounded-2xl shadow-xl max-w-3xl w-full border border-gray-100">
                                             <div className="text-center mb-8">
-                                                <div className="text-5xl mb-4">ðŸ¤”</div>
+                                                <div className="text-5xl mb-4">🤔</div>
                                                 <h3 className="text-2xl font-bold text-[#172747] mb-3">
                                                     Oooops! Seems like your requirement is rare/specific
                                                 </h3>

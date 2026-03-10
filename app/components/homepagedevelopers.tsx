@@ -92,60 +92,7 @@ export default function HomePageWhyPropertyDrone() {
                                 slug: "skyi-developers",
                             },
                             // Duplicate Data for Scrolling Demo
-                            {
-                                title: "ANP Corp",
-                                builder: "Premium Developer",
-                                config: "Residential & Commercial",
-                                location: "Pune",
-                                price: "View Details",
-                                img: bg1,
-                                slug: "anp-corp",
-                            },
-                            {
-                                title: "Majestique Landmarks",
-                                builder: "Majestique Developer",
-                                config: "Luxury Living",
-                                location: "Pune",
-                                price: "View Details",
-                                img: devImg2,
-                                slug: "majestique-developer",
-                            },
-                            {
-                                title: "Krunal Group",
-                                builder: "Krunal Group",
-                                config: "Premium Projects",
-                                location: "Pune",
-                                price: "View Details",
-                                img: devImg3,
-                                slug: "krunal-group",
-                            },
-                            {
-                                title: "Kasturi Housing",
-                                builder: "Kasturi",
-                                config: "Ultra Luxury",
-                                location: "Pune",
-                                price: "View Details",
-                                img: imagedefault1,
-                                slug: "kasturi",
-                            },
-                            {
-                                title: "Solitaire",
-                                builder: "Solitaire",
-                                config: "Integrated Townships",
-                                location: "Pune",
-                                price: "View Details",
-                                img: imagedefault3,
-                                slug: "solitaire",
-                            },
-                            {
-                                title: "Skyi Developers",
-                                builder: "Skyi Developers",
-                                config: "Sustainable Homes",
-                                location: "Pune",
-                                price: "View Details",
-                                img: devImg6,
-                                slug: "skyi-developers",
-                            },
+                        
                         ].map((project, index) => (
                             <Link
                                 href={`/estate_developer/${project.slug}`}
@@ -192,22 +139,22 @@ export default function HomePageWhyPropertyDrone() {
                     </div>
 
                     {/* Floating Arrow Button */}
-                    <button
+                    {/* <button
                         onClick={() => {
                             if (highDemandScrollRef.current) {
-                                const cardWidth = 350; // approximate width of card
+                                const cardWidth = 350; 
                                 const gap = 24;
-                                const scrollAmount = (cardWidth + gap) * 2; // Scroll 2 cards worth
+                                const scrollAmount = (cardWidth + gap) * 2;
                                 highDemandScrollRef.current.scrollBy({
                                     left: scrollAmount,
                                     behavior: "smooth",
                                 });
                             }
                         }}
-                        className="absolute -right-5 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg border border-gray-200 hover:bg-gray-50 z-10 hidden xl:flex items-center justify-center w-12 h-12 cursor-pointer transition-transform duration-300 hover:scale-110"
+                        className="absolute -right-5 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg border border-gray-200 hover:bg-gray-50  hidden xl:flex items-center justify-center w-12 h-12 cursor-pointer transition-transform duration-300 hover:scale-110"
                     >
                         <ArrowRight size={24} className="text-gray-600" />
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </div>

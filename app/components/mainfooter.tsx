@@ -420,7 +420,7 @@ const Mainfooter = () => {
               style={{ fontFamily: "Lato", letterSpacing: "0.5px" }}
             >
               &copy; {new Date().getFullYear()} NIYUSH PROPERTYDRONE REALTY LLP.
-              <br /> All Rights Reserved | Crafted with care by{" "}
+              <br /> All Rights Reserved | Carefully Crafted by{" "}
               <a
                 href="https://digitalizetheglobe.com"
                 target="_blank"

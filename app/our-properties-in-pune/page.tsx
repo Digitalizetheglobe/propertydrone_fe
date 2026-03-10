@@ -478,7 +478,7 @@ function LuxePropertiesContent() {
   const getBudgetValue = (budget: any) => {
     if (typeof budget === 'number') return budget;
     if (typeof budget === 'string') {
-      // Extract digits from string, e.g. "â‚¹ 90 Lacs" => 9000000
+      // Extract digits from string, e.g. "₹ 90 Lacs" => 9000000
       const match = budget.replace(/,/g, '').match(/(\d+(\.\d+)?)/);
       if (match) {
         let value = parseFloat(match[1]);
@@ -1152,7 +1152,7 @@ function LuxePropertiesContent() {
                   <div className="col-span-full flex flex-col items-center justify-center py-12 px-4 w-full">
                     <div className="bg-white/95 backdrop-blur-sm p-6 md:p-10 rounded-2xl shadow-xl max-w-3xl w-full border border-gray-100">
                       <div className="text-center mb-8">
-                        <div className="text-5xl mb-4">ðŸ¤”</div>
+                        <div className="text-5xl mb-4">🤔</div>
                         <h3 className="text-2xl font-bold text-[#172747] mb-3">
                           Oooops! Seems like your requirement is rare/specific
                         </h3>

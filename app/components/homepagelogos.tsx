@@ -16,7 +16,7 @@ import d10 from "@/public/images/Frame 114.png";
 import d11 from "@/public/images/Frame 115.png";
 import d12 from "@/public/images/Frame 116.png";
 import d13 from "@/public/images/Frame 117.png";
-import d14 from "@/public/images/Frame 104.png";
+// import d14 from "@/public/images/Frame 104.png";
 
 export default function HomePageLogos() {
     // const [isPaused, setIsPaused] = useState(false); // Unused
@@ -36,7 +36,7 @@ export default function HomePageLogos() {
         { img: d12, link: "skyi-developers" },
         { img: d11, link: "Solitaire" },
         { img: d13, link: "anp-corp" },
-        { img: d14, link: "majestique-developer" },
+        // { img: d14, link: "majestique-developer" },
     ];
 
     // Duplicate for infinite loop
