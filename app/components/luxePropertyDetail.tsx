@@ -227,7 +227,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Set up the base URL for images
-  const baseUrl = "http://localhost:9000"; // For dev — ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
 
   // Process the image paths
   const propertyImages =
@@ -1405,7 +1405,7 @@ export async function getServerSideProps(context: {
 
   try {
     const res = await fetch(
-      `http://localhost:9000/properties/${slug}`
+      `https://api.propertydronerealty.com/properties/${slug}`
     );
     if (!res.ok) {
       throw new Error("Failed to fetch property");

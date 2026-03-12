@@ -28,7 +28,7 @@ const NewsPage = () => {
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const response = await fetch('http://localhost:9000/news');
+                const response = await fetch('https://api.propertydronerealty.com/news');
                 if (!response.ok) {
                     throw new Error('Failed to fetch news data');
                 }

@@ -22,8 +22,8 @@ function PlotPageContent() {
                 // Check if slug is numeric (ID) or string (slug)
                 const isNumeric = /^\d+$/.test(slug as string);
                 const endpoint = isNumeric
-                    ? `http://localhost:9000/api/plots/${slug}`
-                    : `http://localhost:9000/api/plots/slug/${slug}`;
+                    ? `https://api.propertydronerealty.com/api/plots/${slug}`
+                    : `https://api.propertydronerealty.com/api/plots/slug/${slug}`;
 
                 const response = await fetch(endpoint);
                 if (!response.ok) {

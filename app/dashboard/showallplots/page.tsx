@@ -14,7 +14,7 @@ export default function ShowAllPlots() {
     const fetchPlots = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("http://localhost:9000/api/plots");
+            const response = await axios.get("https://api.propertydronerealty.com/api/plots");
             setPlots(response.data);
         } catch (err: any) {
             setError(err.message || "Failed to fetch plots");
@@ -31,7 +31,7 @@ export default function ShowAllPlots() {
     const handleDelete = async (id: number) => {
         if (!confirm("Are you sure you want to delete this plot?")) return;
         try {
-            await axios.delete(`http://localhost:9000/api/plots/${id}`);
+            await axios.delete(`https://api.propertydronerealty.com/api/plots/${id}`);
             setPlots(plots.filter((plot) => plot.id !== id));
         } catch (err: any) {
             alert("Failed to delete plo: " + err.message);
@@ -59,7 +59,7 @@ export default function ShowAllPlots() {
                 images: typeof editingPlot.images === 'string' ? editingPlot.images.split(",").map((s: string) => s.trim()) : editingPlot.images,
             };
 
-            await axios.put(`http://localhost:9000/api/plots/${editingPlot.id}`, payload);
+            await axios.put(`https://api.propertydronerealty.com/api/plots/${editingPlot.id}`, payload);
             alert("Plot updated successfully!");
             setEditingPlot(null);
             fetchPlots(); // Refresh list

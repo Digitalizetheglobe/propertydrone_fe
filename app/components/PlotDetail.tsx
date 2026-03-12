@@ -61,7 +61,7 @@ export default function PlotDetail({ plot }: PlotDetailProps) {
     const [qrCodeUrl, setQrCodeUrl] = useState('');
 
     // Helpers
-    const baseUrl = "http://localhost:9000";
+    const baseUrl = "https://api.propertydronerealty.com";
 
     const getImages = (): string[] => {
         if (Array.isArray(plot.images)) return plot.images;
