@@ -218,7 +218,7 @@ const PropertyFormCard = () => {
                 shareWithAgents: formData.shareWithAgents
             };
 
-            await axios.post('http://localhost:9000/api/user-properties', payload);
+            await axios.post('https://api.propertydronerealty.com/api/user-properties', payload);
             alert('Property posted successfully!');
             // Reset form or redirect
             setFormData({

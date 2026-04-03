@@ -59,19 +59,19 @@ const BHK_SLUG_MAP: Record<string, {
   category?: string;
   label: string;
 }> = {
-  '1rk':               { search: 'rk',      altSearch: 'studio', label: '1 RK / Studio' },
-  '1bhk':              { search: '1 bhk',   altSearch: '1,',     label: '1 BHK Flats' },
-  '2bhk':              { search: '2 bhk',   altSearch: '2,',     label: '2 BHK Flats' },
-  '3bhk':              { search: '3 bhk',   altSearch: '3,',     label: '3 BHK Flats' },
-  '4bhk':              { search: '4 bhk',   altSearch: '5 bhk',  label: '4+ BHK Flats' },
-  'commercial-office': { category: 'office',                     label: 'Commercial Office' },
+  '1rk': { search: 'rk', altSearch: 'studio', label: '1 RK / Studio' },
+  '1bhk': { search: '1 bhk', altSearch: '1,', label: '1 BHK Flats' },
+  '2bhk': { search: '2 bhk', altSearch: '2,', label: '2 BHK Flats' },
+  '3bhk': { search: '3 bhk', altSearch: '3,', label: '3 BHK Flats' },
+  '4bhk': { search: '4 bhk', altSearch: '5 bhk', label: '4+ BHK Flats' },
+  'commercial-office': { category: 'office', label: 'Commercial Office' },
 };
 
 function SlugPageContent() {
   const params = useParams();
   const slug = (Array.isArray(params.slug) ? params.slug[0] : params.slug) || '';
 
-  const baseUrl = "http://localhost:9000";
+  const baseUrl = "https://api.propertydronerealty.com";
 
   // Determine slug type
   const isLocationSlug = KNOWN_LOCATIONS.includes(slug.toLowerCase());

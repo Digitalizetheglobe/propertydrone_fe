@@ -178,7 +178,7 @@ export default function DashboardPage() {
       try {
         const clientIdentifier = localStorage.getItem('clientIdentifier');
         if (clientIdentifier) {
-          const res = await fetch(`http://localhost:9000/api/cookie-consent?clientIdentifier=${clientIdentifier}`);
+          const res = await fetch(`https://api.propertydronerealty.com/api/cookie-consent?clientIdentifier=${clientIdentifier}`);
           const data = await res.json();
           if (data && data.consent !== undefined && data.consent !== null) {
             setCookieStatus(data.consent ? 'Accepted' : 'Rejected');

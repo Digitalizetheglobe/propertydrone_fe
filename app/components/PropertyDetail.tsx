@@ -162,7 +162,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Image handling
-  const baseUrl = "http://localhost:9000"; // For dev â€” ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev â€” ideally from env
   const propertyImages = property?.multipleImages?.map(img =>
     img.path.startsWith('http') ? img.path : `${baseUrl}${img.path}`
   ) || [];
@@ -562,11 +562,11 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                         <ul className="px-4 pb-4 space-y-2">
                           {pros.length > 0
                             ? pros.map((item, i) => (
-                                <li key={i} className="flex items-start gap-2 text-sm text-green-900">
-                                  <span className="mt-0.5 text-green-500 flex-shrink-0">✓</span>
-                                  {item}
-                                </li>
-                              ))
+                              <li key={i} className="flex items-start gap-2 text-sm text-green-900">
+                                <span className="mt-0.5 text-green-500 flex-shrink-0">✓</span>
+                                {item}
+                              </li>
+                            ))
                             : <li className="text-sm text-gray-400 italic">No pros listed yet.</li>
                           }
                         </ul>
@@ -586,11 +586,11 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                         <ul className="px-4 pb-4 space-y-2">
                           {cons.length > 0
                             ? cons.map((item, i) => (
-                                <li key={i} className="flex items-start gap-2 text-sm text-red-900">
-                                  <span className="mt-0.5 text-red-400 flex-shrink-0">✕</span>
-                                  {item}
-                                </li>
-                              ))
+                              <li key={i} className="flex items-start gap-2 text-sm text-red-900">
+                                <span className="mt-0.5 text-red-400 flex-shrink-0">✕</span>
+                                {item}
+                              </li>
+                            ))
                             : <li className="text-sm text-gray-400 italic">No cons listed yet.</li>
                           }
                         </ul>

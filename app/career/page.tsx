@@ -107,7 +107,7 @@ const BenefitsSection = () => {
       }
 
       // Send to API endpoint
-      const response = await fetch('http://localhost:9000/applications/submit', {
+      const response = await fetch('https://api.propertydronerealty.com/applications/submit', {
         method: 'POST',
         body: submissionData,
         // Don't set Content-Type header when sending FormData
@@ -153,7 +153,7 @@ const BenefitsSection = () => {
     const fetchJobs = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('http://localhost:9000/careers');
+        const response = await fetch('https://api.propertydronerealty.com/careers');
 
         if (!response.ok) {
           throw new Error(`Failed to fetch: ${response.status}`);

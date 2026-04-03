@@ -10,7 +10,7 @@ export default function PropertyDetail() {
 
   // Fetch compared property ids on mount
   useEffect(() => {
-    fetch(`http://localhost:9000/api/property-comparisons`)
+    fetch(`https://api.propertydronerealty.com/api/property-comparisons`)
       .then(res => res.json())
       .then(data => {
         // For current user only
@@ -21,7 +21,7 @@ export default function PropertyDetail() {
 
   // Add to comparison
   const addToComparison = async (property: any) => {
-    await fetch('http://localhost:9000/api/property-comparisons', {
+    await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -50,7 +50,7 @@ export default function PropertyDetail() {
   const [showFilters, setShowFilters] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
 
-  const baseUrl = "http://localhost:9000"; // For dev â€” ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev â€” ideally from env
   const imagePath = propertyImages?.[0]
     ? `${baseUrl}${propertyImages[0]}`
     : null;
@@ -58,7 +58,7 @@ export default function PropertyDetail() {
   // Fetch properties function
   const fetchProperties = () => {
     setLoading(true);
-    fetch("http://localhost:9000/properties")
+    fetch("https://api.propertydronerealty.com/properties")
       .then((res) => res.json())
       .then((data) => {
         // Sort properties by ID in descending order
@@ -180,7 +180,7 @@ export default function PropertyDetail() {
 
   const deleteProperty = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:9000/properties/${id}`, {
+      const response = await fetch(`https://api.propertydronerealty.com/properties/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -278,7 +278,7 @@ export default function PropertyDetail() {
       }
 
       // Send request
-      const response = await fetch(`http://localhost:9000/properties/${editProperty.id}`, {
+      const response = await fetch(`https://api.propertydronerealty.com/properties/${editProperty.id}`, {
         method: "PUT",
         body: formData,
       });
