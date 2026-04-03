@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contact Us',
+  title: { absolute: 'Contact PropertyDrone Realty Pune' },
   description:
-    'Have a property query in Pune? Contact Property Drone Realty for expert real estate advice, site visits, NRI support, and investment consultations.',
+    'Contact PropertyDrone Realty for property advice, site visits & consultations in Pune. Book your appointment today.',
   keywords: [
-    'contact real estate Pune',
-    'property site visit Pune',
-    'NRI real estate support',
-    'real estate consultation Pune',
+    'contact PropertyDrone Realty',
+    'property consultation Pune',
+    'site visit Pune',
+    'real estate advice Pune',
   ],
   alternates: {
     canonical: 'https://propertydronerealty.com/contact-us-propertydrone-realty',

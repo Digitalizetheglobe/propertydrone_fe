@@ -18,7 +18,7 @@ const ContactDetails = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch("https://api.propertydronerealty.com/contacts");
+        const response = await fetch("http://localhost:9000/contacts");
         const data = await response.json();
         setContacts(data);
       } catch (error) {

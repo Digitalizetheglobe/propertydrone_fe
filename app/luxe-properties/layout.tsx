@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: { absolute: "Looking For Properties in Pune? Find out Here" },
+  title: { absolute: "Luxury Properties for Sale in Pune | PropertyDrone Realty" },
   description:
-    "Explore the best residential and commercial properties in Pune with expert guidance from Property Drone Realty. Verified listings, great deals & full support.",
+    "Explore premium luxury properties in Pune. Verified listings by top developers in Baner, Kharadi & Viman Nagar.",
   keywords: [
-    "residential properties Pune",
-    "commercial properties Pune",
-    "property listings Pune",
-    "verified flats Pune",
-    "buy property Pune",
+    "luxury properties Pune",
+    "premium flats Pune",
+    "luxury homes Baner",
+    "verified listings Pune",
+    "buy luxury property Pune",
   ],
   alternates: {
     canonical: "https://propertydronerealty.com/luxe-properties",

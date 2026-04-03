@@ -12,7 +12,7 @@ export default function ShowAllCommercialProperties() {
     const fetchProperties = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("https://api.propertydronerealty.com/api/commercial-properties");
+            const response = await axios.get("http://localhost:9000/api/commercial-properties");
             setProperties(response.data);
         } catch (err: any) {
             setError(err.message || "Failed to fetch properties");
@@ -28,7 +28,7 @@ export default function ShowAllCommercialProperties() {
     const handleDelete = async (id: number) => {
         if (!confirm("Are you sure you want to delete this property?")) return;
         try {
-            await axios.delete(`https://api.propertydronerealty.com/api/commercial-properties/${id}`);
+            await axios.delete(`http://localhost:9000/api/commercial-properties/${id}`);
             setProperties(properties.filter((p) => p.id !== id));
         } catch (err: any) {
             alert("Failed to delete: " + err.message);

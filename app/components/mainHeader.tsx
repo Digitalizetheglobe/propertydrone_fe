@@ -216,7 +216,7 @@ const MainHeader: React.FC = () => {
                         <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Top Locations</h3>
                         <div className="space-y-3">
                             <Link href="/our-properties-in-pune/Hinjewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Hinjewadi</Link>
-                            <Link href="/our-properties-in-pune/Bandra-West" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Bandra West</Link>
+                            <Link href="/our-properties-in-pune/wakad" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Bandra West</Link>
                             <Link href="/our-properties-in-pune/Baner" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Baner</Link>
                             <Link href="/our-properties-in-pune/Balewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Balewadi</Link>
                             <Link href="/our-properties-in-pune/Ravet" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Ravet</Link>

@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 
 export const metadata: Metadata = {
-  title: { absolute: 'We are a top real estate agency in Pune' },
+  title: { absolute: 'About Us | PropertyDrone Realty Pune' },
   description:
-    'Property Drone Realty is a trusted real estate agency in Pune offering expert guidance on residential and commercial property buying, selling & investments.',
+    'Founded in 2020, PropertyDrone Realty is a trusted Pune real estate consultancy with expert advisors helping you find the right home.',
   keywords: [
     'real estate agency Pune',
-    'luxury homes Pune',
-    'premium flats Pune',
+    'PropertyDrone Realty',
+    'Pune real estate consultancy',
     'buy property Pune',
     'residential commercial property Pune',
   ],

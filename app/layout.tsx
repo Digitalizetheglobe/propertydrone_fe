@@ -23,16 +23,17 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Top Real Estate Agency Pune ",
-    default: "Top Real Estate Agency Pune",
+    template: "%s | PropertyDrone Realty",
+    default: "Top Real Estate Agency in Pune | PropertyDrone Realty",
   },
   description:
-    "Top real estate agency in Pune offering luxury homes, premium flats & exclusive properties. Buy your dream home with expert advice and trusted service.",
+    "Find verified flats, plots & luxury homes in Pune. Explore Baner, Wakad & Hinjawadi. Book your free consultation today.",
   keywords: [
     "real estate agency Pune",
     "luxury homes Pune",
-    "premium flats Pune",
+    "verified flats Pune",
     "buy property Pune",
+    "PropertyDrone Realty",
   ],
   alternates: {
     canonical: "https://propertydronerealty.com/",

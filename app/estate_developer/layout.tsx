@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: { absolute: "TOP Real estate developers in Pune" },
+  title: { absolute: "Top Developers in Pune | PropertyDrone Realty" },
   description:
-    "Explore top real estate developers in Pune including ANP Corp, Majestique Landmark, Solitaire, Skyi Developers & more. Find premium projects across the city.",
+    "Discover projects by leading Pune developers with verified listings and trusted builder partnerships.",
   keywords: [
     "real estate developers Pune",
     "ANP Corp",
-    "Majestique Landmark",
-    "Solitaire developers",
-    "Skyi projects Pune",
+    "Majestique Landmarks",
+    "Skyi Developers",
+    "top builders Pune",
   ],
   alternates: {
     canonical: "https://propertydronerealty.com/estate_developer",

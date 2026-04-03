@@ -3,14 +3,14 @@ import Script from "next/script";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Real estate blogs",
+  title: { absolute: "Real Estate Blog Pune | Tips & Insights | PropertyDrone Realty" },
   description:
-    "Explore the PropertyDrone Realty blog for expert insights and tips from Pune's leading real estate agency. Get the latest updates on market trends & property advice.",
+    "Read Pune real estate blogs on buying tips, investment strategies, home loans & market trends. Stay informed.",
   keywords: [
     "real estate blog Pune",
-    "property tips",
+    "property buying tips",
+    "home loan advice",
     "real estate market trends India",
-    "expert property insights",
   ],
   alternates: {
     canonical: "https://propertydronerealty.com/blog",

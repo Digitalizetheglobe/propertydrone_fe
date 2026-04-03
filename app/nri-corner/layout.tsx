@@ -2,15 +2,15 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Complete NRI Property Services in India | Property Drone Realty' },
+  title: { absolute: 'NRI Property Investment in Pune' },
   description:
-    'From exclusive listings to POA, loans & virtual tours — we offer complete NRI property services in India with 24/7 support & expert legal guidance.',
+    'Invest in Pune from abroad with expert NRI support, legal help, home loans & virtual tours. Get dedicated assistance today.',
   keywords: [
-    'NRI property services',
+    'NRI property investment Pune',
     'NRI real estate India',
-    'power of attorney NRI',
+    'NRI home loan',
     'virtual tour property India',
-    'invest in India NRI',
+    'invest in Pune NRI',
   ],
   alternates: {
     canonical: 'https://propertydronerealty.com/nri-corner',

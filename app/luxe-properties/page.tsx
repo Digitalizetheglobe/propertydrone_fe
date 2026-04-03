@@ -88,7 +88,7 @@ function PropertiesContent() {
       return;
     }
 
-    const res = await fetch(`https://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
+    const res = await fetch(`http://localhost:9000/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
     setComparedIds(
@@ -151,7 +151,7 @@ function PropertiesContent() {
     }
 
     try {
-      const res = await fetch(`https://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
+      const res = await fetch(`http://localhost:9000/api/saved-properties?webUserId=${currentUserId}`);
       if (!res.ok) return;
       const all = await res.json();
 
@@ -204,7 +204,7 @@ function PropertiesContent() {
         const recordId = savedIdMap[property.id];
         if (recordId) {
           setSavedIds(prev => prev.filter(id => id !== property.id));
-          const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
+          const resp = await fetch(`http://localhost:9000/api/saved-properties/${recordId}`, { method: 'DELETE' });
           if (!resp.ok) {
             // Rollback
             setSavedIds(prev => [...prev, property.id]);
@@ -215,7 +215,7 @@ function PropertiesContent() {
       } else {
         // Add
         setSavedIds(prev => [...prev, property.id]);
-        const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties`, {
+        const resp = await fetch(`http://localhost:9000/api/saved-properties`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -244,7 +244,7 @@ function PropertiesContent() {
   const [searchLocation, setSearchLocation] = useState('');
 
   // API base URL - ideally from environment variables
-  const baseUrl = "https://api.propertydronerealty.com";
+  const baseUrl = "http://localhost:9000";
 
   const propertyCategories = [
     { id: 'all', name: 'All', icon: '/icons/home.svg' },
@@ -1175,7 +1175,7 @@ function PropertiesContent() {
                                         // Compare (add)
                                         setComparedIds(prev => [...prev, property.id]);
                                         try {
-                                          const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
+                                          const resp = await fetch('http://localhost:9000/api/property-comparisons', {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ webUserId: userId, propertyId: property.id, propertyData: property })
@@ -1197,7 +1197,7 @@ function PropertiesContent() {
                                           setCompareLoadingId(null);
                                           return;
                                         }
-                                        const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                                        const resp = await fetch(`http://localhost:9000/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
                                         if (!resp.ok) {
                                           setComparedIds(prev => [...prev, property.id]);
                                         } else {
