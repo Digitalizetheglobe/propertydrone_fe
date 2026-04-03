@@ -1,4 +1,4 @@
-﻿// components/PropertyDetail.tsx
+// components/PropertyDetail.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -68,6 +68,8 @@ interface Property {
   reraNumber?: string;
   configurationTypology?: ConfigurationTypology[];
   event?: string;
+  pros?: string[];
+  cons?: string[];
 }
 
 interface PropertyDetailProps {
@@ -144,14 +146,30 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isBlurred, setIsBlurred] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [prosOpen, setProsOpen] = useState(false);
+  const [consOpen, setConsOpen] = useState(false);
 
-  const handleDropdownClick = () => {
-    setIsBlurred(true);
-  };
+  // Check login state from localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('webuser');
+      setIsLoggedIn(!!(stored && JSON.parse(stored)?.id));
+    } catch {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
-  const handleUnlock = () => {
-    setIsBlurred(false);
+  // Safely parse pros/cons which may arrive as JSON string or real array
+  const safeArray = (val: any): string[] => {
+    if (Array.isArray(val)) return val;
+    if (typeof val === 'string') {
+      try { const p = JSON.parse(val); return Array.isArray(p) ? p : []; } catch { return []; }
+    }
+    return [];
   };
+  const pros = safeArray(property.pros);
+  const cons = safeArray(property.cons);
 
   // Add styles for hiding scrollbar
   const scrollbarHideStyles = {
@@ -227,7 +245,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Set up the base URL for images
-  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
+  const baseUrl = "http://localhost:9000"; // For dev — ideally from env
 
   // Process the image paths
   const propertyImages =
@@ -276,7 +294,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
         }
       `}</style>
       <div className="min-h-screen bg-amber-50 ">
-        <section className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
+        <section className="relative h-[400px]">
           {/* Background Image - Using standard img tag for external URLs */}
           <div className="absolute inset-0 h-full w-full">
             <Image
@@ -682,78 +700,96 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
               </div>
 
               {/* Pros & Cons Section */}
-              <div className="relative bg-white rounded-lg shadow-sm border p-4">
-                {/* Main Content */}
-                <div
-                  className={`transition-all duration-300 ${isBlurred ? "blur-sm pointer-events-none" : ""
-                    }`}
-                >
-                  <h2 className="text-[#172747] mb-4 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Rubik]">
-                    Pros & Cons
-                  </h2>
+              <div className="bg-white rounded-lg shadow-sm border p-4">
+                <h2 className="text-[#172747] mb-4 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Rubik]">Pros &amp; Cons</h2>
 
-                  <div className="space-y-3">
-                    {/* Pros */}
-                    <div className="bg-green-50 rounded-lg p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <span className="text-green-600 font-medium">
-                            👍 Pros
-                          </span>
+                {/* NOT LOGGED IN — blurred lock gate */}
+                {!isLoggedIn ? (
+                  <div className="relative">
+                    {/* Blurred preview */}
+                    <div className="blur-sm pointer-events-none space-y-3">
+                      <div className="bg-green-50 rounded-lg p-4">
+                        <div className="flex items-center justify-between">
+                          <span className="text-green-600 font-medium">👍 Pros</span>
+                          <ChevronDown size={20} className="text-green-600" />
                         </div>
-                        <button
-                          onClick={handleDropdownClick}
-                          className="text-green-600 hover:text-green-700 transition-colors cursor-pointer"
-                        >
-                          <ChevronUp size={20} />
-                        </button>
+                        <ul className="mt-2 space-y-1">
+                          {[1, 2, 3].map((_, i) => (
+                            <li key={i} className="flex items-start gap-2 text-sm">
+                              <span className="mt-0.5 text-green-500">✓</span>
+                              <span className="bg-green-100 rounded w-full h-4"></span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="bg-red-50 rounded-lg p-4">
+                        <div className="flex items-center justify-between">
+                          <span className="text-red-600 font-medium">👎 Cons</span>
+                          <ChevronDown size={20} className="text-red-600" />
+                        </div>
                       </div>
                     </div>
-
-                    {/* Cons */}
-                    <div className="bg-red-50 rounded-lg p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <span className="text-red-600 font-medium">
-                            👎 Cons
-                          </span>
-                        </div>
-                        <button
-                          onClick={handleDropdownClick}
-                          className="text-red-600 hover:text-red-700 transition-colors cursor-pointer"
-                        >
-                          <ChevronDown size={20} />
-                        </button>
+                    {/* Lock overlay */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 backdrop-blur-sm rounded-lg">
+                      <div className="inline-flex items-center justify-center w-14 h-14 bg-[#172747] rounded-full mb-3">
+                        <Lock className="text-white" size={22} />
                       </div>
+                      <p className="text-gray-700 font-semibold text-sm mb-3">Login to view Pros &amp; Cons</p>
+                      <Link href="/signin">
+                        <button className="bg-[#172747] text-white text-sm px-5 py-2 rounded-full hover:bg-[#0f1c35] transition-colors">
+                          Login to Unlock
+                        </button>
+                      </Link>
                     </div>
                   </div>
-                </div>
-
-                {/* Lock Overlay */}
-                {isBlurred && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-sm rounded-lg">
-                    <div className="text-center">
-                      {/* <button 
-                onClick={handleUnlock}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg mb-4"
-              >
-                Unlock Content
-              </button> */}
-                      {/* </Link> */}
-
-                      <Link href="/contact-us-propertydrone-realty">
-                        <button className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
-                          <Lock
-                            className="text-gray-600 mb-4 cursor-pointer "
-                            size={24}
-                          />
-                        </button>
-                        <p className="text-gray-600  font-medium">
-                          Click to unlocked
-                        </p>
-                      </Link>
-
-                      {/* <p className="text-gray-600 mb-4 font-medium">Content is locked</p> */}
+                ) : (
+                  // LOGGED IN — show real data
+                  <div className="space-y-3">
+                    {/* Pros */}
+                    <div className="bg-green-50 rounded-lg overflow-hidden border border-green-100">
+                      <button
+                        onClick={() => setProsOpen(o => !o)}
+                        className="w-full flex items-center justify-between p-4 cursor-pointer"
+                      >
+                        <span className="text-green-700 font-semibold flex items-center gap-2">👍 Pros</span>
+                        {prosOpen ? <ChevronUp size={20} className="text-green-600" /> : <ChevronDown size={20} className="text-green-600" />}
+                      </button>
+                      {prosOpen && (
+                        <ul className="px-4 pb-4 space-y-2">
+                          {pros.length > 0
+                            ? pros.map((item, i) => (
+                                <li key={i} className="flex items-start gap-2 text-sm text-green-900">
+                                  <span className="mt-0.5 text-green-500 flex-shrink-0">✓</span>
+                                  {item}
+                                </li>
+                              ))
+                            : <li className="text-sm text-gray-400 italic">No pros listed yet.</li>
+                          }
+                        </ul>
+                      )}
+                    </div>
+                    {/* Cons */}
+                    <div className="bg-red-50 rounded-lg overflow-hidden border border-red-100">
+                      <button
+                        onClick={() => setConsOpen(o => !o)}
+                        className="w-full flex items-center justify-between p-4 cursor-pointer"
+                      >
+                        <span className="text-red-700 font-semibold flex items-center gap-2">👎 Cons</span>
+                        {consOpen ? <ChevronUp size={20} className="text-red-600" /> : <ChevronDown size={20} className="text-red-600" />}
+                      </button>
+                      {consOpen && (
+                        <ul className="px-4 pb-4 space-y-2">
+                          {cons.length > 0
+                            ? cons.map((item, i) => (
+                                <li key={i} className="flex items-start gap-2 text-sm text-red-900">
+                                  <span className="mt-0.5 text-red-400 flex-shrink-0">✕</span>
+                                  {item}
+                                </li>
+                              ))
+                            : <li className="text-sm text-gray-400 italic">No cons listed yet.</li>
+                          }
+                        </ul>
+                      )}
                     </div>
                   </div>
                 )}
@@ -1405,7 +1441,7 @@ export async function getServerSideProps(context: {
 
   try {
     const res = await fetch(
-      `https://api.propertydronerealty.com/properties/${slug}`
+      `http://localhost:9000/properties/${slug}`
     );
     if (!res.ok) {
       throw new Error("Failed to fetch property");

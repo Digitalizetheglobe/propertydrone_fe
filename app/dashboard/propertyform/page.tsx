@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import Image from 'next/image';
@@ -37,6 +37,8 @@ interface FormData {
   }[];
   event: string;
   reraNumber: string;
+  pros: string[];
+  cons: string[];
 }
 
 interface Errors {
@@ -74,6 +76,8 @@ export default function PropertyForm() {
     ],
     event: '',
     reraNumber: '',
+    pros: [],
+    cons: [],
   });
   const [errors, setErrors] = useState<Errors>({});
   const [images, setImages] = useState<File[]>([]);
@@ -81,6 +85,28 @@ export default function PropertyForm() {
   const [imageMode, setImageMode] = useState<'upload' | 'urls'>('upload');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<{ type: string; message: string }>({ type: '', message: '' });
+  const [prosInput, setProsInput] = useState('');
+  const [consInput, setConsInput] = useState('');
+
+  const addPros = () => {
+    const val = prosInput.trim();
+    if (val) {
+      setFormData(prev => ({ ...prev, pros: [...prev.pros, val] }));
+      setProsInput('');
+    }
+  };
+  const removePros = (i: number) =>
+    setFormData(prev => ({ ...prev, pros: prev.pros.filter((_, idx) => idx !== i) }));
+
+  const addCons = () => {
+    const val = consInput.trim();
+    if (val) {
+      setFormData(prev => ({ ...prev, cons: [...prev.cons, val] }));
+      setConsInput('');
+    }
+  };
+  const removeCons = (i: number) =>
+    setFormData(prev => ({ ...prev, cons: prev.cons.filter((_, idx) => idx !== i) }));
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -155,9 +181,9 @@ export default function PropertyForm() {
       // Construct multipart/form-data
       const formDataToSend = new FormData();
 
-      // Append all text fields except configurationTypology (handle separately)
+      // Append all text fields except configurationTypology, pros, cons (handle separately)
       for (const key in formData) {
-        if (key === 'configurationTypology') continue;
+        if (key === 'configurationTypology' || key === 'pros' || key === 'cons') continue;
         const value = formData[key as keyof FormData];
         if (Array.isArray(value)) {
           if (value.length > 0 && typeof value[0] === 'string') {
@@ -168,8 +194,10 @@ export default function PropertyForm() {
         }
       }
 
-      // Append configurationTypology as JSON string
+      // Append configurationTypology, pros, cons as JSON strings
       formDataToSend.append('configurationTypology', JSON.stringify(formData.configurationTypology));
+      formDataToSend.append('pros', JSON.stringify(formData.pros));
+      formDataToSend.append('cons', JSON.stringify(formData.cons));
 
       // Append images if in 'upload' mode
       if (imageMode === 'upload' && images.length > 0) {
@@ -178,7 +206,7 @@ export default function PropertyForm() {
         });
       }
 
-      const response = await fetch('https://api.propertydronerealty.com/properties', {
+      const response = await fetch('http://localhost:9000/properties', {
         method: 'POST',
         body: formDataToSend, // No content-type header; browser sets it with correct boundary
       });
@@ -589,6 +617,65 @@ export default function PropertyForm() {
             placeholder="e.g., P51800012345"
           />
         </div>
+
+        {/* Pros & Cons Section */}
+        <div className="border-t pt-6 mt-6">
+          <h2 className="text-xl font-semibold mb-4">Pros &amp; Cons</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            {/* Pros */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">👍 Pros</label>
+              <div className="flex gap-2 mb-2">
+                <input
+                  type="text"
+                  value={prosInput}
+                  onChange={e => setProsInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPros(); } }}
+                  className="flex-1 p-2 border border-gray-300 rounded-md text-sm"
+                  placeholder="Type a pro and press Enter"
+                />
+                <button type="button" onClick={addPros} className="px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 text-sm">+</button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {formData.pros.map((item, i) => (
+                  <span key={i} className="flex items-center gap-1 bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">
+                    ✓ {item}
+                    <button type="button" onClick={() => removePros(i)} className="ml-1 text-green-600 hover:text-green-900 font-bold">×</button>
+                  </span>
+                ))}
+                {formData.pros.length === 0 && <p className="text-xs text-gray-400 italic">No pros added yet.</p>}
+              </div>
+            </div>
+
+            {/* Cons */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">👎 Cons</label>
+              <div className="flex gap-2 mb-2">
+                <input
+                  type="text"
+                  value={consInput}
+                  onChange={e => setConsInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCons(); } }}
+                  className="flex-1 p-2 border border-gray-300 rounded-md text-sm"
+                  placeholder="Type a con and press Enter"
+                />
+                <button type="button" onClick={addCons} className="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 text-sm">+</button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {formData.cons.map((item, i) => (
+                  <span key={i} className="flex items-center gap-1 bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full">
+                    ✕ {item}
+                    <button type="button" onClick={() => removeCons(i)} className="ml-1 text-red-600 hover:text-red-900 font-bold">×</button>
+                  </span>
+                ))}
+                {formData.cons.length === 0 && <p className="text-xs text-gray-400 italic">No cons added yet.</p>}
+              </div>
+            </div>
+
+          </div>
+        </div>
+
         {/* Configuration Typology Section */}
         <div className="border-t pt-6 mt-6">
           <h2 className="text-xl font-semibold mb-4">Configuration Typology</h2>

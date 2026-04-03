@@ -1,5 +1,28 @@
-﻿'use client';
+'use client';
 import React, { useState, useEffect } from 'react';
+
+// Safe UUID generator that works in both secure (HTTPS/localhost) and
+// non-secure contexts (e.g. local IP access where crypto.randomUUID is unavailable)
+const generateUUID = (): string => {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+    // Fallback: use crypto.getRandomValues (available even in non-secure contexts)
+    if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+        const bytes = new Uint8Array(16);
+        crypto.getRandomValues(bytes);
+        bytes[6] = (bytes[6] & 0x0f) | 0x40; // version 4
+        bytes[8] = (bytes[8] & 0x3f) | 0x80; // variant bits
+        return [...bytes].map((b, i) =>
+            [4, 6, 8, 10].includes(i) ? '-' + b.toString(16).padStart(2, '0') : b.toString(16).padStart(2, '0')
+        ).join('');
+    }
+    // Last resort: Math.random based UUID v4
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        const r = Math.random() * 16 | 0;
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+};
 
 const CookieBanner = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -13,7 +36,7 @@ const CookieBanner = () => {
 
         // Ensure client identifier exists
         if (!localStorage.getItem('clientIdentifier')) {
-            localStorage.setItem('clientIdentifier', crypto.randomUUID());
+            localStorage.setItem('clientIdentifier', generateUUID());
         }
     }, []);
 
@@ -24,7 +47,7 @@ const CookieBanner = () => {
 
         try {
             const clientIdentifier = localStorage.getItem('clientIdentifier');
-            const response = await fetch('https://api.propertydronerealty.com/api/cookie-consent', {
+            const response = await fetch('http://localhost:9000/api/cookie-consent', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

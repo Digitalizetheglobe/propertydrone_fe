@@ -51,13 +51,13 @@ export default function Home() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
     const { name, value } = e.target;
-    
+
     // Clear previous errors
     setErrors((prev) => ({
       ...prev,
       [name]: ''
     }));
-    
+
     // Email validation
     if (name === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,7 +68,7 @@ export default function Home() {
         }));
       }
     }
-    
+
     // Mobile validation
     if (name === 'mobile') {
       const mobileValue = value.replace(/\D/g, ''); // Remove non-digits
@@ -98,7 +98,7 @@ export default function Home() {
       email: '',
       mobile: ''
     };
-    
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email) {
@@ -106,29 +106,29 @@ export default function Home() {
     } else if (!emailRegex.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-    
+
     // Mobile validation
     if (!formData.mobile) {
       newErrors.mobile = 'Mobile number is required';
     } else if (formData.mobile.length !== 10) {
       newErrors.mobile = 'Mobile number must be exactly 10 digits';
     }
-    
+
     setErrors(newErrors);
     return !newErrors.email && !newErrors.mobile;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://api.propertydronerealty.com/contacts", {
+      const response = await fetch("http://localhost:9000/contacts", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -470,9 +470,8 @@ export default function Home() {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="Email"
-                          className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                            errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
-                          }`}
+                          className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                            }`}
                           required
                         />
                         {errors.email && (
@@ -486,9 +485,8 @@ export default function Home() {
                           value={formData.mobile}
                           onChange={handleChange}
                           placeholder="Mobile Number"
-                          className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                            errors.mobile ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
-                          }`}
+                          className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.mobile ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                            }`}
                           maxLength={10}
                           required
                         />

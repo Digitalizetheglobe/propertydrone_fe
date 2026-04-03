@@ -1,4 +1,4 @@
-﻿// components/PlotDetail.tsx
+// components/PlotDetail.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -61,7 +61,7 @@ export default function PlotDetail({ plot }: PlotDetailProps) {
     const [qrCodeUrl, setQrCodeUrl] = useState('');
 
     // Helpers
-    const baseUrl = "https://api.propertydronerealty.com";
+    const baseUrl = "http://localhost:9000";
 
     const getImages = (): string[] => {
         if (Array.isArray(plot.images)) return plot.images;
@@ -166,7 +166,7 @@ export default function PlotDetail({ plot }: PlotDetailProps) {
             )}
             <div className="min-h-screen bg-[#F1EEFF]">
                 {/* Hero / Header Section */}
-                <section className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
+                <section className="relative h-[400px]">
                     <div className="absolute inset-0 h-full w-full">
                         <Image src={image} alt={plot.title} className="object-cover w-full h-full" />
                     </div>

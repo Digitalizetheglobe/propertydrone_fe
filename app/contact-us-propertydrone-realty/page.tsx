@@ -113,7 +113,7 @@ export default function ContactUs() {
     }
 
     try {
-      const response = await fetch("https://api.propertydronerealty.com/contacts", {
+      const response = await fetch("http://localhost:9000/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -269,10 +269,10 @@ export default function ContactUs() {
                   className="mr-2 mt-1 bg-transparent border-gray-400 rounded focus:ring-white focus:border-white"
                 />
                 <span className="text-xs leading-relaxed">
-                  I consent to the processing of my personal data in accordance with the 
-                  <a href="/privacy-policy" className="underline hover:text-white ml-1">Privacy Policy</a> 
-                  and 
-                  <a href="/terms-and-condition" className="underline hover:text-white ml-1">Terms & Conditions</a>. 
+                  I consent to the processing of my personal data in accordance with the
+                  <a href="/privacy-policy" className="underline hover:text-white ml-1">Privacy Policy</a>
+                  and
+                  <a href="/terms-and-condition" className="underline hover:text-white ml-1">Terms & Conditions</a>.
                   I agree to be contacted for property-related communications.
                 </span>
               </label>

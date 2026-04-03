@@ -27,13 +27,13 @@ export default function BlogHeroSection() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
     const { name, value, type } = e.target;
-    
+
     // Clear previous errors
     setErrors((prev) => ({
       ...prev,
       [name]: ''
     }));
-    
+
     // Handle checkbox
     if (type === 'checkbox') {
       setFormData((prev) => ({
@@ -42,7 +42,7 @@ export default function BlogHeroSection() {
       }));
       return;
     }
-    
+
     // Email validation
     if (name === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -53,7 +53,7 @@ export default function BlogHeroSection() {
         }));
       }
     }
-    
+
     // Mobile validation
     if (name === 'mobile') {
       const mobileValue = value.replace(/\D/g, ''); // Remove non-digits
@@ -85,12 +85,12 @@ export default function BlogHeroSection() {
       mobile: '',
       consent: ''
     };
-    
+
     // Name validation
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required';
     }
-    
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email) {
@@ -98,34 +98,34 @@ export default function BlogHeroSection() {
     } else if (!emailRegex.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-    
+
     // Mobile validation
     if (!formData.mobile) {
       newErrors.mobile = 'Mobile number is required';
     } else if (formData.mobile.length !== 10) {
       newErrors.mobile = 'Mobile number must be exactly 10 digits';
     }
-    
+
     // Consent validation
     if (!formData.consent) {
       newErrors.consent = 'Please consent to the terms and conditions';
     }
-    
+
     setErrors(newErrors);
     return !newErrors.name && !newErrors.email && !newErrors.mobile && !newErrors.consent;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://api.propertydronerealty.com/contacts", {
+      const response = await fetch("http://localhost:9000/contacts", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -378,9 +378,8 @@ export default function BlogHeroSection() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Email"
-                      className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
-                      }`}
+                      className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                        }`}
                       required
                     />
                     {errors.email && (
@@ -394,9 +393,8 @@ export default function BlogHeroSection() {
                       value={formData.mobile}
                       onChange={handleChange}
                       placeholder="Mobile Number"
-                      className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.mobile ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
-                      }`}
+                      className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.mobile ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                        }`}
                       maxLength={10}
                       required
                     />
@@ -424,10 +422,10 @@ export default function BlogHeroSection() {
                         className="mr-2 mt-1 border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
                       />
                       <span className="text-xs leading-relaxed">
-                        I consent to the processing of my personal data in accordance with the 
-                        <a href="/privacy-policy" className="text-blue-600 hover:underline ml-1">Privacy Policy</a> 
-                        and 
-                        <a href="/terms-and-condition" className="text-blue-600 hover:underline ml-1">Terms & Conditions</a>. 
+                        I consent to the processing of my personal data in accordance with the
+                        <a href="/privacy-policy" className="text-blue-600 hover:underline ml-1">Privacy Policy</a>
+                        and
+                        <a href="/terms-and-condition" className="text-blue-600 hover:underline ml-1">Terms & Conditions</a>.
                         I agree to be contacted for property-related communications.
                       </span>
                     </label>

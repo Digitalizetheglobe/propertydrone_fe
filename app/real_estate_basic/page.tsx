@@ -21,7 +21,7 @@ export default function RealEstateBasicsPage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://api.propertydronerealty.com/real-estate', { cache: 'no-store' })
+    fetch('http://localhost:9000/real-estate', { cache: 'no-store' })
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch real estate basics');
         return res.json();

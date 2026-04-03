@@ -291,7 +291,7 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch(`https://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
+    const res = await fetch(`http://localhost:9000/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
 
@@ -336,7 +336,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch(`https://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
+      const res = await fetch(`http://localhost:9000/api/saved-properties?webUserId=${currentUserId}`);
       if (!res.ok) return;
       const all = await res.json();
 
@@ -435,7 +435,7 @@ export default function Home() {
           image: (() => {
             const path = property.multipleImages?.[0]?.path;
             if (path) {
-              return path.startsWith('http') ? path : `https://api.propertydronerealty.com${path}`;
+              return path.startsWith('http') ? path : `http://localhost:9000${path}`;
             }
             return "/api/placeholder/400/320";
           })()
@@ -455,14 +455,14 @@ export default function Home() {
 
   const propertyNames = useMemo<string[]>(() => {
     if (!properties.length) return [];
-    
+
     const nameSet = new Set<string>();
     properties.forEach(property => {
       if (property.propertyName) {
         nameSet.add(property.propertyName);
       }
     });
-    
+
     return Array.from(nameSet).sort();
   }, [properties]);
 
@@ -503,7 +503,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      const response = await fetch("https://api.propertydronerealty.com/contacts", {
+      const response = await fetch("http://localhost:9000/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -589,7 +589,7 @@ export default function Home() {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://api.propertydronerealty.com/properties');
+        const response = await fetch('http://localhost:9000/properties');
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }
@@ -747,8 +747,8 @@ export default function Home() {
         } else if (dropdownFilters.possession === 'In 2 Years') {
           return possession.includes('2') || possession.toLowerCase().includes('24 months');
         } else if (dropdownFilters.possession === 'In 3+ Years') {
-          return possession.includes('3') || possession.includes('4') || possession.includes('5') || 
-                 possession.toLowerCase().includes('36 months') || possession.toLowerCase().includes('48 months');
+          return possession.includes('3') || possession.includes('4') || possession.includes('5') ||
+            possession.toLowerCase().includes('36 months') || possession.toLowerCase().includes('48 months');
         }
         return true;
       });
@@ -758,7 +758,7 @@ export default function Home() {
       filtered = filtered.filter(property => {
         const bedroom = property.bedroom || '';
         const filterValue = dropdownFilters.typology.toLowerCase();
-        
+
         // Handle different formats: "4 BHK", "4bhk", "4", "4 Bedroom", etc.
         if (filterValue.includes('4')) {
           return bedroom.toLowerCase().includes('4') || bedroom.toLowerCase().includes('four');
@@ -774,7 +774,7 @@ export default function Home() {
         } else if (filterValue.includes('5')) {
           return bedroom.toLowerCase().includes('5') || bedroom.toLowerCase().includes('five');
         }
-        
+
         return bedroom.toLowerCase() === filterValue;
       });
     }
@@ -1055,7 +1055,7 @@ export default function Home() {
                       <div className="backdrop-blur-md bg-white rounded-t-2xl flex items-center overflow-hidden ">
                         {/* Search Icon */}
                         <div className="pl-4 pr-3 flex-shrink-0">
-                          <Search className="w-5 h-5 text-gray-400" /> 
+                          <Search className="w-5 h-5 text-gray-400" />
                         </div>
 
                         {/* Input Field */}
@@ -1244,7 +1244,7 @@ export default function Home() {
                       )}
                     </div>
 
-                    
+
 
                     {/* Typology */}
                     <div className="relative" onMouseEnter={() => setActiveDropdown('typology')} onMouseLeave={() => setActiveDropdown(null)}>

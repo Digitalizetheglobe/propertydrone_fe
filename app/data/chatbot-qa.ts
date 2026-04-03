@@ -7,10 +7,10 @@ export interface QAPair {
 export const qaPairs: QAPair[] = [
   // General Information
   {
-    question: "What is Property Drone?",
+    question: "What is Propertydrone Realty?",
     answer:
-      "Property Drone is your trusted real estate partner, offering services for buying, selling, and renting properties. We connect you with top experts and provide tools like home loan assistance.",
-    keywords: ["what is property drone", "about us", "company info"],
+      "Propertydrone Realty is your trusted real estate partner, offering services for buying, selling, and renting properties. We connect you with top experts and provide tools like home loan assistance.",
+    keywords: ["what is propertydrone realty", "about us", "company info"],
   },
   {
     question: "Where is Property Drone located?",
@@ -61,7 +61,7 @@ export const qaPairs: QAPair[] = [
   {
     question: "Can I get expert advice?",
     answer:
-      "Yes, our 'Property Drone Experts' are available to guide you. You can find their profiles and contact numbers in the 'Experts' section.",
+      "Yes, our 'Propertydrone Realty Experts' are available to guide you. You can find their profiles and contact numbers in the 'Experts' section.",
     keywords: ["expert", "advice", "consultant", "guidance"],
   },
   {

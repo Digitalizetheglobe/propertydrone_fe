@@ -33,7 +33,7 @@ export default function AllRealEstateBasics() {
 
   const fetchBasics = async () => {
     try {
-      const response = await fetch(`https://api.propertydronerealty.com/real-estate`);
+      const response = await fetch(`http://localhost:9000/real-estate`);
       if (!response.ok) throw new Error('Failed to fetch real estate basics');
       const data = await response.json();
       setBasics(data);
@@ -49,7 +49,7 @@ export default function AllRealEstateBasics() {
     if (!confirm('Are you sure you want to delete this real estate basic?')) return;
 
     try {
-      const response = await fetch(`https://api.propertydronerealty.com/real-estate/${id}`, {
+      const response = await fetch(`http://localhost:9000/real-estate/${id}`, {
         method: 'DELETE',
       });
 

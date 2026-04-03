@@ -215,11 +215,11 @@ const MainHeader: React.FC = () => {
                     <div className="space-y-6">
                         <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Top Locations</h3>
                         <div className="space-y-3">
-                            <Link href="/our-properties-in-pune?location=Hinjewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Hinjewadi</Link>
-                            <Link href="/our-properties-in-pune?location=Bandra West" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Bandra West</Link>
-                            <Link href="/our-properties-in-pune?location=Baner" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Baner</Link>
-                            <Link href="/our-properties-in-pune?location=Balewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Balewadi</Link>
-                            <Link href="/our-properties-in-pune?location=Ravet" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Ravet</Link>
+                            <Link href="/our-properties-in-pune/Hinjewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Hinjewadi</Link>
+                            <Link href="/our-properties-in-pune/Bandra-West" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Bandra West</Link>
+                            <Link href="/our-properties-in-pune/Baner" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Baner</Link>
+                            <Link href="/our-properties-in-pune/Balewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Balewadi</Link>
+                            <Link href="/our-properties-in-pune/Ravet" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Ravet</Link>
                         </div>
                     </div>
 
@@ -227,12 +227,12 @@ const MainHeader: React.FC = () => {
                     <div className="space-y-6">
                         <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Search by BHK</h3>
                         <div className="space-y-3">
-                            <Link href="/our-properties-in-pune?topology=1" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>1 RK / Studio</Link>
-                            <Link href="/our-properties-in-pune?topology=1" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>1 BHK Flats</Link>
-                            <Link href="/our-properties-in-pune?topology=2" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>2 BHK Flats</Link>
-                            <Link href="/our-properties-in-pune?topology=3" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>3 BHK Flats</Link>
-                            <Link href="/our-properties-in-pune?topology=4" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>4+ BHK Flats</Link>
-                            <Link href="/our-properties-in-pune?category=Offices" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Commercial Office</Link>
+                            <Link href="/our-properties-in-pune/1rk" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>1 RK / Studio</Link>
+                            <Link href="/our-properties-in-pune/1bhk" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>1 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune/2bhk" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>2 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune/3bhk" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>3 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune/4bhk" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>4+ BHK Flats</Link>
+                            <Link href="/our-properties-in-pune/commercial-office" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Commercial Office</Link>
                         </div>
                     </div>
                 </div>
@@ -300,7 +300,7 @@ const MainHeader: React.FC = () => {
                                                     <div className={`px-6 py-2 font-medium text-sm transition-all cursor-pointer border-b-0
                                                     ${isPropertiesDropdownOpen || pathname === item.href
                                                             ? 'bg-white text-[#172747] rounded-t-2xl rounded-b-none shadow-sm relative z-[60]'
-                                                            : 'rounded-full bg-white/70 hover:bg-white backdrop-blur-md text-[#172747]'
+                                                            : 'rounded-full bg-white hover:bg-white backdrop-blur-md text-[#172747]'
                                                         }`}>
                                                         {item.name}
                                                     </div>
@@ -318,7 +318,7 @@ const MainHeader: React.FC = () => {
                                                     <div className={`px-6 py-2 font-medium text-sm transition-all cursor-pointer border-b-0
                                                     ${isServicesDropdownOpen || pathname === item.href
                                                             ? 'bg-white text-[#172747] rounded-t-2xl rounded-b-none shadow-sm relative z-[60]'
-                                                            : 'rounded-full bg-white/70 hover:bg-white backdrop-blur-md text-[#172747]'
+                                                            : 'rounded-full bg-white hover:bg-white text-[#172747]'
                                                         }`}>
                                                         {item.name}
                                                     </div>
@@ -332,7 +332,7 @@ const MainHeader: React.FC = () => {
                                                 <div className={`px-6 py-2 rounded-full font-medium text-sm transition-all cursor-pointer
                                                 ${pathname === item.href
                                                         ? 'bg-white text-[#172747] shadow-sm font-bold'
-                                                        : 'bg-white/70 hover:bg-white backdrop-blur-md text-[#172747]'
+                                                        : 'bg-white hover:bg-white text-[#172747]'
                                                     }`}>
                                                     {item.name}
                                                 </div>
@@ -351,7 +351,7 @@ const MainHeader: React.FC = () => {
                                         className={`flex items-center gap-2 px-6 py-2 font-medium text-sm transition-all cursor-pointer outline-none
                                             ${isDropdownOpen
                                                 ? 'bg-white text-[#172747] rounded-t-2xl rounded-b-none'
-                                                : 'bg-white/70 text-[#172747] rounded-full hover:bg-white backdrop-blur-md'
+                                                : 'bg-white text-[#172747] rounded-full hover:bg-white backdrop-blur-md'
                                             }`}
                                     >
                                         <span className="font-bold">☰</span> More

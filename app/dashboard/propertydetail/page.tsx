@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState, useRef, useMemo } from "react";
 import { MicIcon, SearchIcon, XIcon, FilterIcon, UploadIcon, TrashIcon } from "lucide-react";
@@ -10,7 +10,7 @@ export default function PropertyDetail() {
 
   // Fetch compared property ids on mount
   useEffect(() => {
-    fetch(`https://api.propertydronerealty.com/api/property-comparisons`)
+    fetch(`http://localhost:9000/api/property-comparisons`)
       .then(res => res.json())
       .then(data => {
         // For current user only
@@ -21,7 +21,7 @@ export default function PropertyDetail() {
 
   // Add to comparison
   const addToComparison = async (property: any) => {
-    await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
+    await fetch('http://localhost:9000/api/property-comparisons', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -50,7 +50,7 @@ export default function PropertyDetail() {
   const [showFilters, setShowFilters] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
 
-  const baseUrl = "https://api.propertydronerealty.com"; // For dev â€” ideally from env
+  const baseUrl = "http://localhost:9000"; // For dev â€” ideally from env
   const imagePath = propertyImages?.[0]
     ? `${baseUrl}${propertyImages[0]}`
     : null;
@@ -58,7 +58,7 @@ export default function PropertyDetail() {
   // Fetch properties function
   const fetchProperties = () => {
     setLoading(true);
-    fetch("https://api.propertydronerealty.com/properties")
+    fetch("http://localhost:9000/properties")
       .then((res) => res.json())
       .then((data) => {
         // Sort properties by ID in descending order
@@ -180,7 +180,7 @@ export default function PropertyDetail() {
 
   const deleteProperty = async (id: string) => {
     try {
-      const response = await fetch(`https://api.propertydronerealty.com/properties/${id}`, {
+      const response = await fetch(`http://localhost:9000/properties/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -251,15 +251,19 @@ export default function PropertyDetail() {
 
       // Add property data directly without stringifying
       Object.keys(editProperty).forEach(key => {
-        if (key !== 'multipleImages' && key !== 'slug' && key !== 'configurationTypology') {
+        if (key !== 'multipleImages' && key !== 'slug' && key !== 'configurationTypology' && key !== 'pros' && key !== 'cons') {
           formData.append(key, editProperty[key]);
         }
       });
 
-      // Handle configurationTypology separately - stringify it like in the form submission
+      // Handle configurationTypology separately - stringify it
       if (editProperty.configurationTypology && Array.isArray(editProperty.configurationTypology)) {
         formData.append('configurationTypology', JSON.stringify(editProperty.configurationTypology));
       }
+
+      // Handle pros/cons as JSON arrays
+      formData.append('pros', JSON.stringify(Array.isArray(editProperty.pros) ? editProperty.pros : []));
+      formData.append('cons', JSON.stringify(Array.isArray(editProperty.cons) ? editProperty.cons : []));
 
       // Add new images if any
       if (newImages.length > 0) {
@@ -274,7 +278,7 @@ export default function PropertyDetail() {
       }
 
       // Send request
-      const response = await fetch(`https://api.propertydronerealty.com/properties/${editProperty.id}`, {
+      const response = await fetch(`http://localhost:9000/properties/${editProperty.id}`, {
         method: "PUT",
         body: formData,
       });
@@ -300,6 +304,8 @@ export default function PropertyDetail() {
 
   // Add state for tracking deleted images
   const [deletedImages, setDeletedImages] = useState<string[]>([]);
+  const [prosEditInput, setProsEditInput] = useState('');
+  const [consEditInput, setConsEditInput] = useState('');
 
   if (loading) {
     return (
@@ -832,6 +838,115 @@ export default function PropertyDetail() {
                   placeholder="e.g., P51800012345"
                 />
               </div>
+
+              {/* Pros & Cons Edit Section */}
+              <div className="md:col-span-2 border-t pt-4 mt-2">
+                <h4 className="text-sm font-semibold text-gray-700 mb-3">Pros &amp; Cons</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                  {/* Pros */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">👍 Pros</label>
+                    <div className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        value={prosEditInput}
+                        onChange={e => setProsEditInput(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            const val = prosEditInput.trim();
+                            if (val) {
+                              setEditProperty({ ...editProperty, pros: [...(editProperty.pros || []), val] });
+                              setProsEditInput('');
+                            }
+                          }
+                        }}
+                        className="flex-1 p-2 border border-gray-300 rounded-md text-sm"
+                        placeholder="Type a pro and press Enter"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const val = prosEditInput.trim();
+                          if (val) {
+                            setEditProperty({ ...editProperty, pros: [...(editProperty.pros || []), val] });
+                            setProsEditInput('');
+                          }
+                        }}
+                        className="px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 text-sm"
+                      >+</button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {(editProperty.pros || []).map((item: string, i: number) => (
+                        <span key={i} className="flex items-center gap-1 bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">
+                          ✓ {item}
+                          <button
+                            type="button"
+                            onClick={() => setEditProperty({ ...editProperty, pros: editProperty.pros.filter((_: string, idx: number) => idx !== i) })}
+                            className="ml-1 text-green-600 hover:text-green-900 font-bold"
+                          >×</button>
+                        </span>
+                      ))}
+                      {(!editProperty.pros || editProperty.pros.length === 0) && (
+                        <p className="text-xs text-gray-400 italic">No pros added yet.</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Cons */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">👎 Cons</label>
+                    <div className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        value={consEditInput}
+                        onChange={e => setConsEditInput(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            const val = consEditInput.trim();
+                            if (val) {
+                              setEditProperty({ ...editProperty, cons: [...(editProperty.cons || []), val] });
+                              setConsEditInput('');
+                            }
+                          }
+                        }}
+                        className="flex-1 p-2 border border-gray-300 rounded-md text-sm"
+                        placeholder="Type a con and press Enter"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const val = consEditInput.trim();
+                          if (val) {
+                            setEditProperty({ ...editProperty, cons: [...(editProperty.cons || []), val] });
+                            setConsEditInput('');
+                          }
+                        }}
+                        className="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 text-sm"
+                      >+</button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {(editProperty.cons || []).map((item: string, i: number) => (
+                        <span key={i} className="flex items-center gap-1 bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full">
+                          ✕ {item}
+                          <button
+                            type="button"
+                            onClick={() => setEditProperty({ ...editProperty, cons: editProperty.cons.filter((_: string, idx: number) => idx !== i) })}
+                            className="ml-1 text-red-600 hover:text-red-900 font-bold"
+                          >×</button>
+                        </span>
+                      ))}
+                      {(!editProperty.cons || editProperty.cons.length === 0) && (
+                        <p className="text-xs text-gray-400 italic">No cons added yet.</p>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
               {/* Configuration Typology Edit Table */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Configuration Typology</label>
