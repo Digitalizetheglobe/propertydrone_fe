@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: { absolute: 'IRR Calculator for Real Estate | PropertyDrone Pune' },
+  title: { absolute: 'IRR Calculator for Real Estate' },
   description:
     'Calculate Internal Rate of Return on your property investment in Pune. Free IRR tool for smart real estate planning.',
   keywords: [

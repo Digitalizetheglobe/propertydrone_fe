@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Home Loan EMI Calculator | PropertyDrone Realty Pune' },
+  title: { absolute: 'Home Loan EMI Calculator' },
   description:
     'Calculate your home loan EMI instantly. Enter loan amount, interest rate & tenure to plan your property purchase smartly.',
   keywords: [

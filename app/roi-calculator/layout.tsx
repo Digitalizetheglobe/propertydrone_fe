@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Real Estate ROI Calculator Pune | PropertyDrone' },
+  title: { absolute: 'Real Estate ROI Calculator' },
   description:
     'Calculate return on investment for your Pune property. Make smarter real estate investment decisions with our free ROI tool.',
   keywords: [

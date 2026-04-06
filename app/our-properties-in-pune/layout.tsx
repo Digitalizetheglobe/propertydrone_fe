@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Properties for Sale in Pune | Flats & Villas' },
+  title: { absolute: 'Residential Properties for Sale in Pune | Flats & Villas' },
   description:
     'Browse verified properties in Pune. Filter by budget, location & area. Discover flats, villas & luxury homes easily.',
   keywords: [
