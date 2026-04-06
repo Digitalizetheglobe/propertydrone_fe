@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 // Uses NEXT_PUBLIC_API_URL in production, falls back to localhost for dev
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9000'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.propertydronerealty.com'
 const BASE_URL = 'https://propertydronerealty.com'
 
 // ─── Location slug metadata map ───────────────────────────────────────────────
@@ -144,16 +144,16 @@ function buildPropertyMeta(property: Record<string, any>, slug: string): Metadat
   const keywords: string[] = property.seoKeywords
     ? property.seoKeywords.split(',').map((k: string) => k.trim()).filter(Boolean)
     : [
-        name,
-        topology ? `${topology} flat in ${city}` : '',
-        location ? `property in ${location}` : '',
-        `buy property in ${city}`,
-        propertyType ? `${propertyType} in ${city}` : '',
-        budget ? `property at ${budget}` : '',
-        'verified property listing Pune',
-        'PropertyDrone Realty',
-        reraNumber ? `RERA ${reraNumber}` : '',
-      ].filter(Boolean)
+      name,
+      topology ? `${topology} flat in ${city}` : '',
+      location ? `property in ${location}` : '',
+      `buy property in ${city}`,
+      propertyType ? `${propertyType} in ${city}` : '',
+      budget ? `property at ${budget}` : '',
+      'verified property listing Pune',
+      'PropertyDrone Realty',
+      reraNumber ? `RERA ${reraNumber}` : '',
+    ].filter(Boolean)
 
   // ── Image ──────────────────────────────────────────────────────────────────
   const imageUrl = resolveImageUrl(property)

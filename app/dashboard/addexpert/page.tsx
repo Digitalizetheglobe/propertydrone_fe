@@ -36,7 +36,7 @@ function AddExpertContent() {
 
     const fetchExpertDetails = async (id: string) => {
         try {
-            const response = await fetch(`http://localhost:9000/api/experts/${id}`);
+            const response = await fetch(`https://api.propertydronerealty.com/api/experts/${id}`);
             if (response.ok) {
                 const data = await response.json();
                 setFormData({
@@ -50,7 +50,7 @@ function AddExpertContent() {
                     contactNumber: data.contactNumber || ''
                 });
                 if (data.image && data.image.path) {
-                    setImagePreview(`http://localhost:9000${data.image.path}`);
+                    setImagePreview(`https://api.propertydronerealty.com${data.image.path}`);
                 }
             }
         } catch (error) {
@@ -101,8 +101,8 @@ function AddExpertContent() {
 
         try {
             const url = isEditMode
-                ? `http://localhost:9000/api/experts/${expertId}`
-                : 'http://localhost:9000/api/experts';
+                ? `https://api.propertydronerealty.com/api/experts/${expertId}`
+                : 'https://api.propertydronerealty.com/api/experts';
 
             const method = isEditMode ? 'PUT' : 'POST';
 

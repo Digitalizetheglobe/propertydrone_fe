@@ -21,7 +21,7 @@ export default function WebUsersDashboard() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:9000/api/webusers");
+      const res = await axios.get("https://api.propertydronerealty.com/api/webusers");
       setUsers(res.data);
       setError("");
     } catch (e) {
@@ -39,7 +39,7 @@ export default function WebUsersDashboard() {
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this user?")) return;
     try {
-      await axios.delete(`http://localhost:9000/api/webusers/${id}`);
+      await axios.delete(`https://api.propertydronerealty.com/api/webusers/${id}`);
       toast.success("User deleted successfully");
       setUsers(users.filter(u => u.id !== id));
     } catch (e) {

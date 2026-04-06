@@ -101,7 +101,7 @@ export default function AddNews() {
                 });
             }
 
-            const response = await axios.post("http://localhost:9000/news", formData, {
+            const response = await axios.post("https://api.propertydronerealty.com/news", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

@@ -8,14 +8,14 @@ async function getProperty(slug: string) {
 
     if (isNumeric) {
         try {
-            const res = await fetch(`http://localhost:9000/api/commercial-properties/${slug}`, { cache: 'no-store' });
+            const res = await fetch(`https://api.propertydronerealty.com/api/commercial-properties/${slug}`, { cache: 'no-store' });
             if (res.ok) return res.json();
         } catch (e) { }
     }
 
     // Try by slug
     try {
-        const res = await fetch(`http://localhost:9000/api/commercial-properties/slug/${slug}`, { cache: 'no-store' });
+        const res = await fetch(`https://api.propertydronerealty.com/api/commercial-properties/slug/${slug}`, { cache: 'no-store' });
         if (res.ok) return res.json();
     } catch (e) { }
 

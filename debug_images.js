@@ -3,7 +3,7 @@
 
 const https = require('https');
 
-https.get('http://localhost:9000/properties', (res) => {
+https.get('https://api.propertydronerealty.com/properties', (res) => {
     let data = '';
     res.on('data', (chunk) => {
         data += chunk;
