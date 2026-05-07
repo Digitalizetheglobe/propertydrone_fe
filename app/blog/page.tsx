@@ -205,12 +205,18 @@ const BlogPage = () => {
                       {post.blogDescription}
                     </p>
 
-                    {/* Read More Button */}
-                    <div className="mt-auto">
-                      <button className="bg-[#172747] hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] text-white p-1 px-3 cursor-pointer rounded-md flex items-center justify-center">
-                        <span>â†’</span>
-                      </button>
-                    </div>
+                   {/* Read More Button */}
+<div className="mt-auto">
+  <button
+    className="bg-[#172747] hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] 
+    text-white px-4 py-2 rounded-md flex items-center justify-center 
+    transition-all duration-300 cursor-pointer group"
+  >
+    <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
+      →
+    </span>
+  </button>
+</div>
                   </div>
                 </Link>
               </motion.div>
