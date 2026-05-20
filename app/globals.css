@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Ivy+Mode:ital,wght@0,300;0,400;1,400&display=swap');
 
 @import "tailwindcss";
+@source "./app";
+@source "./components";
 @import "tw-animate-css";
-
-/* Removed @custom-variant as it is not a standard CSS rule */
 
 :root {
   --color-background: var(--background);
