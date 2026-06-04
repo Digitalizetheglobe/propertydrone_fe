@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -101,7 +101,16 @@ export default function AllRealEstateBasics() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {basics.map((basic) => (
           <div key={basic.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-
+            {basic.images && basic.images.length > 0 && (
+              <div className="w-full h-48 relative bg-gray-200">
+                <img
+                  src={typeof basic.images[0] === 'string' ? (basic.images[0].startsWith('http') ? basic.images[0] : `https://api.propertydronerealty.com${basic.images[0]}`) : ((basic.images[0] as any)?.path ? `https://api.propertydronerealty.com${(basic.images[0] as any).path}` : '')}
+                  alt={basic.title}
+                  className="w-full h-full object-cover"
+                  onError={handleImageError}
+                />
+              </div>
+            )}
             <div className="p-4">
               <h2 className="text-xl font-semibold mb-2">{basic.title}</h2>
               <p className="text-gray-600 mb-2 line-clamp-2">{basic.description}</p>

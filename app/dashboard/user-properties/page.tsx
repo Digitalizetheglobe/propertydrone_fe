@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -15,6 +15,8 @@ interface UserProperty {
     areaUnit: string;
     furnishing: string;
     shareWithAgents: boolean;
+    contactDetails: string;
+    email: string;
     status: string;
     createdAt: string;
 }
@@ -145,7 +147,7 @@ export default function UserSubmittedProperties() {
                                 onClick={() => setSelectedProperty(null)}
                                 className="text-gray-500 hover:text-gray-700"
                             >
-                                âœ•
+                                x
                             </button>
                         </div>
 
@@ -153,6 +155,14 @@ export default function UserSubmittedProperties() {
                             <div>
                                 <p className="text-sm text-gray-500">User Name</p>
                                 <p className="font-semibold">{selectedProperty.userName}</p>
+                            </div>
+                            <div>
+                                <p className="text-sm text-gray-500">Contact Number</p>
+                                <p className="font-semibold">{selectedProperty.contactDetails || 'N/A'}</p>
+                            </div>
+                            <div>
+                                <p className="text-sm text-gray-500">Email</p>
+                                <p className="font-semibold">{selectedProperty.email || 'N/A'}</p>
                             </div>
                             <div>
                                 <p className="text-sm text-gray-500">City</p>

@@ -36,6 +36,10 @@ export default function AddBlog() {
     writer: "",
     category: "",
     tags: "",
+    metaTitle: "",
+    metaDescription: "",
+    metaKeyword: "",
+    canonical: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -113,6 +117,10 @@ export default function AddBlog() {
       formData.append('writer', blog.writer);
       formData.append('category', blog.category);
       formData.append('tags', blog.tags);
+      formData.append('metaTitle', blog.metaTitle);
+      formData.append('metaDescription', blog.metaDescription);
+      formData.append('metaKeyword', blog.metaKeyword);
+      formData.append('canonical', blog.canonical);
 
       // Add tags
 
@@ -141,6 +149,10 @@ export default function AddBlog() {
         writer: "",
         category: "",
         tags: "",
+        metaTitle: "",
+        metaDescription: "",
+        metaKeyword: "",
+        canonical: "",
       });
     } catch (error) {
       console.error("Error adding blog:", error);
@@ -241,6 +253,47 @@ export default function AddBlog() {
             value={blog.tags}
             onChange={(e) => setBlog({ ...blog, tags: e.target.value })}
 
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1 text-black">Meta Title</label>
+          <input
+            type="text"
+            className="border p-2 w-full rounded text-black placeholder-gray-700"
+            placeholder="Meta Title"
+            value={blog.metaTitle}
+            onChange={(e) => setBlog({ ...blog, metaTitle: e.target.value })}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1 text-black">Meta Description</label>
+          <textarea
+            className="border p-2 w-full rounded text-black placeholder-gray-700"
+            placeholder="Meta Description"
+            value={blog.metaDescription}
+            onChange={(e) => setBlog({ ...blog, metaDescription: e.target.value })}
+            rows={2}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1 text-black">Meta Keywords</label>
+          <input
+            type="text"
+            className="border p-2 w-full rounded text-black placeholder-gray-700"
+            placeholder="Meta Keywords"
+            value={blog.metaKeyword}
+            onChange={(e) => setBlog({ ...blog, metaKeyword: e.target.value })}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1 text-black">Canonical URL</label>
+          <input
+            type="text"
+            className="border p-2 w-full rounded text-black placeholder-gray-700"
+            placeholder="Canonical URL"
+            value={blog.canonical}
+            onChange={(e) => setBlog({ ...blog, canonical: e.target.value })}
           />
         </div>
 

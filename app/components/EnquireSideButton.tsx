@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { X, MapPin, Building2, Star } from 'lucide-react';
@@ -129,12 +129,22 @@ const EnquireSideButton = () => {
                                             </div>
 
                                             {/* CTA */}
-                                            <a
-                                                href={`tel:${expert.contactNumber}`}
-                                                className="w-full block text-center bg-white border border-[#1717B5] text-[#1717B5] text-[10px] sm:text-xs font-bold py-1.5 rounded-md hover:bg-[#1717B5] hover:text-white transition-colors cursor-pointer uppercase tracking-wider"
-                                            >
-                                                Contact Expert
-                                            </a>
+                                            <div className="flex gap-2">
+                                                <a
+                                                    href={`tel:${expert.contactNumber}`}
+                                                    className="w-full block text-center bg-white border border-[#1717B5] text-[#1717B5] text-[10px] sm:text-xs font-bold py-1.5 rounded-md hover:bg-[#1717B5] hover:text-white transition-colors cursor-pointer uppercase tracking-wider flex-1"
+                                                >
+                                                    Call
+                                                </a>
+                                                <a
+                                                    href={`https://wa.me/${expert.contactNumber?.replace(/\D/g, '') || ''}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="w-full block text-center bg-[#25D366] border border-[#25D366] text-white text-[10px] sm:text-xs font-bold py-1.5 rounded-md hover:bg-[#1da851] hover:border-[#1da851] transition-colors cursor-pointer uppercase tracking-wider flex-1"
+                                                >
+                                                    WhatsApp
+                                                </a>
+                                            </div>
                                         </div>
                                     ))
                                 )}

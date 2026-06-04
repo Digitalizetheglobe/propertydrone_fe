@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -11,6 +11,7 @@ interface News {
     category: string;
     updatedAt: string;
     newsContent: string;
+    newsImage?: Array<{ path: string }>;
 }
 
 export default function AllNews() {
@@ -77,6 +78,16 @@ export default function AllNews() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {news.map((item) => (
                         <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                            {item.newsImage && item.newsImage.length > 0 && item.newsImage[0]?.path && (
+                                <div className="w-full h-48 relative">
+                                    <img
+                                        src={item.newsImage[0].path.startsWith('http') ? item.newsImage[0].path : `https://api.propertydronerealty.com${item.newsImage[0].path}`}
+                                        alt={item.newsTitle}
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                                    />
+                                </div>
+                            )}
                             <div className="p-4">
                                 <h3 className="text-xl font-semibold mb-2 truncate">{item.newsTitle}</h3>
                                 <p className="text-gray-600 mb-4 line-clamp-2">{item.newsDescription}</p>

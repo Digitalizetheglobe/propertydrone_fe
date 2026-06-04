@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 import RichTextEditor, {
@@ -36,6 +36,10 @@ export default function AddNews() {
         writer: "",
         category: "",
         tags: "",
+        metaTitle: "",
+        metaDescription: "",
+        metaKeyword: "",
+        canonical: "",
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -93,6 +97,10 @@ export default function AddNews() {
             formData.append('writer', news.writer);
             formData.append('category', news.category);
             formData.append('tags', news.tags);
+            formData.append('metaTitle', news.metaTitle);
+            formData.append('metaDescription', news.metaDescription);
+            formData.append('metaKeyword', news.metaKeyword);
+            formData.append('canonical', news.canonical);
 
             // Add image if present
             if (news.newsImage) {
@@ -118,6 +126,10 @@ export default function AddNews() {
                 writer: "",
                 category: "",
                 tags: "",
+                metaTitle: "",
+                metaDescription: "",
+                metaKeyword: "",
+                canonical: "",
             });
         } catch (error) {
             console.error("Error adding news:", error);
@@ -218,6 +230,47 @@ export default function AddNews() {
                         value={news.tags}
                         onChange={(e) => setNews({ ...news, tags: e.target.value })}
 
+                    />
+                </div>
+
+                <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">Meta Title</label>
+                    <input
+                        type="text"
+                        className="border p-2 w-full rounded"
+                        placeholder="Meta Title"
+                        value={news.metaTitle}
+                        onChange={(e) => setNews({ ...news, metaTitle: e.target.value })}
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">Meta Description</label>
+                    <textarea
+                        className="border p-2 w-full rounded"
+                        placeholder="Meta Description"
+                        value={news.metaDescription}
+                        onChange={(e) => setNews({ ...news, metaDescription: e.target.value })}
+                        rows={2}
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">Meta Keywords</label>
+                    <input
+                        type="text"
+                        className="border p-2 w-full rounded"
+                        placeholder="Meta Keywords"
+                        value={news.metaKeyword}
+                        onChange={(e) => setNews({ ...news, metaKeyword: e.target.value })}
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">Canonical URL</label>
+                    <input
+                        type="text"
+                        className="border p-2 w-full rounded"
+                        placeholder="Canonical URL"
+                        value={news.canonical}
+                        onChange={(e) => setNews({ ...news, canonical: e.target.value })}
                     />
                 </div>
 

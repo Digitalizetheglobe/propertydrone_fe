@@ -194,7 +194,20 @@ export default function PropertyDetail() {
   };
 
   const handleEditClick = (property: any) => {
-    setEditProperty(property);
+    let parsedPros = [];
+    let parsedCons = [];
+    try {
+      parsedPros = Array.isArray(property.pros) ? property.pros : JSON.parse(property.pros || '[]');
+    } catch (e) {
+      parsedPros = typeof property.pros === 'string' && property.pros.trim() ? [property.pros] : [];
+    }
+    try {
+      parsedCons = Array.isArray(property.cons) ? property.cons : JSON.parse(property.cons || '[]');
+    } catch (e) {
+      parsedCons = typeof property.cons === 'string' && property.cons.trim() ? [property.cons] : [];
+    }
+
+    setEditProperty({ ...property, pros: parsedPros, cons: parsedCons });
     // If property has images, fetch and set them
     if (property.images && Array.isArray(property.images)) {
       setPropertyImages(property.images);

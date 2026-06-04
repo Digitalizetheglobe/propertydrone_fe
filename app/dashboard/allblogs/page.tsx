@@ -12,6 +12,7 @@ interface Blog {
   tags: string;
   updatedAt: string;
   blogContent: string;
+  blogImage?: Array<{ path: string }>;
 }
 
 export default function AllBlogs() {
@@ -54,6 +55,16 @@ export default function AllBlogs() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {blogs.map((blog) => (
             <div key={blog.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+              {blog.blogImage && blog.blogImage.length > 0 && blog.blogImage[0]?.path && (
+                <div className="w-full h-48 relative">
+                  <img
+                    src={blog.blogImage[0].path.startsWith('http') ? blog.blogImage[0].path : `https://api.propertydronerealty.com${blog.blogImage[0].path}`}
+                    alt={blog.blogTitle}
+                    className="w-full h-full object-cover"
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  />
+                </div>
+              )}
               <div className="p-4">
                 <h3 className="text-xl font-semibold mb-2 truncate text-black">{blog.blogTitle}</h3>
                 <p className="text-black mb-4 line-clamp-2">{blog.blogDescription}</p>

@@ -26,6 +26,7 @@ const sections = [
   { name: "Property Comparison", path: "/dashboard/propertycomparison", icon: faFileAlt },
   { name: "User Properties", path: "/dashboard/user-properties", icon: faBuilding },
   { name: "Saved Properties", path: "/dashboard/savedproperty", icon: faFileCirclePlus },
+  { name: "Web Users", path: "/dashboard/webusers", icon: faUserTie },
   { name: "Testimonials", path: "/dashboard/testimonials", icon: faAddressCard },
   { name: "Property Detail", path: "/dashboard/propertydetail", icon: faBuilding },
   { name: "Add Property", path: "/dashboard/propertyform", icon: faBuildingCircleArrowRight },

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import Image from 'next/image';
@@ -183,6 +183,8 @@ const PropertyFormCard = () => {
     // Form fields
     const [formData, setFormData] = useState({
         name: '',
+        contactDetails: '',
+        email: '',
         city: '',
         building: '',
         locality: '',
@@ -215,7 +217,9 @@ const PropertyFormCard = () => {
                 area: formData.area,
                 areaUnit: areaUnit,
                 furnishing: furnishing,
-                shareWithAgents: formData.shareWithAgents
+                shareWithAgents: formData.shareWithAgents,
+                contactDetails: formData.contactDetails,
+                email: formData.email
             };
 
             await axios.post('https://api.propertydronerealty.com/api/user-properties', payload);
@@ -223,6 +227,8 @@ const PropertyFormCard = () => {
             // Reset form or redirect
             setFormData({
                 name: '',
+                contactDetails: '',
+                email: '',
                 city: '',
                 building: '',
                 locality: '',
@@ -265,6 +271,32 @@ const PropertyFormCard = () => {
                         value={formData.name}
                         onChange={handleInputChange}
                         placeholder="Enter your name"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3e2393] focus:border-transparent transition-all"
+                    />
+                </div>
+
+                {/* Contact Number */}
+                <div className="space-y-2">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wide">Contact Number</label>
+                    <input
+                        type="text"
+                        name="contactDetails"
+                        value={formData.contactDetails}
+                        onChange={handleInputChange}
+                        placeholder="Enter contact number"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3e2393] focus:border-transparent transition-all"
+                    />
+                </div>
+
+                {/* Email */}
+                <div className="space-y-2">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wide">Email Address</label>
+                    <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="Enter email address"
                         className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3e2393] focus:border-transparent transition-all"
                     />
                 </div>

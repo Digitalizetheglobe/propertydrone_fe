@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -70,7 +70,11 @@ export default function AddRealEstateBasic() {
     area: '',
     status: 'available',
     images: [] as File[],
-    author: '' // This will store the rich text content
+    author: '',
+    metaTitle: '',
+    metaDescription: '',
+    metaKeyword: '',
+    canonical: ''
   });
   const [loading, setLoading] = useState(false);
 
@@ -127,7 +131,11 @@ export default function AddRealEstateBasic() {
         bathrooms: formData.bathrooms ? parseInt(formData.bathrooms) : null,
         area: formData.area ? parseInt(formData.area) : null,
         status: formData.status || 'available',
-        images: imageUrls // Use placeholder URLs for now
+        images: imageUrls, // Use placeholder URLs for now
+        metaTitle: formData.metaTitle.trim() || null,
+        metaDescription: formData.metaDescription.trim() || null,
+        metaKeyword: formData.metaKeyword.trim() || null,
+        canonical: formData.canonical.trim() || null,
       };
 
       console.log('Sending JSON data:', jsonData);
@@ -169,7 +177,11 @@ export default function AddRealEstateBasic() {
         area: '',
         status: 'available',
         images: [],
-        author: ''
+        author: '',
+        metaTitle: '',
+        metaDescription: '',
+        metaKeyword: '',
+        canonical: ''
       });
 
       // Reset file input
@@ -261,6 +273,59 @@ export default function AddRealEstateBasic() {
         </div>
 
 
+
+        <div className="mb-4">
+          <label htmlFor="metaTitle" className="block text-sm font-medium text-gray-700 mb-1">
+            Meta Title
+          </label>
+          <input
+            type="text"
+            id="metaTitle"
+            value={formData.metaTitle}
+            onChange={(e) => setFormData({ ...formData, metaTitle: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Meta Title"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="metaDescription" className="block text-sm font-medium text-gray-700 mb-1">
+            Meta Description
+          </label>
+          <textarea
+            id="metaDescription"
+            value={formData.metaDescription}
+            onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}
+            rows={2}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Meta Description"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="metaKeyword" className="block text-sm font-medium text-gray-700 mb-1">
+            Meta Keywords
+          </label>
+          <input
+            type="text"
+            id="metaKeyword"
+            value={formData.metaKeyword}
+            onChange={(e) => setFormData({ ...formData, metaKeyword: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Meta Keywords"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="canonical" className="block text-sm font-medium text-gray-700 mb-1">
+            Canonical URL
+          </label>
+          <input
+            type="text"
+            id="canonical"
+            value={formData.canonical}
+            onChange={(e) => setFormData({ ...formData, canonical: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Canonical URL"
+          />
+        </div>
 
         <div className="mb-6">
           <label htmlFor="images" className="block text-sm font-medium text-gray-700 mb-1">

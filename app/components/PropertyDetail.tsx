@@ -206,19 +206,23 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
     basement: 'Finished',
   };
 
-  // Helper function to extract YouTube video ID
   const getYouTubeVideoId = (url: string | undefined) => {
     if (!url) return 'DrIKLgR6STs'; // Default ID
 
-    const urlObj = new URL(url);
-    if (urlObj.hostname === 'www.youtube.com' || urlObj.hostname === 'youtube.com') {
-      const videoId = urlObj.searchParams.get('v');
-      return videoId || 'DrIKLgR6STs';
-    } else if (urlObj.hostname === 'youtu.be') {
-      const videoId = urlObj.pathname.split('/').pop();
-      return videoId || 'DrIKLgR6STs';
+    try {
+      const urlObj = new URL(url);
+      if (urlObj.hostname === 'www.youtube.com' || urlObj.hostname === 'youtube.com') {
+        const videoId = urlObj.searchParams.get('v');
+        return videoId || 'DrIKLgR6STs';
+      } else if (urlObj.hostname === 'youtu.be') {
+        const videoId = urlObj.pathname.split('/').pop();
+        return videoId || 'DrIKLgR6STs';
+      }
+      return 'DrIKLgR6STs'; // Default ID for unrecognized formats
+    } catch (e) {
+      // If URL parsing fails, return default ID
+      return 'DrIKLgR6STs';
     }
-    return 'DrIKLgR6STs'; // Default ID for unrecognized formats
   };
 
   const youtubeVideoId = getYouTubeVideoId(property?.youtubeUrl);
