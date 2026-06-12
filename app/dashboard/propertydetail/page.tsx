@@ -490,11 +490,13 @@ export default function PropertyDetail() {
                 <p className="text-gray-600">{property.location}, {property.city}</p>
 
                 {/* Display property images if available */}
-                {property.images && property.images.length > 0 && (
+                {property.multipleImages && property.multipleImages.length > 0 && (
                   <div className="mt-4">
                     <h4 className="text-lg font-semibold mb-2">Property Images</h4>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                      {property.images.slice(0, 1).map((image: string, imgIndex: number) => {
+                      {property.multipleImages.map((imageObj: any, imgIndex: number) => {
+                        const image = typeof imageObj === 'string' ? imageObj : imageObj?.path;
+                        if (!image) return null;
                         // Robust image path handling for string paths
                         const cleanPath = image.replace(/\\/g, '/');
                         const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
@@ -596,30 +598,33 @@ export default function PropertyDetail() {
                 <div className="mb-4">
                   <h4 className="text-sm font-medium text-gray-700 mb-2">Current Images</h4>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                    {editProperty.multipleImages.slice(0, 1).map((image: { path: string; originalName?: string }, index: number) => {
+                    {editProperty.multipleImages.map((imageObj: any, index: number) => {
+                      const image = typeof imageObj === 'string' ? imageObj : imageObj?.path;
+                      if (!image) return null;
                       // Robust image path handling
-                      const cleanPath = image.path.replace(/\\/g, '/');
+                      const cleanPath = image.replace(/\\/g, '/');
                       const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
-                      const fullUrl = image.path.startsWith('http') ? image.path : `${baseUrl}${finalPath}`;
+                      const fullUrl = image.startsWith('http') ? image : `${baseUrl}${finalPath}`;
 
                       return (
                         <div key={index} className="relative group">
                           <img
                             src={fullUrl}
-                            alt={image.originalName || `Property image ${index + 1}`}
+                            alt={`Property image ${index + 1}`}
                             className="w-full h-32 object-cover rounded border border-gray-200"
                           />
                           <button
                             type="button"
                             onClick={() => {
                               const updatedImages = [...editProperty.multipleImages];
-                              // Since we are only showing the first image (slice(0,1)), index is always 0.
-                              // This will remove the first image from the original array.
-                              updatedImages.splice(index, 1);
+                              const removed = updatedImages.splice(index, 1)[0];
                               setEditProperty({
                                 ...editProperty,
                                 multipleImages: updatedImages
                               });
+                              if (removed && removed.filename) {
+                                setDeletedImages(prev => [...prev, removed.filename]);
+                              }
                             }}
                             className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                             aria-label="Delete image"

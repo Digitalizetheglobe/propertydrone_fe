@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -68,7 +68,7 @@ export default function AllExperts() {
     return (
         <div className="flex bg-gray-50 min-h-screen">
             <Sidebar />
-            <main className="flex-1 ml-64 p-8">
+            <main className="flex-1 ml-4 p-8">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex justify-between items-center mb-8">
                         <div>

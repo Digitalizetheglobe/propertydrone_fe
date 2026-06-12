@@ -100,7 +100,7 @@ const Mainfooter = () => {
                       className=" text-base leading-none"
                       style={{ fontFamily: "Lato", letterSpacing: "0.5px" }}
                     >
-                      info@propertydronrealty.com
+                      Info@propertydronerealty.com
                     </span>
                   </a>
 

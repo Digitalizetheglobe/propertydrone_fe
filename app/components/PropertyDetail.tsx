@@ -178,11 +178,15 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   }, [property.multipleImages]);
 
   const handlePrevImage = () => {
-    setMainImage((prev) => (prev - 1 + property.multipleImages.length) % property.multipleImages.length);
+    const newIdx = (mainImage - 1 + property.multipleImages.length) % property.multipleImages.length;
+    setMainImage(newIdx);
+    setCurrentImageIndex(newIdx);
   };
 
   const handleNextImage = () => {
-    setMainImage((prev) => (prev + 1) % property.multipleImages.length);
+    const newIdx = (mainImage + 1) % property.multipleImages.length;
+    setMainImage(newIdx);
+    setCurrentImageIndex(newIdx);
   };
 
   const openModal = (index: number) => {
@@ -820,7 +824,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
             <div className="relative w-full h-full flex items-center justify-center">
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 text-white hover:text-gray-300"
+                className="absolute top-[200px] right-4 text-white hover:text-gray-300"
               >
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -851,11 +855,16 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
 
               <img
                 src={(() => {
-                  const path = property.multipleImages[currentImageIndex].path;
-                  if (path.startsWith('http')) return path;
-                  const cleanPath = path.replace(/\\/g, '/');
-                  const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
-                  return `${baseUrl}${finalPath}`;
+                  const img = property.multipleImages?.[currentImageIndex];
+                  const path = typeof img === 'string' ? img : img?.path;
+                  if (!path || path.trim() === "") return demoimage.src;
+                  let fullUrl = path;
+                  if (!path.startsWith('http')) {
+                    const cleanPath = path.replace(/\\/g, '/');
+                    const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+                    fullUrl = `${baseUrl}${finalPath}`;
+                  }
+                  return fullUrl;
                 })()}
                 alt={property.propertyName}
                 className="max-h-[90vh] max-w-[90vw] object-contain"

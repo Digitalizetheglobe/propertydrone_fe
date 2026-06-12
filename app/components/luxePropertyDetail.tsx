@@ -192,15 +192,15 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   }, [property.multipleImages]);
 
   const handlePrevImage = () => {
-    setMainImage(
-      (prev) =>
-        (prev - 1 + property.multipleImages.length) %
-        property.multipleImages.length
-    );
+    const newIdx = (mainImage - 1 + property.multipleImages.length) % property.multipleImages.length;
+    setMainImage(newIdx);
+    setCurrentImageIndex(newIdx);
   };
 
   const handleNextImage = () => {
-    setMainImage((prev) => (prev + 1) % property.multipleImages.length);
+    const newIdx = (mainImage + 1) % property.multipleImages.length;
+    setMainImage(newIdx);
+    setCurrentImageIndex(newIdx);
   };
 
   const openModal = (index: number) => {
@@ -255,16 +255,20 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   const getYouTubeVideoId = (url: string | undefined) => {
     if (!url) return "DrIKLgR6STs"; // Default ID
 
-    const urlObj = new URL(url);
-    if (
-      urlObj.hostname === "www.youtube.com" ||
-      urlObj.hostname === "youtube.com"
-    ) {
-      const videoId = urlObj.searchParams.get("v");
-      return videoId || "DrIKLgR6STs";
-    } else if (urlObj.hostname === "youtu.be") {
-      const videoId = urlObj.pathname.split("/").pop();
-      return videoId || "DrIKLgR6STs";
+    try {
+      const urlObj = new URL(url);
+      if (
+        urlObj.hostname === "www.youtube.com" ||
+        urlObj.hostname === "youtube.com"
+      ) {
+        const videoId = urlObj.searchParams.get("v");
+        return videoId || "DrIKLgR6STs";
+      } else if (urlObj.hostname === "youtu.be") {
+        const videoId = urlObj.pathname.split("/").pop();
+        return videoId || "DrIKLgR6STs";
+      }
+    } catch (e) {
+      // Invalid URL string
     }
     return "DrIKLgR6STs"; // Default ID for unrecognized formats
   };
@@ -1211,7 +1215,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
             <div className="relative w-full h-full flex items-center justify-center">
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 text-white hover:text-gray-300"
+                className="absolute top-[100px] right-4 text-white hover:text-gray-300"
               >
                 <svg
                   className="w-8 h-8"
@@ -1267,24 +1271,34 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
                   </button>
                 </>
               )}
-              {property.multipleImages?.[currentImageIndex]?.path &&
-                property.multipleImages[currentImageIndex].path.trim() !== "" ? (
-                <Image
-                  src={`${baseUrl}${property.multipleImages[currentImageIndex].path}`}
-                  alt={property.propertyName}
-                  className="max-h-[90vh] max-w-[90vw] object-contain"
-                  width={1200}
-                  height={900}
-                />
-              ) : (
-                <Image
-                  src={demoimage}
-                  alt={property.propertyName}
-                  className="max-h-[90vh] max-w-[90vw] object-contain"
-                  width={1200}
-                  height={900}
-                />
-              )}
+              {(() => {
+                const img = property.multipleImages?.[currentImageIndex];
+                const path = typeof img === 'string' ? img : img?.path;
+                if (path && path.trim() !== "") {
+                  let fullUrl = path;
+                  if (!path.startsWith('http')) {
+                    const cleanPath = path.replace(/\\/g, '/');
+                    const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+                    fullUrl = `${baseUrl}${finalPath}`;
+                  }
+                  return (
+                    <img
+                      src={fullUrl}
+                      alt={property.propertyName}
+                      className="max-h-[90vh] max-w-[90vw] object-contain"
+                    />
+                  );
+                }
+                return (
+                  <Image
+                    src={demoimage}
+                    alt={property.propertyName}
+                    className="max-h-[90vh] max-w-[90vw] object-contain"
+                    width={1200}
+                    height={900}
+                  />
+                );
+              })()}
             </div>
           </div>
         )}
