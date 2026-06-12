@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
@@ -55,6 +55,7 @@ import HomePageYoutube from "./components/homepageyoutube";
 import HomePageFeaturedProperty from "./components/homepagefeaturedproperty";
 import HomePageLuxeProperty from "./components/homepageluxeproperty";
 import HomePageLogos from "./components/homepagelogos";
+import FloatingVideo from "./components/FloatingVideo";
 
 const formatDate = (dateString: string) => {
   if (!dateString) return '';
@@ -1403,11 +1404,7 @@ export default function Home() {
         <BottomPropertyDetails />
       </div>
 
-
-
-
-
-
+      <FloatingVideo />
 
     </div >
   );
