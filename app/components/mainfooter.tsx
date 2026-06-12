@@ -126,8 +126,7 @@ const Mainfooter = () => {
                         marginLeft: "0.5rem",
                       }}
                     >
-                      Shivom Regency, 8th Floor, Flat No.: 801, Near Primrose
-                      The Mall, Baner Road, Baner Gaon, Pune - 411045
+                     9th Floor, Shivom Regency, Baner, Pune, Maharashtra – 411045
                     </span>
                     {/* <span
       className=" text-base leading-relaxed"
