@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 import Image from 'next/image';
 import Link from 'next/link';
 import bg1 from "@/public/images/contact.png";
@@ -254,7 +254,7 @@ export default function ContactUs() {
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                rows={3}
+                rows={1}
                 className="w-full bg-transparent font-lato border-b border-gray-400 py-2 focus:outline-none focus:border-white resize-none"
               />
             </div>
@@ -273,7 +273,7 @@ export default function ContactUs() {
                   <a href="/privacy-policy" className="underline hover:text-white ml-1">Privacy Policy</a>
                   and
                   <a href="/terms-and-condition" className="underline hover:text-white ml-1">Terms & Conditions</a>.
-                  I agree to be contacted for property-related communications.
+             
                 </span>
               </label>
             </div>
@@ -293,51 +293,39 @@ export default function ContactUs() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
           viewport={{ once: true }}
-          className="w-full max-w-xl mt-8 md:mt-0 md:ml-8"
+          className="w-full max-w-2xl mt-8 md:mt-0 md:ml-8"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:gap-6">
             {/* Email info */}
-            <div className="bg-gray-100 p-4 md:p-6 rounded font-lato flex items-start">
-              <div className="mr-3 md:mr-4">
+            <div className="bg-gray-100 p-4 md:p-5 rounded font-lato flex items-start">
+              <div className="mr-3">
                 <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
               </div>
-              <div >
-                <h3 className="font-medium text-base md:text-lg">Write to Us</h3>
-                <a href="mailto:info@propertydronealty.com" className="flex hover:underline text-gray-600 text-sm md:text-base ">info@propertydronealty.com</a>
+              <div className="min-w-0">
+                <h3 className="font-medium text-base md:text-lg mb-1">Write to Us</h3>
+                <a href="mailto:info@propertydronerealty.com" className="inline-block hover:underline text-gray-600 text-[13px] lg:text-[14px] xl:text-base whitespace-nowrap">info@propertydronerealty.com</a>
               </div>
             </div>
 
             {/* Phone info */}
-            <div className="bg-gray-100 p-4 md:p-6 rounded font-lato flex items-start">
-              <div className="mr-3 md:mr-4">
+            <div className="bg-gray-100 p-4 md:p-5 rounded font-lato flex items-start">
+              <div className="mr-3">
                 <svg className="w-5 h-5 md:w-6 md:h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                 </svg>
               </div>
               <div>
-                <h3 className="font-medium text-base md:text-lg">Phones</h3>
-                <a href="tel:+919561477575" className="flex  hover:underline">
-
-                  <span
-                    className=" text-base leading-none"
-                    style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
-                  >
+                <h3 className="font-medium text-base md:text-lg mb-1">Phones</h3>
+                <div className="flex flex-col gap-1 text-gray-600 text-[13px] lg:text-[14px] xl:text-base whitespace-nowrap">
+                  <a href="tel:+919561477575" className="hover:underline" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>
                     +91 9561477575
-                  </span>
-                </a>
-                <a href="tel:+919730156575" className="flex  hover:underline">
-
-                  <span
-                    className=" text-base leading-none"
-                    style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}
-                  >
+                  </a>
+                  <a href="tel:+919730156575" className="hover:underline" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>
                     +91 9730156575
-                  </span>
-                </a>
-
-                {/* <p className="text-gray-600 text-sm md:text-base">+91 91456 88167</p> */}
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -350,16 +338,15 @@ export default function ContactUs() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-medium text-base md:text-lg">Head office</h3>
+                <h3 className="font-medium text-base md:text-lg mb-1">Head office</h3>
                 <a
                   href="https://www.google.com/maps?q=9th+Floor,+Shivam+Regency,+Baner+Shivayog,+Baner,+Pune,+Maharashtra+411045"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start hover:underline text-gray-600 text-sm md:text-bas"
-                > 9th Floor, Shivom Regency,
-                  Baner, Pune,
-                  Maharashtra, 411045</a>
-
+                  className="hover:underline text-gray-600 text-sm md:text-base"
+                >
+                  9th Floor, Shivom Regency, Baner, Pune, Maharashtra, 411045
+                </a>
               </div>
             </div>
           </div>

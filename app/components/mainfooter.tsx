@@ -90,7 +90,7 @@ const Mainfooter = () => {
                     </span>
                   </a>
                   <a
-                    href="mailto:info@propertydronealty.com"
+                    href="mailto:info@propertydronerealty.com"
                     className="flex hover:underline"
                   >
                     <div className="flex justify-start items-start w-10">
