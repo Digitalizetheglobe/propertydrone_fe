@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { motion } from "framer-motion";
 import main33 from "@/public/images/Frame 145.png";
 import { ChevronDown, ChevronUp } from 'lucide-react';
+// Contact Us Page Component
 export default function ContactUs() {
   const faqData = [
     {
