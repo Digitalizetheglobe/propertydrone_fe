@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 import Image from 'next/image';
 import Link from 'next/link';
 import bg1 from "@/public/images/contact.png";
@@ -274,7 +274,7 @@ export default function ContactUs() {
                   <a href="/privacy-policy" className="underline hover:text-white ml-1">Privacy Policy</a>
                   and
                   <a href="/terms-and-condition" className="underline hover:text-white ml-1">Terms & Conditions</a>.
-             
+
                 </span>
               </label>
             </div>
@@ -323,8 +323,8 @@ export default function ContactUs() {
                   <a href="tel:+919561477575" className="hover:underline" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>
                     +91 9561477575
                   </a>
-                  <a href="tel:+919730156575" className="hover:underline" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>
-                    +91 9730156575
+                  <a href="tel:+919096346575" className="hover:underline" style={{ fontFamily: 'Lato', letterSpacing: '0.5px' }}>
+                    +91 9096346575
                   </a>
                 </div>
               </div>

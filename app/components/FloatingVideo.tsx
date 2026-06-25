@@ -10,9 +10,9 @@ interface YoutubeVideo {
 }
 
 const getYoutubeId = (url: string) => {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
 };
 
 export default function FloatingVideo() {
@@ -47,7 +47,7 @@ export default function FloatingVideo() {
         // Auto close after 30 seconds if not expanded
         timeout = setTimeout(() => {
           setPhase('hidden');
-        }, 50000); 
+        }, 50000);
       }
     } else if (phase === 'hidden') {
       // Re-open after 5 seconds with a different video
@@ -79,34 +79,34 @@ export default function FloatingVideo() {
 
   if (!isExpanded) {
     return (
-      <div 
+      <div
         className="fixed bottom-6 left-6 z-[100] w-40 h-72 sm:w-48 sm:h-80 rounded-2xl overflow-hidden shadow-2xl cursor-pointer transition-transform hover:scale-105 group"
         onClick={() => {
-            setIsExpanded(true);
+          setIsExpanded(true);
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <iframe 
+        <iframe
           src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1`}
-          className="w-full h-full object-cover pointer-events-none scale-150" 
+          className="w-full h-full object-cover pointer-events-none scale-150"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         />
-        
+
         {/* Title overlay */}
         <div className="absolute top-0 left-0 w-full bg-gradient-to-b from-black/80 to-transparent p-3 pt-4">
-            <p className="text-white text-xs font-semibold line-clamp-2 leading-tight">
-                {currentVideo.title}
-            </p>
+          <p className="text-white text-xs font-semibold line-clamp-2 leading-tight">
+            {currentVideo.title}
+          </p>
         </div>
 
         <div className={`absolute inset-0 bg-black/30 flex flex-col items-center justify-center transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
           <Maximize2 className="text-white w-8 h-8 mb-2 drop-shadow-md" />
           <span className="text-white text-sm font-medium drop-shadow-md">Click to expand</span>
         </div>
-        
-        <button 
+
+        <button
           onClick={(e) => {
             e.stopPropagation();
             setPhase('closed');
@@ -128,26 +128,26 @@ export default function FloatingVideo() {
           allowFullScreen
           className="w-full flex-1"
         />
-        
+
         <div className="bg-white/10 p-4 text-white flex items-center justify-between backdrop-blur-md">
-            <h3 className="font-semibold line-clamp-1 flex-1 pr-4">{currentVideo.title}</h3>
-            {videos.length > 1 && (
-                <div className="flex items-center gap-2">
-                    <button onClick={handlePrev} className="p-2 bg-white/20 hover:bg-white/40 rounded-full transition-colors">
-                        <ChevronLeft className="w-5 h-5" />
-                    </button>
-                    <span className="text-sm font-medium">{currentIndex + 1} / {videos.length}</span>
-                    <button onClick={handleNext} className="p-2 bg-white/20 hover:bg-white/40 rounded-full transition-colors">
-                        <ChevronRight className="w-5 h-5" />
-                    </button>
-                </div>
-            )}
+          <h3 className="font-semibold line-clamp-1 flex-1 pr-4">{currentVideo.title}</h3>
+          {videos.length > 1 && (
+            <div className="flex items-center gap-2">
+              <button onClick={handlePrev} className="p-2 bg-white/20 hover:bg-white/40 rounded-full transition-colors">
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <span className="text-sm font-medium">{currentIndex + 1} / {videos.length}</span>
+              <button onClick={handleNext} className="p-2 bg-white/20 hover:bg-white/40 rounded-full transition-colors">
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          )}
         </div>
 
-        <button 
+        <button
           onClick={(e) => {
-              e.stopPropagation();
-              setIsExpanded(false);
+            e.stopPropagation();
+            setIsExpanded(false);
           }}
           className="absolute top-4 right-4 bg-black/60 hover:bg-black/80 p-2 rounded-full text-white backdrop-blur-sm transition-colors z-10"
         >
