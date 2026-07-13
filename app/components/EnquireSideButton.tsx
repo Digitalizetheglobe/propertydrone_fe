@@ -47,7 +47,7 @@ const EnquireSideButton = () => {
 
     const getImageUrl = (image: { path: string } | null) => {
         if (!image || !image.path) return 'https://randomuser.me/api/portraits/men/32.jpg'; // Fallback
-        return `http://localhost:9000${image.path}`;
+        return `https://api.propertydronerealty.com${image.path}`;
     };
 
     return (

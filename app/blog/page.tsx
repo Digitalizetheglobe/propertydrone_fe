@@ -162,7 +162,7 @@ const BlogPage = () => {
                           if (path.startsWith('http')) return path;
                           const cleanPath = path.replace(/\\/g, '/');
                           return cleanPath.startsWith('/')
-                            ? `http://localhost:9000${cleanPath}`
+                            ? `https://api.propertydronerealty.com${cleanPath}`
                             : `https://api.propertydronerealty.com/${cleanPath}`;
                         })()}
                         alt={post.blogTitle}

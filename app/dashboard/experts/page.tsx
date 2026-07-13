@@ -62,7 +62,7 @@ export default function AllExperts() {
 
     const getImageUrl = (image: { path: string } | null) => {
         if (!image || !image.path) return '/placeholder-user.jpg';
-        return `http://localhost:9000${image.path}`;
+        return `https://api.propertydronerealty.com${image.path}`;
     };
 
     return (

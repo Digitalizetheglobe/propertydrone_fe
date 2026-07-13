@@ -360,7 +360,7 @@ function AddCommercialPropertyContent() {
                             {/* Existing Images */}
                             {formData.images && typeof formData.images === 'string' && formData.images.split(',').filter(Boolean).map((img, index) => {
                                 const trimmedImg = img.trim();
-                                const displayUrl = trimmedImg.startsWith('http') ? trimmedImg : `http://localhost:9000${trimmedImg.startsWith('/') ? '' : '/'}${trimmedImg}`;
+                                const displayUrl = trimmedImg.startsWith('http') ? trimmedImg : `https://api.propertydronerealty.com${trimmedImg.startsWith('/') ? '' : '/'}${trimmedImg}`;
                                 return (
                                     <div key={`existing-${index}`} className="relative w-24 h-24">
                                         <img src={displayUrl} alt="Existing" className="w-full h-full object-cover rounded border" />

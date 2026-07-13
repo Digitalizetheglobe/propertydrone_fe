@@ -246,7 +246,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Set up the base URL for images
-  const baseUrl = "http://localhost:9000"; // For dev — ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
 
   // Process the image paths
   const propertyImages =

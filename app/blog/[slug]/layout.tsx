@@ -1,6 +1,6 @@
 import type { Metadata, ResolvingMetadata } from 'next'
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9000'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.propertydronerealty.com'
 const BASE_URL = 'https://propertydronerealty.com'
 
 type Props = {

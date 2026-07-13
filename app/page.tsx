@@ -436,7 +436,7 @@ export default function Home() {
           image: (() => {
             const path = property.multipleImages?.[0]?.path;
             if (path) {
-              return path.startsWith('http') ? path : `http://localhost:9000${path}`;
+              return path.startsWith('http') ? path : `https://api.propertydronerealty.com${path}`;
             }
             return "/api/placeholder/400/320";
           })()

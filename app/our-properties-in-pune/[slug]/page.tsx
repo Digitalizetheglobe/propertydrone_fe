@@ -71,7 +71,7 @@ function SlugPageContent() {
   const params = useParams();
   const slug = (Array.isArray(params.slug) ? params.slug[0] : params.slug) || '';
 
-  const baseUrl = "http://localhost:9000";
+  const baseUrl = "https://api.propertydronerealty.com";
 
   // Determine slug type
   const isLocationSlug = KNOWN_LOCATIONS.includes(slug.toLowerCase());

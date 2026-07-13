@@ -104,7 +104,7 @@ export default function AllRealEstateBasics() {
             {basic.images && basic.images.length > 0 && (
               <div className="w-full h-48 relative bg-gray-200">
                 <img
-                  src={typeof basic.images[0] === 'string' ? (basic.images[0].startsWith('http') ? basic.images[0] : `http://localhost:9000${basic.images[0]}`) : ((basic.images[0] as any)?.path ? `http://localhost:9000${(basic.images[0] as any).path}` : '')}
+                  src={typeof basic.images[0] === 'string' ? (basic.images[0].startsWith('http') ? basic.images[0] : `https://api.propertydronerealty.com${basic.images[0]}`) : ((basic.images[0] as any)?.path ? `https://api.propertydronerealty.com${(basic.images[0] as any).path}` : '')}
                   alt={basic.title}
                   className="w-full h-full object-cover"
                   onError={handleImageError}

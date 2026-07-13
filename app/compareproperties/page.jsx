@@ -255,7 +255,7 @@ const CompareProperties = () => {
                             const cleanPath = img.replace(/\\/g, '/');
                             const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
                             // If it's a relative path (e.g. from multer), prepend backend URL
-                            return `http://localhost:9000${finalPath}`;
+                            return `https://api.propertydronerealty.com${finalPath}`;
                           })()}
                           alt={data.propertyName}
                           fill

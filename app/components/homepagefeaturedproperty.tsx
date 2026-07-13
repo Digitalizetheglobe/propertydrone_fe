@@ -72,7 +72,7 @@ const PropertyCard = ({
         // Normalize path: replace backslashes with forward slashes and ensure leading slash
         const cleanPath = imgPath.replace(/\\/g, '/');
         const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
-        return `http://localhost:9000${finalPath}`;
+        return `https://api.propertydronerealty.com${finalPath}`;
     })();
 
     const toggleSave = async (e: React.MouseEvent) => {

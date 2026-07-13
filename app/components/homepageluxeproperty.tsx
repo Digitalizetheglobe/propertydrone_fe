@@ -136,7 +136,7 @@ const PropertyCardLuxe = ({
         const path = property?.multipleImages?.[0]?.path;
         if (!path) return main2.src;
         if (path.startsWith('http')) return path;
-        return `http://localhost:9000${path}`;
+        return `https://api.propertydronerealty.com${path}`;
     })();
 
     const toggleSave = async (e: React.MouseEvent) => {

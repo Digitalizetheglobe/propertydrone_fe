@@ -50,7 +50,7 @@ function AddExpertContent() {
                     contactNumber: data.contactNumber || ''
                 });
                 if (data.image && data.image.path) {
-                    setImagePreview(`http://localhost:9000${data.image.path}`);
+                    setImagePreview(`https://api.propertydronerealty.com${data.image.path}`);
                 }
             }
         } catch (error) {

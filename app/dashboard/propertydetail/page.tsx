@@ -50,7 +50,7 @@ export default function PropertyDetail() {
   const [showFilters, setShowFilters] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
 
-  const baseUrl = "http://localhost:9000"; // For dev â€” ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev â€” ideally from env
   const imagePath = propertyImages?.[0]
     ? `${baseUrl}${propertyImages[0]}`
     : null;
