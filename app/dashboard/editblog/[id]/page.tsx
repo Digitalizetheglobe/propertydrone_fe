@@ -36,6 +36,11 @@ interface Blog {
   category: string;
   tags: string;
   blogContent: string;
+  slug?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  metaKeyword?: string;
+  canonical?: string;
 }
 
 export default function EditBlogPage() {
@@ -50,6 +55,11 @@ export default function EditBlogPage() {
     writer: "",
     category: "",
     tags: "",
+    slug: "",
+    metaTitle: "",
+    metaDescription: "",
+    metaKeyword: "",
+    canonical: "",
   });
 
   const [isLoading, setIsLoading] = useState(true);
@@ -114,6 +124,11 @@ export default function EditBlogPage() {
           writer: data.writer || "",
           category: data.category || "",
           tags: data.tags || "",
+          slug: data.slug || "",
+          metaTitle: data.metaTitle || "",
+          metaDescription: data.metaDescription || "",
+          metaKeyword: data.metaKeyword || "",
+          canonical: data.canonical || "",
         });
       } catch (err) {
         console.error("Error fetching blog:", err);
@@ -139,6 +154,11 @@ export default function EditBlogPage() {
       formData.append("writer", blog.writer);
       formData.append("category", blog.category);
       formData.append("tags", blog.tags);
+      formData.append("slug", blog.slug);
+      formData.append("metaTitle", blog.metaTitle);
+      formData.append("metaDescription", blog.metaDescription);
+      formData.append("metaKeyword", blog.metaKeyword);
+      formData.append("canonical", blog.canonical);
 
       if (blog.blogImage && blog.blogImage.length > 0) {
         blog.blogImage.forEach((file, index) => {
@@ -276,6 +296,66 @@ export default function EditBlogPage() {
             value={blog.tags}
             onChange={(e) => setBlog({ ...blog, tags: e.target.value })}
           />
+        </div>
+
+        {/* SEO Details */}
+        <div className="mb-4 bg-gray-50 p-4 border rounded">
+          <h2 className="text-lg font-semibold mb-4 text-black">SEO Details</h2>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1 text-black">Slug</label>
+            <input
+              type="text"
+              className="border p-2 w-full rounded text-black placeholder-gray-700"
+              placeholder="url-slug"
+              value={blog.slug}
+              onChange={(e) => setBlog({ ...blog, slug: e.target.value })}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1 text-black">Meta Title</label>
+            <input
+              type="text"
+              className="border p-2 w-full rounded text-black placeholder-gray-700"
+              placeholder="SEO Meta Title"
+              value={blog.metaTitle}
+              onChange={(e) => setBlog({ ...blog, metaTitle: e.target.value })}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1 text-black">Meta Description</label>
+            <textarea
+              className="border p-2 w-full rounded text-black placeholder-gray-700"
+              placeholder="SEO Meta Description"
+              value={blog.metaDescription}
+              onChange={(e) => setBlog({ ...blog, metaDescription: e.target.value })}
+              rows={2}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1 text-black">Meta Keywords</label>
+            <input
+              type="text"
+              className="border p-2 w-full rounded text-black placeholder-gray-700"
+              placeholder="keyword1, keyword2, etc."
+              value={blog.metaKeyword}
+              onChange={(e) => setBlog({ ...blog, metaKeyword: e.target.value })}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1 text-black">Canonical URL</label>
+            <input
+              type="text"
+              className="border p-2 w-full rounded text-black placeholder-gray-700"
+              placeholder="https://example.com/canonical-url"
+              value={blog.canonical}
+              onChange={(e) => setBlog({ ...blog, canonical: e.target.value })}
+            />
+          </div>
         </div>
 
         {/* Featured Image */}

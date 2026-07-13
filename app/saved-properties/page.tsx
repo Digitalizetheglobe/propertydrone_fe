@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -71,7 +71,7 @@ const PropertyCard = ({
         if (imgPath.startsWith('http')) return imgPath;
         const cleanPath = imgPath.replace(/\\/g, '/');
         const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
-        return `https://api.propertydronerealty.com${finalPath}`;
+        return `http://localhost:9000${finalPath}`;
     })();
 
     const toggleSave = async (e: React.MouseEvent) => {
@@ -136,7 +136,7 @@ const PropertyCard = ({
     };
 
     return (
-        <Link href={`/our-properties-in-pune/${property.slug}`} passHref>
+        <Link href={property.slug ? `/our-properties-in-pune/${property.slug}` : `/our-properties-in-pune/${property.id}`} passHref>
             <div
                 className="bg-white rounded-md cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 relative group h-full"
                 onMouseEnter={() => setIsHovered(true)}

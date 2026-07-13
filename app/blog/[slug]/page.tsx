@@ -195,7 +195,7 @@ const BlogDetail = ({ params }: PageProps) => {
                 if (path.startsWith('http')) return path;
                 const cleanPath = path.replace(/\\/g, '/');
                 return cleanPath.startsWith('/')
-                  ? `https://api.propertydronerealty.com${cleanPath}`
+                  ? `http://localhost:9000${cleanPath}`
                   : `https://api.propertydronerealty.com/${cleanPath}`;
               })()}
               alt={blog.blogTitle}

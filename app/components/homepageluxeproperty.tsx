@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, Dispatch, SetStateAction } from "react";
 import Link from "next/link";
@@ -136,7 +136,7 @@ const PropertyCardLuxe = ({
         const path = property?.multipleImages?.[0]?.path;
         if (!path) return main2.src;
         if (path.startsWith('http')) return path;
-        return `https://api.propertydronerealty.com${path}`;
+        return `http://localhost:9000${path}`;
     })();
 
     const toggleSave = async (e: React.MouseEvent) => {
@@ -205,7 +205,7 @@ const PropertyCardLuxe = ({
     return (
         <div data-aos="fade-up" data-aos-delay={delay}>
             <div
-                onClick={() => router.push(`/luxe-properties/${property.slug}`)}
+                onClick={() => router.push(property.slug ? `/luxe-properties/${property.slug}` : `/luxe-properties/${property.id}`)}
                 className="bg-white rounded-[4px] cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 relative group"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
@@ -213,7 +213,7 @@ const PropertyCardLuxe = ({
 
 
                 <div className="relative h-52 w-full overflow-hidden">
-                    <Link href={`/luxe-properties/${property.slug}`} passHref>
+                    <Link href={property.slug ? `/luxe-properties/${property.slug}` : `/luxe-properties/${property.id}`} passHref>
                         <img
                             src={imagePath}
                             alt={property.propertyName || "Property Image"}
@@ -304,7 +304,7 @@ const PropertyCardLuxe = ({
                 {/* Title */}
 
                 <div className="px-4 pt-1 pb-2">
-                    <Link href={`/luxe-properties/${property.slug}`} passHref>
+                    <Link href={property.slug ? `/luxe-properties/${property.slug}` : `/luxe-properties/${property.id}`} passHref>
                         <h3
                             className={` ${isHovered ? "text-blue-800" : "text-[#172747]"
                                 }`}
@@ -518,7 +518,7 @@ const PropertyCardLuxe = ({
                     </div>
 
                     {/* View Details Button */}
-                    <Link href={`/luxe-properties/${property.slug}`} passHref onClick={(e) => e.stopPropagation()}>
+                    <Link href={property.slug ? `/luxe-properties/${property.slug}` : `/luxe-properties/${property.id}`} passHref onClick={(e) => e.stopPropagation()}>
                         <button className="bg-[#172747] text-white text-[10px] px-3 py-1.5 cursor-pointer rounded-[4px] hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] border border-transparent transition-all duration-300 transform hover:scale-105 shadow-md font-semibold">
                             View Details
                         </button>

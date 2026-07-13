@@ -1,76 +1,142 @@
 import type { Metadata } from 'next'
 
 // Uses NEXT_PUBLIC_API_URL in production, falls back to localhost for dev
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.propertydronerealty.com'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9000'
 const BASE_URL = 'https://propertydronerealty.com'
 
 // ─── Location slug metadata map ───────────────────────────────────────────────
 
-const LOCATION_META: Record<string, { title: string; description: string }> = {
+const LOCATION_META: Record<string, { title: string; description: string; keywords?: string[] }> = {
   hinjewadi: {
     title: 'Properties in Hinjewadi Pune | PropertyDrone Realty',
     description:
       'Explore verified properties for sale in Hinjewadi, Pune. Flats, villas & commercial spaces near the IT corridor. Expert guidance from PropertyDrone Realty.',
+    keywords: [
+      'properties in Hinjewadi',
+      'flats for sale Hinjewadi Pune',
+      'Hinjewadi IT corridor real estate',
+      'buy property Hinjewadi',
+      'PropertyDrone Hinjewadi',
+    ],
   },
   baner: {
     title: 'Properties in Baner Pune | PropertyDrone Realty',
     description:
       'Find verified flats, villas & luxury properties for sale in Baner, Pune. Explore top projects by leading developers. Book a free site visit today.',
+    keywords: [
+      'properties in Baner Pune',
+      'flats for sale Baner',
+      'luxury homes Baner Pune',
+      'buy flat Baner',
+      'PropertyDrone Baner',
+    ],
   },
   balewadi: {
     title: 'Properties in Balewadi Pune | PropertyDrone Realty',
     description:
       'Browse verified flats & properties for sale in Balewadi, Pune. Great connectivity to Baner & Hinjawadi. Expert guidance from PropertyDrone Realty.',
+    keywords: [
+      'properties in Balewadi Pune',
+      'flats for sale Balewadi',
+      'Balewadi real estate Pune',
+      'buy property Balewadi',
+      'PropertyDrone Balewadi',
+    ],
   },
   ravet: {
     title: 'Properties in Ravet Pune | PropertyDrone Realty',
     description:
       'Discover affordable & premium properties for sale in Ravet, Pune. Well-connected to PCMC & Hinjawadi IT Park. Expert real estate assistance available.',
+    keywords: [
+      'properties in Ravet Pune',
+      'flats for sale Ravet',
+      'Ravet real estate Pune',
+      'buy property Ravet',
+      'PCMC Ravet flats',
+    ],
   },
-  'bandra-west': {
-    title: 'Properties in Bandra West Mumbai | PropertyDrone Realty',
-    description:
-      'Explore luxury properties & premium flats for sale in Bandra West, Mumbai. Verified listings with expert guidance from PropertyDrone Realty.',
-  },
+
   wakad: {
     title: 'Properties in Wakad Pune | PropertyDrone Realty',
     description:
       'Browse verified flats & apartments for sale in Wakad, Pune. Prime location near Hinjawadi & Baner with excellent connectivity.',
+    keywords: [
+      'properties in Wakad',
+      'flats for sale Wakad',
+      'Wakad real estate Pune',
+      'buy property Wakad',
+    ],
   },
 }
 
 // ─── BHK / type slug metadata map ────────────────────────────────────────────
 
-const BHK_META: Record<string, { title: string; description: string }> = {
+const BHK_META: Record<string, { title: string; description: string; keywords?: string[] }> = {
   '1rk': {
     title: '1 RK & Studio Flats for Sale in Pune',
     description:
       'Find affordable 1 RK & studio flats for sale in Pune. Explore verified listings in Baner, Hinjawadi & Wakad with expert guidance.',
+    keywords: [
+      '1 RK flats Pune',
+      'studio flats Pune',
+      '1 RK for sale Pune',
+      'affordable flats Pune',
+    ],
   },
   '1bhk': {
     title: '1 BHK Flats for Sale in Pune',
     description:
       'Browse verified 1 BHK flats for sale in Pune. Find best deals in Baner, Wakad, Kharadi & Hinjawadi with zero brokerage assistance.',
+    keywords: [
+      '1 BHK flats Pune',
+      '1 BHK for sale Pune',
+      'affordable 1 BHK Pune',
+      '1 BHK Baner Wakad',
+    ],
   },
   '2bhk': {
     title: '2 BHK Flats for Sale in Pune',
     description:
       "Explore 2 BHK flats for sale in Pune's top locations. Verified listings, best prices & expert guidance from PropertyDrone Realty.",
+    keywords: [
+      '2 BHK flats Pune',
+      '2 BHK for sale Pune',
+      '2 BHK Baner Wakad Hinjawadi',
+      'PropertyDrone 2 BHK',
+    ],
   },
   '3bhk': {
     title: '3 BHK Flats for Sale in Pune',
     description:
       'Find premium 3 BHK flats for sale in Pune. Explore luxury & affordable options in Baner, Wakad & Hinjawadi. Book a site visit today.',
+    keywords: [
+      '3 BHK flats Pune',
+      '3 BHK for sale Pune',
+      'premium 3 BHK Pune',
+      '3 BHK Baner Hinjawadi',
+    ],
   },
   '4bhk': {
     title: '4 BHK Luxury Flats for Sale in Pune',
     description:
       'Discover spacious 4 BHK luxury flats for sale in Pune. Premium properties by top developers in Baner, Kharadi & Viman Nagar.',
+    keywords: [
+      '4 BHK flats Pune',
+      '4 BHK luxury Pune',
+      '4 BHK for sale Pune',
+      'premium 4 BHK Baner Kharadi',
+    ],
   },
   'commercial-office': {
     title: 'Commercial Office Space for Sale in Pune',
     description:
       'Find verified commercial office spaces for sale & rent in Pune. Ideal for businesses in Baner, Hinjawadi & Kharadi IT corridors.',
+    keywords: [
+      'commercial office Pune',
+      'office space for sale Pune',
+      'office space Hinjawadi',
+      'commercial space Baner Kharadi',
+    ],
   },
 }
 
@@ -84,7 +150,7 @@ function resolveImageUrl(property: Record<string, any>): string | null {
     if (path) {
       if (path.startsWith('http')) return path
       const clean = path.replace(/\\/g, '/').replace(/^(?!\/)/, '/')
-      return `https://api.propertydronerealty.com${clean}`
+      return `http://localhost:9000${clean}`
     }
   }
   return null
@@ -157,7 +223,7 @@ function buildPropertyMeta(property: Record<string, any>, slug: string): Metadat
 
   // ── Image ──────────────────────────────────────────────────────────────────
   const imageUrl = resolveImageUrl(property)
-  const canonicalUrl = `${BASE_URL}/our-properties-in-pune/${slug}`
+  const canonicalUrl = property.canonical || `${BASE_URL}/our-properties-in-pune/${slug}`
 
   return {
     title: { absolute: title },
@@ -216,6 +282,7 @@ export async function generateMetadata({
     return {
       title: { absolute: meta.title },
       description: meta.description,
+      ...(meta.keywords && { keywords: meta.keywords }),
       alternates: { canonical: `${BASE_URL}/our-properties-in-pune/${slugLower}` },
       robots: { index: true, follow: true },
     }
@@ -227,6 +294,7 @@ export async function generateMetadata({
     return {
       title: { absolute: meta.title },
       description: meta.description,
+      ...(meta.keywords && { keywords: meta.keywords }),
       alternates: { canonical: `${BASE_URL}/our-properties-in-pune/${slugLower}` },
       robots: { index: true, follow: true },
     }
@@ -235,7 +303,7 @@ export async function generateMetadata({
   // 3. Individual property — fetch from API and build rich unique metadata
   try {
     const res = await fetch(`${API_BASE}/properties/${slug}`, {
-      next: { revalidate: 3600 }, // re-generate at most every hour
+      next: { revalidate: 0 }, // re-generate at most every hour
     })
 
     if (res.ok) {

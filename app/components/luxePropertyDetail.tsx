@@ -70,6 +70,7 @@ interface Property {
   event?: string;
   pros?: string[];
   cons?: string[];
+  aboutPropertyDescription?: string;
 }
 
 interface PropertyDetailProps {
@@ -245,7 +246,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Set up the base URL for images
-  const baseUrl = "https://api.propertydronerealty.com"; // For dev — ideally from env
+  const baseUrl = "http://localhost:9000"; // For dev — ideally from env
 
   // Process the image paths
   const propertyImages =
@@ -313,7 +314,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
 
           {/* Content */}
           <div className="relative flex flex-col max-w-6xl justify-center h-full ml-10 text-white px-4">
-            <h1
+            <h2
               style={{
                 fontFamily: "'Rubik', 'Helvetica', sans-serif",
                 fontWeight: 100,
@@ -323,7 +324,7 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
               className="mb-4 text-white text-[42px] sm:text-[56px]"
             >
               {property.propertyName}
-            </h1>
+            </h2>
 
             <p
               className="text-white text-[18px] sm:text-[28px] my-4 md:mb-0 leading-none"
@@ -503,9 +504,9 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
             {/* Right side - Property details */}
             <div className="md:w-1/2 bg-white rounded-lg p-6 shadow-md">
               <div className="flex justify-between items-start">
-                <h1 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold text-gray-900">
                   {property.propertyName}
-                </h1>
+                </h2>
                 <div className="flex items-center text-sm text-orange-500 mb-6">
                   <svg
                     className="w-4 h-4 mr-1"
@@ -668,6 +669,18 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
           <div className="max-w-6xl mx-auto py-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left Column */}
             <div className="space-y-6">
+              {/* About Property Section */}
+              {property.aboutPropertyDescription && (
+                <div className="bg-white rounded-lg shadow-sm border p-6">
+                  <h2 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
+                    About Property
+                  </h2>
+                  <div className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+                    {property.aboutPropertyDescription}
+                  </div>
+                </div>
+              )}
+
               {/* Location Section */}
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -841,42 +854,6 @@ export default function LuxePropertyDetail({ property }: PropertyDetailProps) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Property Information */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-                <h2 className="text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Rubik]">
-                  About This Property
-                </h2>
-                <p
-                  className="text-gray-700 max-w-3xl ml-2 leading-none"
-                  style={{
-                    fontFamily: "Lato",
-                    letterSpacing: "0.5px",
-                    lineHeight: "1.6",
-                  }}
-                >
-                  {property.seoDescription ||
-                    `Immaculate luxurious ${property.city} apartment. Fresh color palette, space that could be for
-                  work, entertaining, or simply to showcase a growing art collection. Elegant features such
-                  as plush comfortable, unique trim, tall ceilings throughout the light-drenched rooms that will
-                  make you feel instantly at home. Concrete floors, clean white paint finish throughout, a
-                  miniature chef-style open-loft multipurpose connection, effortless doors with highest end
-                  materials, fully natural.`}
-                </p>
-                <p
-                  className="text-gray-700 max-w-3xl ml-2 leading-none"
-                  style={{
-                    fontFamily: "Lato",
-                    letterSpacing: "0.5px",
-                    lineHeight: "1.6",
-                  }}
-                >
-                  All units are flexible whether with original layout or a blank
-                  canvas, which are easily converted to optimum needs. This
-                  opportunity to express and work development did not include
-                  the commercial or residential complications of bigger cities
-                  within smaller areas, huge lots and big ideas set apart from
-                  city liabilities.
-                </p>
-              </div>
 
               <div className="bg-white rounded-lg shadow-md p-6 mb-8">
                 <h2 className="text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode]">

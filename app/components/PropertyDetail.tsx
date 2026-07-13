@@ -49,6 +49,7 @@ interface Property {
   event?: string;
   pros?: string[];
   cons?: string[];
+  aboutPropertyDescription?: string;
 }
 
 interface PropertyDetailProps {
@@ -137,6 +138,8 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   };
   const pros = safeArray(property.pros);
   const cons = safeArray(property.cons);
+
+
   const [mainImage, setMainImage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -162,7 +165,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Image handling
-  const baseUrl = "https://api.propertydronerealty.com"; // For dev â€” ideally from env
+  const baseUrl = "http://localhost:9000"; // For dev â€” ideally from env
   const propertyImages = property?.multipleImages?.map(img =>
     img.path.startsWith('http') ? img.path : `${baseUrl}${img.path}`
   ) || [];
@@ -200,9 +203,9 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
 
   // Map property details for display
   const propertyDetails = {
-    beds: property.topology?.includes('BHK') ? property.topology.charAt(0) : '4',
-    baths: property.topology?.includes('BHK') ? Math.max(1, parseInt(property.topology.charAt(0)) - 1) : '3',
-    area: property.carpetArea || '',
+    beds: property.beds || (property.topology?.includes('BHK') ? property.topology.charAt(0) : '4'),
+    baths: property.baths || (property.topology?.includes('BHK') ? Math.max(1, parseInt(property.topology.charAt(0)) - 1).toString() : '3'),
+    area: property.carpetArea || 'N/A',
     year: property.createdAt ? new Date(property.createdAt).getFullYear().toString() : '2022',
     heating: 'Central',
     cooling: 'Central AC',
@@ -278,7 +281,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                 <button className="bg-transparent text-white hover:text-red-700 rounded">
                   Properties
                 </button>
-              </Link> / <Link href={`/properties/${property.id}`}>
+              </Link> / <Link href={property.slug ? `/our-properties-in-pune/${property.slug}` : `/our-properties-in-pune/${property.id}`}>
                 <button className='text-[#FEEB8F]'>{property.propertyName}</button>
               </Link>
             </p>
@@ -484,6 +487,18 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
           <div className="max-w-6xl mx-auto py-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left Column */}
             <div className="space-y-6">
+              {/* About Property Section */}
+              {property.aboutPropertyDescription && (
+                <div className="bg-white rounded-lg shadow-sm border p-6">
+                  <h2 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
+                    About Property
+                  </h2>
+                  <div className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+                    {property.aboutPropertyDescription}
+                  </div>
+                </div>
+              )}
+
               {/* Location Section */}
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -633,31 +648,124 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
           {/* Property Information */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
             <div className="lg:col-span-2">
+
               <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-                <h2 className="text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Rubik]">About This Property</h2>
-                <p className="text-gray-700 max-w-3xl ml-2 leading-none"
-                  style={{ fontFamily: 'Lato', letterSpacing: '0.5px', lineHeight: '1.6' }}>
-                  {property.seoDescription || `Immaculate ${property.city} apartment. Fresh color palette, space that could be for
-                  work, entertaining, or simply to showcase a growing art collection. Elegant features such
-                  as plush comfortable, unique trim, tall ceilings throughout the light-drenched rooms that will
-                  make you feel instantly at home.`}
-                </p>
+                <h2 className="text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
+                  Property Overview
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {Object.entries(propertyDetails).map(([key, value]) => (
+                    <div
+                      key={key}
+                      className="flex flex-col items-center justify-center bg-gray-50 p-4 rounded-md"
+                    >
+                      <div
+                        className=" text-gray-700 "
+                        style={{
+                          fontFamily: "Lato",
+                          letterSpacing: "0.5px",
+                          lineHeight: "1.6",
+                        }}
+                      >
+                        {key === "beds" && (
+                          <Bed className="w-6 h-6 text-gray-600" />
+                        )}
+                        {key === "baths" && (
+                          <Bath className="w-6 h-6 text-gray-600" />
+                        )}
+                        {key === "area" && (
+                          <Square className="w-6 h-6 text-gray-600" />
+                        )}
+                        {key === "year" && (
+                          <Calendar className="w-6 h-6 text-gray-600" />
+                        )}
+                        {key === "heating" && (
+                          <Home className="w-6 h-6 text-gray-600" />
+                        )}
+                        {key === "cooling" && (
+                          <Home className="w-6 h-6 text-gray-600" />
+                        )}
+                        {key === "parking" && (
+                          <Home className="w-6 h-6 text-gray-600" />
+                        )}
+                        {key === "basement" && (
+                          <Home className="w-6 h-6 text-gray-600" />
+                        )}
+                      </div>
+                      <p
+                        className="font-medium text-gray-800"
+                        style={{
+                          fontFamily: "Lato",
+                          letterSpacing: "0.5px",
+                          lineHeight: "1.6",
+                        }}
+                      >
+                        {value as React.ReactNode}
+                      </p>
+                      <p
+                        className="text-xs text-gray-500 capitalize"
+                        style={{
+                          fontFamily: "Lato",
+                          letterSpacing: "0.5px",
+                          lineHeight: "1.6",
+                        }}
+                      >
+                        {key}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4">Property Details</h2>
+                <h2 className="text-[#172747] mb-6 font-[300] text-[32px] leading-[140%] tracking-[1px] font-[Ivy Mode]">
+                  Property Details
+                </h2>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col" style={{ fontFamily: 'Lato', letterSpacing: '0.5px', lineHeight: '1.6' }}>
-                    <p className="text-gray-600"><span className="font-medium">Property Name:</span> {property.propertyName}</p>
-                    <p className="text-gray-600"><span className="font-medium">Topology:</span> {property.topology}</p>
-                    <p className="text-gray-600"><span className="font-medium">Carpet Area:</span> {property.carpetArea}</p>
-                    <p className="text-gray-600"><span className="font-medium">City:</span> {property.city}</p>
+                  <div
+                    className="flex flex-col text-gray-700 max-w-3xl ml-2 leading-none"
+                    style={{
+                      fontFamily: "Lato",
+                      letterSpacing: "0.5px",
+                      lineHeight: "1.6",
+                    }}
+                  >
+                    <p className="text-gray-600">
+                      <span>Property Name:</span> {property.propertyName}
+                    </p>
+                    <p className="text-gray-600">
+                      <span>Topology:</span> {property.topology}
+                    </p>
+                    <p className="text-gray-600">
+                      <span>Carpet Area:</span> {property.carpetArea}
+                    </p>
+                    <p className="text-gray-600">
+                      <span>City:</span> {property.city}
+                    </p>
                   </div>
-                  <div className="flex flex-col" style={{ fontFamily: 'Lato', letterSpacing: '0.5px', lineHeight: '1.6' }}>
-                    <p className="text-gray-600"><span className="font-medium">Location:</span> {property.location}</p>
-                    <p className="text-gray-600"><span className="font-medium">Budget:</span> {property.tentativeBudget || 'Contact for details'}</p>
-                    <p className="text-gray-600"><span className="font-medium">Possession:</span> {property.possession || 'Contact for details'}</p>
-                    <p className="text-gray-600"><span className="font-medium">Listed:</span> {new Date(property.createdAt).toLocaleDateString()}</p>
+                  <div
+                    className="flex flex-col text-gray-700 max-w-3xl ml-2 leading-none"
+                    style={{
+                      fontFamily: "Lato",
+                      letterSpacing: "0.5px",
+                      lineHeight: "1.6",
+                    }}
+                  >
+                    <p className="text-gray-600">
+                      <span>Location:</span> {property.location}
+                    </p>
+                    <p className="text-gray-600">
+                      <span>Budget:</span>{" "}
+                      {property.tentativeBudget || "Contact for details"}
+                    </p>
+                    <p className="text-gray-600">
+                      <span>Possession:</span>{" "}
+                      {property.possession || "Contact for details"}
+                    </p>
+                    <p className="text-gray-600">
+                      <span>Listed:</span>{" "}
+                      {new Date(property.createdAt).toLocaleDateString()}
+                    </p>
                   </div>
                 </div>
               </div>

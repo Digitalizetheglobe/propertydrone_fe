@@ -50,7 +50,7 @@ export default function PropertyDetail() {
   const [showFilters, setShowFilters] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
 
-  const baseUrl = "https://api.propertydronerealty.com"; // For dev â€” ideally from env
+  const baseUrl = "http://localhost:9000"; // For dev â€” ideally from env
   const imagePath = propertyImages?.[0]
     ? `${baseUrl}${propertyImages[0]}`
     : null;
@@ -264,7 +264,7 @@ export default function PropertyDetail() {
 
       // Add property data directly without stringifying
       Object.keys(editProperty).forEach(key => {
-        if (key !== 'multipleImages' && key !== 'slug' && key !== 'configurationTypology' && key !== 'pros' && key !== 'cons') {
+        if (key !== 'multipleImages' && key !== 'configurationTypology' && key !== 'pros' && key !== 'cons') {
           formData.append(key, editProperty[key]);
         }
       });
@@ -523,7 +523,7 @@ export default function PropertyDetail() {
                   <p><strong>bathrooms:</strong> {property.baths || 'N/A'}</p>
                   <p><strong>beds:</strong> {property.beds || 'N/A'}</p>
                   <p><strong>Property Type:</strong> {property.propertyType || 'N/A'}</p>
-                  <p><strong>price:</strong> {property.buArea ? `${property.tentativeBudget} ` : 'N/A'}</p>
+                  <p><strong>Price:</strong> {property.tentativeBudget || 'N/A'}</p>
                   <p><strong>Carpet Area:</strong> {property.carpetArea ? `${property.carpetArea} ` : 'N/A'}</p>
                   <p><strong>Rera-Link:</strong> {property.event || 'N/A'}</p>
                   <p><strong>RERA Number:</strong> {property.reraNumber || 'N/A'}</p>
@@ -695,7 +695,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Property Name</label>
                 <input
                   type="text"
-                  value={editProperty.propertyName}
+                  value={editProperty.propertyName || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, propertyName: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -704,7 +704,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Property Type</label>
                 <input
                   type="text"
-                  value={editProperty.propertyType}
+                  value={editProperty.propertyType || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, propertyType: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -713,7 +713,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">YouTube URL</label>
                 <input
                   type="text"
-                  value={editProperty.youtubeUrl}
+                  value={editProperty.youtubeUrl || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, youtubeUrl: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -722,7 +722,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Google Map URL</label>
                 <input
                   type="text"
-                  value={editProperty.googleMapUrl}
+                  value={editProperty.googleMapUrl || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, googleMapUrl: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -731,7 +731,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Property Category</label>
                 <input
                   type="text"
-                  value={editProperty.propertyCategory}
+                  value={editProperty.propertyCategory || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, propertyCategory: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -759,7 +759,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Topology</label>
                 <input
                   type="text"
-                  value={editProperty.topology}
+                  value={editProperty.topology || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, topology: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -768,7 +768,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Carpet Area</label>
                 <input
                   type="text"
-                  value={editProperty.carpetArea}
+                  value={editProperty.carpetArea || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, carpetArea: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -777,7 +777,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
                 <input
                   type="text"
-                  value={editProperty.city}
+                  value={editProperty.city || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, city: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -786,7 +786,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
                 <input
                   type="text"
-                  value={editProperty.location}
+                  value={editProperty.location || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, location: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -795,7 +795,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Tentative Budget</label>
                 <input
                   type="text"
-                  value={editProperty.tentativeBudget}
+                  value={editProperty.tentativeBudget || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, tentativeBudget: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -804,7 +804,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Possession</label>
                 <input
                   type="text"
-                  value={editProperty.possession}
+                  value={editProperty.possession || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, possession: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -813,7 +813,7 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">SEO Title</label>
                 <input
                   type="text"
-                  value={editProperty.seoTitle}
+                  value={editProperty.seoTitle || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, seoTitle: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
@@ -821,7 +821,7 @@ export default function PropertyDetail() {
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">SEO Description</label>
                 <textarea
-                  value={editProperty.seoDescription}
+                  value={editProperty.seoDescription || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, seoDescription: e.target.value })}
                   rows={2}
                   className="w-full border border-gray-300 rounded px-3 py-2"
@@ -831,10 +831,61 @@ export default function PropertyDetail() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">SEO Keywords</label>
                 <input
                   type="text"
-                  value={editProperty.seoKeywords}
+                  value={editProperty.seoKeywords || ''}
                   onChange={(e) => setEditProperty({ ...editProperty, seoKeywords: e.target.value })}
                   className="w-full border border-gray-300 rounded px-3 py-2"
                 />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Canonical URL</label>
+                <input
+                  type="text"
+                  value={editProperty.canonical || ''}
+                  onChange={(e) => setEditProperty({ ...editProperty, canonical: e.target.value })}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                  placeholder="https://example.com/property"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">About Property Description</label>
+                <textarea
+                  value={editProperty.aboutPropertyDescription || ''}
+                  onChange={(e) => setEditProperty({ ...editProperty, aboutPropertyDescription: e.target.value })}
+                  rows={4}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                  placeholder="Detailed description of the property..."
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">URL Slug</label>
+                <div className="flex space-x-2">
+                  <input
+                    type="text"
+                    value={editProperty.slug || ''}
+                    onChange={(e) => setEditProperty({ ...editProperty, slug: e.target.value })}
+                    className="flex-1 border border-gray-300 rounded px-3 py-2"
+                    placeholder="property-name-location"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const { propertyName, topology, location } = editProperty;
+                      if (propertyName) {
+                        const parts = [propertyName, topology, location].filter(Boolean);
+                        const slug = parts
+                          .join(' ')
+                          .toLowerCase()
+                          .replace(/[^\w\s-]/g, '')
+                          .replace(/\s+/g, '-')
+                          .trim();
+                        setEditProperty({ ...editProperty, slug });
+                      }
+                    }}
+                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
+                  >
+                    Generate
+                  </button>
+                </div>
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Event</label>

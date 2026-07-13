@@ -58,7 +58,7 @@ export default function AllBlogs() {
               {blog.blogImage && blog.blogImage.length > 0 && blog.blogImage[0]?.path && (
                 <div className="w-full h-48 relative">
                   <img
-                    src={blog.blogImage[0].path.startsWith('http') ? blog.blogImage[0].path : `https://api.propertydronerealty.com${blog.blogImage[0].path}`}
+                    src={blog.blogImage[0].path.startsWith('http') ? blog.blogImage[0].path : `http://localhost:9000${blog.blogImage[0].path}`}
                     alt={blog.blogTitle}
                     className="w-full h-full object-cover"
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}

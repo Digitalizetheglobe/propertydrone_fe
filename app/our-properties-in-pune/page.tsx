@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import bg from '@/public/images/7578550-uhd_3840_2160_30fps 1.png';
 import { motion, Variants } from 'framer-motion';
-import { ArrowRight, ChevronLeft, ChevronRight, Bookmark, MapPin, Share2 } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Bookmark, MapPin, Share2, Home, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -27,6 +27,7 @@ interface Property {
   possession: string;
   topology: number;
   baths: number;
+  beds?: number;
   carpetArea: number;
   image: any;
   featured: boolean;
@@ -313,7 +314,7 @@ function LuxePropertiesContent() {
   }, [searchParams]);
 
   // API base URL - ideally from environment variables
-  const baseUrl = "https://api.propertydronerealty.com";
+  const baseUrl = "http://localhost:9000";
 
   const propertyCategories = [
     { id: 'all', name: 'All', icon: '/icons/home.svg' },
@@ -868,7 +869,7 @@ function LuxePropertiesContent() {
               >
                 {filteredProperties.length > 0 ? (
                   filteredProperties.map((property) => (
-                    <Link href={`/our-properties-in-pune/${property.slug}`} passHref key={property.id} className="w-full sm:w-auto">
+                    <Link href={property.slug ? `/our-properties-in-pune/${property.slug}` : `/our-properties-in-pune/${property.id}`} passHref key={property.id} className="w-full sm:w-auto">
                       <motion.div
                         key={`motion-${property.id}`}
                         variants={cardVariants}
@@ -977,105 +978,101 @@ function LuxePropertiesContent() {
                         </div>
 
                         <div className="p-4 lg:p-5">
-                          <h3 className="text-lg lg:text-xl mb-2 font-bold leading-tight">
+                          {/* Top Info Row */}
+                          <div className="grid grid-cols-3 border-b border-gray-200 pb-3 mb-4">
+                            <div className="flex items-center justify-center gap-1.5 border-r border-gray-200 text-[#172747] px-1">
+                              <Home size={16} className="shrink-0" />
+                              <span className="text-[12px] sm:text-[13px] whitespace-nowrap">{property.beds || 0} Beds</span>
+                            </div>
+                            <div className="flex items-center justify-center gap-1.5 border-r border-gray-200 text-[#172747] px-1">
+                              <Mail size={16} className="shrink-0" />
+                              <span className="text-[12px] sm:text-[13px] whitespace-nowrap">{property.baths || 0} Baths</span>
+                            </div>
+                            <div className="flex items-center justify-center gap-1.5 text-[#172747] px-1 overflow-hidden">
+                              <MapPin size={16} className="shrink-0" />
+                              <span className="text-[12px] sm:text-[13px] whitespace-nowrap truncate">{property.location}</span>
+                            </div>
+                          </div>
+
+                          <h3 className="text-xl lg:text-[22px] mb-3 font-medium text-[#172747] leading-tight text-left">
                             {property.propertyName}
                           </h3>
 
-                          <div className=" sm:flex-row justify-between text-sm mb-5 gap-2">
-                            <div className="flex mb-2 items-center bg-gray-50 px-3 py-1.5 rounded-[4px]">
-                              <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                              </svg>
-                              {String(property.topology).split("").map((item: string, index: number) => (
-                                <span key={`${property.id}-topology-${index}`} className="text-gray-700 block" style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}>
-                                  {item.trim()}
-                                </span>
-                              ))}
-                            </div>
-
-                            <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-[4px]">
-                              <svg className="h-4 w-4 mr-1 text-[#172747]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
-                              </svg>
-                              <span
-                                className="text-gray-700"
-                                style={{ fontSize: '14px', fontFamily: 'Lato', letterSpacing: '0.5px' }}
-                              >
-                                {(() => {
-                                  const words = String(property.carpetArea).split(' ');
-                                  return words.length > 5
-                                    ? words.slice(0, 5).join(' ') + '...'
-                                    : words.join(' ');
-                                })()}
-                              </span>
-                            </div>
+                          <div className="bg-[#f3f4f6] p-4 rounded-[4px] mb-5 text-[#4b5563] text-[15px] space-y-2 text-left">
+                            <div>Carpet Area : {property.carpetArea}</div>
+                            <div>Possession : {property.possession}</div>
+                            <div>Typology : {property.topology}</div>
                           </div>
 
                           <motion.div
                             initial={{ scale: 0.95, opacity: 0 }}
                             animate={{
-                              scale: hoveredCard === property.id ? 1.05 : 1,
+                              scale: hoveredCard === property.id ? 1.02 : 1,
                               opacity: 1
                             }}
                             transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                            className="flex flex-col sm:flex-row justify-between items-center gap-3"
+                            className="flex flex-col gap-4 mt-2"
                           >
-                            <div className="flex items-center gap-2">
-                              {/* Location Button */}
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  window.open(
-                                    (property as any).googleMapUrl || `https://www.google.com/maps/search/?api=1&query=${property.location || ''}+${property.city || ''}`,
-                                    '_blank',
-                                    'noopener,noreferrer'
-                                  );
-                                }}
-                                className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
-                                title="View on Map"
-                              >
-                                <MapPin size={16} className="text-red-500" />
-                              </button>
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                {/* Location Button */}
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    window.open(
+                                      (property as any).googleMapUrl || `https://www.google.com/maps/search/?api=1&query=${property.location || ''}+${property.city || ''}`,
+                                      '_blank',
+                                      'noopener,noreferrer'
+                                    );
+                                  }}
+                                  className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                                  title="View on Map"
+                                >
+                                  <MapPin size={18} className="text-red-500" />
+                                </button>
 
-                              {/* Share Button */}
-                              <button
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  navigator.clipboard.writeText(`${window.location.origin}/our-properties-in-pune/${property.slug}`);
-                                }}
-                                className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
-                                title="Copy Link"
-                              >
-                                <Share2 size={16} className="text-gray-700" />
-                              </button>
+                                {/* Share Button */}
+                                <button
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    navigator.clipboard.writeText(`${window.location.origin}/our-properties-in-pune/${property.slug}`);
+                                  }}
+                                  className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                                  title="Copy Link"
+                                >
+                                  <Share2 size={18} className="text-[#172747]" />
+                                </button>
 
-                              {/* WhatsApp Button */}
-                              <a
-                                href={`https://wa.me/?text=Check out this property: ${typeof window !== 'undefined' ? window.location.origin : ''}/our-properties-in-pune/${property.slug}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
-                                title="Share on WhatsApp"
-                              >
-                                <FaWhatsapp size={16} className="text-green-500" />
-                              </a>
+                                {/* WhatsApp Button */}
+                                <a
+                                  href={`https://wa.me/?text=Check out this property: ${typeof window !== 'undefined' ? window.location.origin : ''}/our-properties-in-pune/${property.slug}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                                  title="Share on WhatsApp"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <FaWhatsapp size={18} className="text-green-500" />
+                                </a>
 
-                              {/* Save Button */}
-                              <button
-                                onClick={(e) => toggleSave(property, e)}
-                                disabled={savedLoadingId === property.id}
-                                className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
-                                title={savedIds.includes(property.id) ? "Unsave" : "Save"}
-                              >
-                                <Bookmark
-                                  size={16}
-                                  className={`${savedIds.includes(property.id) ? 'fill-[#172747] text-[#172747]' : 'text-[#172747]'}`}
-                                />
-                              </button>
+                                {/* Save Button */}
+                                <button
+                                  onClick={(e) => toggleSave(property, e)}
+                                  disabled={savedLoadingId === property.id}
+                                  className="p-0.5 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                                  title={savedIds.includes(property.id) ? "Unsave" : "Save"}
+                                >
+                                  <Bookmark
+                                    size={18}
+                                    className={`${savedIds.includes(property.id) ? 'fill-[#172747] text-[#172747]' : 'text-[#172747]'}`}
+                                  />
+                                </button>
+                              </div>
+
                               {/* Compare checkbox */}
-                              <label className="flex items-center gap-1 cursor-pointer select-none">
+                              <label className="flex items-center gap-1.5 cursor-pointer select-none" onClick={(e) => e.stopPropagation()}>
                                 <input
                                   type="checkbox"
                                   checked={comparedIds.includes(property.id)}
@@ -1136,17 +1133,17 @@ function LuxePropertiesContent() {
                                     }
                                     setCompareLoadingId(null);
                                   }}
-                                  className="form-checkbox h-4 w-4 text-[#172747] rounded focus:ring-[#172747] border-gray-300 transition-all duration-150"
+                                  className="form-checkbox h-4 w-4 text-[#172747] rounded border-gray-400 focus:ring-[#172747] transition-all duration-150"
                                 />
-                                <span className={comparedIds.includes(property.id) ? 'text-red-600 font-semibold text-[10px]' : 'text-green-700 font-semibold text-[10px]'}>
+                                <span className={comparedIds.includes(property.id) ? 'text-red-600 font-bold text-[13px]' : 'text-[#0a8239] font-bold text-[13px]'}>
                                   {comparedIds.includes(property.id) ? 'Uncompare' : 'Compare'}
                                 </span>
                               </label>
                             </div>
                             <motion.button
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              className="bg-[#172747] hover:bg-white hover:border hover:border-[#172747] hover:text-[#172747] text-white text-[10px] font-medium px-3 py-1.5 rounded-[4px] shadow-sm transition-all duration-200"
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                              className="w-full bg-[#172747] hover:bg-[#203764] text-white text-[14px] font-semibold px-4 py-2.5 rounded-[4px] shadow-sm transition-all duration-200"
                             >
                               View Details
                             </motion.button>

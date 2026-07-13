@@ -436,7 +436,7 @@ export default function Home() {
           image: (() => {
             const path = property.multipleImages?.[0]?.path;
             if (path) {
-              return path.startsWith('http') ? path : `https://api.propertydronerealty.com${path}`;
+              return path.startsWith('http') ? path : `http://localhost:9000${path}`;
             }
             return "/api/placeholder/400/320";
           })()
@@ -1033,19 +1033,16 @@ export default function Home() {
                       {/* Top Locations */}
                       <div className="flex items-center gap-3">
                         <span className="text-white/80 text-xs sm:text-sm font-medium whitespace-nowrap">Top Locations:</span>
-                        {(locationCounts.length > 0
-                          ? locationCounts.sort((a, b) => b.count - a.count).slice(0, 5)
-                          : ['Hinjawadi', 'Kharadi', 'Wakad', 'Baner', 'Viman Nagar'].map(loc => ({ location: loc, count: 0, image: '' }))
-                        ).map((locationData) => (
+                        {['Hinjawadi', 'Kharadi', 'Wakad', 'Baner', 'Viman Nagar'].map((loc) => (
                           <button
-                            key={locationData.location}
+                            key={loc}
                             type="button"
                             onClick={() => {
-                              setFilters({ ...filters, locations: [locationData.location], search: '' });
+                              setFilters({ ...filters, locations: [loc], search: '' });
                             }}
                             className="text-white font-medium text-xs sm:text-sm hover:underline hover:text-white/90 transition-colors decoration-white/50 underline-offset-4 whitespace-nowrap"
                           >
-                            {locationData.location}
+                            {loc}
                           </button>
                         ))}
                       </div>

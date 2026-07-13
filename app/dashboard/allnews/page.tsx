@@ -81,7 +81,7 @@ export default function AllNews() {
                             {item.newsImage && item.newsImage.length > 0 && item.newsImage[0]?.path && (
                                 <div className="w-full h-48 relative">
                                     <img
-                                        src={item.newsImage[0].path.startsWith('http') ? item.newsImage[0].path : `https://api.propertydronerealty.com${item.newsImage[0].path}`}
+                                        src={item.newsImage[0].path.startsWith('http') ? item.newsImage[0].path : `http://localhost:9000${item.newsImage[0].path}`}
                                         alt={item.newsTitle}
                                         className="w-full h-full object-cover"
                                         onError={(e) => { e.currentTarget.style.display = 'none'; }}

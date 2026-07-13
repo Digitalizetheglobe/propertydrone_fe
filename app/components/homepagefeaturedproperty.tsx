@@ -72,7 +72,7 @@ const PropertyCard = ({
         // Normalize path: replace backslashes with forward slashes and ensure leading slash
         const cleanPath = imgPath.replace(/\\/g, '/');
         const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
-        return `https://api.propertydronerealty.com${finalPath}`;
+        return `http://localhost:9000${finalPath}`;
     })();
 
     const toggleSave = async (e: React.MouseEvent) => {
@@ -140,7 +140,7 @@ const PropertyCard = ({
 
     return (
         <div
-            onClick={() => router.push(`/our-properties-in-pune/${property.slug}`)}
+            onClick={() => router.push(property.slug ? `/our-properties-in-pune/${property.slug}` : `/our-properties-in-pune/${property.id}`)}
             className="bg-white rounded-md cursor-pointer overflow-hidden shadow-sm transition-all duration-500 ease-in-out transform hover:shadow-lg hover:-translate-y-1 relative group"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -254,7 +254,7 @@ const PropertyCard = ({
 
             {/* Title */}
             <div className="px-4 pt-1 pb-2">
-                <Link href={`/our-properties-in-pune/${property.slug}`} onClick={(e) => e.stopPropagation()}>
+                <Link href={property.slug ? `/our-properties-in-pune/${property.slug}` : `/our-properties-in-pune/${property.id}`} onClick={(e) => e.stopPropagation()}>
                     <h3
                         className={` ${isHovered ? "text-blue-800" : "text-[#172747]"}`}
                         style={{

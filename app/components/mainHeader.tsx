@@ -215,11 +215,11 @@ const MainHeader: React.FC = () => {
                     <div className="space-y-6">
                         <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Top Locations</h3>
                         <div className="space-y-3">
-                            <Link href="/our-properties-in-pune/Hinjewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Hinjewadi</Link>
-                            <Link href="/our-properties-in-pune/wakad" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Bandra West</Link>
-                            <Link href="/our-properties-in-pune/Baner" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Baner</Link>
-                            <Link href="/our-properties-in-pune/Balewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Balewadi</Link>
-                            <Link href="/our-properties-in-pune/Ravet" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Ravet</Link>
+                            <Link href="/our-properties-in-pune/hinjawadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Hinjawadi</Link>
+                            <Link href="/our-properties-in-pune/kharadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Kharadi</Link>
+                            <Link href="/our-properties-in-pune/wakad" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Wakad</Link>
+                            <Link href="/our-properties-in-pune/baner" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Baner</Link>
+                            <Link href="/our-properties-in-pune/viman-nagar" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Viman Nagar</Link>
                         </div>
                     </div>
 

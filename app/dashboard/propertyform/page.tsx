@@ -13,9 +13,11 @@ interface FormData {
   tentativeBudget: string;
   possession: string;
   slug: string;
+  aboutPropertyDescription: string;
   seoTitle: string;
   seoDescription: string;
   seoKeywords: string;
+  canonical: string;
   multipleImages?: string[];
   propertyType: string;
   youtubeUrl: string;
@@ -56,9 +58,11 @@ export default function PropertyForm() {
     tentativeBudget: '',
     possession: '',
     slug: '',
+    aboutPropertyDescription: '',
     seoTitle: '',
     seoDescription: '',
     seoKeywords: '',
+    canonical: '',
     propertyType: '',
     youtubeUrl: '',
     googleMapUrl: '',
@@ -590,7 +594,23 @@ export default function PropertyForm() {
             )}
           </div>
         </div>
-        <div>
+
+        {/* About Property Description */}
+        <div className="mt-6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            About Property Description
+          </label>
+          <textarea
+            name="aboutPropertyDescription"
+            value={formData.aboutPropertyDescription}
+            onChange={handleChange}
+            rows={5}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            placeholder="Detailed description of the property..."
+          />
+        </div>
+
+        <div className="mt-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Rera Link
           </label>
@@ -750,6 +770,20 @@ export default function PropertyForm() {
                 onChange={handleChange}
                 className="w-full p-2 border border-gray-300 rounded-md"
                 placeholder="Comma separated keywords"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Canonical URL
+              </label>
+              <input
+                type="text"
+                name="canonical"
+                value={formData.canonical}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-md"
+                placeholder="https://example.com/property"
               />
             </div>
 
