@@ -20,7 +20,6 @@ const MainHeader: React.FC = () => {
     const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
     const [user, setUser] = useState<any>(null);
-    const [availablePages, setAvailablePages] = useState<string[]>([]);
 
     // New states for dual header logic
     const [scrolled, setScrolled] = useState(false);
@@ -77,22 +76,6 @@ const MainHeader: React.FC = () => {
             window.removeEventListener('scroll', handleScroll);
             clearTimeout(timer);
         };
-    }, []);
-
-    // Fetch available our-properties-in-pune pages from the server
-    useEffect(() => {
-        const loadPages = async () => {
-            try {
-                const res = await fetch('https://api.propertydronerealty.com/api/our-properties-in-pune-pages');
-                if (res.ok) {
-                    const json = await res.json();
-                    setAvailablePages((json.pages || []).map((p: string) => p.toLowerCase()));
-                }
-            } catch (e) {
-                console.error('Failed to load property pages', e);
-            }
-        };
-        loadPages();
     }, []);
 
     // Handle dropdown click outside to close
@@ -231,40 +214,26 @@ const MainHeader: React.FC = () => {
                     {/* Column 2: Top Locations */}
                     <div className="space-y-6">
                         <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Top Locations</h3>
-                                <div className="space-y-3">
-                                    {(() => {
-                                        const candidates = ['hinjewadi', 'wakad', 'baner', 'balewadi', 'ravet'];
-                                        const toTitle = (s: string) => s.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                                        return candidates.map((c) => (
-                                            <Link key={c} href={`/our-properties-in-pune/${c}`} className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>
-                                                {toTitle(c)}
-                                            </Link>
-                                        ));
-                                    })()}
-                                </div>
+                        <div className="space-y-3">
+                            <Link href="/our-properties-in-pune/hinjewadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Hinjawadi</Link>
+                            <Link href="/our-properties-in-pune/kharadi" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Kharadi</Link>
+                            <Link href="/our-properties-in-pune/wakad" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Wakad</Link>
+                            <Link href="/our-properties-in-pune/baner" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Baner</Link>
+                            <Link href="/our-properties-in-pune/viman-nagar" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Viman Nagar</Link>
+                        </div>
                     </div>
 
                     {/* Column 3: BHK */}
                     <div className="space-y-6">
                         <h3 className="text-gray-900 font-bold text-lg border-b border-gray-100 pb-2">Search by BHK</h3>
-                            <div className="space-y-3">
-                                {(() => {
-                                    const candidates = ['1rk', '1bhk', '2bhk', '3bhk', '4bhk', 'commercial-office'];
-                                    const labels: Record<string, string> = {
-                                        '1rk': '1 RK / Studio',
-                                        '1bhk': '1 BHK Flats',
-                                        '2bhk': '2 BHK Flats',
-                                        '3bhk': '3 BHK Flats',
-                                        '4bhk': '4+ BHK Flats',
-                                        'commercial-office': 'Commercial Office'
-                                    };
-                                    return candidates.map(c => (
-                                        <Link key={c} href={`/our-properties-in-pune/${c}`} className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>
-                                            {labels[c] || c}
-                                        </Link>
-                                    ));
-                                })()}
-                            </div>
+                        <div className="space-y-3">
+                            <Link href="/our-properties-in-pune/1rk" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>1 RK / Studio</Link>
+                            <Link href="/our-properties-in-pune/1bhk" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>1 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune/2bhk" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>2 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune/3bhk" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>3 BHK Flats</Link>
+                            <Link href="/our-properties-in-pune/4bhk" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>4+ BHK Flats</Link>
+                            <Link href="/our-properties-in-pune/commercial-office" className="block text-gray-600 hover:text-[#172747] hover:font-semibold transition-colors" onClick={() => setIsPropertiesDropdownOpen(false)}>Commercial Office</Link>
+                        </div>
                     </div>
                 </div>
             </div>

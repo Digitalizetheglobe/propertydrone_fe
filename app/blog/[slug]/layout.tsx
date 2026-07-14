@@ -12,18 +12,18 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { slug } = await params
-  
+
   try {
     const res = await fetch(`${API_BASE}/blogs/${slug}`, {
       next: { revalidate: 0 }, // Ensure it fetches fresh SEO details without caching delays
     })
-    
+
     if (res.ok) {
       const blog = await res.json()
-      
+
       const title = blog.metaTitle?.trim() || blog.blogTitle || 'Real Estate Blog Pune | Tips & Insights | PropertyDrone Realty'
       const description = blog.metaDescription?.trim() || blog.blogDescription || 'Read Pune real estate blogs on buying tips, investment strategies, home loans & market trends. Stay informed.'
-      
+
       let keywords = blog.metaKeyword?.trim() || 'real estate blog Pune,property buying tips,home loan advice,real estate market trends India'
       if (!blog.metaKeyword?.trim() && typeof blog.tags === 'string' && blog.tags.trim()) {
         keywords = blog.tags.trim()
@@ -32,7 +32,7 @@ export async function generateMetadata(
       }
 
       const canonical = blog.canonical?.trim() || `${BASE_URL}/blog/${slug}`
-      
+
       let imageUrl = null;
       if (blog.blogImage && Array.isArray(blog.blogImage) && blog.blogImage.length > 0) {
         const path = blog.blogImage[0].path;

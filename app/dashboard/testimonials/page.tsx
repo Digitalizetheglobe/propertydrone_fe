@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useState } from "react";
 
 interface Testimonial {
@@ -8,6 +8,7 @@ interface Testimonial {
   rating?: number;
   isActive?: boolean;
   createdAt?: string;
+  image?: any;
 }
 
 export default function TestimonialsPage() {
@@ -15,7 +16,7 @@ export default function TestimonialsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({ name: "", testimonial: "", rating: 0, isActive: true });
+  const [formData, setFormData] = useState<{ name: string, testimonial: string, rating: number, isActive: boolean, image: File | null }>({ name: "", testimonial: "", rating: 0, isActive: true, image: null });
   const [editId, setEditId] = useState<string | number | null>(null);
 
   useEffect(() => {
@@ -36,6 +37,11 @@ export default function TestimonialsPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
+    if (type === 'file') {
+      const target = e.target as HTMLInputElement;
+      setFormData(prev => ({ ...prev, [name]: target.files && target.files.length > 0 ? target.files[0] : null }));
+      return;
+    }
     const checked = e.target instanceof HTMLInputElement ? e.target.checked : undefined;
     setFormData(prev => ({
       ...prev,
@@ -48,12 +54,21 @@ export default function TestimonialsPage() {
     try {
       let res: Response;
       let newTestimonial: Testimonial;
+
+      const submitData = new FormData();
+      submitData.append('name', formData.name);
+      submitData.append('testimonial', formData.testimonial);
+      submitData.append('rating', formData.rating.toString());
+      submitData.append('isActive', formData.isActive.toString());
+      if (formData.image) {
+        submitData.append('image', formData.image);
+      }
+
       if (editId !== null) {
         // Update
         res = await fetch(`https://api.propertydronerealty.com/api/testimonials/${editId}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData)
+          body: submitData
         });
         if (!res.ok) throw new Error("Failed to update testimonial");
         newTestimonial = await res.json();
@@ -62,15 +77,14 @@ export default function TestimonialsPage() {
         // Create
         res = await fetch("https://api.propertydronerealty.com/api/testimonials", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData)
+          body: submitData
         });
         if (!res.ok) throw new Error("Failed to add testimonial");
         newTestimonial = await res.json();
         setTestimonials(t => [newTestimonial, ...t]);
       }
       setShowModal(false);
-      setFormData({ name: "", testimonial: "", rating: 0, isActive: true });
+      setFormData({ name: "", testimonial: "", rating: 0, isActive: true, image: null });
       setEditId(null);
     } catch (err: any) {
       alert(err.message || "Error saving testimonial");
@@ -94,7 +108,7 @@ export default function TestimonialsPage() {
     <div className="max-w-6xl mx-auto p-6">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Testimonials</h1>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition" onClick={() => { setShowModal(true); setEditId(null); setFormData({ name: "", testimonial: "", rating: 0, isActive: true }); }}>+ Add Testimonial</button>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition" onClick={() => { setShowModal(true); setEditId(null); setFormData({ name: "", testimonial: "", rating: 0, isActive: true, image: null }); }}>+ Add Testimonial</button>
       </div>
       {loading ? (
         <div>Loading...</div>
@@ -108,7 +122,12 @@ export default function TestimonialsPage() {
             testimonials.map(item => (
               <div key={item.id} className="bg-white rounded-xl shadow p-6 relative flex flex-col gap-2 border">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-lg font-semibold">{item.name}</span>
+                  <div className="flex items-center gap-3">
+                    {item.image && item.image.path && (
+                      <img src={`https://api.propertydronerealty.com${item.image.path}`} alt={item.name} className="w-10 h-10 rounded-full object-cover" />
+                    )}
+                    <span className="text-lg font-semibold">{item.name}</span>
+                  </div>
                   {item.isActive !== false ? (
                     <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Active</span>
                   ) : (
@@ -117,7 +136,7 @@ export default function TestimonialsPage() {
                 </div>
                 <div className="flex items-center mb-2">
                   {[1, 2, 3, 4, 5].map(star => (
-                    <span key={star} className={"text-xl " + (item.rating && item.rating >= star ? "text-yellow-400" : "text-gray-300")}>â˜…</span>
+                    <span key={star} className={"text-xl " + (item.rating && item.rating >= star ? "text-yellow-400" : "text-gray-300")}>★</span>
                   ))}
                 </div>
                 <div className="mb-2 text-gray-700">{item.testimonial}</div>
@@ -131,7 +150,8 @@ export default function TestimonialsPage() {
                         name: item.name || "",
                         testimonial: item.testimonial || "",
                         rating: item.rating || 0,
-                        isActive: item.isActive !== false
+                        isActive: item.isActive !== false,
+                        image: null
                       });
                       setShowModal(true);
                     }}><svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.65 3.35l-10.3 10.3v2h2l10.3-10.3a1.416 1.416 0 00-2-2z"></path><path d="M14.86 5.14a2.001 2.001 0 00-2.83-2.83l-1.13 1.13 2.83 2.83 1.13-1.13z"></path></svg></button>
@@ -153,12 +173,16 @@ export default function TestimonialsPage() {
                 <input name="name" value={formData.name} onChange={handleInputChange} placeholder="Client Name" required className="border p-2 w-full rounded" />
               </div>
               <div className="mb-2">
+                <input type="file" name="image" accept="image/*" onChange={handleInputChange} className="border p-2 w-full rounded" />
+                <small className="text-gray-500">Optional: Upload an image for the testimonial.</small>
+              </div>
+              <div className="mb-2">
                 <textarea name="testimonial" value={formData.testimonial} onChange={handleInputChange} placeholder="Testimonial Content" required className="border p-2 w-full rounded" rows={3} />
               </div>
               <div className="mb-2 flex items-center">
                 <label className="mr-2">Rating:</label>
                 {[1, 2, 3, 4, 5].map(star => (
-                  <span key={star} onClick={() => setFormData(fd => ({ ...fd, rating: star }))} className="cursor-pointer text-xl text-yellow-500">{formData.rating >= star ? 'â˜…' : 'â˜†'}</span>
+                  <span key={star} onClick={() => setFormData(fd => ({ ...fd, rating: star }))} className="cursor-pointer text-xl text-yellow-500">{formData.rating >= star ? '★' : '☆'}</span>
                 ))}
               </div>
               <div className="mb-2">
