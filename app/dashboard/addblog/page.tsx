@@ -70,7 +70,7 @@ export default function AddBlog() {
     HorizontalRule,
     Iframe,
     Indent,
-    Link,
+    Link.configure({ autolink: true, openOnClick: false }),
     OrderedList,
     SlashCommand,
     Strike,
@@ -214,7 +214,6 @@ export default function AddBlog() {
                   },
                 },
               }}
-              bubbleMenu={{}}
             />
           </div>
         </div>

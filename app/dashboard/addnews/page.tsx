@@ -72,7 +72,7 @@ export default function AddNews() {
         HorizontalRule,
         Iframe,
         Indent,
-        Link,
+        Link.configure({ autolink: true, openOnClick: false }),
         OrderedList,
         SlashCommand,
         Strike,
@@ -191,7 +191,6 @@ export default function AddNews() {
                                     },
                                 },
                             }}
-                            bubbleMenu={{}}
                         />
                     </div>
                 </div>

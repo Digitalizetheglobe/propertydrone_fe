@@ -83,7 +83,7 @@ export default function EditBlogPage() {
     HorizontalRule,
     Iframe,
     Indent,
-    Link,
+    Link.configure({ autolink: true, openOnClick: false }),
     OrderedList,
     SlashCommand,
     Strike,
@@ -256,7 +256,6 @@ export default function EditBlogPage() {
                   },
                 },
               }}
-              bubbleMenu={{}}
             />
           </div>
         </div>

@@ -45,7 +45,7 @@ const extensions = [
   HorizontalRule,
   Iframe,
   Indent,
-  Link,
+  Link.configure({ autolink: true, openOnClick: false }),
   OrderedList,
   SlashCommand,
   Strike,
@@ -249,7 +249,6 @@ export default function AddRealEstateBasic() {
                   },
                 },
               }}
-              bubbleMenu={{}}
             />
           </div>
           {!formData.author.trim() && (
