@@ -1,13 +1,10 @@
 "use client"
-import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import developerimg from '../../../public/images/images.png'
 import Image from 'next/image';
 import bgimage1 from '../../../public/images/bgimage2.png'
 import { motion } from "framer-motion";
-import { FiArrowRight } from 'react-icons/fi';
 import Link from 'next/link';
-
 
 export default function PropertyDeveloperShowcase() {
   // Sample data for the property
