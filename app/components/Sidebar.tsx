@@ -31,6 +31,7 @@ const sections = [
   { name: "Property Detail", path: "/dashboard/propertydetail", icon: faBuilding },
   { name: "Add Property", path: "/dashboard/propertyform", icon: faBuildingCircleArrowRight },
   { name: "Contact Detail", path: "/dashboard/contactdetail", icon: faAddressCard },
+  { name: "Lead Sources", path: "/dashboard/leadsources", icon: faEnvelopeOpenText },
   { name: "Blogs", path: "/dashboard/allblogs", icon: faNewspaper },
   { name: "Add Blogs", path: "/dashboard/addblog", icon: faFileCirclePlus },
   { name: "News & Articles", path: "/dashboard/allnews", icon: faNewspaper },
@@ -53,7 +54,8 @@ const sections = [
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const { logout } = useAuth();
+  const auth = useAuth() as any;
+  const logout = auth?.logout || (() => {});
 
   return (
     <aside className="bg-white border-r h-screen w-60 flex flex-col shadow fixed left-0 top-0 z-30">
@@ -68,18 +70,17 @@ const Sidebar = () => {
         <ul className="space-y-1">
           {sections.map((section) => (
             <li key={section.path}>
-              <Link href={section.path} legacyBehavior>
-                <a
-                  className={
-                    "flex items-center p-3 gap-4 rounded-lg transition hover:bg-blue-100 text-gray-700 " +
-                    (pathname === section.path ? "bg-blue-50 text-blue-900 font-semibold" : "")
-                  }
-                >
-                  <span className="w-6">
-                    <FontAwesomeIcon icon={section.icon} size="lg" />
-                  </span>
-                  <span>{section.name}</span>
-                </a>
+              <Link
+                href={section.path}
+                className={
+                  "flex items-center p-3 gap-4 rounded-lg transition hover:bg-blue-100 text-gray-700 " +
+                  (pathname === section.path ? "bg-blue-50 text-blue-900 font-semibold" : "")
+                }
+              >
+                <span className="w-6">
+                  <FontAwesomeIcon icon={section.icon} size="lg" />
+                </span>
+                <span>{section.name}</span>
               </Link>
             </li>
           ))}

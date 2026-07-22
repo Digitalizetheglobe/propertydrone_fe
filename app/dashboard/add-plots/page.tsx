@@ -1,8 +1,11 @@
-﻿"use client";
+"use client";
 import React, { useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 export default function AddPlots() {
+    const [images, setImages] = useState<File[]>([]);
+    const [previewImages, setPreviewImages] = useState<string[]>([]);
     const [formData, setFormData] = useState({
         listingId: "",
         title: "",
@@ -27,7 +30,6 @@ export default function AddPlots() {
         },
         possession: "",
         amenities: "", // We will convert this to array on submit
-        images: "",    // We will convert this to array on submit
         demo1: "",
         demo2: "",
         demo3: "",
@@ -70,6 +72,17 @@ export default function AddPlots() {
         }
     };
 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) return;
+
+        const files = Array.from(e.target.files);
+        setImages(files);
+
+        // Create preview URLs for the selected images
+        const previews = files.map((file) => URL.createObjectURL(file));
+        setPreviewImages(previews);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -80,13 +93,27 @@ export default function AddPlots() {
             const payload = {
                 ...formData,
                 amenities: formData.amenities.split(",").map((item) => item.trim()).filter(Boolean),
-                images: formData.images.split(",").map((item) => item.trim()).filter(Boolean),
             };
 
-            const response = await axios.post("https://api.propertydronerealty.com/api/plots", payload);
+            const formDataToSend = new FormData();
+            formDataToSend.append('plotData', JSON.stringify(payload));
+
+            if (images.length > 0) {
+                images.forEach((image: File) => {
+                    formDataToSend.append('images', image);
+                });
+            }
+
+            const response = await axios.post("https://api.propertydronerealty.com/api/plots", formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
 
             console.log("Response:", response.data);
             setMessage("Plot added successfully!");
+            setImages([]);
+            setPreviewImages([]);
 
             // Reset form (optional, could just clear specific fields)
             setFormData({
@@ -101,7 +128,6 @@ export default function AddPlots() {
                 priceDetails: { pricePerSqFt: "", totalPrice: "" },
                 possession: "",
                 amenities: "",
-                images: "",
                 demo1: "",
                 demo2: "",
                 demo3: "",
@@ -192,7 +218,38 @@ export default function AddPlots() {
                 <h2 className="text-xl font-semibold mt-4">Amenities & Images</h2>
                 <div className="grid grid-cols-1 gap-4">
                     <input name="amenities" placeholder="Amenities (comma separated)" value={formData.amenities} onChange={handleChange} className="border p-2 rounded w-full" />
-                    <input name="images" placeholder="Image URLs (comma separated)" value={formData.images} onChange={handleChange} className="border p-2 rounded w-full" />
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Upload Multiple Images
+                        </label>
+                        <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="w-full p-2 border border-gray-300 rounded-md bg-white"
+                        />
+
+                        {/* Image Previews */}
+                        {previewImages.length > 0 && (
+                            <div className="mt-4">
+                                <p className="text-sm font-medium text-gray-700 mb-2">Image Previews:</p>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                    {previewImages.map((preview, index) => (
+                                        <div key={index} className="relative h-32 border rounded-md overflow-hidden">
+                                            <Image
+                                                src={preview}
+                                                alt={`Preview ${index + 1}`}
+                                                fill
+                                                sizes="(max-width: 768px) 100vw, 33vw"
+                                                style={{ objectFit: 'cover' }}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {/* Demo Fields */}

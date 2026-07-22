@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 import Link from "next/link";
 
@@ -9,6 +10,8 @@ export default function ShowAllPlots() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [editingPlot, setEditingPlot] = useState<any | null>(null);
+    const [newImages, setNewImages] = useState<File[]>([]);
+    const [previewNewImages, setPreviewNewImages] = useState<string[]>([]);
 
     // Fetch plots
     const fetchPlots = async () => {
@@ -40,12 +43,24 @@ export default function ShowAllPlots() {
 
     // Edit plot
     const handleEditClick = (plot: any) => {
-        // Prepare data for form (flatten arrays to comma separated strings)
+        // Prepare data for form (flatten arrays to comma separated strings, but keep images as is)
         setEditingPlot({
             ...plot,
             amenities: Array.isArray(plot.amenities) ? plot.amenities.join(", ") : plot.amenities,
-            images: Array.isArray(plot.images) ? plot.images.join(", ") : plot.images,
         });
+        setNewImages([]);
+        setPreviewNewImages([]);
+    };
+
+    const handleNewImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) return;
+
+        const files = Array.from(e.target.files);
+        setNewImages(files);
+
+        // Create preview URLs for the selected images
+        const previews = files.map((file) => URL.createObjectURL(file));
+        setPreviewNewImages(previews);
     };
 
     const handleUpdate = async (e: React.FormEvent) => {
@@ -56,10 +71,22 @@ export default function ShowAllPlots() {
             const payload = {
                 ...editingPlot,
                 amenities: typeof editingPlot.amenities === 'string' ? editingPlot.amenities.split(",").map((s: string) => s.trim()) : editingPlot.amenities,
-                images: typeof editingPlot.images === 'string' ? editingPlot.images.split(",").map((s: string) => s.trim()) : editingPlot.images,
             };
 
-            await axios.put(`https://api.propertydronerealty.com/api/plots/${editingPlot.id}`, payload);
+            const formDataToSend = new FormData();
+            formDataToSend.append('plotData', JSON.stringify(payload));
+
+            if (newImages.length > 0) {
+                newImages.forEach((image: File) => {
+                    formDataToSend.append('images', image);
+                });
+            }
+
+            await axios.put(`https://api.propertydronerealty.com/api/plots/${editingPlot.id}`, formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             alert("Plot updated successfully!");
             setEditingPlot(null);
             fetchPlots(); // Refresh list
@@ -96,65 +123,84 @@ export default function ShowAllPlots() {
                 </Link>
             </div>
 
-            {/* Table */}
-            <div className="overflow-x-auto bg-white shadow-md rounded-lg">
-                <table className="min-w-full leading-normal">
-                    <thead>
-                        <tr>
-                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                ID / Listing ID
-                            </th>
-                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Title / Project
-                            </th>
-                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Location
-                            </th>
-                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Price
-                            </th>
-                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {plots.map((plot) => (
-                            <tr key={plot.id}>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p className="text-gray-900 whitespace-no-wrap">{plot.id}</p>
-                                    <p className="text-gray-600 text-xs">{plot.listingId}</p>
-                                </td>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p className="text-gray-900 whitespace-no-wrap font-semibold">{plot.title}</p>
-                                    <p className="text-gray-600 text-xs">{plot.project}</p>
-                                </td>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p className="text-gray-900 whitespace-no-wrap">{plot.location?.city || '-'}</p>
-                                    <p className="text-gray-600 text-xs">{plot.location?.area || '-'}</p>
-                                </td>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p className="text-gray-900 whitespace-no-wrap">₹{plot.priceDetails?.totalPrice || '-'}</p>
-                                </td>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <button
-                                        onClick={() => handleEditClick(plot)}
-                                        className="text-blue-600 hover:text-blue-900 mr-4"
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(plot.id)}
-                                        className="text-red-600 hover:text-red-900"
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            {/* Cards Layout */}
+            {plots.length === 0 ? (
+                <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-lg p-4">
+                    No plots found.
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 gap-6">
+                    {plots.map((plot) => (
+                        <div key={plot.id} className="bg-white shadow-lg rounded-lg p-6 transition-all hover:shadow-xl">
+                            <h3 className="text-2xl font-bold">{plot.title || 'N/A'}</h3>
+                            <p className="text-gray-600">
+                                {plot.location?.area || 'N/A'}, {plot.location?.city || 'N/A'}
+                            </p>
+
+                            {/* Images */}
+                            {plot.images && Array.isArray(plot.images) && plot.images.length > 0 && (
+                                <div className="mt-4">
+                                    <h4 className="text-lg font-semibold mb-2">Plot Images</h4>
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                                        {plot.images.map((imgObj: any, imgIndex: number) => {
+                                            const image = typeof imgObj === 'string' ? imgObj : imgObj?.path;
+                                            if (!image || typeof image !== 'string' || image === 'undefined' || image === 'null' || image.trim() === '') return null;
+
+                                            const cleanPath = image.replace(/\\/g, '/');
+                                            const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+                                            const fullUrl = image.startsWith('http') ? image : `https://api.propertydronerealty.com${finalPath}`;
+
+                                            return (
+                                                <div key={imgIndex} className="relative h-32 border rounded overflow-hidden">
+                                                    <Image
+                                                        src={fullUrl}
+                                                        alt={`${plot.title} - Image ${imgIndex + 1}`}
+                                                        fill
+                                                        sizes="(max-width: 768px) 100vw, 33vw"
+                                                        className="object-cover"
+                                                    />
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                                <p><strong>Listing ID:</strong> {plot.listingId || 'N/A'}</p>
+                                <p><strong>Project:</strong> {plot.project || 'N/A'}</p>
+                                <p><strong>City:</strong> {plot.location?.city || 'N/A'}</p>
+                                <p><strong>Area:</strong> {plot.location?.area || 'N/A'}</p>
+                                <p><strong>Type:</strong> {plot.propertyType || 'N/A'}</p>
+                                <p><strong>Status:</strong> {plot.propertyStatus || 'N/A'}</p>
+                                <p><strong>Total Price:</strong> {plot.priceDetails?.totalPrice ? `₹${plot.priceDetails.totalPrice}` : 'N/A'}</p>
+                                <p><strong>Price/SqFt:</strong> {plot.priceDetails?.pricePerSqFt ? `₹${plot.priceDetails.pricePerSqFt}` : 'N/A'}</p>
+                                <p><strong>Area (Sq Yard):</strong> {plot.plotDetails?.areaSqYard || 'N/A'}</p>
+                                <p><strong>Area (Sq Ft):</strong> {plot.plotDetails?.areaSqFt || 'N/A'}</p>
+                                <p><strong>Facing:</strong> {plot.plotDetails?.facing || 'N/A'}</p>
+                                <p><strong>Possession:</strong> {plot.possession || 'N/A'}</p>
+                            </div>
+
+                            {plot.slug && <p className="mt-4 text-sm text-gray-500"><strong>Slug:</strong> {plot.slug}</p>}
+
+                            <div className="flex justify-end gap-4 mt-6">
+                                <button
+                                    onClick={() => handleDelete(plot.id)}
+                                    className="text-red-600 hover:text-red-800"
+                                >
+                                    Delete
+                                </button>
+                                <button
+                                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+                                    onClick={() => handleEditClick(plot)}
+                                >
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             {/* Edit Modal */}
             {editingPlot && (
@@ -213,7 +259,65 @@ export default function ShowAllPlots() {
                             <h3 className="font-semibold mt-2">Details</h3>
                             <div className="grid grid-cols-1 gap-4">
                                 <input name="amenities" placeholder="Amenities (comma separated)" value={editingPlot.amenities || ''} onChange={handleEditChange} className="border p-2 rounded w-full" />
-                                <input name="images" placeholder="Images (comma separated)" value={editingPlot.images || ''} onChange={handleEditChange} className="border p-2 rounded w-full" />
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Upload Multiple New Images
+                                    </label>
+                                    <input
+                                        type="file"
+                                        multiple
+                                        accept="image/*"
+                                        onChange={handleNewImageChange}
+                                        className="w-full p-2 border border-gray-300 rounded-md bg-white"
+                                    />
+                                    {/* Existing Images Display */}
+                                    {editingPlot.images && Array.isArray(editingPlot.images) && editingPlot.images.length > 0 && (
+                                        <div className="mt-4">
+                                            <p className="text-sm font-medium text-gray-700 mb-2">Existing Images:</p>
+                                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                                {editingPlot.images.map((img: any, index: number) => {
+                                                    const image = typeof img === 'string' ? img : img?.path;
+                                                    if (!image || typeof image !== 'string' || image === 'undefined' || image === 'null' || image.trim() === '') return null;
+
+                                                    const cleanPath = image.replace(/\\/g, '/');
+                                                    const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+                                                    const fullUrl = image.startsWith('http') ? image : `https://api.propertydronerealty.com${finalPath}`;
+
+                                                    return (
+                                                        <div key={`exist-${index}`} className="relative h-32 border rounded-md overflow-hidden bg-gray-100">
+                                                            <Image
+                                                                src={fullUrl}
+                                                                alt={`Existing ${index + 1}`}
+                                                                fill
+                                                                sizes="(max-width: 768px) 100vw, 33vw"
+                                                                style={{ objectFit: 'cover' }}
+                                                            />
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    )}
+                                    {/* New Image Previews */}
+                                    {previewNewImages.length > 0 && (
+                                        <div className="mt-4">
+                                            <p className="text-sm font-medium text-gray-700 mb-2">New Image Previews:</p>
+                                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                                {previewNewImages.map((preview, index) => (
+                                                    <div key={`new-${index}`} className="relative h-32 border rounded-md overflow-hidden bg-gray-100">
+                                                        <Image
+                                                            src={preview}
+                                                            alt={`Preview ${index + 1}`}
+                                                            fill
+                                                            sizes="(max-width: 768px) 100vw, 33vw"
+                                                            style={{ objectFit: 'cover' }}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
 
                             <div className="flex justify-end space-x-4 mt-6">

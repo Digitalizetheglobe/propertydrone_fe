@@ -56,6 +56,7 @@ import HomePageFeaturedProperty from "./components/homepagefeaturedproperty";
 import HomePageLuxeProperty from "./components/homepageluxeproperty";
 import HomePageLogos from "./components/homepagelogos";
 import FloatingVideo from "./components/FloatingVideo";
+import LeadSourceModal from "@/components/LeadSourceModal";
 
 const formatDate = (dateString: string) => {
   if (!dateString) return '';
@@ -908,6 +909,17 @@ export default function Home() {
 
   // Add cookie consent state
   const [showCookieBanner, setShowCookieBanner] = useState(true);
+  const [showLeadSource, setShowLeadSource] = useState(false);
+
+  useEffect(() => {
+    const hasSubmitted = sessionStorage.getItem('leadSourceSubmitted');
+    if (!hasSubmitted) {
+      const timer = setTimeout(() => {
+        setShowLeadSource(true);
+      }, 5000); // show after 5 seconds
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   // Check if user has already made a choice
   useEffect(() => {
@@ -1402,6 +1414,11 @@ export default function Home() {
       </div>
 
       <FloatingVideo />
+
+      <LeadSourceModal
+        isOpen={showLeadSource}
+        onClose={() => setShowLeadSource(false)}
+      />
 
     </div >
   );
