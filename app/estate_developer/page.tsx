@@ -39,8 +39,8 @@ const companyData = [
   },
   {
     id: 3,
-    name: 'krunal-group',
-    slug: 'krunal-group',
+    name: 'kunal-group',
+    slug: 'kunal-group',
     logo: d3,
     logo1: img3, // Added default background
   },

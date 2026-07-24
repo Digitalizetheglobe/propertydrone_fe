@@ -56,13 +56,13 @@ export default function HomePageWhyPropertyDrone() {
                                 slug: "majestique-developer",
                             },
                             {
-                                title: "Krunal Group",
-                                builder: "Krunal Group",
+                                title: "kunal Group",
+                                builder: "kunal Group",
                                 config: "Premium Projects",
                                 location: "Pune",
                                 price: "View Details",
                                 img: devImg3,
-                                slug: "krunal-group",
+                                slug: "kunal-group",
                             },
                             {
                                 title: "Kasturi Housing",

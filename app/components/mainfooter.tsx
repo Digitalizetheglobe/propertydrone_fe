@@ -314,7 +314,7 @@ const Mainfooter = () => {
                   </li>
                   <li>
                     <Link
-                      href="/estate_developer/krunal-group"
+                      href="/estate_developer/kunal-group"
                       className="hover:text-white transition-colors"
                     >
                       Top Projects by Kunal Group
