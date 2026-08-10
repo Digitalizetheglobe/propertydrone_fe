@@ -56,6 +56,7 @@ import HomePageFeaturedProperty from "./components/homepagefeaturedproperty";
 import HomePageLuxeProperty from "./components/homepageluxeproperty";
 import HomePageLogos from "./components/homepagelogos";
 import FloatingVideo from "./components/FloatingVideo";
+import ReelsBadge from "./components/ReelsBadge";
 import LeadSourceModal from "@/components/LeadSourceModal";
 
 const formatDate = (dateString: string) => {
@@ -293,7 +294,7 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch(`https://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
+    const res = await fetch(`http://localhost:9000/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
 
@@ -338,7 +339,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch(`https://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
+      const res = await fetch(`http://localhost:9000/api/saved-properties?webUserId=${currentUserId}`);
       if (!res.ok) return;
       const all = await res.json();
 
@@ -437,7 +438,7 @@ export default function Home() {
           image: (() => {
             const path = property.multipleImages?.[0]?.path;
             if (path) {
-              return path.startsWith('http') ? path : `https://api.propertydronerealty.com${path}`;
+              return path.startsWith('http') ? path : `http://localhost:9000${path}`;
             }
             return "/api/placeholder/400/320";
           })()
@@ -505,7 +506,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      const response = await fetch("https://api.propertydronerealty.com/contacts", {
+      const response = await fetch("http://localhost:9000/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -575,6 +576,19 @@ export default function Home() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // State for properties data from API
   // const [properties, setProperties] = useState<Property[]>([]);
@@ -591,7 +605,7 @@ export default function Home() {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://api.propertydronerealty.com/properties');
+        const response = await fetch('http://localhost:9000/properties');
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }
@@ -758,26 +772,26 @@ export default function Home() {
 
     if (dropdownFilters.typology) {
       filtered = filtered.filter(property => {
-        const bedroom = property.bedroom || '';
+        const typologyStr = (property.topology || property.bedroom || '').toLowerCase();
         const filterValue = dropdownFilters.typology.toLowerCase();
 
         // Handle different formats: "4 BHK", "4bhk", "4", "4 Bedroom", etc.
-        if (filterValue.includes('4')) {
-          return bedroom.toLowerCase().includes('4') || bedroom.toLowerCase().includes('four');
+        if (filterValue.includes('5')) {
+          return /\\b5\\b/.test(typologyStr) || /\\bfive\\b/.test(typologyStr);
+        } else if (filterValue.includes('4')) {
+          return /\\b4\\b/.test(typologyStr) || /\\bfour\\b/.test(typologyStr);
         } else if (filterValue.includes('3')) {
-          return bedroom.toLowerCase().includes('3') || bedroom.toLowerCase().includes('three');
+          return /\\b3\\b/.test(typologyStr) || /\\bthree\\b/.test(typologyStr);
         } else if (filterValue.includes('2')) {
-          return bedroom.toLowerCase().includes('2') || bedroom.toLowerCase().includes('two');
+          return /\\b2\\b/.test(typologyStr) || /\\btwo\\b/.test(typologyStr);
         } else if (filterValue.includes('1')) {
           if (filterValue.includes('rk')) {
-            return bedroom.toLowerCase().includes('1 rk') || bedroom.toLowerCase().includes('1rk');
+            return /\\b1\\s*rk\\b/.test(typologyStr);
           }
-          return bedroom.toLowerCase().includes('1') || bedroom.toLowerCase().includes('one');
-        } else if (filterValue.includes('5')) {
-          return bedroom.toLowerCase().includes('5') || bedroom.toLowerCase().includes('five');
+          return /\\b1\\b/.test(typologyStr) || /\\bone\\b/.test(typologyStr);
         }
 
-        return bedroom.toLowerCase() === filterValue;
+        return typologyStr === filterValue;
       });
     }
 
@@ -798,7 +812,7 @@ export default function Home() {
     setFeaturedProperties(filtered.slice(0, 3)); // Get first 3 filtered properties as featured
     setRemainingProperties(filtered.slice(3));   // Get the rest for the slider
 
-  }, [filters, properties]);
+  }, [filters, properties, dropdownFilters]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target as HTMLSelectElement | HTMLInputElement;
@@ -1173,11 +1187,12 @@ export default function Home() {
 
                   {/* Left: Additional Filters */}
                   {/* Left: Additional Filters - Interactive Dropdowns */}
-                  <div className="flex flex-wrap cursor-pointer md:flex-nowrap justify-center md:justify-start items-center gap-2 md:gap-3 w-full md:w-auto overflow-visible pb-1 md:pb-0 scrollbar-hide z-50">
+                  <div ref={dropdownRef} className="flex flex-wrap cursor-pointer md:flex-nowrap justify-center md:justify-start items-center gap-2 md:gap-3 w-full md:w-auto overflow-visible pb-1 md:pb-0 scrollbar-hide z-50">
                     {/* Location */}
-                    <div className="relative" onMouseEnter={() => setActiveDropdown('location')} onMouseLeave={() => setActiveDropdown(null)}>
+                    <div className="relative">
                       <button
                         type="button"
+                        onClick={() => setActiveDropdown(activeDropdown === 'location' ? null : 'location')}
                         className={`flex-shrink-0 flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-full border ${dropdownFilters.location ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
                       >
                         <span>{dropdownFilters.location || 'Location'}</span>
@@ -1195,9 +1210,10 @@ export default function Home() {
                     </div>
 
                     {/* Carpet Area */}
-                    <div className="relative" onMouseEnter={() => setActiveDropdown('area')} onMouseLeave={() => setActiveDropdown(null)}>
+                    <div className="relative">
                       <button
                         type="button"
+                        onClick={() => setActiveDropdown(activeDropdown === 'area' ? null : 'area')}
                         className={`flex-shrink-0 flex items-center cursor-pointer gap-1.5 px-3 py-1.5 rounded-full border ${dropdownFilters.area ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
                       >
                         <span>{dropdownFilters.area || 'Carpet Area'}</span>
@@ -1215,9 +1231,10 @@ export default function Home() {
                     </div>
 
                     {/* Budget */}
-                    <div className="relative" onMouseEnter={() => setActiveDropdown('budget')} onMouseLeave={() => setActiveDropdown(null)}>
+                    <div className="relative">
                       <button
                         type="button"
+                        onClick={() => setActiveDropdown(activeDropdown === 'budget' ? null : 'budget')}
                         className={`flex-shrink-0 flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-full border ${dropdownFilters.budget ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
                       >
                         <span>{dropdownFilters.budget || 'Budget'}</span>
@@ -1235,9 +1252,10 @@ export default function Home() {
                     </div>
 
                     {/* Possession */}
-                    <div className="relative" onMouseEnter={() => setActiveDropdown('possession')} onMouseLeave={() => setActiveDropdown(null)}>
+                    <div className="relative">
                       <button
                         type="button"
+                        onClick={() => setActiveDropdown(activeDropdown === 'possession' ? null : 'possession')}
                         className={`flex-shrink-0 flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-full border ${dropdownFilters.possession ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
                       >
                         <span>{dropdownFilters.possession || 'Possession'}</span>
@@ -1257,9 +1275,10 @@ export default function Home() {
 
 
                     {/* Typology */}
-                    <div className="relative" onMouseEnter={() => setActiveDropdown('typology')} onMouseLeave={() => setActiveDropdown(null)}>
+                    <div className="relative">
                       <button
                         type="button"
+                        onClick={() => setActiveDropdown(activeDropdown === 'typology' ? null : 'typology')}
                         className={`flex-shrink-0 flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-full border ${dropdownFilters.typology ? 'border-[#1717B5] bg-[#1717B5]/10 text-[#1717B5]' : 'border-gray-200 bg-white/90'} text-[10px] sm:text-xs font-medium text-gray-600 hover:border-[#1717B5] hover:text-[#1717B5] transition-colors whitespace-nowrap`}
                       >
                         <span>{dropdownFilters.typology || 'Typology'}</span>
@@ -1414,6 +1433,7 @@ export default function Home() {
       </div>
 
       <FloatingVideo />
+      <ReelsBadge />
 
       <LeadSourceModal
         isOpen={showLeadSource}

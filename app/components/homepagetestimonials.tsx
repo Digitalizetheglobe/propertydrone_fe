@@ -9,7 +9,7 @@ export default function HomePageTestimonials() {
     const [testimonials, setTestimonials] = useState<any[]>([]);
 
     useEffect(() => {
-        fetch('https://api.propertydronerealty.com/api/testimonials')
+        fetch('http://localhost:9000/api/testimonials')
             .then(res => res.json())
             .then(data => {
                 // Filter only active testimonials and sort by newest if necessary
@@ -71,7 +71,7 @@ export default function HomePageTestimonials() {
                             <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '10px' }}>
                                 {item.image && item.image.path ? (
                                     <img
-                                        src={`https://api.propertydronerealty.com${item.image.path}`}
+                                        src={`http://localhost:9000${item.image.path}`}
                                         alt={item.name}
                                         style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
                                     />

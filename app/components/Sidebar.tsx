@@ -41,6 +41,8 @@ const sections = [
   { name: "Add Job Posting", path: "/dashboard/careerform", icon: faFileAlt },
   { name: "Youtube video", path: "/dashboard/youtube", icon: faFileVideo },
   { name: "Add Youtube video", path: "/dashboard/youtube/new", icon: faFileAlt },
+  { name: "All Reels", path: "/dashboard/reels", icon: faFileVideo },
+  { name: "Add Reel", path: "/dashboard/reels?add=true", icon: faFileCirclePlus },
   { name: "Real-Estate", path: "/dashboard/allreal", icon: faFileVideo },
   { name: "Add real estate basic", path: "/dashboard/addreal", icon: faFileAlt },
   { name: "Experts", path: "/dashboard/experts", icon: faUserTie },

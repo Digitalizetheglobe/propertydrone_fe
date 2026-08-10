@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
@@ -24,11 +24,16 @@ const BottomPropertyDetails = () => {
     const [activeTab, setActiveTab] = useState("Properties & Flats for Sale");
     const [tabData, setTabData] = useState<TabData>({});
     const [loading, setLoading] = useState(true);
+    const [showAll, setShowAll] = useState(false);
+
+    useEffect(() => {
+        setShowAll(false);
+    }, [activeTab]);
 
     useEffect(() => {
         const fetchProperties = async () => {
             try {
-                const response = await fetch('https://api.propertydronerealty.com/properties');
+                const response = await fetch('http://localhost:9000/properties');
                 if (!response.ok) {
                     console.error('Failed to fetch properties:', response.status);
                     setTabData(getDefaultData()); // Fallback
@@ -132,6 +137,7 @@ const BottomPropertyDetails = () => {
     });
 
     const currentTabContent = tabData[activeTab] || [];
+    const displayedContent = showAll ? currentTabContent : currentTabContent.slice(0, 20);
 
     return (
         <div className="w-full bg-transparent text-[#172747] py-8 text-xs font-sans border-t border-[#172747]/10">
@@ -159,25 +165,38 @@ const BottomPropertyDetails = () => {
                             Loading...
                         </div>
                     ) : currentTabContent.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
-                            {currentTabContent.map((section, idx) => (
-                                <div key={idx} className="flex flex-col space-y-2">
-                                    <h3 className="font-bold text-[#172747] text-[13px] mb-1">{section.title}</h3>
-                                    <ul className="space-y-1.5">
-                                        {section.links.map((link, linkIdx) => (
-                                            <li key={linkIdx}>
-                                                <Link
-                                                    href={link.url}
-                                                    className="text-[#172747] hover:text-[#172747]/80 hover:underline transition-colors duration-200 block leading-tight text-[11px]"
-                                                >
-                                                    {link.name}
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
+                        <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+                                {displayedContent.map((section, idx) => (
+                                    <div key={idx} className="flex flex-col space-y-2">
+                                        <h3 className="font-bold text-[#172747] text-[13px] mb-1">{section.title}</h3>
+                                        <ul className="space-y-1.5">
+                                            {section.links.map((link, linkIdx) => (
+                                                <li key={linkIdx}>
+                                                    <Link
+                                                        href={link.url}
+                                                        className="text-[#172747] hover:text-[#172747]/80 hover:underline transition-colors duration-200 block leading-tight text-[11px]"
+                                                    >
+                                                        {link.name}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {currentTabContent.length > 20 && (
+                                <div className="mt-8 flex justify-center">
+                                    <button
+                                        onClick={() => setShowAll(!showAll)}
+                                        className="px-6 py-2 bg-[#172747] text-white text-sm rounded hover:bg-[#172747]/90 transition-colors"
+                                    >
+                                        {showAll ? 'See Less' : 'See More'}
+                                    </button>
                                 </div>
-                            ))}
-                        </div>
+                            )}
+                        </>
                     ) : (
                         <div className="text-center py-10 text-gray-400">
                             No properties found.

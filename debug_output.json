@@ -1,40 +1,47 @@
 [
   {
-    "id": 9,
-    "name": "Rahul Aston",
-    "hasMultipleImages": false,
-    "firstImage": null
+    "id": 1,
+    "newsTitle": "test",
+    "newsDescription": "test",
+    "newsContent": "<p>hasiudhiuahdhdhhashdh</p>",
+    "newsImage": [
+      {
+        "path": "/uploads/news/newsImage[0]-1770017790998-913341772.jpeg",
+        "filename": "newsImage[0]-1770017790998-913341772.jpeg",
+        "fieldName": "newsImage[0]",
+        "originalName": "WhatsApp Image 2026-01-28 at 6.47.22 PM.jpeg"
+      }
+    ],
+    "writer": "bhavik",
+    "category": "bhAVIK",
+    "tags": [
+      "BHAVIK"
+    ],
+    "slug": "test",
+    "bookmarks": null,
+    "metaTitle": null,
+    "metaDescription": null,
+    "metaKeyword": null,
+    "canonical": null,
+    "createdAt": "2026-02-02T07:36:31.000Z",
+    "updatedAt": "2026-02-02T07:36:31.000Z"
   },
   {
-    "id": 21,
-    "name": "Majestique Signature Towexsdars",
-    "hasMultipleImages": true,
-    "firstImage": "https://example.com/images/majestique-signature-1.jpg"
-  },
-  {
-    "id": 30,
-    "name": "Majestique Ornate",
-    "hasMultipleImages": true,
-    "firstImage": {
-      "path": "/uploads/properties/propertyImages-1747042425995-501487811.jpg",
-      "filename": "propertyImages-1747042425995-501487811.jpg",
-      "originalName": "OIP (8).jpg"
-    }
-  },
-  {
-    "id": 40,
-    "name": "Rahul Astonwaadsff",
-    "hasMultipleImages": false,
-    "firstImage": null
-  },
-  {
-    "id": 48,
-    "name": "bhavik",
-    "hasMultipleImages": true,
-    "firstImage": {
-      "path": "/uploads/properties/propertyImages-1747827590677-700588150.jpg",
-      "filename": "propertyImages-1747827590677-700588150.jpg",
-      "originalName": "0cKGFomHhhRoWKnFSA2hY7pOwmlJH1D5PWLN1aZ7.jpg"
-    }
+    "id": 2,
+    "newsTitle": "jkdhckjfehfrkjc",
+    "newsDescription": "erckjhkjgrcjerklg",
+    "newsContent": "<p><a target=\"\" rel=\"noopener noreferrer nofollow\" class=\"link\" href=\"https://api.propertydronerealty.com\">ckjfhekrlgjeklgjgv</a></p>",
+    "newsImage": [],
+    "writer": "",
+    "category": "",
+    "tags": "",
+    "slug": "jkdhckjfehfrkjc",
+    "bookmarks": null,
+    "metaTitle": "",
+    "metaDescription": "",
+    "metaKeyword": "",
+    "canonical": "",
+    "createdAt": "2026-08-10T07:56:42.000Z",
+    "updatedAt": "2026-08-10T08:07:06.000Z"
   }
 ]

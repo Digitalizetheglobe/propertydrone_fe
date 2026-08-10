@@ -26,7 +26,7 @@ export default function AllBlogs() {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get("https://api.propertydronerealty.com/blogs");
+      const response = await axios.get("http://localhost:9000/blogs");
       setBlogs(response.data);
     } catch (error) {
       console.error("Error fetching blogs:", error);
@@ -36,7 +36,7 @@ export default function AllBlogs() {
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this blog?")) return;
     try {
-      await axios.delete(`https://api.propertydronerealty.com/blogs/${id}`);
+      await axios.delete(`http://localhost:9000/blogs/${id}`);
       setBlogs(blogs.filter((blog) => blog.id !== id));
       if (selectedBlog?.id === id) setSelectedBlog(null);
     } catch (error) {
@@ -58,7 +58,7 @@ export default function AllBlogs() {
               {blog.blogImage && blog.blogImage.length > 0 && blog.blogImage[0]?.path && (
                 <div className="w-full h-48 relative">
                   <img
-                    src={blog.blogImage[0].path.startsWith('http') ? blog.blogImage[0].path : `https://api.propertydronerealty.com${blog.blogImage[0].path}`}
+                    src={blog.blogImage[0].path.startsWith('http') ? blog.blogImage[0].path : `http://localhost:9000${blog.blogImage[0].path}`}
                     alt={blog.blogTitle}
                     className="w-full h-full object-cover"
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}

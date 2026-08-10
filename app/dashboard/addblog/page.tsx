@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import axios from "axios";
 import RichTextEditor, {
   BaseKit,
@@ -44,6 +44,7 @@ export default function AddBlog() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const editorRef = useRef<any>(null);
 
   const event = new CustomEvent("myEvent", { detail: { data: "something" } });
   window.dispatchEvent(event);
@@ -70,7 +71,7 @@ export default function AddBlog() {
     HorizontalRule,
     Iframe,
     Indent,
-    Link.configure({ autolink: true, openOnClick: false }),
+    Link.configure({ autolink: true, openOnClick: false, validate: href => true, isAllowedUri: (url, ctx) => true }),
     OrderedList,
     SlashCommand,
     Strike,
@@ -109,11 +110,14 @@ export default function AddBlog() {
     setIsSubmitting(true);
     setError("");
 
+    // Get the latest content directly from the editor instance to bypass any debounce delays
+    const latestContent = editorRef.current?.editor?.getHTML() || blog.blogContent;
+
     try {
       const formData = new FormData();
       formData.append('blogTitle', blog.blogTitle);
       formData.append('blogDescription', blog.blogDescription);
-      formData.append('blogContent', blog.blogContent || "<p></p>");
+      formData.append('blogContent', latestContent || "<p></p>");
       formData.append('writer', blog.writer);
       formData.append('category', blog.category);
       formData.append('tags', blog.tags);
@@ -132,7 +136,7 @@ export default function AddBlog() {
         });
       }
 
-      const response = await axios.post("https://api.propertydronerealty.com/blogs", formData, {
+      const response = await axios.post("http://localhost:9000/blogs", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -202,6 +206,7 @@ export default function AddBlog() {
           <label className="block text-sm font-medium mb-1 text-black">Content*</label>
           <div className="border rounded bg-white p-4">
             <RichTextEditor
+              ref={editorRef}
               output="html"
               content={blog.blogContent}
               onChangeContent={(content) => setBlog({ ...blog, blogContent: content })}

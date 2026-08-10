@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 
 interface News {
@@ -16,8 +17,8 @@ interface News {
 
 export default function AllNews() {
     const [news, setNews] = useState<News[]>([]);
-    const [editNews, setEditNews] = useState<Partial<News> | null>(null);
     const [selectedNews, setSelectedNews] = useState<News | null>(null);
+    const router = useRouter();
 
     // Fetch all news
     useEffect(() => {
@@ -26,7 +27,7 @@ export default function AllNews() {
 
     const fetchNews = async () => {
         try {
-            const response = await axios.get("https://api.propertydronerealty.com/news");
+            const response = await axios.get("http://localhost:9000/news");
             setNews(response.data);
         } catch (error) {
             console.error("Error fetching news:", error);
@@ -36,7 +37,7 @@ export default function AllNews() {
     // Delete a news
     const handleDelete = async (id: number) => {
         try {
-            await axios.delete(`https://api.propertydronerealty.com/news/${id}`);
+            await axios.delete(`http://localhost:9000/news/${id}`);
             setNews(news.filter((item) => item.id !== id));
             if (selectedNews?.id === id) {
                 setSelectedNews(null);
@@ -46,17 +47,7 @@ export default function AllNews() {
         }
     };
 
-    // Update a news
-    const handleUpdate = async () => {
-        if (!editNews || !editNews.id) return;
-        try {
-            await axios.put(`https://api.propertydronerealty.com/news/${editNews.id}`, editNews);
-            fetchNews(); // Refresh after update
-            setEditNews(null);
-        } catch (error) {
-            console.error("Error updating news:", error);
-        }
-    };
+
 
     // Handle view details
     const handleViewDetails = (newsItem: News) => {
@@ -81,7 +72,7 @@ export default function AllNews() {
                             {item.newsImage && item.newsImage.length > 0 && item.newsImage[0]?.path && (
                                 <div className="w-full h-48 relative">
                                     <img
-                                        src={item.newsImage[0].path.startsWith('http') ? item.newsImage[0].path : `https://api.propertydronerealty.com${item.newsImage[0].path}`}
+                                        src={item.newsImage[0].path.startsWith('http') ? item.newsImage[0].path : `http://localhost:9000${item.newsImage[0].path}`}
                                         alt={item.newsTitle}
                                         className="w-full h-full object-cover"
                                         onError={(e) => { e.currentTarget.style.display = 'none'; }}
@@ -108,7 +99,7 @@ export default function AllNews() {
                                     <div>
                                         <button
                                             className="bg-yellow-500 text-white px-3 py-1 rounded text-sm mr-2"
-                                            onClick={() => setEditNews(item)}
+                                            onClick={() => router.push(`/dashboard/editnews/${item.id}`)}
                                         >
                                             Edit
                                         </button>
@@ -125,55 +116,7 @@ export default function AllNews() {
                     ))}
                 </div>
 
-                {/* Edit Form */}
-                {editNews && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white rounded-lg p-6 max-w-md w-full">
-                            <h2 className="text-xl font-semibold mb-4">Edit News</h2>
-                            <input
-                                type="text"
-                                className="border rounded p-2 w-full mb-3"
-                                placeholder="Title"
-                                value={editNews.newsTitle || ""}
-                                onChange={(e) => setEditNews({ ...editNews, newsTitle: e.target.value })}
-                            />
-                            <textarea
-                                className="border rounded p-2 w-full mb-3 h-32"
-                                placeholder="Description"
-                                value={editNews.newsDescription || ""}
-                                onChange={(e) => setEditNews({ ...editNews, newsDescription: e.target.value })}
-                            />
-                            <input
-                                type="text"
-                                className="border rounded p-2 w-full mb-3"
-                                placeholder="Writer"
-                                value={editNews.writer || ""}
-                                onChange={(e) => setEditNews({ ...editNews, writer: e.target.value })}
-                            />
-                            <input
-                                type="text"
-                                className="border rounded p-2 w-full mb-4"
-                                placeholder="Category"
-                                value={editNews.category || ""}
-                                onChange={(e) => setEditNews({ ...editNews, category: e.target.value })}
-                            />
-                            <div className="flex justify-end gap-2">
-                                <button
-                                    className="bg-gray-500 text-white px-4 py-2 rounded"
-                                    onClick={() => setEditNews(null)}
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    className="bg-green-500 text-white px-4 py-2 rounded"
-                                    onClick={handleUpdate}
-                                >
-                                    Update
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
+
 
                 {/* News Details Modal */}
                 {selectedNews && (
@@ -214,7 +157,7 @@ export default function AllNews() {
                                 <button
                                     className="bg-yellow-500 text-white px-3 py-1 rounded"
                                     onClick={() => {
-                                        setEditNews(selectedNews);
+                                        router.push(`/dashboard/editnews/${selectedNews.id}`);
                                         closeDetails();
                                     }}
                                 >

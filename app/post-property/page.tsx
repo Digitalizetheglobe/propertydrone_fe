@@ -222,7 +222,7 @@ const PropertyFormCard = () => {
                 email: formData.email
             };
 
-            await axios.post('https://api.propertydronerealty.com/api/user-properties', payload);
+            await axios.post('http://localhost:9000/api/user-properties', payload);
             alert('Property posted successfully!');
             // Reset form or redirect
             setFormData({

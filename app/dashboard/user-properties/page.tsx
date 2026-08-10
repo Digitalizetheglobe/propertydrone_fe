@@ -31,7 +31,7 @@ export default function UserSubmittedProperties() {
 
     const fetchProperties = async () => {
         try {
-            const response = await axios.get("https://api.propertydronerealty.com/api/user-properties");
+            const response = await axios.get("http://localhost:9000/api/user-properties");
             setProperties(response.data);
         } catch (error) {
             console.error("Error fetching user properties:", error);
@@ -40,7 +40,7 @@ export default function UserSubmittedProperties() {
 
     const handleStatusUpdate = async (id: number, newStatus: string) => {
         try {
-            await axios.put(`https://api.propertydronerealty.com/api/user-properties/${id}`, { status: newStatus });
+            await axios.put(`http://localhost:9000/api/user-properties/${id}`, { status: newStatus });
             fetchProperties();
             if (selectedProperty?.id === id) {
                 setSelectedProperty(prev => prev ? { ...prev, status: newStatus } : null);
@@ -53,7 +53,7 @@ export default function UserSubmittedProperties() {
     const handleDelete = async (id: number) => {
         if (!confirm("Are you sure you want to delete this lead?")) return;
         try {
-            await axios.delete(`https://api.propertydronerealty.com/api/user-properties/${id}`);
+            await axios.delete(`http://localhost:9000/api/user-properties/${id}`);
             setProperties(properties.filter(p => p.id !== id));
             if (selectedProperty?.id === id) setSelectedProperty(null);
         } catch (error) {

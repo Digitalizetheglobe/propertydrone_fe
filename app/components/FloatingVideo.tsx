@@ -23,7 +23,7 @@ export default function FloatingVideo() {
   const [phase, setPhase] = useState<'initial' | 'showing' | 'hidden' | 'closed'>('initial');
 
   useEffect(() => {
-    fetch('https://api.propertydronerealty.com/youtube-videos')
+    fetch('http://localhost:9000/youtube-videos')
       .then(r => r.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {

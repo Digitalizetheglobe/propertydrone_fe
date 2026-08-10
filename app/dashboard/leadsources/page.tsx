@@ -11,7 +11,7 @@ export default function LeadSourcesPage() {
   useEffect(() => {
     const fetchLeadSources = async () => {
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.propertydronerealty.com";
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:9000";
         const response = await axios.get(`${API_URL}/api/lead-sources`);
         setLeadSources(response.data.data || []);
         setLoading(false);

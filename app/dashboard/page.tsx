@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -43,6 +43,18 @@ const sections = [
     path: "/dashboard/savedproperty",
     icon: faFileCirclePlus,
     description: "User's saved properties."
+  },
+  {
+    name: "All Reels",
+    path: "/dashboard/reels",
+    icon: faFileVideo,
+    description: "Manage vertical property reels."
+  },
+  {
+    name: "Add Reel",
+    path: "/dashboard/reels?add=true",
+    icon: faFileCirclePlus,
+    description: "Upload a new property reel."
   },
   {
     name: "Testimonials",
@@ -178,7 +190,7 @@ export default function DashboardPage() {
       try {
         const clientIdentifier = localStorage.getItem('clientIdentifier');
         if (clientIdentifier) {
-          const res = await fetch(`https://api.propertydronerealty.com/api/cookie-consent?clientIdentifier=${clientIdentifier}`);
+          const res = await fetch(`http://localhost:9000/api/cookie-consent?clientIdentifier=${clientIdentifier}`);
           const data = await res.json();
           if (data && data.consent !== undefined && data.consent !== null) {
             setCookieStatus(data.consent ? 'Accepted' : 'Rejected');

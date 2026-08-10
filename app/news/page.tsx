@@ -1,4 +1,4 @@
-﻿
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -11,7 +11,7 @@ import heroBackground from '../../public/images/bgimage2.png';
 const NewsPage = () => {
     interface NewsPost {
         id: string;
-        newsImage: { url: string }[];
+        newsImage: { path: string }[];
         newsTitle: string;
         createdAt: string;
         tags: string[];
@@ -28,7 +28,7 @@ const NewsPage = () => {
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const response = await fetch('https://api.propertydronerealty.com/news');
+                const response = await fetch('http://localhost:9000/news');
                 if (!response.ok) {
                     throw new Error('Failed to fetch news data');
                 }
@@ -154,14 +154,20 @@ const NewsPage = () => {
                             >
                                 <Link href={`/news/${post.slug}`} className="flex flex-col h-full">
                                     {/* News Image Section */}
-                                    <div className="relative h-48 w-full">
-                                        {post.newsImage?.[0]?.url ? (
-                                            <Image
-                                                src={post.newsImage[0].url}
+                                    <div className="relative h-48 w-full bg-gray-100 rounded-t-lg">
+                                        {post.newsImage && post.newsImage.length > 0 && post.newsImage[0]?.path ? (
+                                            <img
+                                                src={(() => {
+                                                    const path = post.newsImage[0].path;
+                                                    if (path.startsWith('http')) return path;
+                                                    const cleanPath = path.replace(/\\/g, '/');
+                                                    return cleanPath.startsWith('/')
+                                                        ? `http://localhost:9000${cleanPath}`
+                                                        : `http://localhost:9000/${cleanPath}`;
+                                                })()}
                                                 alt={post.newsTitle}
-                                                fill
-                                                style={{ objectFit: "cover" }}
-                                                className="rounded-t-lg"
+                                                className="w-full h-full object-cover rounded-t-lg"
+                                                onError={(e) => { e.currentTarget.style.display = 'none'; }}
                                             />
                                         ) : (
                                             <Image
@@ -193,8 +199,8 @@ const NewsPage = () => {
 
                                         {/* Read More Button */}
                                         <div className="mt-auto">
-                                            <button className="bg-[#172747] hover:bg-white hover:text-[#172747] hover:border hover:border-[#172747] text-white p-1 px-3 cursor-pointer rounded-md flex items-center justify-center">
-                                                <span>â†’</span>
+                                            <button className="bg-[#172747] hover:bg-white hover:text-[#172747] border border-transparent hover:border-[#172747] text-white p-2 px-3 cursor-pointer rounded-md flex items-center justify-center transition-colors duration-200">
+                                                <ArrowRight className="w-5 h-5" />
                                             </button>
                                         </div>
                                     </div>

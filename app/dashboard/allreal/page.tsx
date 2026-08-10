@@ -33,7 +33,7 @@ export default function AllRealEstateBasics() {
 
   const fetchBasics = async () => {
     try {
-      const response = await fetch(`https://api.propertydronerealty.com/real-estate`);
+      const response = await fetch(`http://localhost:9000/real-estate`);
       if (!response.ok) throw new Error('Failed to fetch real estate basics');
       const data = await response.json();
       setBasics(data);
@@ -49,7 +49,7 @@ export default function AllRealEstateBasics() {
     if (!confirm('Are you sure you want to delete this real estate basic?')) return;
 
     try {
-      const response = await fetch(`https://api.propertydronerealty.com/real-estate/${id}`, {
+      const response = await fetch(`http://localhost:9000/real-estate/${id}`, {
         method: 'DELETE',
       });
 
@@ -104,7 +104,7 @@ export default function AllRealEstateBasics() {
             {basic.images && basic.images.length > 0 && (
               <div className="w-full h-48 relative bg-gray-200">
                 <img
-                  src={typeof basic.images[0] === 'string' ? (basic.images[0].startsWith('http') ? basic.images[0] : `https://api.propertydronerealty.com${basic.images[0]}`) : ((basic.images[0] as any)?.path ? `https://api.propertydronerealty.com${(basic.images[0] as any).path}` : '')}
+                  src={typeof basic.images[0] === 'string' ? (basic.images[0].startsWith('http') ? basic.images[0] : `http://localhost:9000${basic.images[0]}`) : ((basic.images[0] as any)?.path ? `http://localhost:9000${(basic.images[0] as any).path}` : '')}
                   alt={basic.title}
                   className="w-full h-full object-cover"
                   onError={handleImageError}

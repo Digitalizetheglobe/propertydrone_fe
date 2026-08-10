@@ -765,11 +765,11 @@ useEffect(() => {
           {emps.map((image, index) => (
             <div
               key={index}
-              className="bg-white  rounded-[4px] shadow-md hover:shadow-xl transform transition duration-500 hover:scale-105 overflow-hidden"
+              className="bg-white rounded-[4px] shadow-md hover:shadow-xl transform transition duration-500 hover:scale-105 overflow-hidden flex flex-col"
               data-aos="fade-up"
               data-aos-delay={index * 200}
             >
-              <div className=" overflow-hidden">
+              <div className="overflow-hidden flex-grow">
                 <Image
                   src={image.src}
                   alt={`Team Member ${index + 1}`}
@@ -782,6 +782,28 @@ useEffect(() => {
               </div>
             </div>
           ))}
+          
+          <div 
+            className="md:col-span-1 lg:col-span-2 flex flex-col justify-center p-8 lg:p-12 bg-gradient-to-br from-[#172747] to-[#233554] rounded-[4px] shadow-lg relative overflow-hidden h-full"
+            data-aos="fade-left"
+            data-aos-delay="200"
+          >
+            <div className="absolute -top-10 -right-10 opacity-5 pointer-events-none">
+              <Image src={quote} alt="Quote Background" className="w-64 h-64 transform rotate-12" />
+            </div>
+            <div className="relative z-10 max-w-3xl">
+              <div className="mb-6">
+                <Image src={quote} alt="Quote" className="h-10 w-10 opacity-60 filter brightness-0 invert" />
+              </div>
+              <p className="text-white text-xl md:text-2xl lg:text-3xl font-light leading-relaxed mb-8" style={{ fontFamily: 'Ivy Mode', letterSpacing: '0.5px' }}>
+                "Success in real estate is built on trust, market expertise, and lasting relationships. My commitment is to help every client make informed property decisions with confidence and transparency."
+              </p>
+              <div className="pt-6 border-t border-white/20">
+                <p className="text-white text-lg font-medium" style={{ fontFamily: 'Lato' }}>Mr. Vishal Pandey</p>
+                <p className="text-white/70 text-sm" style={{ fontFamily: 'Lato' }}>Senior Manager</p>
+              </div>
+            </div>
+          </div>
         </div>
         {/* Smooth, slow, continuous carousel with pause on hover, manual scroll, modal on click */}
         <div className="relative w-full max-w-6xl mx-auto px-4 py-8 overflow-x-auto scrollbar-hide">
@@ -833,7 +855,10 @@ useEffect(() => {
                   placeholder="blur"
                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
                 />
+                
               </div>
+
+              
             ))}
           </div>
           <style jsx>{`
@@ -951,6 +976,7 @@ useEffect(() => {
         </div>
       </div>
     </section>
+    
         <section className="relative w-full py-16 md:py-24">
       {/* Background image */}
       <div className="absolute inset-0 z-0">

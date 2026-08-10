@@ -36,7 +36,7 @@ export default function LeadSourceModal({ isOpen, onClose }: LeadSourceModalProp
     try {
       // In production you would probably use process.env.NEXT_PUBLIC_API_URL here.
       // We will fallback to localhost:9000 which is the standard backend port for this app.
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.propertydronerealty.com';
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9000';
       const res = await fetch(`${API_URL}/api/lead-sources`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

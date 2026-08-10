@@ -320,3 +320,15 @@ button[aria-label="Vercel Toolbar"],
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #1fb855;
 }
+
+/* Prose content hyperlink styles (for blog/news links) */
+.prose a {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.prose a:hover {
+  color: #1d4ed8;
+}

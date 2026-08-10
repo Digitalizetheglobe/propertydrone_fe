@@ -104,7 +104,7 @@ export default function AddPlots() {
                 });
             }
 
-            const response = await axios.post("https://api.propertydronerealty.com/api/plots", formDataToSend, {
+            const response = await axios.post("http://localhost:9000/api/plots", formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

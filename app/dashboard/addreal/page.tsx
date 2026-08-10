@@ -45,7 +45,7 @@ const extensions = [
   HorizontalRule,
   Iframe,
   Indent,
-  Link.configure({ autolink: true, openOnClick: false }),
+  Link.configure({ autolink: true, openOnClick: false, validate: href => true, isAllowedUri: (url, ctx) => true }),
   OrderedList,
   SlashCommand,
   Strike,
@@ -141,7 +141,7 @@ export default function AddRealEstateBasic() {
       console.log('Sending JSON data:', jsonData);
 
       // POST API call to create real estate listing
-      const response = await fetch('https://api.propertydronerealty.com/real-estate', {
+      const response = await fetch('http://localhost:9000/real-estate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

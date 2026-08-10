@@ -72,7 +72,7 @@ export default function AddNews() {
         HorizontalRule,
         Iframe,
         Indent,
-        Link.configure({ autolink: true, openOnClick: false }),
+        Link.configure({ autolink: true, openOnClick: false, validate: href => true, isAllowedUri: (url, ctx) => true }),
         OrderedList,
         SlashCommand,
         Strike,
@@ -109,7 +109,7 @@ export default function AddNews() {
                 });
             }
 
-            const response = await axios.post("https://api.propertydronerealty.com/news", formData, {
+            const response = await axios.post("http://localhost:9000/news", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

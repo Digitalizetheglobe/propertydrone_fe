@@ -19,8 +19,11 @@ export default function TestimonialsPage() {
   const [formData, setFormData] = useState<{ name: string, testimonial: string, rating: number, isActive: boolean, image: File | null }>({ name: "", testimonial: "", rating: 0, isActive: true, image: null });
   const [editId, setEditId] = useState<string | number | null>(null);
 
+  // Hardcoded to local backend temporarily to force hot-reload without restarting the dev server
+  const API_URL = "http://localhost:9000";
+
   useEffect(() => {
-    fetch("https://api.propertydronerealty.com/api/testimonials")
+    fetch(`${API_URL}/api/testimonials`)
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch testimonials");
         return res.json();
@@ -66,7 +69,7 @@ export default function TestimonialsPage() {
 
       if (editId !== null) {
         // Update
-        res = await fetch(`https://api.propertydronerealty.com/api/testimonials/${editId}`, {
+        res = await fetch(`${API_URL}/api/testimonials/${editId}`, {
           method: "PUT",
           body: submitData
         });
@@ -75,7 +78,7 @@ export default function TestimonialsPage() {
         setTestimonials(t => t.map(test => test.id === editId ? newTestimonial : test));
       } else {
         // Create
-        res = await fetch("https://api.propertydronerealty.com/api/testimonials", {
+        res = await fetch(`${API_URL}/api/testimonials`, {
           method: "POST",
           body: submitData
         });
@@ -94,7 +97,7 @@ export default function TestimonialsPage() {
   const handleDelete = async (id: string | number) => {
     if (!window.confirm("Are you sure you want to delete this testimonial?")) return;
     try {
-      const res = await fetch(`https://api.propertydronerealty.com/api/testimonials/${id}`, {
+      const res = await fetch(`${API_URL}/api/testimonials/${id}`, {
         method: "DELETE"
       });
       if (!res.ok) throw new Error("Delete failed");
@@ -124,7 +127,7 @@ export default function TestimonialsPage() {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
                     {item.image && item.image.path && (
-                      <img src={`https://api.propertydronerealty.com${item.image.path}`} alt={item.name} className="w-10 h-10 rounded-full object-cover" />
+                      <img src={`${API_URL}${item.image.path}`} alt={item.name} className="w-10 h-10 rounded-full object-cover" />
                     )}
                     <span className="text-lg font-semibold">{item.name}</span>
                   </div>
