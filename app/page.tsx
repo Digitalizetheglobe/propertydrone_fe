@@ -213,6 +213,7 @@ interface Property {
   type?: string;
   bedroom?: string;
   bathroom?: string;
+  configurationTypology?: any;
 }
 
 
@@ -772,26 +773,39 @@ export default function Home() {
 
     if (dropdownFilters.typology) {
       filtered = filtered.filter(property => {
-        const typologyStr = (property.topology || property.bedroom || '').toLowerCase();
+        let configStr = '';
+        if (Array.isArray(property.configurationTypology)) {
+          configStr = property.configurationTypology.map((c: any) => c.flat_available || '').join(' ');
+        } else if (typeof property.configurationTypology === 'string') {
+          configStr = property.configurationTypology;
+        }
+
+        const typologyStr = (
+          property.topology + ' ' + 
+          property.bedroom + ' ' + 
+          (property.beds ? property.beds + ' bhk ' : '') + 
+          configStr
+        ).toLowerCase();
+
         const filterValue = dropdownFilters.typology.toLowerCase();
 
         // Handle different formats: "4 BHK", "4bhk", "4", "4 Bedroom", etc.
         if (filterValue.includes('5')) {
-          return /\\b5\\b/.test(typologyStr) || /\\bfive\\b/.test(typologyStr);
+          return /\b5\b/.test(typologyStr) || /\bfive\b/.test(typologyStr) || /\b5\+?\s*bhk\b/.test(typologyStr);
         } else if (filterValue.includes('4')) {
-          return /\\b4\\b/.test(typologyStr) || /\\bfour\\b/.test(typologyStr);
+          return /\b4\b/.test(typologyStr) || /\bfour\b/.test(typologyStr);
         } else if (filterValue.includes('3')) {
-          return /\\b3\\b/.test(typologyStr) || /\\bthree\\b/.test(typologyStr);
+          return /\b3\b/.test(typologyStr) || /\bthree\b/.test(typologyStr);
         } else if (filterValue.includes('2')) {
-          return /\\b2\\b/.test(typologyStr) || /\\btwo\\b/.test(typologyStr);
+          return /\b2\b/.test(typologyStr) || /\btwo\b/.test(typologyStr);
         } else if (filterValue.includes('1')) {
           if (filterValue.includes('rk')) {
-            return /\\b1\\s*rk\\b/.test(typologyStr);
+            return /\b1\s*rk\b/.test(typologyStr);
           }
-          return /\\b1\\b/.test(typologyStr) || /\\bone\\b/.test(typologyStr);
+          return /\b1\b/.test(typologyStr) || /\bone\b/.test(typologyStr);
         }
 
-        return typologyStr === filterValue;
+        return typologyStr.includes(filterValue);
       });
     }
 
@@ -1305,6 +1319,7 @@ export default function Home() {
                   </Link>
                 </div>
               </div>
+              
 
               {/* Property Owner Badge/Button */}
 

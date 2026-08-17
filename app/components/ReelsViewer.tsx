@@ -50,8 +50,8 @@ const ReelsViewer: React.FC<ReelsViewerProps> = ({ onClose }) => {
     const handleScroll = () => {
       if (containerRef.current) {
         const scrollPosition = containerRef.current.scrollTop;
-        const windowHeight = window.innerHeight;
-        const index = Math.round(scrollPosition / windowHeight);
+        const containerHeight = containerRef.current.clientHeight;
+        const index = Math.round(scrollPosition / containerHeight);
         if (index !== activeIndex) {
           setActiveIndex(index);
         }
@@ -103,7 +103,7 @@ const ReelsViewer: React.FC<ReelsViewerProps> = ({ onClose }) => {
       {/* Mobile-sized container centered on desktop */}
       <div 
         ref={containerRef}
-        className="relative w-full h-full sm:w-[400px] sm:h-[800px] sm:max-h-full sm:rounded-2xl overflow-y-scroll snap-y snap-mandatory bg-black shadow-2xl no-scrollbar"
+        className="relative w-full h-full sm:w-[400px] sm:h-[700px] sm:max-h-full sm:rounded-2xl overflow-y-scroll snap-y snap-mandatory bg-black shadow-2xl no-scrollbar"
         style={{ scrollBehavior: 'smooth' }}
       >
         {reels.map((reel, index) => (
@@ -224,7 +224,7 @@ const ReelsViewer: React.FC<ReelsViewerProps> = ({ onClose }) => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-3 mt-1">
+              {/* <div className="flex gap-3 mt-1">
                 <button className="flex-1 bg-[#1e4b6e] text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[#153853] transition">
                   <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M3 9h18M9 21V9"></path></svg>
                   View Detail
@@ -233,7 +233,7 @@ const ReelsViewer: React.FC<ReelsViewerProps> = ({ onClose }) => {
                   <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect><path d="M17 2l-5 5-5-5"></path></svg>
                   Tour
                 </button>
-              </div>
+              </div> */}
             </div>
 
           </div>
