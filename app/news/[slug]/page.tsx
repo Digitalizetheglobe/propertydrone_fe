@@ -56,7 +56,7 @@ const NewsDetail = ({ params }: PageProps) => {
         const fetchNews = async () => {
             try {
                 console.log('Fetching news for slug:', resolvedParams.slug);
-                const response = await fetch(`http://localhost:9000/news/${resolvedParams.slug}`);
+                const response = await fetch(`https://api.propertydronerealty.com/news/${resolvedParams.slug}`);
 
                 if (!response.ok) {
                     throw new Error(`Failed to fetch news data: ${response.status}`);
@@ -161,7 +161,7 @@ const NewsDetail = ({ params }: PageProps) => {
                 <div className="max-w-3xl mx-auto">
                     {news.newsImage && news.newsImage.length > 0 ? (
                         <Image
-                            src={`http://localhost:9000${news.newsImage[0].path}`}
+                            src={`https://api.propertydronerealty.com${news.newsImage[0].path}`}
                             alt={news.newsTitle}
                             width={800}
                             height={500}

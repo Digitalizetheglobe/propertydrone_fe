@@ -25,7 +25,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   name: 'NRI Property Services India',
-  url: 'https://propertydronerealty.com/nri-corner',
+  url: 'https://api.propertydronerealty.com/nri-corner',
   description:
     'Full-service NRI property management — POA, loans, documentation, and virtual tours by Property Drone Realty.',
 }

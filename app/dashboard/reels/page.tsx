@@ -39,7 +39,7 @@ export default function ReelsPage() {
   });
   const [editId, setEditId] = useState<string | number | null>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:9000";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.propertydronerealty.com";
 
   useEffect(() => {
     fetch(`${API_URL}/api/reels`)

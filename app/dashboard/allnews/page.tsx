@@ -27,7 +27,7 @@ export default function AllNews() {
 
     const fetchNews = async () => {
         try {
-            const response = await axios.get("http://localhost:9000/news");
+            const response = await axios.get("https://api.propertydronerealty.com/news");
             setNews(response.data);
         } catch (error) {
             console.error("Error fetching news:", error);
@@ -37,7 +37,7 @@ export default function AllNews() {
     // Delete a news
     const handleDelete = async (id: number) => {
         try {
-            await axios.delete(`http://localhost:9000/news/${id}`);
+            await axios.delete(`https://api.propertydronerealty.com/news/${id}`);
             setNews(news.filter((item) => item.id !== id));
             if (selectedNews?.id === id) {
                 setSelectedNews(null);
@@ -72,7 +72,7 @@ export default function AllNews() {
                             {item.newsImage && item.newsImage.length > 0 && item.newsImage[0]?.path && (
                                 <div className="w-full h-48 relative">
                                     <img
-                                        src={item.newsImage[0].path.startsWith('http') ? item.newsImage[0].path : `http://localhost:9000${item.newsImage[0].path}`}
+                                        src={item.newsImage[0].path.startsWith('http') ? item.newsImage[0].path : `https://api.propertydronerealty.com${item.newsImage[0].path}`}
                                         alt={item.newsTitle}
                                         className="w-full h-full object-cover"
                                         onError={(e) => { e.currentTarget.style.display = 'none'; }}

@@ -128,7 +128,7 @@ export default function Home() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:9000/contacts", {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -154,7 +154,7 @@ export default function Home() {
         <title>Best Real Estate Services</title>
         <meta name="description" content="Expert real estate services in Pune â€“ property consulting, sales & marketing, exclusive mandates, and end-to-end property management solutions." />
         <meta name="keywords" content="real estate services Pune, property consulting Pune, sales and marketing real estate, property management Pune" />
-        <link rel="canonical" href="https://propertydronerealty.com/our-services-real-estate-services" />
+        <link rel="canonical" href="https://api.propertydronerealty.com/our-services-real-estate-services" />
         <meta name="robots" content="index, follow" />
         <script
           type="application/ld+json"
@@ -166,7 +166,7 @@ export default function Home() {
               "provider": {
                 "@type": "Organization",
                 "name": "Property Drone Realty",
-                "url": "https://propertydronerealty.com/"
+                "url": "https://api.propertydronerealty.com/"
               },
               "areaServed": {
                 "@type": "Place",

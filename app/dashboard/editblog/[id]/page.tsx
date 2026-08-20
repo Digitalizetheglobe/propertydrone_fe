@@ -102,12 +102,12 @@ export default function EditBlogPage() {
         let data: Blog | undefined;
         try {
           const res = await axios.get(
-            `http://localhost:9000/blogs/${id}`
+            `https://api.propertydronerealty.com/blogs/${id}`
           );
           data = res.data;
         } catch {
           // If single endpoint fails, fetch list and find by id
-          const res = await axios.get("http://localhost:9000/blogs");
+          const res = await axios.get("https://api.propertydronerealty.com/blogs");
           const list: Blog[] = res.data;
           data = list.find((b) => String(b.id) === String(id));
         }
@@ -171,7 +171,7 @@ export default function EditBlogPage() {
       }
 
       await axios.put(
-        `http://localhost:9000/blogs/${id}`,
+        `https://api.propertydronerealty.com/blogs/${id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

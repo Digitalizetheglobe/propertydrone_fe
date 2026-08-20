@@ -63,7 +63,7 @@ function LuxePropertiesContent() {
     try {
       const message = `Property Type: ${inquiryForm.propertyType}\n\nInquiry: ${inquiryForm.inquiry}`;
 
-      const response = await fetch('http://localhost:9000/api/contacts', {
+      const response = await fetch('https://api.propertydronerealty.com/api/contacts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ function LuxePropertiesContent() {
       return;
     }
 
-    const res = await fetch(`http://localhost:9000/api/property-comparisons?webUserId=${currentUserId}`);
+    const res = await fetch(`https://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
     setComparedIds(
@@ -205,7 +205,7 @@ function LuxePropertiesContent() {
     }
 
     try {
-      const res = await fetch(`http://localhost:9000/api/saved-properties?webUserId=${currentUserId}`);
+      const res = await fetch(`https://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
       if (!res.ok) return;
       const all = await res.json();
 
@@ -258,7 +258,7 @@ function LuxePropertiesContent() {
         const recordId = savedIdMap[property.id];
         if (recordId) {
           setSavedIds(prev => prev.filter(id => id !== property.id));
-          const resp = await fetch(`http://localhost:9000/api/saved-properties/${recordId}`, { method: 'DELETE' });
+          const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
           if (!resp.ok) {
             // Rollback
             setSavedIds(prev => [...prev, property.id]);
@@ -269,7 +269,7 @@ function LuxePropertiesContent() {
       } else {
         // Add
         setSavedIds(prev => [...prev, property.id]);
-        const resp = await fetch(`http://localhost:9000/api/saved-properties`, {
+        const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -314,7 +314,7 @@ function LuxePropertiesContent() {
   }, [searchParams]);
 
   // API base URL - ideally from environment variables
-  const baseUrl = "http://localhost:9000";
+  const baseUrl = "https://api.propertydronerealty.com";
 
   const propertyCategories = [
     { id: 'all', name: 'All', icon: '/icons/home.svg' },
@@ -1102,7 +1102,7 @@ function LuxePropertiesContent() {
                                       // Compare (add)
                                       setComparedIds(prev => [...prev, property.id]);
                                       try {
-                                        const resp = await fetch('http://localhost:9000/api/property-comparisons', {
+                                        const resp = await fetch('https://api.propertydronerealty.com/api/property-comparisons', {
                                           method: 'POST',
                                           headers: { 'Content-Type': 'application/json' },
                                           body: JSON.stringify({ webUserId: userId, propertyId: property.id, propertyData: property })
@@ -1124,7 +1124,7 @@ function LuxePropertiesContent() {
                                         setCompareLoadingId(null);
                                         return;
                                       }
-                                      const resp = await fetch(`http://localhost:9000/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
+                                      const resp = await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: 'DELETE' });
                                       if (!resp.ok) {
                                         setComparedIds(prev => [...prev, property.id]);
                                       } else {

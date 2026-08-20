@@ -33,7 +33,7 @@ const BottomPropertyDetails = () => {
     useEffect(() => {
         const fetchProperties = async () => {
             try {
-                const response = await fetch('http://localhost:9000/properties');
+                const response = await fetch('https://api.propertydronerealty.com/properties');
                 if (!response.ok) {
                     console.error('Failed to fetch properties:', response.status);
                     setTabData(getDefaultData()); // Fallback

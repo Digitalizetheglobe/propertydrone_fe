@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9000'
-const BASE_URL = 'https://propertydronerealty.com'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://api.propertydronerealty.com'
+const BASE_URL = 'https://api.propertydronerealty.com'
 
 function resolveImageUrl(property: Record<string, any>): string | null {
   const imgs = property.multipleImages
@@ -11,7 +11,7 @@ function resolveImageUrl(property: Record<string, any>): string | null {
     if (path) {
       if (path.startsWith('http')) return path
       const clean = path.replace(/\\/g, '/').replace(/^(?!\/)/, '/')
-      return `http://localhost:9000${clean}`
+      return `https://api.propertydronerealty.com${clean}`
     }
   }
   return null

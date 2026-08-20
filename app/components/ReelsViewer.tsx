@@ -30,7 +30,7 @@ const ReelsViewer: React.FC<ReelsViewerProps> = ({ onClose }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:9000";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.propertydronerealty.com";
 
   useEffect(() => {
     fetch(`${API_URL}/api/reels`)

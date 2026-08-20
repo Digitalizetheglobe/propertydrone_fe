@@ -71,7 +71,7 @@ const PropertyCard = ({
         if (imgPath.startsWith('http')) return imgPath;
         const cleanPath = imgPath.replace(/\\/g, '/');
         const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
-        return `http://localhost:9000${finalPath}`;
+        return `https://api.propertydronerealty.com${finalPath}`;
     })();
 
     const toggleSave = async (e: React.MouseEvent) => {
@@ -103,7 +103,7 @@ const PropertyCard = ({
                 const recordId = savedIdMap[property.id];
                 if (recordId) {
                     setSavedIds(prev => prev.filter(id => id !== property.id));
-                    const resp = await fetch(`http://localhost:9000/api/saved-properties/${recordId}`, { method: 'DELETE' });
+                    const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties/${recordId}`, { method: 'DELETE' });
                     if (!resp.ok) {
                         setSavedIds(prev => [...prev, property.id]);
                     } else {
@@ -113,7 +113,7 @@ const PropertyCard = ({
             } else {
                 // Add
                 setSavedIds(prev => [...prev, property.id]);
-                const resp = await fetch(`http://localhost:9000/api/saved-properties`, {
+                const resp = await fetch(`https://api.propertydronerealty.com/api/saved-properties`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -283,7 +283,7 @@ const PropertyCard = ({
                                     if (e.target.checked) {
                                         setComparedIds((prev) => [...prev, property.id]);
                                         try {
-                                            const resp = await fetch("http://localhost:9000/api/property-comparisons", {
+                                            const resp = await fetch("https://api.propertydronerealty.com/api/property-comparisons", {
                                                 method: "POST",
                                                 headers: { "Content-Type": "application/json" },
                                                 body: JSON.stringify({ webUserId: userId, propertyId: property.id, propertyData: property }),
@@ -297,7 +297,7 @@ const PropertyCard = ({
                                         setComparedIds((prev) => prev.filter((id) => id !== property.id));
                                         const comparisonId = comparisonIdMap[property.id];
                                         if (comparisonId) {
-                                            await fetch(`http://localhost:9000/api/property-comparisons/${comparisonId}`, { method: "DELETE" });
+                                            await fetch(`https://api.propertydronerealty.com/api/property-comparisons/${comparisonId}`, { method: "DELETE" });
                                             await fetchComparedIds();
                                         }
                                     }
@@ -351,7 +351,7 @@ export default function SavedPropertiesPage() {
     const fetchSavedIds = async () => {
         if (!userId) return;
         try {
-            const res = await fetch(`http://localhost:9000/api/saved-properties?webUserId=${userId}`);
+            const res = await fetch(`https://api.propertydronerealty.com/api/saved-properties?webUserId=${userId}`);
             if (res.ok) {
                 const data = await res.json();
                 const userSaved = data.filter((item: any) => Number(item.webUserId) === Number(userId));
@@ -380,7 +380,7 @@ export default function SavedPropertiesPage() {
     const fetchComparedIds = async () => {
         if (!userId) return;
         try {
-            const res = await fetch(`http://localhost:9000/api/property-comparisons?webUserId=${userId}`);
+            const res = await fetch(`https://api.propertydronerealty.com/api/property-comparisons?webUserId=${userId}`);
             if (res.ok) {
                 const data = await res.json();
                 const userCompared = data.filter((item: any) => Number(item.webUserId) === Number(userId));

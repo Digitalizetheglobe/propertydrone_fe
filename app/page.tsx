@@ -37,7 +37,6 @@ import { useMemo as reactUseMemo } from 'react';
 
 import { motion, Variants } from 'framer-motion';
 import AOS from 'aos';
-import 'aos/dist/aos.css';
 // import { useEffect } from 'react';
 
 
@@ -295,7 +294,7 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch(`http://localhost:9000/api/property-comparisons?webUserId=${currentUserId}`);
+    const res = await fetch(`https://api.propertydronerealty.com/api/property-comparisons?webUserId=${currentUserId}`);
     if (!res.ok) return;
     const all = await res.json();
 
@@ -340,7 +339,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch(`http://localhost:9000/api/saved-properties?webUserId=${currentUserId}`);
+      const res = await fetch(`https://api.propertydronerealty.com/api/saved-properties?webUserId=${currentUserId}`);
       if (!res.ok) return;
       const all = await res.json();
 
@@ -439,7 +438,7 @@ export default function Home() {
           image: (() => {
             const path = property.multipleImages?.[0]?.path;
             if (path) {
-              return path.startsWith('http') ? path : `http://localhost:9000${path}`;
+              return path.startsWith('http') ? path : `https://api.propertydronerealty.com${path}`;
             }
             return "/api/placeholder/400/320";
           })()
@@ -507,7 +506,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:9000/contacts", {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -606,7 +605,7 @@ export default function Home() {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:9000/properties');
+        const response = await fetch('https://api.propertydronerealty.com/properties');
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }
@@ -977,7 +976,7 @@ export default function Home() {
         <title>Top Real Estate Agency Pune</title>
         <meta name="description" content="Top real estate agency in Pune offering luxury homes, premium flats & exclusive properties. Buy your dream home with expert advice and trusted service." />
         <meta name="keywords" content="real estate agency Pune, luxury homes Pune, premium flats Pune, buy property Pune" />
-        <link rel="canonical" href="https://propertydronerealty.com/" />
+        <link rel="canonical" href="https://api.propertydronerealty.com/" />
         <meta name="robots" content="index, follow" />
         <script
           type="application/ld+json"
@@ -986,7 +985,7 @@ export default function Home() {
               "@context": "https://schema.org",
               "@type": "RealEstateAgent",
               "name": "Property Drone Realty",
-              "url": "https://propertydronerealty.com/",
+              "url": "https://api.propertydronerealty.com/",
               "description": "Top real estate agency in Pune offering luxury homes, premium flats & exclusive properties.",
               "address": {
                 "@type": "PostalAddress",
@@ -1448,7 +1447,7 @@ export default function Home() {
       </div>
 
       <FloatingVideo />
-      <ReelsBadge />
+      {/* <ReelsBadge /> */}
 
       <LeadSourceModal
         isOpen={showLeadSource}

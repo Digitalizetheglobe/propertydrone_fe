@@ -102,12 +102,12 @@ export default function EditNewsPage() {
         let data: News | undefined;
         try {
           const res = await axios.get(
-            `http://localhost:9000/news/${id}`
+            `https://api.propertydronerealty.com/news/${id}`
           );
           data = res.data;
         } catch {
           // If single endpoint fails, fetch list and find by id
-          const res = await axios.get("http://localhost:9000/news");
+          const res = await axios.get("https://api.propertydronerealty.com/news");
           const list: News[] = res.data;
           data = list.find((n) => String(n.id) === String(id));
         }
@@ -171,7 +171,7 @@ export default function EditNewsPage() {
       }
 
       await axios.put(
-        `http://localhost:9000/news/${id}`,
+        `https://api.propertydronerealty.com/news/${id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

@@ -20,7 +20,7 @@ export default function TestimonialsPage() {
   const [editId, setEditId] = useState<string | number | null>(null);
 
   // Hardcoded to local backend temporarily to force hot-reload without restarting the dev server
-  const API_URL = "http://localhost:9000";
+  const API_URL = "https://api.propertydronerealty.com";
 
   useEffect(() => {
     fetch(`${API_URL}/api/testimonials`)

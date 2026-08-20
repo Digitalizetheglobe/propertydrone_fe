@@ -76,7 +76,7 @@ function PlotsContent() {
     const [availableLocations, setAvailableLocations] = useState<string[]>([]);
 
     // API base URL
-    const baseUrl = "http://localhost:9000";
+    const baseUrl = "https://api.propertydronerealty.com";
 
     // Framer Motion variants
     const containerVariants: Variants = {

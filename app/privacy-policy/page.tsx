@@ -68,7 +68,7 @@ export default function PrivacyPolicy() {
             <div className="prose max-w-none">
               <p className="text-gray-700 mb-6">
                 This Privacy Policy outlines how Property Drone Realty ("we", "our", or "us") 
-                collects, uses, and safeguards your information via https://propertydronerealty.com. 
+                collects, uses, and safeguards your information via https://api.propertydronerealty.com. 
                 By using our services, you agree to this Privacy Policy and our Terms of Use, 
                 which are incorporated herein by reference. Please read both carefully. If you do not agree, 
                 kindly refrain from using our services.

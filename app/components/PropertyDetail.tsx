@@ -165,7 +165,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
   };
 
   // Image handling
-  const baseUrl = "http://localhost:9000"; // For dev â€” ideally from env
+  const baseUrl = "https://api.propertydronerealty.com"; // For dev â€” ideally from env
   const propertyImages = property?.multipleImages?.map(img =>
     img.path.startsWith('http') ? img.path : `${baseUrl}${img.path}`
   ) || [];
@@ -442,7 +442,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                 {/* WhatsApp Button */}
                 <a
                   href={`https://wa.me/919156123575?text=${encodeURIComponent(
-                    `Check out this property: ${property.propertyName} in ${property.city} - https://propertydronerealty.com/properties/${property.slug}`
+                    `Check out this property: ${property.propertyName} in ${property.city} - https://api.propertydronerealty.com/properties/${property.slug}`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -464,7 +464,7 @@ export default function PropertyDetail({ property }: PropertyDetailProps) {
                       navigator.share({
                         title: property.propertyName,
                         text: `Check out this property: ${property.propertyName} in ${property.city}`,
-                        url: `https://propertydronerealty.com/our-properties-in-pune/${property.slug}`,
+                        url: `https://api.propertydronerealty.com/our-properties-in-pune/${property.slug}`,
                       });
                     } else {
                       alert('Share not supported on this browser.');

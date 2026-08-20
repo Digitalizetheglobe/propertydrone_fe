@@ -17,7 +17,7 @@ export default function ShowAllPlots() {
     const fetchPlots = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("http://localhost:9000/api/plots");
+            const response = await axios.get("https://api.propertydronerealty.com/api/plots");
             setPlots(response.data);
         } catch (err: any) {
             setError(err.message || "Failed to fetch plots");
@@ -34,7 +34,7 @@ export default function ShowAllPlots() {
     const handleDelete = async (id: number) => {
         if (!confirm("Are you sure you want to delete this plot?")) return;
         try {
-            await axios.delete(`http://localhost:9000/api/plots/${id}`);
+            await axios.delete(`https://api.propertydronerealty.com/api/plots/${id}`);
             setPlots(plots.filter((plot) => plot.id !== id));
         } catch (err: any) {
             alert("Failed to delete plo: " + err.message);
@@ -82,7 +82,7 @@ export default function ShowAllPlots() {
                 });
             }
 
-            await axios.put(`http://localhost:9000/api/plots/${editingPlot.id}`, formDataToSend, {
+            await axios.put(`https://api.propertydronerealty.com/api/plots/${editingPlot.id}`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -148,7 +148,7 @@ export default function ShowAllPlots() {
 
                                             const cleanPath = image.replace(/\\/g, '/');
                                             const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
-                                            const fullUrl = image.startsWith('http') ? image : `http://localhost:9000${finalPath}`;
+                                            const fullUrl = image.startsWith('http') ? image : `https://api.propertydronerealty.com${finalPath}`;
 
                                             return (
                                                 <div key={imgIndex} className="relative h-32 border rounded overflow-hidden">
@@ -281,7 +281,7 @@ export default function ShowAllPlots() {
 
                                                     const cleanPath = image.replace(/\\/g, '/');
                                                     const finalPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
-                                                    const fullUrl = image.startsWith('http') ? image : `http://localhost:9000${finalPath}`;
+                                                    const fullUrl = image.startsWith('http') ? image : `https://api.propertydronerealty.com${finalPath}`;
 
                                                     return (
                                                         <div key={`exist-${index}`} className="relative h-32 border rounded-md overflow-hidden bg-gray-100">

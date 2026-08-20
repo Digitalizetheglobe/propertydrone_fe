@@ -125,7 +125,7 @@ export default function BlogHeroSection() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:9000/contacts", {
+      const response = await fetch("https://api.propertydronerealty.com/contacts", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -184,7 +184,7 @@ export default function BlogHeroSection() {
         <title>Complete NRI Property Services in India | Property Drone Realty</title>
         <meta name="description" content="From exclusive listings to POA, loans & virtual tours â€” we offer complete NRI property services in India with 24/7 support & expert legal guidance." />
         <meta name="keywords" content="NRI property services, NRI real estate India, power of attorney NRI, virtual tour property India, invest in India NRI" />
-        <link rel="canonical" href="https://propertydronerealty.com/nri-corner" />
+        <link rel="canonical" href="https://api.propertydronerealty.com/nri-corner" />
         <meta name="robots" content="index, follow" />
         <script
           type="application/ld+json"
@@ -193,7 +193,7 @@ export default function BlogHeroSection() {
               "@context": "https://schema.org",
               "@type": "WebPage",
               "name": "NRI Property Services India",
-              "url": "https://propertydronerealty.com/nri-corner",
+              "url": "https://api.propertydronerealty.com/nri-corner",
               "description": "Full-service NRI property management â€” POA, loans, documentation, and virtual tours by Property Drone Realty."
             })
           }}

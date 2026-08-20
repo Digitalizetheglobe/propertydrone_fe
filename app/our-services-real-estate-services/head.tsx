@@ -6,7 +6,7 @@ export default function Head() {
     "provider": {
       "@type": "Organization",
       "name": "Property Drone Realty",
-      "url": "https://propertydronerealty.com/",
+      "url": "https://api.propertydronerealty.com/",
     },
     "areaServed": {
       "@type": "Place",
